@@ -88,7 +88,7 @@ function InputPanel() {
           </h3>
 
           <p className="text-gray-500 mt-2 mb-5">
-            PDF, DOCX, PPTX, XLSX
+            PDF, DOCX, PPTX, XLSX, RTF
           </p>
 
           {/* Hidden File Input */}
@@ -96,7 +96,7 @@ function InputPanel() {
             type="file"
             ref={fileInputRef}
             className="hidden"
-            accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx"
+            accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.rtf"
             onChange={handleFileChange}
           />
 
