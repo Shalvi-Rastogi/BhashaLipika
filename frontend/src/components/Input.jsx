@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import { Upload } from "lucide-react";
+import axios from "axios";
 
 function InputPanel() {
   const [mode, setMode] = useState("text");
@@ -8,13 +9,34 @@ function InputPanel() {
 
   const fileInputRef = useRef(null);
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
+ const handleFileChange = async (e) => {
+  const file = e.target.files[0];
 
-    if (file) {
-      setSelectedFile(file);
-    }
-  };
+  if (!file) return;
+
+  setSelectedFile(file);
+
+  const formData = new FormData();
+  formData.append("file", file);
+
+  try {
+    const response = await axios.post(
+      "http://127.0.0.1:8000/upload",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    console.log("Backend Response:", response.data);
+    alert("File uploaded successfully!");
+  } catch (error) {
+    console.error(error);
+    alert("Upload failed.");
+  }
+};
 
   return (
     <div className="bg-white rounded-2xl shadow-md p-6 h-[500px] flex flex-col">
