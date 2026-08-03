@@ -1,3 +1,5 @@
+import re
+
 from docx.text.paragraph import Paragraph
 
 from .style_extractor import extract_run_style
@@ -9,40 +11,85 @@ from .utils import (
 )
 
 
+def detect_list(paragraph):
+    """
+    Detect whether a paragraph is a numbered or bulleted list.
+
+    Returns:
+        (is_list, list_type)
+    """
+
+    # -------------------------------
+    # Word Numbering/Bullets
+    # -------------------------------
+    pPr = paragraph._p.pPr
+
+    if pPr is not None and pPr.numPr is not None:
+
+        text = paragraph.text.strip()
+
+        if re.match(r"^\d+[.)]", text):
+            return True, "numbered"
+
+        return True, "bulleted"
+
+    # -------------------------------
+    # Style-based Lists
+    # -------------------------------
+    style_name = paragraph.style.name.lower() if paragraph.style else ""
+
+    if "list bullet" in style_name:
+        return True, "bulleted"
+
+    if "list number" in style_name:
+        return True, "numbered"
+
+    # -------------------------------
+    # Manually Typed Numbering
+    # -------------------------------
+    text = paragraph.text.strip()
+
+    if re.match(r"^\d+[.)]\s+", text):
+        return True, "numbered"
+
+    if re.match(r"^[a-zA-Z][.)]\s+", text):
+        return True, "numbered"
+
+    # -------------------------------
+    # Manually Typed Bullets
+    # -------------------------------
+    if re.match(r"^[•\-*]\s+", text):
+        return True, "bulleted"
+
+    return False, None
+
+
 def process_paragraph(block, element_id):
     """
-    Process a DOCX paragraph and return it as a JSON element.
+    Process a DOCX paragraph.
 
-    Handles:
+    Supports:
     - Headings
     - Paragraphs
-    - Run formatting
-    - Paragraph formatting
+    - Numbered Lists
+    - Bulleted Lists
     """
 
-    # --------------------------------------------------
-    # Ignore non-paragraph blocks
-    # --------------------------------------------------
     if not isinstance(block, Paragraph):
         return None
 
-    # --------------------------------------------------
-    # Skip empty paragraphs
-    # --------------------------------------------------
     if not block.text.strip():
         return None
 
-    # --------------------------------------------------
-    # Style Name
-    # --------------------------------------------------
     style_name = block.style.name if block.style else "Normal"
 
-    # --------------------------------------------------
-    # Detect Heading
-    # --------------------------------------------------
     element_type = "paragraph"
     level = None
+    list_type = None
 
+    # -----------------------------------
+    # Heading
+    # -----------------------------------
     if style_name.startswith("Heading"):
 
         element_type = "heading"
@@ -52,14 +99,20 @@ def process_paragraph(block, element_id):
         except (ValueError, IndexError):
             level = 1
 
-    # --------------------------------------------------
-    # Extract Runs
-    # --------------------------------------------------
+    else:
+
+        is_list, list_type = detect_list(block)
+
+        if is_list:
+            element_type = "list_item"
+
+    # -----------------------------------
+    # Runs
+    # -----------------------------------
     runs = []
 
     for run in block.runs:
 
-        # Skip empty runs
         if not run.text:
             continue
 
@@ -70,9 +123,9 @@ def process_paragraph(block, element_id):
             }
         )
 
-    # --------------------------------------------------
+    # -----------------------------------
     # Paragraph Formatting
-    # --------------------------------------------------
+    # -----------------------------------
     paragraph_style = {
 
         "style_name": style_name,
@@ -112,25 +165,25 @@ def process_paragraph(block, element_id):
         "widow_control": block.paragraph_format.widow_control,
     }
 
-    # --------------------------------------------------
-    # Final JSON Element
-    # --------------------------------------------------
-    element = {
+    # -----------------------------------
+    # Final JSON
+    # -----------------------------------
+    return {
 
         "id": element_id,
 
         "type": element_type,
 
+        "list_type": list_type,
+
         "level": level,
 
         "order": element_id,
 
-        "text": block.text,
+        "text": block.text.strip(),
 
         "runs": runs,
 
         "paragraph_style": paragraph_style,
 
     }
-
-    return element
