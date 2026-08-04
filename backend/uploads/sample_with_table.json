@@ -1,0 +1,1709 @@
+{
+    "document_name": "sample_with_table.docx",
+    "document_type": "docx",
+    "elements": [
+        {
+            "id": 1,
+            "type": "heading",
+            "list_type": null,
+            "level": 1,
+            "order": 1,
+            "text": "DRONEX VR: NEXT-GENERATION SIMULATION SYSTEM",
+            "runs": [
+                {
+                    "text": "DRONEX VR: NEXT-GENERATION SIMULATION SYSTEM",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Heading 1",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 2,
+            "type": "heading",
+            "list_type": null,
+            "level": 2,
+            "order": 2,
+            "text": "1. Executive Summary & Core Objectives",
+            "runs": [
+                {
+                    "text": "1. Executive Summary & Core Objectives",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": {
+                            "type": "rgb",
+                            "value": "FFC000"
+                        },
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Heading 2",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 3,
+            "type": "paragraph",
+            "list_type": null,
+            "level": null,
+            "order": 3,
+            "text": "The DRONEX VR simulation system is engineered to provide an immersive flight training environment for pilots and system developers.",
+            "runs": [
+                {
+                    "text": "The ",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": "DRONEX VR",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": null,
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": true,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": " simulation system is engineered to provide an immersive flight training environment for pilots and system developers. ",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "justify",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 4,
+            "type": "heading",
+            "list_type": null,
+            "level": 2,
+            "order": 4,
+            "text": "2. Target Stakeholder Classes",
+            "runs": [
+                {
+                    "text": "2. Target Stakeholder Classes",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Heading 2",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 5,
+            "type": "paragraph",
+            "list_type": null,
+            "level": null,
+            "order": 5,
+            "text": "Our system caters to distinct stakeholder roles, each requiring specific system permissions and UI configurations:",
+            "runs": [
+                {
+                    "text": "Our system caters to distinct stakeholder roles, each requiring specific system permissions and UI configurations:",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 6,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 6,
+            "text": "Trainees: Basic operational users focusing on navigation, flight physics, and telemetry observation.",
+            "runs": [
+                {
+                    "text": "Trainees",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": null,
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": true,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": ":",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": null,
+                        "bold": true,
+                        "italic": true,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": true,
+                        "cs_italic": true
+                    }
+                },
+                {
+                    "text": " Basic operational users focusing on navigation, flight physics, and telemetry observation",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": true,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": true
+                    }
+                },
+                {
+                    "text": ".",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 7,
+            "type": "paragraph",
+            "list_type": null,
+            "level": null,
+            "order": 7,
+            "text": "CRITICAL NOTICE: The Indictrans2 translation framework is strictly prohibited for the current pipeline",
+            "runs": [
+                {
+                    "text": "CRITICAL NOTICE:",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": {
+                            "type": "rgb",
+                            "value": "FFC000"
+                        },
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": true,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": " The ",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": {
+                            "type": "rgb",
+                            "value": "FFC000"
+                        },
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": "Indictrans2",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": {
+                            "type": "rgb",
+                            "value": "FFC000"
+                        },
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": true,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": " translation framework is strictly prohibited for the current pipeline",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": {
+                            "type": "rgb",
+                            "value": "FFC000"
+                        },
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 8,
+            "type": "list_item",
+            "list_type": "numbered",
+            "level": null,
+            "order": 8,
+            "text": "4. Six-Month Project Development Roadmap",
+            "runs": [
+                {
+                    "text": "4. Six-Month Project Development Roadmap",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": null,
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": true,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 9,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 9,
+            "text": "Phase 1: Setup local Git branches and initialize backend repository using FastAPI and Pydantic schemas.",
+            "runs": [
+                {
+                    "text": "Phase 1:",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": null,
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": true,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": " Setup local Git branches and initialize backend repository using ",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": "FastAPI",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": " and ",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": "Pydantic",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": " schemas.",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 10,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 10,
+            "text": "Phase 2: Develop the independent DOCX ingestion module (paragraph_extractor.py) to capture nested text runs, font formatting, and inline styles.",
+            "runs": [
+                {
+                    "text": "Phase 2:",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": null,
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": true,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": " Develop the independent DOCX ingestion module (paragraph_extractor.py) to capture nested text runs, font formatting, and inline styles.",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 11,
+            "type": "heading",
+            "list_type": null,
+            "level": 2,
+            "order": 11,
+            "text": "5. Resource Allocation Table",
+            "runs": [
+                {
+                    "text": "5. Resource Allocation Table",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Heading 2",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 12,
+            "type": "paragraph",
+            "list_type": null,
+            "level": null,
+            "order": 12,
+            "text": "The following table is added for testing table extraction with formatting.",
+            "runs": [
+                {
+                    "text": "The following table is added for testing table extraction with formatting.",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 13,
+            "type": "table",
+            "level": null,
+            "order": 13,
+            "rows": 4,
+            "columns": 4,
+            "cells": [
+                {
+                    "row": 0,
+                    "column": 0,
+                    "text": "Module",
+                    "paragraphs": [
+                        {
+                            "text": "Module",
+                            "runs": [
+                                {
+                                    "text": "Module",
+                                    "style": {
+                                        "font_name": null,
+                                        "font_size": 12.0,
+                                        "font_color": null,
+                                        "bold": true,
+                                        "italic": null,
+                                        "underline": null,
+                                        "highlight_color": null,
+                                        "strike": null,
+                                        "double_strike": null,
+                                        "all_caps": null,
+                                        "small_caps": null,
+                                        "subscript": null,
+                                        "superscript": null,
+                                        "hidden": null,
+                                        "outline": null,
+                                        "shadow": null,
+                                        "emboss": null,
+                                        "imprint": null,
+                                        "rtl": null,
+                                        "complex_script": null,
+                                        "cs_bold": null,
+                                        "cs_italic": null
+                                    }
+                                }
+                            ],
+                            "paragraph_style": {
+                                "style_name": "Normal",
+                                "alignment": "left"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "row": 0,
+                    "column": 1,
+                    "text": "Owner",
+                    "paragraphs": [
+                        {
+                            "text": "Owner",
+                            "runs": [
+                                {
+                                    "text": "Owner",
+                                    "style": {
+                                        "font_name": null,
+                                        "font_size": 12.0,
+                                        "font_color": null,
+                                        "bold": true,
+                                        "italic": null,
+                                        "underline": null,
+                                        "highlight_color": null,
+                                        "strike": null,
+                                        "double_strike": null,
+                                        "all_caps": null,
+                                        "small_caps": null,
+                                        "subscript": null,
+                                        "superscript": null,
+                                        "hidden": null,
+                                        "outline": null,
+                                        "shadow": null,
+                                        "emboss": null,
+                                        "imprint": null,
+                                        "rtl": null,
+                                        "complex_script": null,
+                                        "cs_bold": null,
+                                        "cs_italic": null
+                                    }
+                                }
+                            ],
+                            "paragraph_style": {
+                                "style_name": "Normal",
+                                "alignment": "left"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "row": 0,
+                    "column": 2,
+                    "text": "Status",
+                    "paragraphs": [
+                        {
+                            "text": "Status",
+                            "runs": [
+                                {
+                                    "text": "Status",
+                                    "style": {
+                                        "font_name": null,
+                                        "font_size": 12.0,
+                                        "font_color": null,
+                                        "bold": true,
+                                        "italic": null,
+                                        "underline": null,
+                                        "highlight_color": null,
+                                        "strike": null,
+                                        "double_strike": null,
+                                        "all_caps": null,
+                                        "small_caps": null,
+                                        "subscript": null,
+                                        "superscript": null,
+                                        "hidden": null,
+                                        "outline": null,
+                                        "shadow": null,
+                                        "emboss": null,
+                                        "imprint": null,
+                                        "rtl": null,
+                                        "complex_script": null,
+                                        "cs_bold": null,
+                                        "cs_italic": null
+                                    }
+                                }
+                            ],
+                            "paragraph_style": {
+                                "style_name": "Normal",
+                                "alignment": "left"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "row": 0,
+                    "column": 3,
+                    "text": "Priority",
+                    "paragraphs": [
+                        {
+                            "text": "Priority",
+                            "runs": [
+                                {
+                                    "text": "Priority",
+                                    "style": {
+                                        "font_name": null,
+                                        "font_size": 12.0,
+                                        "font_color": null,
+                                        "bold": true,
+                                        "italic": null,
+                                        "underline": null,
+                                        "highlight_color": null,
+                                        "strike": null,
+                                        "double_strike": null,
+                                        "all_caps": null,
+                                        "small_caps": null,
+                                        "subscript": null,
+                                        "superscript": null,
+                                        "hidden": null,
+                                        "outline": null,
+                                        "shadow": null,
+                                        "emboss": null,
+                                        "imprint": null,
+                                        "rtl": null,
+                                        "complex_script": null,
+                                        "cs_bold": null,
+                                        "cs_italic": null
+                                    }
+                                }
+                            ],
+                            "paragraph_style": {
+                                "style_name": "Normal",
+                                "alignment": "left"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "row": 1,
+                    "column": 0,
+                    "text": "Frontend",
+                    "paragraphs": [
+                        {
+                            "text": "Frontend",
+                            "runs": [
+                                {
+                                    "text": "Frontend",
+                                    "style": {
+                                        "font_name": null,
+                                        "font_size": null,
+                                        "font_color": null,
+                                        "bold": null,
+                                        "italic": null,
+                                        "underline": null,
+                                        "highlight_color": null,
+                                        "strike": null,
+                                        "double_strike": null,
+                                        "all_caps": null,
+                                        "small_caps": null,
+                                        "subscript": null,
+                                        "superscript": null,
+                                        "hidden": null,
+                                        "outline": null,
+                                        "shadow": null,
+                                        "emboss": null,
+                                        "imprint": null,
+                                        "rtl": null,
+                                        "complex_script": null,
+                                        "cs_bold": null,
+                                        "cs_italic": null
+                                    }
+                                }
+                            ],
+                            "paragraph_style": {
+                                "style_name": "Normal",
+                                "alignment": "left"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "row": 1,
+                    "column": 1,
+                    "text": "Shalvi",
+                    "paragraphs": [
+                        {
+                            "text": "Shalvi",
+                            "runs": [
+                                {
+                                    "text": "Shalvi",
+                                    "style": {
+                                        "font_name": null,
+                                        "font_size": null,
+                                        "font_color": null,
+                                        "bold": null,
+                                        "italic": null,
+                                        "underline": null,
+                                        "highlight_color": null,
+                                        "strike": null,
+                                        "double_strike": null,
+                                        "all_caps": null,
+                                        "small_caps": null,
+                                        "subscript": null,
+                                        "superscript": null,
+                                        "hidden": null,
+                                        "outline": null,
+                                        "shadow": null,
+                                        "emboss": null,
+                                        "imprint": null,
+                                        "rtl": null,
+                                        "complex_script": null,
+                                        "cs_bold": null,
+                                        "cs_italic": null
+                                    }
+                                }
+                            ],
+                            "paragraph_style": {
+                                "style_name": "Normal",
+                                "alignment": "left"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "row": 1,
+                    "column": 2,
+                    "text": "Completed",
+                    "paragraphs": [
+                        {
+                            "text": "Completed",
+                            "runs": [
+                                {
+                                    "text": "Completed",
+                                    "style": {
+                                        "font_name": null,
+                                        "font_size": null,
+                                        "font_color": null,
+                                        "bold": null,
+                                        "italic": null,
+                                        "underline": null,
+                                        "highlight_color": null,
+                                        "strike": null,
+                                        "double_strike": null,
+                                        "all_caps": null,
+                                        "small_caps": null,
+                                        "subscript": null,
+                                        "superscript": null,
+                                        "hidden": null,
+                                        "outline": null,
+                                        "shadow": null,
+                                        "emboss": null,
+                                        "imprint": null,
+                                        "rtl": null,
+                                        "complex_script": null,
+                                        "cs_bold": null,
+                                        "cs_italic": null
+                                    }
+                                }
+                            ],
+                            "paragraph_style": {
+                                "style_name": "Normal",
+                                "alignment": "left"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "row": 1,
+                    "column": 3,
+                    "text": "High",
+                    "paragraphs": [
+                        {
+                            "text": "High",
+                            "runs": [
+                                {
+                                    "text": "High",
+                                    "style": {
+                                        "font_name": null,
+                                        "font_size": null,
+                                        "font_color": null,
+                                        "bold": true,
+                                        "italic": null,
+                                        "underline": null,
+                                        "highlight_color": null,
+                                        "strike": null,
+                                        "double_strike": null,
+                                        "all_caps": null,
+                                        "small_caps": null,
+                                        "subscript": null,
+                                        "superscript": null,
+                                        "hidden": null,
+                                        "outline": null,
+                                        "shadow": null,
+                                        "emboss": null,
+                                        "imprint": null,
+                                        "rtl": null,
+                                        "complex_script": null,
+                                        "cs_bold": null,
+                                        "cs_italic": null
+                                    }
+                                }
+                            ],
+                            "paragraph_style": {
+                                "style_name": "Normal",
+                                "alignment": "left"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "row": 2,
+                    "column": 0,
+                    "text": "Paragraph Extraction",
+                    "paragraphs": [
+                        {
+                            "text": "Paragraph Extraction",
+                            "runs": [
+                                {
+                                    "text": "Paragraph Extraction",
+                                    "style": {
+                                        "font_name": null,
+                                        "font_size": null,
+                                        "font_color": null,
+                                        "bold": null,
+                                        "italic": null,
+                                        "underline": null,
+                                        "highlight_color": null,
+                                        "strike": null,
+                                        "double_strike": null,
+                                        "all_caps": null,
+                                        "small_caps": null,
+                                        "subscript": null,
+                                        "superscript": null,
+                                        "hidden": null,
+                                        "outline": null,
+                                        "shadow": null,
+                                        "emboss": null,
+                                        "imprint": null,
+                                        "rtl": null,
+                                        "complex_script": null,
+                                        "cs_bold": null,
+                                        "cs_italic": null
+                                    }
+                                }
+                            ],
+                            "paragraph_style": {
+                                "style_name": "Normal",
+                                "alignment": "left"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "row": 2,
+                    "column": 1,
+                    "text": "Shambhavi",
+                    "paragraphs": [
+                        {
+                            "text": "Shambhavi",
+                            "runs": [
+                                {
+                                    "text": "Shambhavi",
+                                    "style": {
+                                        "font_name": null,
+                                        "font_size": null,
+                                        "font_color": null,
+                                        "bold": null,
+                                        "italic": null,
+                                        "underline": null,
+                                        "highlight_color": null,
+                                        "strike": null,
+                                        "double_strike": null,
+                                        "all_caps": null,
+                                        "small_caps": null,
+                                        "subscript": null,
+                                        "superscript": null,
+                                        "hidden": null,
+                                        "outline": null,
+                                        "shadow": null,
+                                        "emboss": null,
+                                        "imprint": null,
+                                        "rtl": null,
+                                        "complex_script": null,
+                                        "cs_bold": null,
+                                        "cs_italic": null
+                                    }
+                                }
+                            ],
+                            "paragraph_style": {
+                                "style_name": "Normal",
+                                "alignment": "left"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "row": 2,
+                    "column": 2,
+                    "text": "Completed",
+                    "paragraphs": [
+                        {
+                            "text": "Completed",
+                            "runs": [
+                                {
+                                    "text": "Completed",
+                                    "style": {
+                                        "font_name": null,
+                                        "font_size": null,
+                                        "font_color": null,
+                                        "bold": null,
+                                        "italic": null,
+                                        "underline": null,
+                                        "highlight_color": null,
+                                        "strike": null,
+                                        "double_strike": null,
+                                        "all_caps": null,
+                                        "small_caps": null,
+                                        "subscript": null,
+                                        "superscript": null,
+                                        "hidden": null,
+                                        "outline": null,
+                                        "shadow": null,
+                                        "emboss": null,
+                                        "imprint": null,
+                                        "rtl": null,
+                                        "complex_script": null,
+                                        "cs_bold": null,
+                                        "cs_italic": null
+                                    }
+                                }
+                            ],
+                            "paragraph_style": {
+                                "style_name": "Normal",
+                                "alignment": "left"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "row": 2,
+                    "column": 3,
+                    "text": "High",
+                    "paragraphs": [
+                        {
+                            "text": "High",
+                            "runs": [
+                                {
+                                    "text": "High",
+                                    "style": {
+                                        "font_name": null,
+                                        "font_size": null,
+                                        "font_color": null,
+                                        "bold": true,
+                                        "italic": null,
+                                        "underline": null,
+                                        "highlight_color": null,
+                                        "strike": null,
+                                        "double_strike": null,
+                                        "all_caps": null,
+                                        "small_caps": null,
+                                        "subscript": null,
+                                        "superscript": null,
+                                        "hidden": null,
+                                        "outline": null,
+                                        "shadow": null,
+                                        "emboss": null,
+                                        "imprint": null,
+                                        "rtl": null,
+                                        "complex_script": null,
+                                        "cs_bold": null,
+                                        "cs_italic": null
+                                    }
+                                }
+                            ],
+                            "paragraph_style": {
+                                "style_name": "Normal",
+                                "alignment": "left"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "row": 3,
+                    "column": 0,
+                    "text": "Table Extraction",
+                    "paragraphs": [
+                        {
+                            "text": "Table Extraction",
+                            "runs": [
+                                {
+                                    "text": "Table Extraction",
+                                    "style": {
+                                        "font_name": null,
+                                        "font_size": null,
+                                        "font_color": null,
+                                        "bold": null,
+                                        "italic": null,
+                                        "underline": null,
+                                        "highlight_color": null,
+                                        "strike": null,
+                                        "double_strike": null,
+                                        "all_caps": null,
+                                        "small_caps": null,
+                                        "subscript": null,
+                                        "superscript": null,
+                                        "hidden": null,
+                                        "outline": null,
+                                        "shadow": null,
+                                        "emboss": null,
+                                        "imprint": null,
+                                        "rtl": null,
+                                        "complex_script": null,
+                                        "cs_bold": null,
+                                        "cs_italic": null
+                                    }
+                                }
+                            ],
+                            "paragraph_style": {
+                                "style_name": "Normal",
+                                "alignment": "left"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "row": 3,
+                    "column": 1,
+                    "text": "Person 2",
+                    "paragraphs": [
+                        {
+                            "text": "Person 2",
+                            "runs": [
+                                {
+                                    "text": "Person 2",
+                                    "style": {
+                                        "font_name": null,
+                                        "font_size": null,
+                                        "font_color": null,
+                                        "bold": null,
+                                        "italic": null,
+                                        "underline": null,
+                                        "highlight_color": null,
+                                        "strike": null,
+                                        "double_strike": null,
+                                        "all_caps": null,
+                                        "small_caps": null,
+                                        "subscript": null,
+                                        "superscript": null,
+                                        "hidden": null,
+                                        "outline": null,
+                                        "shadow": null,
+                                        "emboss": null,
+                                        "imprint": null,
+                                        "rtl": null,
+                                        "complex_script": null,
+                                        "cs_bold": null,
+                                        "cs_italic": null
+                                    }
+                                }
+                            ],
+                            "paragraph_style": {
+                                "style_name": "Normal",
+                                "alignment": "left"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "row": 3,
+                    "column": 2,
+                    "text": "In Progress",
+                    "paragraphs": [
+                        {
+                            "text": "In Progress",
+                            "runs": [
+                                {
+                                    "text": "In Progress",
+                                    "style": {
+                                        "font_name": null,
+                                        "font_size": null,
+                                        "font_color": null,
+                                        "bold": null,
+                                        "italic": true,
+                                        "underline": null,
+                                        "highlight_color": null,
+                                        "strike": null,
+                                        "double_strike": null,
+                                        "all_caps": null,
+                                        "small_caps": null,
+                                        "subscript": null,
+                                        "superscript": null,
+                                        "hidden": null,
+                                        "outline": null,
+                                        "shadow": null,
+                                        "emboss": null,
+                                        "imprint": null,
+                                        "rtl": null,
+                                        "complex_script": null,
+                                        "cs_bold": null,
+                                        "cs_italic": null
+                                    }
+                                }
+                            ],
+                            "paragraph_style": {
+                                "style_name": "Normal",
+                                "alignment": "left"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "row": 3,
+                    "column": 3,
+                    "text": "High",
+                    "paragraphs": [
+                        {
+                            "text": "High",
+                            "runs": [
+                                {
+                                    "text": "High",
+                                    "style": {
+                                        "font_name": null,
+                                        "font_size": null,
+                                        "font_color": null,
+                                        "bold": true,
+                                        "italic": null,
+                                        "underline": null,
+                                        "highlight_color": null,
+                                        "strike": null,
+                                        "double_strike": null,
+                                        "all_caps": null,
+                                        "small_caps": null,
+                                        "subscript": null,
+                                        "superscript": null,
+                                        "hidden": null,
+                                        "outline": null,
+                                        "shadow": null,
+                                        "emboss": null,
+                                        "imprint": null,
+                                        "rtl": null,
+                                        "complex_script": null,
+                                        "cs_bold": null,
+                                        "cs_italic": null
+                                    }
+                                }
+                            ],
+                            "paragraph_style": {
+                                "style_name": "Normal",
+                                "alignment": "left"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

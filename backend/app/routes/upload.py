@@ -1,4 +1,5 @@
 import os
+import json
 import traceback
 
 from fastapi import APIRouter, UploadFile, File, HTTPException
@@ -22,7 +23,6 @@ ALLOWED_EXTENSIONS = {
 
 @router.post("/upload")
 async def upload_document(file: UploadFile = File(...)):
-
     try:
         # -----------------------------
         # Check file extension
@@ -43,7 +43,7 @@ async def upload_document(file: UploadFile = File(...)):
         with open(file_path, "wb") as buffer:
             buffer.write(await file.read())
 
-        print(f" File saved: {file_path}")
+        print(f"File saved: {file_path}")
 
         file_type = ALLOWED_EXTENSIONS[extension]
         print(f"Detected file type: {file_type}")
@@ -53,15 +53,33 @@ async def upload_document(file: UploadFile = File(...)):
         # -----------------------------
         if file_type == "DOCX":
 
-            print(" Opening DOCX document...")
+            print("Opening DOCX document...")
             document = Document(file_path)
 
-            print(" Calling parse_document()...")
+            print("Calling parse_document()...")
             result = parse_document(file_path, document)
 
-            print(" Document parsed successfully!")
+            print("Document parsed successfully!")
 
-            return result
+            # -----------------------------
+            # Save extracted JSON
+            # -----------------------------
+            json_filename = os.path.splitext(file.filename)[0] + ".json"
+            json_path = os.path.join(UPLOAD_FOLDER, json_filename)
+
+            with open(json_path, "w", encoding="utf-8") as json_file:
+                json.dump(result, json_file, indent=4, ensure_ascii=False)
+
+            print(f"JSON saved: {json_path}")
+
+            # Return extracted JSON
+            return {
+                "message": "Extraction successful",
+                "filename": file.filename,
+                "file_type": file_type,
+                "json_file": json_filename,
+                "data": result
+            }
 
         # -----------------------------
         # Other file types
