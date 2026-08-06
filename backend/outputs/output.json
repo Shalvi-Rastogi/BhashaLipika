@@ -1,0 +1,482 @@
+{
+    "document_name": "Samplenew12.docx",
+    "document_type": "docx",
+    "elements": [
+        {
+            "id": 1,
+            "type": "table",
+            "level": null,
+            "order": 1,
+            "rows": 2,
+            "columns": 2,
+            "cells": [
+                {
+                    "row": 0,
+                    "column": 0,
+                    "text": "SHALVI ",
+                    "paragraphs": [
+                        {
+                            "text": "SHALVI ",
+                            "runs": [
+                                {
+                                    "text": "SHALVI ",
+                                    "style": {
+                                        "font_name": null,
+                                        "font_size": 21.0,
+                                        "font_color": {
+                                            "type": "rgb",
+                                            "value": "EE0000"
+                                        },
+                                        "bold": true,
+                                        "italic": null,
+                                        "underline": true,
+                                        "highlight_color": null,
+                                        "strike": null,
+                                        "double_strike": null,
+                                        "all_caps": null,
+                                        "small_caps": null,
+                                        "subscript": null,
+                                        "superscript": null,
+                                        "hidden": null,
+                                        "outline": null,
+                                        "shadow": null,
+                                        "emboss": null,
+                                        "imprint": null,
+                                        "rtl": null,
+                                        "complex_script": null,
+                                        "cs_bold": true,
+                                        "cs_italic": null
+                                    }
+                                }
+                            ],
+                            "paragraph_style": {
+                                "style_name": "Normal",
+                                "alignment": "left"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "row": 0,
+                    "column": 1,
+                    "text": "BTECH",
+                    "paragraphs": [
+                        {
+                            "text": "BTECH",
+                            "runs": [
+                                {
+                                    "text": "BTECH",
+                                    "style": {
+                                        "font_name": null,
+                                        "font_size": null,
+                                        "font_color": {
+                                            "type": "rgb",
+                                            "value": "EE0000"
+                                        },
+                                        "bold": true,
+                                        "italic": null,
+                                        "underline": true,
+                                        "highlight_color": null,
+                                        "strike": null,
+                                        "double_strike": null,
+                                        "all_caps": null,
+                                        "small_caps": null,
+                                        "subscript": null,
+                                        "superscript": null,
+                                        "hidden": null,
+                                        "outline": null,
+                                        "shadow": null,
+                                        "emboss": null,
+                                        "imprint": null,
+                                        "rtl": null,
+                                        "complex_script": null,
+                                        "cs_bold": true,
+                                        "cs_italic": null
+                                    }
+                                }
+                            ],
+                            "paragraph_style": {
+                                "style_name": "Normal",
+                                "alignment": "left"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "row": 1,
+                    "column": 0,
+                    "text": "SHAMBHAVI",
+                    "paragraphs": [
+                        {
+                            "text": "SHAMBHAVI",
+                            "runs": [
+                                {
+                                    "text": "SHAMBHAVI",
+                                    "style": {
+                                        "font_name": null,
+                                        "font_size": 21.0,
+                                        "font_color": null,
+                                        "bold": null,
+                                        "italic": true,
+                                        "underline": null,
+                                        "highlight_color": null,
+                                        "strike": null,
+                                        "double_strike": null,
+                                        "all_caps": null,
+                                        "small_caps": null,
+                                        "subscript": null,
+                                        "superscript": null,
+                                        "hidden": null,
+                                        "outline": null,
+                                        "shadow": null,
+                                        "emboss": null,
+                                        "imprint": null,
+                                        "rtl": null,
+                                        "complex_script": null,
+                                        "cs_bold": null,
+                                        "cs_italic": true
+                                    }
+                                }
+                            ],
+                            "paragraph_style": {
+                                "style_name": "Normal",
+                                "alignment": "left"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "row": 1,
+                    "column": 1,
+                    "text": "btech",
+                    "paragraphs": [
+                        {
+                            "text": "btech",
+                            "runs": [
+                                {
+                                    "text": "btech",
+                                    "style": {
+                                        "font_name": "btecArial Black",
+                                        "font_size": 24.0,
+                                        "font_color": null,
+                                        "bold": null,
+                                        "italic": null,
+                                        "underline": null,
+                                        "highlight_color": null,
+                                        "strike": null,
+                                        "double_strike": null,
+                                        "all_caps": null,
+                                        "small_caps": null,
+                                        "subscript": null,
+                                        "superscript": null,
+                                        "hidden": null,
+                                        "outline": null,
+                                        "shadow": null,
+                                        "emboss": null,
+                                        "imprint": null,
+                                        "rtl": null,
+                                        "complex_script": null,
+                                        "cs_bold": null,
+                                        "cs_italic": null
+                                    }
+                                }
+                            ],
+                            "paragraph_style": {
+                                "style_name": "Normal",
+                                "alignment": "left"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "type": "paragraph",
+            "list_type": null,
+            "level": null,
+            "order": 2,
+            "text": "The backend receives the uploaded document through the FastAPI API and passes it to a single document_parser.py file. This parser calls the paragraph, table, and image extractors, collects their outputs into a common JSON schema, preserves the original document order, and generates one unified JSON for the entire document. The final JSON is then saved as a .json file, which will be used in the next stages of the project, such as translation and document reconstruction.",
+            "runs": [
+                {
+                    "text": "The backend receives the uploaded ",
+                    "style": {
+                        "font_name": "Algerian",
+                        "font_size": 21.0,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": "document through the",
+                    "style": {
+                        "font_name": "Algerian",
+                        "font_size": 21.0,
+                        "font_color": null,
+                        "bold": true,
+                        "italic": null,
+                        "underline": true,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": true,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": " FastAPI API and passes it to a single document_parser.py file. This parser calls the paragraph, table, and image extractors, collects their outputs into a common JSON schema, preserves the original document order, and generates one unified JSON for the entire document. The final JSON is then saved as a .json file, which will be used in the next stages of the project, such",
+                    "style": {
+                        "font_name": "Algerian",
+                        "font_size": 21.0,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": " as ",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": "translation and document reconstruction.",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": {
+                            "type": "rgb",
+                            "value": "EE0000"
+                        },
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 3,
+            "type": "paragraph",
+            "list_type": null,
+            "level": null,
+            "order": 3,
+            "text": "SHALVI ,Shambhavi  , SAMIA",
+            "runs": [
+                {
+                    "text": "SHALVI ,S",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": "hambhavi",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": true,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": true
+                    }
+                },
+                {
+                    "text": "  , SAMIA",
+                    "style": {
+                        "font_name": "Algerian",
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": true,
+                        "underline": true,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": true
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 4,
+            "type": "image_text",
+            "order": 4,
+            "image_name": "image_1.jpg",
+            "text": "0 0 0 U 0",
+            "ocr_details": [
+                {
+                    "text": "0 0 0",
+                    "confidence": 0.927023550650959
+                },
+                {
+                    "text": "U",
+                    "confidence": 0.02929263836682594
+                },
+                {
+                    "text": "0",
+                    "confidence": 0.549854324316834
+                }
+            ]
+        }
+    ]
+}

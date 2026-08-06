@@ -1,0 +1,24 @@
+{
+    "document_name": "sample_with_image.docx",
+    "document_type": "docx",
+    "elements": [
+        {
+            "id": 1,
+            "type": "image_text",
+            "order": 1,
+            "image_name": "image_1.png",
+            "text": [
+                {
+                    "text": "Hello world!",
+                    "confidence": 0.9951958137064714
+                }
+            ],
+            "ocr_details": [
+                {
+                    "text": "Hello world!",
+                    "confidence": 0.9951958137064714
+                }
+            ]
+        }
+    ]
+}

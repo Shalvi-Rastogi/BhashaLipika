@@ -1,7 +1,6 @@
 import os
 import zipfile
-
-from app.extractors.ocr_extractor import extract_text_from_image
+from app.extractors.Docx.ocr_extractor import extract_text_from_image
 
 
 def extract_images_from_docx(docx_path, output_folder="app/temp"):

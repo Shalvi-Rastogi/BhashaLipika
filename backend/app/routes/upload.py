@@ -9,8 +9,12 @@ from app.extractors.Docx.document_parser import parse_document
 
 router = APIRouter()
 
+# Folders
 UPLOAD_FOLDER = "uploads"
+OUTPUT_FOLDER = "outputs"
+
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
 ALLOWED_EXTENSIONS = {
     ".pdf": "PDF",
@@ -36,7 +40,7 @@ async def upload_document(file: UploadFile = File(...)):
             )
 
         # -----------------------------
-        # Save uploaded file
+        # Save uploaded file temporarily
         # -----------------------------
         file_path = os.path.join(UPLOAD_FOLDER, file.filename)
 
@@ -65,14 +69,20 @@ async def upload_document(file: UploadFile = File(...)):
             # Save extracted JSON
             # -----------------------------
             json_filename = os.path.splitext(file.filename)[0] + ".json"
-            json_path = os.path.join(UPLOAD_FOLDER, json_filename)
+            json_path = os.path.join(OUTPUT_FOLDER, json_filename)
 
             with open(json_path, "w", encoding="utf-8") as json_file:
                 json.dump(result, json_file, indent=4, ensure_ascii=False)
 
             print(f"JSON saved: {json_path}")
 
-            # Return extracted JSON
+            # -----------------------------
+            # Delete uploaded DOCX
+            # -----------------------------
+            if os.path.exists(file_path):
+                os.remove(file_path)
+                print(f"Deleted uploaded file: {file_path}")
+
             return {
                 "message": "Extraction successful",
                 "filename": file.filename,
