@@ -1,42 +1,80 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Upload } from "lucide-react";
 import axios from "axios";
 
-function InputPanel() {
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+
+function InputPanel({ resetKey }) {
   const [mode, setMode] = useState("text");
   const [text, setText] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
+  const [uploadStatus, setUploadStatus] = useState("");
+  const [isUploading, setIsUploading] = useState(false);
 
   const fileInputRef = useRef(null);
 
- const handleFileChange = async (e) => {
-  const file = e.target.files[0];
+  // Reset input whenever resetKey changes
+  useEffect(() => {
+    setText("");
+    setSelectedFile(null);
+    setMode("text");
+    setUploadStatus("");
+    setIsUploading(false);
 
-  if (!file) return;
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  }, [resetKey]);
 
-  setSelectedFile(file);
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
 
-  const formData = new FormData();
-  formData.append("file", file);
+    if (!file) return;
 
-  try {
-    const response = await axios.post(
-      "http://127.0.0.1:8000/upload",
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+    setSelectedFile(file);
+    setUploadStatus("Uploading and processing...");
+    setIsUploading(true);
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const response = await axios.post(
+        `${API_BASE_URL}/upload`,
+        formData,
+        {
+          timeout: 120000,
+        }
+      );
+
+      console.log("Backend Response:", response.data);
+
+      setUploadStatus("Completed successfully!");
+
+      alert(
+        response.data.message ||
+          "File uploaded and processed successfully!"
+      );
+    } catch (error) {
+      console.error("Upload failed:", error);
+
+      setUploadStatus("Upload failed.");
+
+      if (error.code === "ECONNABORTED") {
+        alert(
+          "Processing is taking too long. Please check the backend."
+        );
+      } else {
+        alert(
+          error.response?.data?.detail ||
+            "Upload or processing failed."
+        );
       }
-    );
-
-    console.log("Backend Response:", response.data);
-    alert("File uploaded successfully!");
-  } catch (error) {
-    console.error(error);
-    alert("Upload failed.");
-  }
-};
+    } finally {
+      setIsUploading(false);
+    }
+  };
 
   return (
     <div className="bg-white rounded-2xl shadow-md p-6 h-[500px] flex flex-col">
@@ -125,10 +163,14 @@ function InputPanel() {
           {/* Browse Button */}
           <button
             onClick={() => fileInputRef.current.click()}
-            className="bg-purple-600 hover:bg-purple-700
-                       text-white px-6 py-2 rounded-lg transition"
+            disabled={isUploading}
+            className={`text-white px-6 py-2 rounded-lg transition ${
+              isUploading
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-purple-600 hover:bg-purple-700"
+            }`}
           >
-            Browse Files
+            {isUploading ? "Processing..." : "Browse Files"}
           </button>
 
           {/* Selected File Name */}
@@ -137,6 +179,21 @@ function InputPanel() {
               Selected File:
               <br />
               {selectedFile.name}
+            </p>
+          )}
+
+          {/* Upload Status */}
+          {uploadStatus && (
+            <p
+              className={`mt-3 text-sm font-medium ${
+                uploadStatus === "Upload failed."
+                  ? "text-red-600"
+                  : uploadStatus === "Completed successfully!"
+                  ? "text-green-600"
+                  : "text-purple-600"
+              }`}
+            >
+              {uploadStatus}
             </p>
           )}
 

@@ -1,6 +1,7 @@
-function ResetButton() {
+function ResetButton({ onReset }) {
   return (
     <button
+      onClick={onReset}
       className="
         bg-gray-200
         hover:bg-gray-300

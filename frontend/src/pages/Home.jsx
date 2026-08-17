@@ -1,3 +1,4 @@
+import { useState } from "react";
 import LanguageSelector from "../components/LanguageSelector";
 import InputPanel from "../components/Input";
 import OutputPanel from "../components/Output";
@@ -7,6 +8,14 @@ import SaveToMemory from "../components/SaveToMemory";
 import DownloadDocument from "../components/DownloadDocument";
 
 function Home() {
+  const [inputText, setInputText] = useState("");
+  const [translatedText, setTranslatedText] = useState("");
+  const [resetKey, setResetKey] = useState(0);
+  const handleReset = () => {
+  setInputText("");
+  setTranslatedText("");
+  setResetKey((prev) => prev + 1);
+ };
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="max-w-6xl mx-auto">
@@ -19,12 +28,12 @@ function Home() {
 
           {/* LEFT SIDE */}
           <div>
-            <InputPanel />
+            <InputPanel resetKey={resetKey} />
 
             {/* Translate Button */}
             <div className="mt-5 flex gap-4">
                <TranslateButton />
-               <ResetButton />
+               <ResetButton onReset={handleReset} />
             </div>
           </div>
 
