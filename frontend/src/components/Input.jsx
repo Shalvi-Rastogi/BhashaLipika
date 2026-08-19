@@ -5,7 +5,7 @@ import axios from "axios";
 const API_BASE_URL =
   import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
-function InputPanel({ resetKey }) {
+function InputPanel({ resetKey , targetLanguage}) {
   const [mode, setMode] = useState("text");
   const [text, setText] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
@@ -38,6 +38,7 @@ function InputPanel({ resetKey }) {
 
     const formData = new FormData();
     formData.append("file", file);
+    formData.append("target_language", targetLanguage);
 
     try {
       const response = await axios.post(

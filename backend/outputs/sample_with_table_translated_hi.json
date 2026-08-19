@@ -1,0 +1,1322 @@
+{
+    "document_name": "sample_with_table.docx",
+    "document_type": "docx",
+    "elements": [
+        {
+            "id": 1,
+            "type": "heading",
+            "list_type": null,
+            "level": 1,
+            "order": 1,
+            "text": "ड्रॉनेक्स VR: नेक्स्ट-जेनेरेशन सिम्युलेशन सिस्टम।",
+            "runs": [
+                {
+                    "text": "ड्रॉनेक्स VR: नेक्स्ट-जेनेरेशन सिम्युलेशन सिस्टम।",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Heading 1",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 2,
+            "type": "heading",
+            "list_type": null,
+            "level": 2,
+            "order": 2,
+            "text": "1. कार्यकारी सारांश और मुख्य उद्देश्य।",
+            "runs": [
+                {
+                    "text": "1. कार्यकारी सारांश और मुख्य उद्देश्य।",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": {
+                            "type": "rgb",
+                            "value": "FFC000"
+                        },
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Heading 2",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 3,
+            "type": "paragraph",
+            "list_type": null,
+            "level": null,
+            "order": 3,
+            "text": "DRONEX VR सिमुलेशन सिस्टम को पायलटों और सिस्टम डेवलपर्स के लिए इमर्सिव उड़ान प्रशिक्षण वातावरण प्रदान करने के लिए इंजीनियर किया गया है।",
+            "runs": [
+                {
+                    "text": "द",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": "DRONEX VR",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": null,
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": true,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": "पायलटों और सिस्टम डेवलपर्स के लिए इमर्सिव उड़ान प्रशिक्षण वातावरण प्रदान करने के लिए सिमुलेशन सिस्टम तैयार किया गया है।",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "justify",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 4,
+            "type": "heading",
+            "list_type": null,
+            "level": 2,
+            "order": 4,
+            "text": "2. लक्ष्य हितधारक कक्षाएं।",
+            "runs": [
+                {
+                    "text": "2. लक्ष्य हितधारक कक्षाएं।",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Heading 2",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 5,
+            "type": "paragraph",
+            "list_type": null,
+            "level": null,
+            "order": 5,
+            "text": "हमारा सिस्टम अलग-अलग हितधारकों की भूमिकाओं को पूरा करता है, प्रत्येक को विशिष्ट सिस्टम अनुमतियों और UI विन्यास की आवश्यकता होती हैः . .",
+            "runs": [
+                {
+                    "text": "हमारा सिस्टम अलग-अलग हितधारकों की भूमिकाओं को पूरा करता है, प्रत्येक को विशिष्ट सिस्टम अनुमतियों और UI विन्यास की आवश्यकता होती हैः . .",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 6,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 6,
+            "text": "प्रशिक्षणियोंः नेविगेशन, उड़ान भौतिकी और टेलीमेट्री अवलोकन पर ध्यान केंद्रित करने वाले बुनियादी परिचालन उपयोगकर्ता।",
+            "runs": [
+                {
+                    "text": "प्रशिक्षणियों।",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": null,
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": true,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": ":",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": null,
+                        "bold": true,
+                        "italic": true,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": true,
+                        "cs_italic": true
+                    }
+                },
+                {
+                    "text": "नेविगेशन, उड़ान भौतिकी और टेलीमेट्री अवलोकन पर ध्यान केंद्रित करने वाले बुनियादी परिचालन उपयोगकर्ता।",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": true,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": true
+                    }
+                },
+                {
+                    "text": ". . .।",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 7,
+            "type": "paragraph",
+            "list_type": null,
+            "level": null,
+            "order": 7,
+            "text": "क्रिटिकल नोटिसः वर्तमान पाइपलाइन के लिए इंडिगो 2 अनुवाद फ्रेमवर्क सख्ती से निषिद्ध है।",
+            "runs": [
+                {
+                    "text": "क्रिटिकल नोटिसः",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": {
+                            "type": "rgb",
+                            "value": "FFC000"
+                        },
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": true,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": "द",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": {
+                            "type": "rgb",
+                            "value": "FFC000"
+                        },
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": "इंडिक्ट्रांस 2।",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": {
+                            "type": "rgb",
+                            "value": "FFC000"
+                        },
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": true,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": "वर्तमान पाइपलाइन के लिए अनुवाद फ्रेमवर्क सख्ती से निषिद्ध है।",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": {
+                            "type": "rgb",
+                            "value": "FFC000"
+                        },
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 8,
+            "type": "list_item",
+            "list_type": "numbered",
+            "level": null,
+            "order": 8,
+            "text": "4. छः माह की परियोजना विकास रूपरेखा ।",
+            "runs": [
+                {
+                    "text": "4. छः माह की परियोजना विकास रूपरेखा ।",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": null,
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": true,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 9,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 9,
+            "text": "चरण 1: स्थानीय Git शाखाओं को खोलना और FastAPI और Pydantic स्कीमा का उपयोग करके बैकएंड रिपॉजिटरी शुरू करना।",
+            "runs": [
+                {
+                    "text": "चरण 1:",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": null,
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": true,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": "स्थानीय Git ब्रांचों को चालू करें और उपयोग करके बैकएंड रिपॉजिटरी को आरंभ करें।",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": "फास्टएपीआई ।",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": "और",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": "पिडांटिक ।",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": "स्कीमा।",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 10,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 10,
+            "text": "चरण 2: नेस्टेड टेक्स्ट रन, फ़ॉन्ट प्रारूपण और इनलाइन शैलियों को कैप्चर करने के लिए स्वतंत्र डॉक्स अंतर्ग्रहण मॉड्यूल (पैराग्राफ _extractor.py) को ऑप करें।",
+            "runs": [
+                {
+                    "text": "चरण 2:",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": null,
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": true,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": "नेस्टेड टेक्स्ट रन, फ़ॉन्ट प्रारूपण और इनलाइन शैलियों को कैप्चर करने के लिए स्वतंत्र DOCX अंतर्ग्रहण मॉड्यूल (पैराग्राफ _extractor.py) को ऑप करें।",
+                    "style": {
+                        "font_name": "Times New Roman",
+                        "font_size": 18.0,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 11,
+            "type": "heading",
+            "list_type": null,
+            "level": 2,
+            "order": 11,
+            "text": "5. संसाधन आवंटन सारणी.",
+            "runs": [
+                {
+                    "text": "5. संसाधन आवंटन सारणी.",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Heading 2",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 12,
+            "type": "paragraph",
+            "list_type": null,
+            "level": null,
+            "order": 12,
+            "text": "प्रारूपण के साथ तालिका निष्कर्षण परीक्षण के लिए निम्नलिखित तालिका जोड़ी जाती है।",
+            "runs": [
+                {
+                    "text": "प्रारूपण के साथ तालिका निष्कर्षण परीक्षण के लिए निम्नलिखित तालिका जोड़ी जाती है।",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 13,
+            "type": "table",
+            "level": null,
+            "order": 13,
+            "rows": 4,
+            "columns": 4,
+            "cells": [
+                {
+                    "row": 0,
+                    "column": 0,
+                    "text": "मॉड्यूल ।",
+                    "paragraphs": [
+                        {
+                            "text": "मॉड्यूल ।",
+                            "runs": [
+                                {
+                                    "text": "मॉड्यूल ।",
+                                    "style": {
+                                        "font_name": null,
+                                        "font_size": 12.0,
+                                        "font_color": null,
+                                        "bold": true,
+                                        "italic": null,
+                                        "underline": null,
+                                        "highlight_color": null,
+                                        "strike": null,
+                                        "double_strike": null,
+                                        "all_caps": null,
+                                        "small_caps": null,
+                                        "subscript": null,
+                                        "superscript": null,
+                                        "hidden": null,
+                                        "outline": null,
+                                        "shadow": null,
+                                        "emboss": null,
+                                        "imprint": null,
+                                        "rtl": null,
+                                        "complex_script": null,
+                                        "cs_bold": null,
+                                        "cs_italic": null
+                                    }
+                                }
+                            ],
+                            "paragraph_style": {
+                                "style_name": "Normal",
+                                "alignment": "left"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "row": 0,
+                    "column": 1,
+                    "text": "प्रति ।",
+                    "paragraphs": [
+                        {
+                            "text": "प्रति ।",
+                            "runs": [
+                                {
+                                    "text": "प्रति ।",
+                                    "style": {
+                                        "font_name": null,
+                                        "font_size": 12.0,
+                                        "font_color": null,
+                                        "bold": true,
+                                        "italic": null,
+                                        "underline": null,
+                                        "highlight_color": null,
+                                        "strike": null,
+                                        "double_strike": null,
+                                        "all_caps": null,
+                                        "small_caps": null,
+                                        "subscript": null,
+                                        "superscript": null,
+                                        "hidden": null,
+                                        "outline": null,
+                                        "shadow": null,
+                                        "emboss": null,
+                                        "imprint": null,
+                                        "rtl": null,
+                                        "complex_script": null,
+                                        "cs_bold": null,
+                                        "cs_italic": null
+                                    }
+                                }
+                            ],
+                            "paragraph_style": {
+                                "style_name": "Normal",
+                                "alignment": "left"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "row": 0,
+                    "column": 2,
+                    "text": "स्थिति",
+                    "paragraphs": [
+                        {
+                            "text": "स्थिति",
+                            "runs": [
+                                {
+                                    "text": "स्थिति",
+                                    "style": {
+                                        "font_name": null,
+                                        "font_size": 12.0,
+                                        "font_color": null,
+                                        "bold": true,
+                                        "italic": null,
+                                        "underline": null,
+                                        "highlight_color": null,
+                                        "strike": null,
+                                        "double_strike": null,
+                                        "all_caps": null,
+                                        "small_caps": null,
+                                        "subscript": null,
+                                        "superscript": null,
+                                        "hidden": null,
+                                        "outline": null,
+                                        "shadow": null,
+                                        "emboss": null,
+                                        "imprint": null,
+                                        "rtl": null,
+                                        "complex_script": null,
+                                        "cs_bold": null,
+                                        "cs_italic": null
+                                    }
+                                }
+                            ],
+                            "paragraph_style": {
+                                "style_name": "Normal",
+                                "alignment": "left"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "row": 0,
+                    "column": 3,
+                    "text": "प्राथमिकता",
+                    "paragraphs": [
+                        {
+                            "text": "प्राथमिकता",
+                            "runs": [
+                                {
+                                    "text": "प्राथमिकता",
+                                    "style": {
+                                        "font_name": null,
+                                        "font_size": 12.0,
+                                        "font_color": null,
+                                        "bold": true,
+                                        "italic": null,
+                                        "underline": null,
+                                        "highlight_color": null,
+                                        "strike": null,
+                                        "double_strike": null,
+                                        "all_caps": null,
+                                        "small_caps": null,
+                                        "subscript": null,
+                                        "superscript": null,
+                                        "hidden": null,
+                                        "outline": null,
+                                        "shadow": null,
+                                        "emboss": null,
+                                        "imprint": null,
+                                        "rtl": null,
+                                        "complex_script": null,
+                                        "cs_bold": null,
+                                        "cs_italic": null
+                                    }
+                                }
+                            ],
+                            "paragraph_style": {
+                                "style_name": "Normal",
+                                "alignment": "left"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "row": 1,
+                    "column": 0,
+                    "text": "फ्रंट।",
+                    "paragraphs": [
+                        {
+                            "text": "फ्रंट।",
+                            "runs": [
+                                {
+                                    "text": "फ्रंट।",
+                                    "style": {
+                                        "font_name": null,
+                                        "font_size": null,
+                                        "font_color": null,
+                                        "bold": null,
+                                        "italic": null,
+                                        "underline": null,
+                                        "highlight_color": null,
+                                        "strike": null,
+                                        "double_strike": null,
+                                        "all_caps": null,
+                                        "small_caps": null,
+                                        "subscript": null,
+                                        "superscript": null,
+                                        "hidden": null,
+                                        "outline": null,
+                                        "shadow": null,
+                                        "emboss": null,
+                                        "imprint": null,
+                                        "rtl": null,
+                                        "complex_script": null,
+                                        "cs_bold": null,
+                                        "cs_italic": null
+                                    }
+                                }
+                            ],
+                            "paragraph_style": {
+                                "style_name": "Normal",
+                                "alignment": "left"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "row": 2,
+                    "column": 0,
+                    "text": "पैराग्राफ एक्सट्रैक्शन।",
+                    "paragraphs": [
+                        {
+                            "text": "पैराग्राफ एक्सट्रैक्शन।",
+                            "runs": [
+                                {
+                                    "text": "पैराग्राफ एक्सट्रैक्शन।",
+                                    "style": {
+                                        "font_name": null,
+                                        "font_size": null,
+                                        "font_color": null,
+                                        "bold": null,
+                                        "italic": null,
+                                        "underline": null,
+                                        "highlight_color": null,
+                                        "strike": null,
+                                        "double_strike": null,
+                                        "all_caps": null,
+                                        "small_caps": null,
+                                        "subscript": null,
+                                        "superscript": null,
+                                        "hidden": null,
+                                        "outline": null,
+                                        "shadow": null,
+                                        "emboss": null,
+                                        "imprint": null,
+                                        "rtl": null,
+                                        "complex_script": null,
+                                        "cs_bold": null,
+                                        "cs_italic": null
+                                    }
+                                }
+                            ],
+                            "paragraph_style": {
+                                "style_name": "Normal",
+                                "alignment": "left"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "row": 3,
+                    "column": 0,
+                    "text": "तालिका निष्कर्ष।",
+                    "paragraphs": [
+                        {
+                            "text": "तालिका निष्कर्ष।",
+                            "runs": [
+                                {
+                                    "text": "तालिका निष्कर्ष।",
+                                    "style": {
+                                        "font_name": null,
+                                        "font_size": null,
+                                        "font_color": null,
+                                        "bold": null,
+                                        "italic": null,
+                                        "underline": null,
+                                        "highlight_color": null,
+                                        "strike": null,
+                                        "double_strike": null,
+                                        "all_caps": null,
+                                        "small_caps": null,
+                                        "subscript": null,
+                                        "superscript": null,
+                                        "hidden": null,
+                                        "outline": null,
+                                        "shadow": null,
+                                        "emboss": null,
+                                        "imprint": null,
+                                        "rtl": null,
+                                        "complex_script": null,
+                                        "cs_bold": null,
+                                        "cs_italic": null
+                                    }
+                                }
+                            ],
+                            "paragraph_style": {
+                                "style_name": "Normal",
+                                "alignment": "left"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
