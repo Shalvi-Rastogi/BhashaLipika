@@ -3,7 +3,7 @@ import json
 import traceback
 import requests
 
-from fastapi import APIRouter, UploadFile, File, HTTPException
+from fastapi import APIRouter, UploadFile, File, HTTPException, Form
 from docx import Document
 
 from app.extractors.Docx.document_parser import parse_document
@@ -27,6 +27,14 @@ ALLOWED_EXTENSIONS = {
 
 # C-DAC Translation API
 TRANSLATION_API_URL = "https://nlpsangraha.ebhasha.in/getTranslation"
+
+# Target language mapping
+LANGUAGE_MAP = {
+    "en": "eng-latn",
+    "hi": "hin-deva",
+    "mr": "mar-deva",
+    "ur": "urd-arab"
+}
 
 
 def translate_text(text, src_lang="eng-latn", tgt_lang="hin-deva"):
@@ -81,6 +89,7 @@ def translate_json(data, src_lang="eng-latn", tgt_lang="hin-deva"):
 
         # Translate the main text field
         if "text" in data and isinstance(data["text"], str):
+
             original_text = data["text"]
 
             data["text"] = translate_text(
@@ -95,6 +104,7 @@ def translate_json(data, src_lang="eng-latn", tgt_lang="hin-deva"):
             for run in data["runs"]:
 
                 if isinstance(run, dict) and "text" in run:
+
                     original_text = run["text"]
 
                     run["text"] = translate_text(
@@ -107,6 +117,7 @@ def translate_json(data, src_lang="eng-latn", tgt_lang="hin-deva"):
         for key, value in data.items():
 
             if key not in ["text", "runs"]:
+
                 data[key] = translate_json(
                     value,
                     src_lang,
@@ -130,7 +141,10 @@ def translate_json(data, src_lang="eng-latn", tgt_lang="hin-deva"):
 
 
 @router.post("/upload")
-async def upload_document(file: UploadFile = File(...)):
+async def upload_document(
+    file: UploadFile = File(...),
+    target_language: str = Form(...)
+):
 
     try:
 
@@ -164,6 +178,22 @@ async def upload_document(file: UploadFile = File(...)):
         file_type = ALLOWED_EXTENSIONS[extension]
 
         print(f"Detected file type: {file_type}")
+
+        # -----------------------------
+        # Check target language
+        # -----------------------------
+
+        tgt_lang = LANGUAGE_MAP.get(target_language)
+
+        if not tgt_lang:
+
+            raise HTTPException(
+                status_code=400,
+                detail=f"Unsupported target language: {target_language}"
+            )
+
+        print(f"Selected target language: {target_language}")
+        print(f"C-DAC target language code: {tgt_lang}")
 
         # -----------------------------
         # DOCX Extraction
@@ -222,7 +252,7 @@ async def upload_document(file: UploadFile = File(...)):
             translated_result = translate_json(
                 result,
                 src_lang="eng-latn",
-                tgt_lang="hin-deva"
+                tgt_lang=tgt_lang
             )
 
             print("Translation completed!")
@@ -231,9 +261,13 @@ async def upload_document(file: UploadFile = File(...)):
             # Save translated JSON
             # -----------------------------
 
+            # -----------------------------
+# Save translated JSON
+# -----------------------------
+
             translated_json_filename = (
-                os.path.splitext(file.filename)[0]
-                + "_translated.json"
+             os.path.splitext(file.filename)[0]
+              + f"_translated_{target_language}.json"
             )
 
             translated_json_path = os.path.join(
@@ -259,7 +293,10 @@ async def upload_document(file: UploadFile = File(...)):
                 f"{translated_json_path}"
             )
 
-           
+            # -----------------------------
+            # Response
+            # -----------------------------
+
             return {
 
                 "message":
@@ -270,6 +307,12 @@ async def upload_document(file: UploadFile = File(...)):
 
                 "file_type":
                     file_type,
+
+                "target_language":
+                    target_language,
+
+                "target_language_code":
+                    tgt_lang,
 
                 "json_file":
                     json_filename,
@@ -292,7 +335,10 @@ async def upload_document(file: UploadFile = File(...)):
 
             "message":
                 f"{file_type} upload successful. "
-                "Extraction not implemented yet."
+                "Extraction not implemented yet.",
+
+            "target_language":
+                target_language
 
         }
 

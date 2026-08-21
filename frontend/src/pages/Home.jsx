@@ -11,44 +11,60 @@ function Home() {
   const [inputText, setInputText] = useState("");
   const [translatedText, setTranslatedText] = useState("");
   const [resetKey, setResetKey] = useState(0);
+
+  // Selected target language
+  const [targetLanguage, setTargetLanguage] = useState("");
+
   const handleReset = () => {
-  setInputText("");
-  setTranslatedText("");
-  setResetKey((prev) => prev + 1);
- };
+    setInputText("");
+    setTranslatedText("");
+    setResetKey((prev) => prev + 1);
+
+    // Clear selected target language
+    setTargetLanguage("");
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="max-w-6xl mx-auto">
 
         {/* Language Selection */}
-        <LanguageSelector />
+        <LanguageSelector
+          onLanguageChange={setTargetLanguage}
+        />
 
         {/* Input & Output */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
 
           {/* LEFT SIDE */}
           <div>
-            <InputPanel resetKey={resetKey} />
+            <InputPanel
+              resetKey={resetKey}
+              targetLanguage={targetLanguage}
+            />
 
-            {/* Translate Button */}
+            {/* Translate & Reset Buttons */}
             <div className="mt-5 flex gap-4">
-               <TranslateButton />
-               <ResetButton onReset={handleReset} />
+              <TranslateButton />
+
+              <ResetButton
+                onReset={handleReset}
+              />
             </div>
           </div>
 
           {/* RIGHT SIDE */}
           <div>
-             <OutputPanel />
+            <OutputPanel />
 
+            {/* Download & Save Buttons */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">
-             <DownloadDocument />
-           <SaveToMemory />
+              <DownloadDocument />
+              <SaveToMemory />
             </div>
           </div>
 
         </div>
-
       </div>
     </div>
   );
