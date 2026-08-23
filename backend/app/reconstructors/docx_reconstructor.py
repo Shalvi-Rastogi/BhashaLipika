@@ -177,7 +177,19 @@ def reconstruct_docx(
                     # one paragraph
                     if cell.paragraphs:
 
-                        paragraph = cell.paragraphs[0]
+                        target_paragraph_index = next(
+                            (
+                                index
+                                for index, item in enumerate(
+                                    cell.paragraphs
+                                )
+                                if item.text.strip()
+                            ),
+                            0
+                        )
+                        paragraph = cell.paragraphs[
+                            target_paragraph_index
+                        ]
 
                         if paragraph.runs:
 
@@ -195,6 +207,14 @@ def reconstruct_docx(
                             paragraph.add_run(
                                 translated_text
                             )
+
+                        for index, other_paragraph in enumerate(
+                            cell.paragraphs
+                        ):
+                            if index == target_paragraph_index:
+                                continue
+                            for run in other_paragraph.runs:
+                                run.text = ""
 
                     else:
                         cell.text = translated_text
