@@ -19,6 +19,7 @@ def parse_document(docx_path, document):
     }
 
     element_id = 1
+    table_index = 0
 
     for block in iter_block_items(document):
 
@@ -30,6 +31,10 @@ def parse_document(docx_path, document):
             element = process_table(block, element_id)
 
         if element is not None:
+            if element["type"] == "table":
+                element["table_index"] = table_index
+                table_index += 1
+
             result["elements"].append(element)
             element_id += 1
 

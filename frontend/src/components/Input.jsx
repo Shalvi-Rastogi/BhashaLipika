@@ -45,7 +45,7 @@ function InputPanel({ resetKey , targetLanguage}) {
         `${API_BASE_URL}/upload`,
         formData,
         {
-          timeout: 120000,
+          timeout: 600000,
         }
       );
 
