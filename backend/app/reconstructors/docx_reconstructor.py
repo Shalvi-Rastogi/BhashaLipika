@@ -22,6 +22,7 @@ def get_font_path():
     possible_fonts = [
         r"C:\Windows\Fonts\Nirmala.ttf",
         r"C:\Windows\Fonts\NirmalaUI.ttf",
+        r"C:\Windows\Fonts\Nirmala.ttc",
         r"C:\Windows\Fonts\arial.ttf",
         r"C:\Windows\Fonts\calibri.ttf",
     ]
