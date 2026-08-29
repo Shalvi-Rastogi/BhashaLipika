@@ -685,6 +685,71 @@ def replace_images_in_docx(
 # PARAGRAPH RECONSTRUCTION
 # ============================================================
 
+# def reconstruct_paragraphs(
+#     document,
+#     elements
+# ):
+
+#     print(
+#         "\n========== PARAGRAPH RECONSTRUCTION =========="
+#     )
+
+#     text_elements = [
+#         element
+#         for element in elements
+#         if element.get("type") in [
+#             "paragraph",
+#             "heading",
+#             "list_item"
+#         ]
+#     ]
+
+#     paragraphs = document.paragraphs
+
+#     print(
+#         "Original paragraphs:",
+#         len(paragraphs)
+#     )
+
+#     print(
+#         "Translated text elements:",
+#         len(text_elements)
+#     )
+
+#     original_paragraphs = [
+#         paragraph
+#         for paragraph in paragraphs
+#         if paragraph.text.strip()
+#     ]
+
+#     for paragraph, element in zip(
+#         original_paragraphs,
+#         text_elements
+#     ):
+
+#         translated_text = element.get(
+#             "text",
+#             ""
+#         )
+
+#         if not translated_text:
+#             continue
+
+#         if paragraph.runs:
+
+#             paragraph.runs[0].text = (
+#                 translated_text
+#             )
+
+#             for run in paragraph.runs[1:]:
+
+#                 run.text = ""
+
+#         else:
+
+#             paragraph.add_run(
+#                 translated_text
+#             )
 def reconstruct_paragraphs(
     document,
     elements
@@ -735,22 +800,169 @@ def reconstruct_paragraphs(
         if not translated_text:
             continue
 
-        if paragraph.runs:
+        translated_runs = element.get(
+            "runs",
+            []
+        )
 
-            paragraph.runs[0].text = (
-                translated_text
+        if not translated_runs:
+            if paragraph.runs:
+                paragraph.runs[0].text = translated_text
+
+                for run in paragraph.runs[1:]:
+                    run.text = ""
+            else:
+                paragraph.add_run(translated_text)
+
+            continue
+
+        # -----------------------------------------
+        # Remove existing runs
+        # -----------------------------------------
+
+        for run in paragraph.runs:
+            run.text = ""
+
+        # -----------------------------------------
+        # Calculate original run lengths
+        # -----------------------------------------
+
+        run_lengths = [
+            len(run.get("text", ""))
+            for run in translated_runs
+        ]
+
+        total_length = sum(run_lengths)
+
+        if total_length == 0:
+            paragraph.add_run(translated_text)
+            continue
+
+        translated_position = 0
+
+        # -----------------------------------------
+        # Recreate runs with original formatting
+        # -----------------------------------------
+
+        for index, run_data in enumerate(
+            translated_runs
+        ):
+
+            original_length = run_lengths[index]
+
+            if index == len(translated_runs) - 1:
+
+                run_text = translated_text[
+                    translated_position:
+                ]
+
+            else:
+
+                translated_length = round(
+                    len(translated_text)
+                    * original_length
+                    / total_length
+                )
+
+                run_text = translated_text[
+                    translated_position:
+                    translated_position
+                    + translated_length
+                ]
+
+                translated_position += (
+                    translated_length
+                )
+
+            if not run_text:
+                continue
+
+            new_run = paragraph.add_run(
+                run_text
             )
 
-            for run in paragraph.runs[1:]:
+            # -------------------------------------
+            # Apply original formatting
+            # -------------------------------------
 
-                run.text = ""
-
-        else:
-
-            paragraph.add_run(
-                translated_text
+            style = run_data.get(
+                "style",
+                {}
             )
 
+            new_run.bold = style.get(
+                "bold"
+            )
+
+            new_run.italic = style.get(
+                "italic"
+            )
+
+            new_run.underline = style.get(
+                "underline"
+            )
+
+            # -------------------------------------
+            # Font name
+            # -------------------------------------
+
+            if style.get("font_name"):
+                new_run.font.name = style.get(
+                    "font_name"
+                )
+
+            # -------------------------------------
+            # Font size
+            # -------------------------------------
+
+            if style.get("font_size"):
+
+                from docx.shared import Pt
+
+                new_run.font.size = Pt(
+                    style.get("font_size")
+                )
+
+            # -------------------------------------
+            # Font color
+            # -------------------------------------
+
+            font_color = style.get(
+                "font_color"
+            )
+
+            if (
+                isinstance(font_color, dict)
+                and
+                font_color.get("type") == "rgb"
+            ):
+
+                from docx.shared import RGBColor
+
+                color_value = font_color.get(
+                    "value"
+                )
+
+                if color_value:
+
+                    try:
+
+                        new_run.font.color.rgb = (
+                            RGBColor.from_string(
+                                color_value
+                            )
+                        )
+
+                    except Exception as e:
+
+                        print(
+                            f"Could not apply "
+                            f"font color: {e}"
+                        )
+
+    print(
+        "Paragraph reconstruction completed."
+    )
 
 # ============================================================
 # TABLE RECONSTRUCTION
