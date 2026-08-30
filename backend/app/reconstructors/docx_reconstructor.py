@@ -1,10 +1,13 @@
 from docx import Document
+from docx.shared import RGBColor, Pt
 import json
 import os
 import zipfile
 import shutil
 import tempfile
 
+from docx.oxml.shared import OxmlElement
+from docx.oxml.ns import qn
 from PIL import Image, ImageDraw, ImageFont
 
 
@@ -15,10 +18,8 @@ from PIL import Image, ImageDraw, ImageFont
 def get_font_path():
     """
     Find a Unicode font available on Windows.
-
     Nirmala UI supports Hindi/Devanagari.
     """
-
     possible_fonts = [
         r"C:\Windows\Fonts\Nirmala.ttf",
         r"C:\Windows\Fonts\NirmalaUI.ttf",
@@ -48,62 +49,27 @@ def calculate_font_size(
     """
     Calculate a font size based on the original
     OCR bounding-box dimensions.
-
-    The translated text is also reduced if it
-    does not fit inside the original text area.
     """
+    font_size = max(8, int(box_height * 0.75))
 
-    # Initial estimate based on original text height
-    font_size = max(
-        8,
-        int(box_height * 0.75)
-    )
-
-    # If font is unavailable
     if font_path is None:
         return None
 
     while font_size >= 8:
-
         try:
-            font = ImageFont.truetype(
-                font_path,
-                font_size
-            )
+            font = ImageFont.truetype(font_path, font_size)
+            bbox = draw.textbbox((0, 0), text, font=font)
+            text_width = bbox[2] - bbox[0]
+            text_height = bbox[3] - bbox[1]
 
-            bbox = draw.textbbox(
-                (0, 0),
-                text,
-                font=font
-            )
-
-            text_width = (
-                bbox[2] - bbox[0]
-            )
-
-            text_height = (
-                bbox[3] - bbox[1]
-            )
-
-            # Text should fit inside original box
-            if (
-                text_width <= box_width
-                and
-                text_height <= box_height
-            ):
+            if text_width <= box_width and text_height <= box_height:
                 return font
-
             font_size -= 1
-
         except Exception:
             break
 
-    # Minimum fallback size
     try:
-        return ImageFont.truetype(
-            font_path,
-            8
-        )
+        return ImageFont.truetype(font_path, 8)
     except Exception:
         return ImageFont.load_default()
 
@@ -112,55 +78,26 @@ def calculate_font_size(
 # BACKGROUND COLOR
 # ============================================================
 
-def get_background_color(
-    image,
-    x1,
-    y1,
-    x2,
-    y2
-):
+def get_background_color(image, x1, y1, x2, y2):
     """
     Estimate the background color around the OCR text.
-
-    This is better than always using white.
     """
-
     try:
-
         pixels = []
-
-        # Pixels just outside the text bounding box
         sample_points = [
             (max(0, x1 - 2), max(0, y1)),
             (max(0, x1 - 2), min(image.height - 1, y2)),
             (min(image.width - 1, x2 + 2), max(0, y1)),
-            (
-                min(image.width - 1, x2 + 2),
-                min(image.height - 1, y2)
-            ),
+            (min(image.width - 1, x2 + 2), min(image.height - 1, y2)),
         ]
 
         for point in sample_points:
-            pixels.append(
-                image.getpixel(point)
-            )
+            pixels.append(image.getpixel(point))
 
         if pixels:
-            r = sum(
-                pixel[0]
-                for pixel in pixels
-            ) // len(pixels)
-
-            g = sum(
-                pixel[1]
-                for pixel in pixels
-            ) // len(pixels)
-
-            b = sum(
-                pixel[2]
-                for pixel in pixels
-            ) // len(pixels)
-
+            r = sum(pixel[0] for pixel in pixels) // len(pixels)
+            g = sum(pixel[1] for pixel in pixels) // len(pixels)
+            b = sum(pixel[2] for pixel in pixels) // len(pixels)
             return (r, g, b)
 
     except Exception:
@@ -173,301 +110,66 @@ def get_background_color(
 # IMAGE RECONSTRUCTION
 # ============================================================
 
-def reconstruct_image(
-    original_image_path,
-    image_element,
-    output_image_path
-):
-    """
-    Reconstruct an image by replacing OCR-detected
-    text with translated text.
-
-    Font size is calculated from the OCR bounding box.
-    """
-
+def reconstruct_image(original_image_path, image_element, output_image_path):
     try:
-
-        # ----------------------------------------------------
-        # Load image
-        # ----------------------------------------------------
-
-        image = Image.open(
-            original_image_path
-        ).convert("RGB")
-
+        image = Image.open(original_image_path).convert("RGB")
         draw = ImageDraw.Draw(image)
 
-        # ----------------------------------------------------
-        # Get OCR details
-        # ----------------------------------------------------
-
-        ocr_details = image_element.get(
-            "ocr_details",
-            []
-        )
+        ocr_details = image_element.get("ocr_details", [])
 
         if not ocr_details:
-
-            print(
-                "No OCR details found."
-            )
-
-            image.save(
-                output_image_path
-            )
-
+            print("No OCR details found.")
+            image.save(output_image_path)
             return True
 
-        # ----------------------------------------------------
-        # Font
-        # ----------------------------------------------------
-
         font_path = get_font_path()
-
         if font_path:
-
-            print(
-                f"Using font: {font_path}"
-            )
-
+            print(f"Using font: {font_path}")
         else:
-
-            print(
-                "Unicode font not found. "
-                "Using default PIL font."
-            )
-
-        # ----------------------------------------------------
-        # Process every OCR text
-        # ----------------------------------------------------
+            print("Unicode font not found. Using default PIL font.")
 
         for item in ocr_details:
-
-            original_text = item.get(
-                "text",
-                ""
-            )
-
-            # ------------------------------------------------
-            # IMPORTANT:
-            #
-            # Translation may be stored as:
-            #
-            # item["translated_text"]
-            #
-            # OR fallback to item["text"]
-            # ------------------------------------------------
-
-            translated_text = item.get(
-                "translated_text",
-                ""
-            )
+            original_text = item.get("text", "")
+            translated_text = item.get("translated_text", "")
 
             if not translated_text:
+                translated_text = item.get("text", "")
 
-                translated_text = item.get(
-                    "text",
-                    ""
-                )
+            bbox = item.get("bbox")
 
-            bbox = item.get(
-                "bbox"
-            )
-
-            # ------------------------------------------------
-            # Validation
-            # ------------------------------------------------
-
-            if not bbox:
-
-                print(
-                    f"No bounding box for: "
-                    f"{original_text}"
-                )
-
+            if not bbox or not translated_text:
                 continue
 
-            if not translated_text:
+            x1 = min(int(point[0]) for point in bbox)
+            y1 = min(int(point[1]) for point in bbox)
+            x2 = max(int(point[0]) for point in bbox)
+            y2 = max(int(point[1]) for point in bbox)
 
-                print(
-                    f"No translated text for: "
-                    f"{original_text}"
-                )
+            box_width = max(1, x2 - x1)
+            box_height = max(1, y2 - y1)
 
-                continue
+            background_color = get_background_color(image, x1, y1, x2, y2)
+            draw.rectangle([x1, y1, x2, y2], fill=background_color)
 
-            # ------------------------------------------------
-            # Convert bbox to rectangle
-            # ------------------------------------------------
-
-            x1 = min(
-                int(point[0])
-                for point in bbox
-            )
-
-            y1 = min(
-                int(point[1])
-                for point in bbox
-            )
-
-            x2 = max(
-                int(point[0])
-                for point in bbox
-            )
-
-            y2 = max(
-                int(point[1])
-                for point in bbox
-            )
-
-            box_width = max(
-                1,
-                x2 - x1
-            )
-
-            box_height = max(
-                1,
-                y2 - y1
-            )
-
-            print(
-                f"\nOriginal text: "
-                f"{original_text}"
-            )
-
-            print(
-                f"Translated text: "
-                f"{translated_text}"
-            )
-
-            print(
-                f"BBox: "
-                f"{x1}, {y1}, {x2}, {y2}"
-            )
-
-            print(
-                f"Original text area: "
-                f"{box_width} x {box_height}"
-            )
-
-            # ------------------------------------------------
-            # Estimate background
-            # ------------------------------------------------
-
-            background_color = (
-                get_background_color(
-                    image,
-                    x1,
-                    y1,
-                    x2,
-                    y2
-                )
-            )
-
-            # ------------------------------------------------
-            # Remove original text
-            # ------------------------------------------------
-
-            draw.rectangle(
-                [
-                    x1,
-                    y1,
-                    x2,
-                    y2
-                ],
-                fill=background_color
-            )
-
-            # ------------------------------------------------
-            # Calculate font
-            # ------------------------------------------------
-
-            font = calculate_font_size(
-                draw,
-                translated_text,
-                box_width,
-                box_height,
-                font_path
-            )
-
+            font = calculate_font_size(draw, translated_text, box_width, box_height, font_path)
             if font is None:
-
                 font = ImageFont.load_default()
 
-            # ------------------------------------------------
-            # Get translated text dimensions
-            # ------------------------------------------------
+            text_bbox = draw.textbbox((0, 0), translated_text, font=font)
+            text_width = text_bbox[2] - text_bbox[0]
+            text_height = text_bbox[3] - text_bbox[1]
 
-            text_bbox = draw.textbbox(
-                (0, 0),
-                translated_text,
-                font=font
-            )
+            text_x = x1 + (box_width - text_width) / 2
+            text_y = y1 + (box_height - text_height) / 2 - text_bbox[1]
 
-            text_width = (
-                text_bbox[2]
-                - text_bbox[0]
-            )
+            draw.text((text_x, text_y), translated_text, fill="black", font=font)
 
-            text_height = (
-                text_bbox[3]
-                - text_bbox[1]
-            )
-
-            # ------------------------------------------------
-            # Center text inside original text area
-            # ------------------------------------------------
-
-            text_x = (
-                x1
-                + (box_width - text_width) / 2
-            )
-
-            text_y = (
-                y1
-                + (box_height - text_height) / 2
-                - text_bbox[1]
-            )
-
-            # ------------------------------------------------
-            # Draw translated text
-            # ------------------------------------------------
-
-            draw.text(
-                (
-                    text_x,
-                    text_y
-                ),
-                translated_text,
-                fill="black",
-                font=font
-            )
-
-            print(
-                "Image text reconstructed successfully."
-            )
-
-        # ----------------------------------------------------
-        # Save reconstructed image
-        # ----------------------------------------------------
-
-        image.save(
-            output_image_path
-        )
-
-        print(
-            f"Reconstructed image saved: "
-            f"{output_image_path}"
-        )
-
+        image.save(output_image_path)
+        print(f"Reconstructed image saved: {output_image_path}")
         return True
 
     except Exception as e:
-
-        print(
-            f"Image reconstruction failed: {e}"
-        )
-
+        print(f"Image reconstruction failed: {e}")
         return False
 
 
@@ -475,81 +177,30 @@ def reconstruct_image(
 # EXTRACT IMAGES FROM DOCX
 # ============================================================
 
-def extract_images_from_docx(
-    docx_path,
-    temp_folder
-):
-    """
-    Extract all images directly from the input DOCX.
-
-    No manually created temp images are required.
-    """
-
+def extract_images_from_docx(docx_path, temp_folder):
     extracted_images = []
-
-    os.makedirs(
-        temp_folder,
-        exist_ok=True
-    )
+    os.makedirs(temp_folder, exist_ok=True)
 
     try:
-
-        with zipfile.ZipFile(
-            docx_path,
-            "r"
-        ) as z:
-
+        with zipfile.ZipFile(docx_path, "r") as z:
             for file_name in z.namelist():
-
-                if not file_name.startswith(
-                    "word/media/"
-                ):
+                if not file_name.startswith("word/media/"):
                     continue
 
-                image_name = os.path.basename(
-                    file_name
-                )
+                image_name = os.path.basename(file_name)
+                output_path = os.path.join(temp_folder, image_name)
 
-                output_path = os.path.join(
-                    temp_folder,
-                    image_name
-                )
+                with open(output_path, "wb") as f:
+                    f.write(z.read(file_name))
 
-                with open(
-                    output_path,
-                    "wb"
-                ) as f:
-
-                    f.write(
-                        z.read(file_name)
-                    )
-
-                extracted_images.append(
-                    {
-                        "name": image_name,
-                        "path": output_path,
-                        "zip_name": file_name
-                    }
-                )
-
-                print(
-                    f"Extracted image: "
-                    f"{image_name}"
-                )
-
-        print(
-            f"Total images extracted: "
-            f"{len(extracted_images)}"
-        )
-
+                extracted_images.append({
+                    "name": image_name,
+                    "path": output_path,
+                    "zip_name": file_name
+                })
         return extracted_images
-
     except Exception as e:
-
-        print(
-            f"Image extraction failed: {e}"
-        )
-
+        print(f"Image extraction failed: {e}")
         return []
 
 
@@ -557,522 +208,289 @@ def extract_images_from_docx(
 # REPLACE IMAGES INSIDE DOCX
 # ============================================================
 
-def replace_images_in_docx(
-    original_docx_path,
-    output_docx_path,
-    reconstructed_images
-):
-    """
-    Replace images inside DOCX ZIP package.
-
-    Mapping is done using image filename instead of
-    assuming that list order is always the same.
-    """
-
+def replace_images_in_docx(original_docx_path, output_docx_path, reconstructed_images):
     try:
+        reconstructed_map = {item["original_name"]: item["reconstructed_path"] for item in reconstructed_images}
+        temp_docx = output_docx_path + ".tmp"
 
-        reconstructed_map = {}
-
-        for item in reconstructed_images:
-
-            reconstructed_map[
-                item["original_name"]
-            ] = item["reconstructed_path"]
-
-        # ----------------------------------------------------
-        # Temporary DOCX
-        # ----------------------------------------------------
-
-        temp_docx = (
-            output_docx_path
-            + ".tmp"
-        )
-
-        with zipfile.ZipFile(
-            original_docx_path,
-            "r"
-        ) as zin:
-
-            with zipfile.ZipFile(
-                temp_docx,
-                "w",
-                zipfile.ZIP_DEFLATED
-            ) as zout:
-
+        with zipfile.ZipFile(original_docx_path, "r") as zin:
+            with zipfile.ZipFile(temp_docx, "w", zipfile.ZIP_DEFLATED) as zout:
                 for item in zin.infolist():
+                    data = zin.read(item.filename)
 
-                    data = zin.read(
-                        item.filename
-                    )
+                    if item.filename.startswith("word/media/"):
+                        image_name = os.path.basename(item.filename)
+                        reconstructed_path = reconstructed_map.get(image_name)
 
-                    # ------------------------------------------------
-                    # Check image
-                    # ------------------------------------------------
+                        if reconstructed_path and os.path.exists(reconstructed_path):
+                            with open(reconstructed_path, "rb") as image_file:
+                                data = image_file.read()
 
-                    if item.filename.startswith(
-                        "word/media/"
-                    ):
+                    zout.writestr(item, data)
 
-                        image_name = os.path.basename(
-                            item.filename
-                        )
-
-                        print(
-                            f"Checking DOCX image: "
-                            f"{image_name}"
-                        )
-
-                        reconstructed_path = (
-                            reconstructed_map.get(
-                                image_name
-                            )
-                        )
-
-                        if (
-                            reconstructed_path
-                            and
-                            os.path.exists(
-                                reconstructed_path
-                            )
-                        ):
-
-                            with open(
-                                reconstructed_path,
-                                "rb"
-                            ) as image_file:
-
-                                data = (
-                                    image_file.read()
-                                )
-
-                            print(
-                                f"Replacing: "
-                                f"{item.filename}"
-                            )
-
-                    zout.writestr(
-                        item,
-                        data
-                    )
-
-        # ----------------------------------------------------
-        # Replace final DOCX
-        # ----------------------------------------------------
-
-        os.replace(
-            temp_docx,
-            output_docx_path
-        )
-
-        print(
-            "All reconstructed images "
-            "replaced inside DOCX."
-        )
-
+        os.replace(temp_docx, output_docx_path)
         return True
-
     except Exception as e:
-
-        print(
-            f"Failed to replace images "
-            f"in DOCX: {e}"
-        )
-
+        print(f"Failed to replace images in DOCX: {e}")
         return False
 
 
 # ============================================================
-# PARAGRAPH RECONSTRUCTION
+# APPLY RUN STYLES
+# ============================================================
+# ============================================================
+# APPLY RUN STYLES (100% CORRECT OOXML ORDER FOR MS WORD)
+# ============================================================
+# ============================================================
+# APPLY RUN STYLES (UPDATED WITH HEAVY FONT DETECTION)
+# ============================================================
+def apply_style_to_run(run, style_dict):
+    if not style_dict:
+        return
+    
+    # --- NEW LOGIC: The "Arial Black" / Heavy Font Trap ---
+    font_name = style_dict.get("font_name", "")
+    is_bold = style_dict.get("bold")
+    
+    # Force bold to True if the font name contains "Black" or "Bold"
+    if font_name and ("Black" in font_name or "Bold" in font_name):
+        is_bold = True
+        
+    # 1. Standard Apply (English Styles + Font Color/Size)
+    if is_bold:
+        run.bold = True
+    if style_dict.get("italic"):
+        run.italic = True
+    if style_dict.get("underline"):
+        run.underline = True
+        
+    font_size = style_dict.get("font_size")
+    if font_size:
+        run.font.size = Pt(font_size)
+        
+    font_color = style_dict.get("font_color")
+    if isinstance(font_color, dict) and font_color.get("type") == "rgb":
+        hex_val = font_color.get("value")
+        if hex_val:
+            try:
+                run.font.color.rgb = RGBColor.from_string(hex_val)
+            except ValueError:
+                pass
+
+    # 2. Inject Complex Script (Hindi) Tags in STRICT OOXML Order
+    rPr = run._element.get_or_add_rPr()
+    
+    if is_bold:
+        bCs = OxmlElement('w:bCs')
+        bCs.set(qn('w:val'), '1')
+        b = rPr.find(qn('w:b'))
+        if b is not None:
+            b.addnext(bCs)
+        else:
+            rPr.insert(0, bCs)
+            
+    if style_dict.get("italic"):
+        iCs = OxmlElement('w:iCs')
+        iCs.set(qn('w:val'), '1')
+        i = rPr.find(qn('w:i'))
+        if i is not None:
+            i.addnext(iCs)
+        else:
+            rPr.insert(0, iCs)
+            
+    if font_size:
+        szCs = OxmlElement('w:szCs')
+        szCs.set(qn('w:val'), str(int(font_size * 2)))
+        sz = rPr.find(qn('w:sz'))
+        if sz is not None:
+            sz.addnext(szCs)
+        else:
+            rPr.append(szCs)
+
+
+# ============================================================
+# PARAGRAPH RECONSTRUCTION (UPDATED)
 # ============================================================
 
-def reconstruct_paragraphs(
-    document,
-    elements
-):
-
-    print(
-        "\n========== PARAGRAPH RECONSTRUCTION =========="
-    )
+def reconstruct_paragraphs(document, elements):
+    print("\n========== PARAGRAPH RECONSTRUCTION ==========")
 
     text_elements = [
-        element
-        for element in elements
-        if element.get("type") in [
-            "paragraph",
-            "heading",
-            "list_item"
-        ]
+        element for element in elements
+        if element.get("type") in ["paragraph", "heading", "list_item"]
     ]
 
     paragraphs = document.paragraphs
-
-    print(
-        "Original paragraphs:",
-        len(paragraphs)
-    )
-
-    print(
-        "Translated text elements:",
-        len(text_elements)
-    )
+    print("Original paragraphs:", len(paragraphs))
+    print("Translated text elements:", len(text_elements))
 
     original_paragraphs = [
-        paragraph
-        for paragraph in paragraphs
+        paragraph for paragraph in paragraphs
         if paragraph.text.strip()
     ]
 
-    for paragraph, element in zip(
-        original_paragraphs,
-        text_elements
-    ):
+    for paragraph, element in zip(original_paragraphs, text_elements):
+        
+        # Clear existing paragraph formatting cleanly
+        paragraph.clear()
 
-        translated_text = element.get(
-            "text",
-            ""
-        )
-
-        if not translated_text:
-            continue
-
-        if paragraph.runs:
-
-            paragraph.runs[0].text = (
-                translated_text
-            )
-
-            for run in paragraph.runs[1:]:
-
-                run.text = ""
-
+        runs_data = element.get("runs", [])
+        
+        # Agar JSON mein runs majood hain, toh ek-ek karke unhe jodein
+        if runs_data:
+            for run_data in runs_data:
+                run_text = run_data.get("text", "")
+                if not run_text:
+                    continue
+                
+                style = run_data.get("style", {})
+                
+                # Handle newlines inside the specific run
+                lines = run_text.split('\n')
+                for index, line in enumerate(lines):
+                    new_run = paragraph.add_run(line)
+                    apply_style_to_run(new_run, style) # Apply exact style for this run
+                    
+                    if index < len(lines) - 1:
+                        new_run.add_break()
         else:
-
-            paragraph.add_run(
-                translated_text
-            )
-
-
+            # Fallback: Agar runs nahi hain toh pura text ek sath daal dein
+            translated_text = element.get("text", "")
+            if translated_text:
+                lines = translated_text.split('\n')
+                for index, line in enumerate(lines):
+                    paragraph.add_run(line)
+                    if index < len(lines) - 1:
+                        paragraph.runs[-1].add_break()
 # ============================================================
-# TABLE RECONSTRUCTION
+# TABLE RECONSTRUCTION (UPDATED TO SUPPORT STYLES/BREAKS)
 # ============================================================
 
-def reconstruct_tables(
-    document,
-    elements
-):
-
-    print(
-        "\n========== TABLE RECONSTRUCTION =========="
-    )
+def reconstruct_tables(document, elements):
+    print("\n========== TABLE RECONSTRUCTION ==========")
 
     table_elements = [
-        element
-        for element in elements
+        element for element in elements
         if element.get("type") == "table"
     ]
 
-    print(
-        "Original tables:",
-        len(document.tables)
-    )
+    print("Original tables:", len(document.tables))
+    print("Translated tables:", len(table_elements))
 
-    print(
-        "Translated tables:",
-        len(table_elements)
-    )
-
-    for table_index, table in enumerate(
-        document.tables
-    ):
-
+    for table_index, table in enumerate(document.tables):
         translated_table = None
 
         for element in table_elements:
-
-            if (
-                element.get("table_index")
-                == table_index
-            ):
-
+            if element.get("table_index") == table_index:
                 translated_table = element
                 break
 
         if translated_table is None:
-
             continue
 
         translated_cells = [
-            cell
-            for row in translated_table.get(
-                "rows",
-                []
-            )
-            for cell in row.get(
-                "cells",
-                []
-            )
+            cell for row in translated_table.get("rows", [])
+            for cell in row.get("cells", [])
         ]
 
-        for row_index, row in enumerate(
-            table.rows
-        ):
-
-            for column_index, cell in enumerate(
-                row.cells
-            ):
-
-                translated_text = None
-
-                for translated_cell in (
-                    translated_cells
-                ):
-
-                    if (
-                        translated_cell.get(
-                            "row"
-                        )
-                        == row_index
-                        and
-                        translated_cell.get(
-                            "column"
-                        )
-                        == column_index
-                    ):
-
-                        translated_text = (
-                            translated_cell.get(
-                                "text",
-                                ""
-                            )
-                        )
-
+        for row_index, row in enumerate(table.rows):
+            for column_index, cell in enumerate(row.cells):
+                
+                translated_cell_data = None
+                
+                for translated_cell in translated_cells:
+                    if (translated_cell.get("row") == row_index and
+                        translated_cell.get("column") == column_index):
+                        translated_cell_data = translated_cell
                         break
 
-                if translated_text is None:
-
+                if not translated_cell_data:
                     continue
 
                 if cell.paragraphs:
-
                     target_paragraph_index = next(
-                        (
-                            index
-                            for index, paragraph
-                            in enumerate(
-                                cell.paragraphs
-                            )
-                            if paragraph.text.strip()
-                        ),
-                        0
+                        (index for index, paragraph in enumerate(cell.paragraphs) if paragraph.text.strip()), 0
                     )
 
-                    paragraph = (
-                        cell.paragraphs[
-                            target_paragraph_index
-                        ]
-                    )
+                    paragraph = cell.paragraphs[target_paragraph_index]
+                    paragraph.clear()
+                    
+                    # Extract runs specifically for the cell
+                    cell_paragraphs_data = translated_cell_data.get("paragraphs", [])
+                    cell_runs_data = []
+                    if cell_paragraphs_data and len(cell_paragraphs_data) > 0:
+                        cell_runs_data = cell_paragraphs_data[0].get("runs", [])
 
-                    if paragraph.runs:
-
-                        paragraph.runs[0].text = (
-                            translated_text
-                        )
-
-                        for run in (
-                            paragraph.runs[1:]
-                        ):
-
-                            run.text = ""
-
+                    if cell_runs_data:
+                        for run_data in cell_runs_data:
+                            run_text = run_data.get("text", "")
+                            if not run_text:
+                                continue
+                            
+                            style = run_data.get("style", {})
+                            lines = run_text.split('\n')
+                            
+                            for i, line in enumerate(lines):
+                                new_run = paragraph.add_run(line)
+                                apply_style_to_run(new_run, style)
+                                if i < len(lines) - 1:
+                                    new_run.add_break()
                     else:
+                        # Fallback for tables without runs
+                        translated_text = translated_cell_data.get("text", "")
+                        lines = translated_text.split('\n')
+                        for i, line in enumerate(lines):
+                            run = paragraph.add_run(line)
+                            if i < len(lines) - 1:
+                                run.add_break()
 
-                        paragraph.add_run(
-                            translated_text
-                        )
-
-                    for index, other_paragraph in (
-                        enumerate(
-                            cell.paragraphs
-                        )
-                    ):
-
-                        if (
-                            index
-                            == target_paragraph_index
-                        ):
+                    # Clear other paragraphs in the cell
+                    for index, other_paragraph in enumerate(cell.paragraphs):
+                        if index == target_paragraph_index:
                             continue
-
-                        for run in (
-                            other_paragraph.runs
-                        ):
-
-                            run.text = ""
-
-                else:
-
-                    cell.text = (
-                        translated_text
-                    )
-
+                        other_paragraph.clear()
 
 # ============================================================
-# IMAGE RECONSTRUCTION
+# RECONSTRUCT IMAGES PIPELINE
 # ============================================================
 
-def reconstruct_images(
-    original_docx_path,
-    elements,
-    temp_folder
-):
-
-    print(
-        "\n========== IMAGE RECONSTRUCTION =========="
-    )
+def reconstruct_images_pipeline(original_docx_path, elements, temp_folder):
+    print("\n========== IMAGE RECONSTRUCTION ==========")
 
     image_elements = [
-        element
-        for element in elements
+        element for element in elements
         if element.get("type") == "image_text"
     ]
 
-    print(
-        "Translated image elements:",
-        len(image_elements)
-    )
-
+    print("Translated image elements:", len(image_elements))
     if not image_elements:
-
-        print(
-            "No image_text elements found."
-        )
-
         return []
 
-    # --------------------------------------------------------
-    # Extract actual images from DOCX
-    # --------------------------------------------------------
-
-    extracted_images = (
-        extract_images_from_docx(
-            original_docx_path,
-            temp_folder
-        )
-    )
-
+    extracted_images = extract_images_from_docx(original_docx_path, temp_folder)
     if not extracted_images:
-
-        print(
-            "No images found inside DOCX."
-        )
-
         return []
 
     reconstructed_images = []
 
-    # --------------------------------------------------------
-    # Match image element with extracted image
-    # --------------------------------------------------------
+    for index, image_element in enumerate(image_elements):
+        image_name = image_element.get("image_name", "")
+        matching_image = next((ext for ext in extracted_images if ext["name"] == image_name or ext["name"].replace("image", "image_") == image_name), None)
 
-    for index, image_element in enumerate(
-        image_elements
-    ):
-
-        image_name = image_element.get(
-            "image_name",
-            ""
-        )
-
-        print(
-            f"\nProcessing image element "
-            f"{index + 1}: {image_name}"
-        )
-
-        # ----------------------------------------------------
-        # Find matching image
-        #
-        # Handles:
-        # image_1.png
-        # image1.png
-        # ----------------------------------------------------
-
-        matching_image = None
-
-        for extracted in extracted_images:
-
-            extracted_name = extracted["name"]
-
-            if (
-                extracted_name == image_name
-                or
-                extracted_name.replace(
-                    "image",
-                    "image_"
-                )
-                == image_name
-            ):
-
-                matching_image = extracted
-                break
-
-        # ----------------------------------------------------
-        # If exact name is not found, use order
-        # ----------------------------------------------------
+        if matching_image is None and index < len(extracted_images):
+            matching_image = extracted_images[index]
 
         if matching_image is None:
-
-            if index < len(extracted_images):
-
-                matching_image = (
-                    extracted_images[index]
-                )
-
-        if matching_image is None:
-
-            print(
-                f"Could not match image: "
-                f"{image_name}"
-            )
-
             continue
 
-        original_image_path = (
-            matching_image["path"]
-        )
+        original_image_path = matching_image["path"]
+        reconstructed_image_path = os.path.join(temp_folder, f"reconstructed_{index + 1}_{matching_image['name']}")
 
-        reconstructed_image_path = os.path.join(
-            temp_folder,
-            f"reconstructed_"
-            f"{index + 1}_"
-            f"{matching_image['name']}"
-        )
-
-        print(
-            f"Using original image: "
-            f"{original_image_path}"
-        )
-
-        success = reconstruct_image(
-            original_image_path,
-            image_element,
-            reconstructed_image_path
-        )
-
+        success = reconstruct_image(original_image_path, image_element, reconstructed_image_path)
         if success:
-
-            reconstructed_images.append(
-                {
-                    "original_name":
-                        matching_image["name"],
-
-                    "reconstructed_path":
-                        reconstructed_image_path
-                }
-            )
-
-    print(
-        f"\nReconstructed images: "
-        f"{len(reconstructed_images)}"
-    )
+            reconstructed_images.append({
+                "original_name": matching_image["name"],
+                "reconstructed_path": reconstructed_image_path
+            })
 
     return reconstructed_images
 
@@ -1081,236 +499,43 @@ def reconstruct_images(
 # MAIN DOCX RECONSTRUCTION
 # ============================================================
 
-def reconstruct_docx(
-    original_docx_path,
-    translated_json_path,
-    output_docx_path
-):
-    """
-    Complete DOCX reconstruction.
+def reconstruct_docx(original_docx_path, translated_json_path, output_docx_path):
+    print("\n==========================================")
+    print("STARTING DOCX RECONSTRUCTION")
+    print("==========================================")
+    
+    if not os.path.exists(original_docx_path):
+        raise FileNotFoundError(f"Original DOCX not found: {original_docx_path}")
+    if not os.path.exists(translated_json_path):
+        raise FileNotFoundError(f"Translated JSON not found: {translated_json_path}")
 
-    Handles:
+    document = Document(original_docx_path)
 
-    1. Paragraphs
-    2. Headings
-    3. Lists
-    4. Tables
-    5. Images
-    6. Image text translation
-    """
+    with open(translated_json_path, "r", encoding="utf-8") as file:
+        translated_data = json.load(file)
 
-    print(
-        "\n=========================================="
-    )
+    elements = translated_data.get("elements", [])
 
-    print(
-        "STARTING DOCX RECONSTRUCTION"
-    )
+    base_dir = os.path.dirname(os.path.abspath(original_docx_path))
+    temp_folder = os.path.join(base_dir, "temp", os.path.splitext(os.path.basename(original_docx_path))[0])
+    os.makedirs(temp_folder, exist_ok=True)
 
-    print(
-        "=========================================="
-    )
+    reconstruct_paragraphs(document, elements)
+    reconstruct_tables(document, elements)
+    reconstructed_images = reconstruct_images_pipeline(original_docx_path, elements, temp_folder)
 
-    print(
-        f"Input DOCX: "
-        f"{original_docx_path}"
-    )
-
-    print(
-        f"Translated JSON: "
-        f"{translated_json_path}"
-    )
-
-    print(
-        f"Output DOCX: "
-        f"{output_docx_path}"
-    )
-
-    # ========================================================
-    # CHECK FILES
-    # ========================================================
-
-    if not os.path.exists(
-        original_docx_path
-    ):
-
-        raise FileNotFoundError(
-            f"Original DOCX not found: "
-            f"{original_docx_path}"
-        )
-
-    if not os.path.exists(
-        translated_json_path
-    ):
-
-        raise FileNotFoundError(
-            f"Translated JSON not found: "
-            f"{translated_json_path}"
-        )
-
-    # ========================================================
-    # LOAD DOCUMENT
-    # ========================================================
-
-    document = Document(
-        original_docx_path
-    )
-
-    # ========================================================
-    # LOAD JSON
-    # ========================================================
-
-    with open(
-        translated_json_path,
-        "r",
-        encoding="utf-8"
-    ) as file:
-
-        translated_data = json.load(
-            file
-        )
-
-    elements = translated_data.get(
-        "elements",
-        []
-    )
-
-    print(
-        f"Total JSON elements: "
-        f"{len(elements)}"
-    )
-
-    # ========================================================
-    # TEMP DIRECTORY
-    # ========================================================
-
-    base_dir = os.path.dirname(
-        os.path.abspath(
-            original_docx_path
-        )
-    )
-
-    temp_folder = os.path.join(
-        base_dir,
-        "temp",
-        os.path.splitext(
-            os.path.basename(
-                original_docx_path
-            )
-        )[0]
-    )
-
-    os.makedirs(
-        temp_folder,
-        exist_ok=True
-    )
-
-    print(
-        f"Working image folder: "
-        f"{temp_folder}"
-    )
-
-    # ========================================================
-    # 1. PARAGRAPHS
-    # ========================================================
-
-    reconstruct_paragraphs(
-        document,
-        elements
-    )
-
-    # ========================================================
-    # 2. TABLES
-    # ========================================================
-
-    reconstruct_tables(
-        document,
-        elements
-    )
-
-    # ========================================================
-    # 3. IMAGES
-    # ========================================================
-
-    reconstructed_images = (
-        reconstruct_images(
-            original_docx_path,
-            elements,
-            temp_folder
-        )
-    )
-
-    # ========================================================
-    # SAVE TEXT/TABLE RECONSTRUCTION
-    # ========================================================
-
-    output_dir = os.path.dirname(
-        os.path.abspath(
-            output_docx_path
-        )
-    )
-
-    os.makedirs(
-        output_dir,
-        exist_ok=True
-    )
-
-    document.save(
-        output_docx_path
-    )
-
-    print(
-        "\nText/table reconstruction saved."
-    )
-
-    # ========================================================
-    # 4. REPLACE IMAGES
-    # ========================================================
+    output_dir = os.path.dirname(os.path.abspath(output_docx_path))
+    os.makedirs(output_dir, exist_ok=True)
+    document.save(output_docx_path)
 
     if reconstructed_images:
-
-        print(
-            "\n========== REPLACING DOCX IMAGES =========="
-        )
-
-        success = replace_images_in_docx(
-            output_docx_path,
-            output_docx_path,
-            reconstructed_images
-        )
-
+        print("\n========== REPLACING DOCX IMAGES ==========")
+        success = replace_images_in_docx(output_docx_path, output_docx_path, reconstructed_images)
         if success:
+            print("Final DOCX updated with reconstructed images.")
 
-            print(
-                "Final DOCX updated with "
-                "reconstructed images."
-            )
-
-    else:
-
-        print(
-            "No reconstructed images to replace."
-        )
-
-    # ========================================================
-    # FINAL
-    # ========================================================
-
-    print(
-        "\n=========================================="
-    )
-
-    print(
-        "DOCX RECONSTRUCTION COMPLETED"
-    )
-
-    print(
-        f"Output: "
-        f"{output_docx_path}"
-    )
-
-    print(
-        "=========================================="
-    )
+    print("\n==========================================")
+    print("DOCX RECONSTRUCTION COMPLETED")
+    print("==========================================")
 
     return output_docx_path

@@ -1,0 +1,986 @@
+{
+    "document_name": "sample-rec.docx",
+    "document_type": "docx",
+    "elements": [
+        {
+            "id": 1,
+            "type": "heading",
+            "list_type": null,
+            "level": 1,
+            "order": 1,
+            "text": "Sample Document with Embedded Image",
+            "runs": [
+                {
+                    "text": "Sample Document with Embedded Image",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Heading 1",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 2,
+            "type": "paragraph",
+            "list_type": null,
+            "level": null,
+            "order": 2,
+            "text": "This document demonstrates how images can be embedded within a DOCX file. The image below was generated programmatically using the Pillow library and inserted into the document during generation.",
+            "runs": [
+                {
+                    "text": "This document demonstrates how images can be embedded within a DOCX file. The image below was generated programmatically using the Pillow library and inserted into the document during generation.",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 3,
+            "type": "heading",
+            "list_type": null,
+            "level": 2,
+            "order": 3,
+            "text": "Color Gradient Image",
+            "runs": [
+                {
+                    "text": "Color Gradient Image",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Heading 2",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 4,
+            "type": "paragraph",
+            "list_type": null,
+            "level": null,
+            "order": 4,
+            "text": "The image below is a 200 by 200 pixel gradient. The red channel increases from left to right, the green channel increases from top to bottom, and the blue channel decreases from left to right. This produces a smooth color transition across the entire image.",
+            "runs": [
+                {
+                    "text": "The image below is a 200 by 200 pixel gradient. The red channel increases from left to right, the green channel increases from top to bottom, and the blue channel decreases from left to right. This produces a smooth color transition across the entire image.",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 5,
+            "type": "paragraph",
+            "list_type": null,
+            "level": null,
+            "order": 5,
+            "text": "Embedded images are stored inside the DOCX archive as separate media files. During conversion, the tool must extract these images and place them correctly in the output format, preserving dimensions and position.",
+            "runs": [
+                {
+                    "text": "Embedded images are stored inside the DOCX archive as separate media files. During conversion, the tool must extract these images and place them correctly in the output format, ",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": "preserving dimensions and position.",
+                    "style": {
+                        "font_name": "Arial Black",
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 6,
+            "type": "heading",
+            "list_type": null,
+            "level": 2,
+            "order": 6,
+            "text": "Image Handling in Conversions",
+            "runs": [
+                {
+                    "text": "Image Handling in Conversions",
+                    "style": {
+                        "font_name": "Arial Black",
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Heading 2",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 7,
+            "type": "paragraph",
+            "list_type": null,
+            "level": null,
+            "order": 7,
+            "text": "When converting a DOCX file to PDF, images should retain their original resolution and aspect ratio. When converting to plain text, images are typically omitted since the format cannot represent visual content. Understanding these differences is important for setting user expecta",
+            "runs": [
+                {
+                    "text": "When converting a DOCX file to PDF, images should retain their original resolution and aspect ratio. When converting to plain text, images are typically omitted since the format ",
+                    "style": {
+                        "font_name": "Arial Black",
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": "cannot represent visual content. Understanding these",
+                    "style": {
+                        "font_name": "Arial Black",
+                        "font_size": null,
+                        "font_color": {
+                            "type": "rgb",
+                            "value": "EE0000"
+                        },
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": " differences is important for setting user ",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": {
+                            "type": "rgb",
+                            "value": "EE0000"
+                        },
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": "expecta",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": {
+                            "type": "rgb",
+                            "value": "EE0000"
+                        },
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 8,
+            "type": "table",
+            "level": null,
+            "order": 8,
+            "rows_count": 2,
+            "columns_count": 3,
+            "rows": [
+                {
+                    "row_index": 0,
+                    "cells": [
+                        {
+                            "cell_index": 0,
+                            "row": 0,
+                            "column": 0,
+                            "text": "wdghdv",
+                            "original_text": "wdghdv",
+                            "paragraphs": [
+                                {
+                                    "paragraph_index": 0,
+                                    "text": "wdghdv",
+                                    "runs": [
+                                        {
+                                            "run_index": 0,
+                                            "text": "wdghdv",
+                                            "style": {
+                                                "font_name": null,
+                                                "font_size": null,
+                                                "font_color": {
+                                                    "type": "rgb",
+                                                    "value": "EE0000"
+                                                },
+                                                "bold": null,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": null,
+                                                "cs_italic": null
+                                            }
+                                        }
+                                    ],
+                                    "paragraph_style": {
+                                        "style_name": "Normal",
+                                        "alignment": "left"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "cell_index": 1,
+                            "row": 0,
+                            "column": 1,
+                            "text": "dc",
+                            "original_text": "dc",
+                            "paragraphs": [
+                                {
+                                    "paragraph_index": 0,
+                                    "text": "dc",
+                                    "runs": [
+                                        {
+                                            "run_index": 0,
+                                            "text": "dc",
+                                            "style": {
+                                                "font_name": null,
+                                                "font_size": null,
+                                                "font_color": {
+                                                    "type": "rgb",
+                                                    "value": "EE0000"
+                                                },
+                                                "bold": null,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": null,
+                                                "cs_italic": null
+                                            }
+                                        }
+                                    ],
+                                    "paragraph_style": {
+                                        "style_name": "Normal",
+                                        "alignment": "left"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "cell_index": 2,
+                            "row": 0,
+                            "column": 2,
+                            "text": "  D d",
+                            "original_text": "  D d",
+                            "paragraphs": [
+                                {
+                                    "paragraph_index": 0,
+                                    "text": "  D d",
+                                    "runs": [
+                                        {
+                                            "run_index": 0,
+                                            "text": "  D ",
+                                            "style": {
+                                                "font_name": null,
+                                                "font_size": null,
+                                                "font_color": {
+                                                    "type": "rgb",
+                                                    "value": "EE0000"
+                                                },
+                                                "bold": null,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": null,
+                                                "cs_italic": null
+                                            }
+                                        },
+                                        {
+                                            "run_index": 1,
+                                            "text": "d",
+                                            "style": {
+                                                "font_name": null,
+                                                "font_size": null,
+                                                "font_color": {
+                                                    "type": "rgb",
+                                                    "value": "EE0000"
+                                                },
+                                                "bold": null,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": null,
+                                                "cs_italic": null
+                                            }
+                                        }
+                                    ],
+                                    "paragraph_style": {
+                                        "style_name": "Normal",
+                                        "alignment": "left"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "row_index": 1,
+                    "cells": [
+                        {
+                            "cell_index": 0,
+                            "row": 1,
+                            "column": 0,
+                            "text": "bwbcb",
+                            "original_text": "bwbcb",
+                            "paragraphs": [
+                                {
+                                    "paragraph_index": 0,
+                                    "text": "bwbcb",
+                                    "runs": [
+                                        {
+                                            "run_index": 0,
+                                            "text": "bwbcb",
+                                            "style": {
+                                                "font_name": "Aptos Display",
+                                                "font_size": null,
+                                                "font_color": {
+                                                    "type": "rgb",
+                                                    "value": "1F497D"
+                                                },
+                                                "bold": true,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": true,
+                                                "cs_italic": null
+                                            }
+                                        }
+                                    ],
+                                    "paragraph_style": {
+                                        "style_name": "Normal",
+                                        "alignment": "left"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "cell_index": 1,
+                            "row": 1,
+                            "column": 1,
+                            "text": " Kncewcni ",
+                            "original_text": " Kncewcni ",
+                            "paragraphs": [
+                                {
+                                    "paragraph_index": 0,
+                                    "text": " Kncewcni ",
+                                    "runs": [
+                                        {
+                                            "run_index": 0,
+                                            "text": " ",
+                                            "style": {
+                                                "font_name": "Aptos Display",
+                                                "font_size": null,
+                                                "font_color": {
+                                                    "type": "rgb",
+                                                    "value": "1F497D"
+                                                },
+                                                "bold": true,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": true,
+                                                "cs_italic": null
+                                            }
+                                        },
+                                        {
+                                            "run_index": 1,
+                                            "text": "Kncewcni",
+                                            "style": {
+                                                "font_name": "Aptos Display",
+                                                "font_size": null,
+                                                "font_color": {
+                                                    "type": "rgb",
+                                                    "value": "1F497D"
+                                                },
+                                                "bold": true,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": true,
+                                                "cs_italic": null
+                                            }
+                                        },
+                                        {
+                                            "run_index": 2,
+                                            "text": " ",
+                                            "style": {
+                                                "font_name": "Aptos Display",
+                                                "font_size": null,
+                                                "font_color": {
+                                                    "type": "rgb",
+                                                    "value": "1F497D"
+                                                },
+                                                "bold": true,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": true,
+                                                "cs_italic": null
+                                            }
+                                        }
+                                    ],
+                                    "paragraph_style": {
+                                        "style_name": "Normal",
+                                        "alignment": "left"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "cell_index": 2,
+                            "row": 1,
+                            "column": 2,
+                            "text": "cebebdu",
+                            "original_text": "cebebdu",
+                            "paragraphs": [
+                                {
+                                    "paragraph_index": 0,
+                                    "text": "cebebdu",
+                                    "runs": [
+                                        {
+                                            "run_index": 0,
+                                            "text": "cebebdu",
+                                            "style": {
+                                                "font_name": "Aptos Display",
+                                                "font_size": null,
+                                                "font_color": {
+                                                    "type": "rgb",
+                                                    "value": "1F497D"
+                                                },
+                                                "bold": true,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": true,
+                                                "cs_italic": null
+                                            }
+                                        }
+                                    ],
+                                    "paragraph_style": {
+                                        "style_name": "Normal",
+                                        "alignment": "left"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "table_index": 0
+        },
+        {
+            "id": 9,
+            "type": "paragraph",
+            "list_type": null,
+            "level": null,
+            "order": 9,
+            "text": "tions about conversion output.",
+            "runs": [
+                {
+                    "text": "tions",
+                    "style": {
+                        "font_name": "Aptos Display",
+                        "font_size": null,
+                        "font_color": {
+                            "type": "rgb",
+                            "value": "1F497D"
+                        },
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": true,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": " about conversion output.",
+                    "style": {
+                        "font_name": "Aptos Display",
+                        "font_size": null,
+                        "font_color": {
+                            "type": "rgb",
+                            "value": "1F497D"
+                        },
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": true,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 10,
+            "type": "image_text",
+            "order": 10,
+            "image_name": "image_1.png",
+            "text": "",
+            "ocr_details": []
+        }
+    ]
+}

@@ -3,6 +3,7 @@ import json
 import traceback
 import requests
 import time
+import re
 from concurrent.futures import ThreadPoolExecutor
 
 from fastapi import APIRouter, UploadFile, File, HTTPException, Form
@@ -61,7 +62,11 @@ LANGUAGE_MAP = {
 
 
 # =========================================================
-# TRANSLATE ONE TEXT
+# TRANSLATE ONE TEXT (UPDATED FOR NEWLINES)
+# =========================================================
+
+# =========================================================
+# TRANSLATE ONE TEXT (SMART PUNCTUATION PRESERVER)
 # =========================================================
 
 def translate_text(
@@ -73,15 +78,46 @@ def translate_text(
     # Don't translate empty text
     if not text or not text.strip():
         return text
+    if not any(vowel in text.lower() for vowel in 'aeiou'):
+        return text
+    # Handle Newlines (\n) to prevent merging
+    if "\n" in text:
+        lines = text.split("\n")
+        translated_lines = []
+        for line in lines:
+            if line.strip():
+                translated_lines.append(translate_text(line, src_lang, tgt_lang))
+            else:
+                translated_lines.append("")
+        return "\n".join(translated_lines)
 
+    # -----------------------------------------------------
+    # FIX: Smart Punctuation Separation
+    # Extracts leading/trailing symbols (like ": ") so API 
+    # doesn't swallow them or add random full stops.
+    # -----------------------------------------------------
+    match = re.match(r'^([^\w]*)(.*?[\w])([^\w]*)$', text)
+    
+    if match:
+        leading_chars = match.group(1)
+        core_text = match.group(2)
+        trailing_chars = match.group(3)
+    else:
+        # If there are no words/numbers (e.g., text is just " : ")
+        # Don't translate it, just return original.
+        return text
+
+    # Only send the core text to the API
     payload = {
-        "ip_text": text,
+        "ip_text": core_text,
         "srcLang": src_lang,
         "tgtLang": tgt_lang,
         "delimiter": "",
         "nSuggestions": "1"
     }
 
+    translated_core = core_text
+    
     for attempt in range(3):
         try:
             response = requests.post(
@@ -92,17 +128,23 @@ def translate_text(
             )
             response.raise_for_status()
 
-            translated_text = response.json().get("Output")
-            if translated_text:
-                return translated_text
-
-            raise ValueError("Translation API returned no Output")
+            output = response.json().get("Output")
+            if output:
+                translated_core = output.strip()
+                break
 
         except Exception as error:
             if attempt == 2:
                 print("Translation API error:", str(error))
-                return text
             time.sleep(2 ** attempt)
+
+    # Clean up unwanted '।' (Purna Viram) added by the API
+    # Keep it ONLY if the original English text ended with a period '.'
+    if not core_text.endswith('.') and translated_core.endswith('।'):
+        translated_core = translated_core.rstrip('।').strip()
+
+    # Re-attach the exact leading and trailing symbols/spaces
+    return leading_chars + translated_core + trailing_chars
 
 
 # =========================================================
@@ -193,8 +235,8 @@ def translate_json(
             translate_json(
                 item,
                 src_lang,
-                    tgt_lang,
-                    translation_cache
+                tgt_lang,
+                translation_cache
             )
             for item in data
         ]
