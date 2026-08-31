@@ -491,16 +491,16 @@
                             "cell_index": 0,
                             "row": 0,
                             "column": 0,
-                            "text": "dv",
+                            "text": "wdghdv",
                             "original_text": "wdghdv",
                             "paragraphs": [
                                 {
                                     "paragraph_index": 0,
-                                    "text": "dv",
+                                    "text": "wdghdv",
                                     "runs": [
                                         {
                                             "run_index": 0,
-                                            "text": "dv",
+                                            "text": "wdghdv",
                                             "style": {
                                                 "font_name": null,
                                                 "font_size": null,
@@ -541,16 +541,16 @@
                             "cell_index": 1,
                             "row": 0,
                             "column": 1,
-                            "text": "डीसी",
+                            "text": "dc",
                             "original_text": "dc",
                             "paragraphs": [
                                 {
                                     "paragraph_index": 0,
-                                    "text": "डीसी",
+                                    "text": "dc",
                                     "runs": [
                                         {
                                             "run_index": 0,
-                                            "text": "डीसी",
+                                            "text": "dc",
                                             "style": {
                                                 "font_name": null,
                                                 "font_size": null,
@@ -591,16 +591,16 @@
                             "cell_index": 2,
                             "row": 0,
                             "column": 2,
-                            "text": "  डी डी",
+                            "text": "  D d",
                             "original_text": "  D d",
                             "paragraphs": [
                                 {
                                     "paragraph_index": 0,
-                                    "text": "  डी डी",
+                                    "text": "  D d",
                                     "runs": [
                                         {
                                             "run_index": 0,
-                                            "text": "  डी ",
+                                            "text": "  D ",
                                             "style": {
                                                 "font_name": null,
                                                 "font_size": null,
@@ -631,7 +631,7 @@
                                         },
                                         {
                                             "run_index": 1,
-                                            "text": "डी",
+                                            "text": "d",
                                             "style": {
                                                 "font_name": null,
                                                 "font_size": null,
@@ -677,16 +677,16 @@
                             "cell_index": 0,
                             "row": 1,
                             "column": 0,
-                            "text": "बीडब्ल्यूबीसीबी",
+                            "text": "bwbcb",
                             "original_text": "bwbcb",
                             "paragraphs": [
                                 {
                                     "paragraph_index": 0,
-                                    "text": "बीडब्ल्यूबीसीबी",
+                                    "text": "bwbcb",
                                     "runs": [
                                         {
                                             "run_index": 0,
-                                            "text": "बीडब्ल्यूबीसीबी",
+                                            "text": "bwbcb",
                                             "style": {
                                                 "font_name": "Aptos Display",
                                                 "font_size": null,
