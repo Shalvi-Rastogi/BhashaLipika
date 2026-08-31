@@ -496,74 +496,26 @@ def translate_json(
 # COLLECT CANONICAL TEXTS
 # =========================================================
 
-def collect_translation_texts(
-    data,
-    texts=None
-):
-    """
-    Collect unique canonical text fields.
-
-    We intentionally skip:
-        - runs
-        - original_text
-
-    because runs are generally duplicates of
-    the main text field.
-    """
-
+def collect_translation_texts(data, texts=None):
+    """Collect canonical text fields without structural duplicates."""
     if texts is None:
-
         texts = set()
 
-    # =====================================================
-    # DICTIONARY
-    # =====================================================
-
     if isinstance(data, dict):
-
-        text = data.get(
-            "text"
-        )
-
-        if (
-            isinstance(text, str)
-            and text.strip()
-        ):
-
-            texts.add(
-                text
-            )
+        text = data.get("text")
+        if isinstance(text, str) and text.strip():
+            # Strip spaces to prevent mismatch on first lines/headings
+            texts.add(text.strip())
 
         for key, value in data.items():
-
-            if key in [
-                "text",
-                "runs",
-                "original_text"
-            ]:
-
-                continue
-
-            collect_translation_texts(
-                value,
-                texts
-            )
-
-    # =====================================================
-    # LIST
-    # =====================================================
+            if key not in ["text", "runs", "original_text"]:
+                collect_translation_texts(value, texts)
 
     elif isinstance(data, list):
-
         for item in data:
-
-            collect_translation_texts(
-                item,
-                texts
-            )
+            collect_translation_texts(item, texts)
 
     return texts
-
 
 # =========================================================
 # DEBUG: FIND PARTICULAR TEXT
