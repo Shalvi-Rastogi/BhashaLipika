@@ -105,6 +105,13 @@ def translate_text(
     if not text or not text.strip():
         return text
 
+    # Preserve dotted abbreviations such as "w.e.f." exactly.
+    if re.fullmatch(
+        r"[A-Za-z](?:\.[A-Za-z])+\.?",
+        text.strip()
+    ):
+        return text
+
     # -----------------------------------------------------
     # Handle newlines
     # -----------------------------------------------------

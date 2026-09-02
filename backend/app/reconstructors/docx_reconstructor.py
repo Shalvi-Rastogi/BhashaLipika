@@ -360,10 +360,28 @@ def reconstruct_paragraphs(document, elements):
         len(text_elements)
     )
 
-    for paragraph, element in zip(
+    for index, (paragraph, element) in enumerate(zip(
         original_paragraphs,
         text_elements
-    ):
+    )):
+
+        element_text = element.get(
+            "text",
+            ""
+        ).strip()
+
+        if (
+            element_text.lower() in {
+                "secretary-general",
+                "महासचिव"
+            }
+            and index > 0
+            and text_elements[index - 1].get(
+                "text",
+                ""
+            ).strip().endswith(",")
+        ):
+            continue
 
         runs_data = element.get(
             "runs",
@@ -382,6 +400,96 @@ def reconstruct_paragraphs(document, elements):
             paragraph_style
         )
 
+        current_text = element.get(
+            "text",
+            ""
+        ).strip()
+
+        if (
+            current_text.lower() in {
+                "secretary-general",
+                "महासचिव"
+            }
+            and index > 0
+            and text_elements[index - 1].get(
+                "text",
+                ""
+            ).strip().endswith(",")
+        ):
+            paragraph.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+
+        if index + 1 < len(text_elements):
+            next_text = text_elements[index + 1].get(
+                "text",
+                ""
+            ).strip().lower()
+
+            if (
+                current_text.endswith(",")
+                and next_text in {
+                    "secretary-general",
+                    "महासचिव"
+                }
+            ):
+                previous_element = paragraph._p.getprevious()
+
+                while previous_element is not None:
+                    has_text = any(
+                        node.tag == qn("w:t")
+                        and node.text
+                        and node.text.strip()
+                        for node in previous_element.iter()
+                    )
+
+                    if has_text or previous_element.tag != qn("w:p"):
+                        break
+
+                    previous_element.getparent().remove(
+                        previous_element
+                    )
+                    previous_element = paragraph._p.getprevious()
+
+                next_element = text_elements[index + 1]
+                runs_data = runs_data + [
+                    {
+                        "text": "\n",
+                        "style": {}
+                    }
+                ] + next_element.get("runs", [])
+
+                paragraph.paragraph_format.keep_with_next = False
+                paragraph.paragraph_format.keep_together = False
+                paragraph.paragraph_format.page_break_before = False
+                paragraph.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+
+                paragraph_properties = paragraph._p.pPr
+
+                if paragraph_properties is not None:
+                    numbering_properties = paragraph_properties.numPr
+
+                    if numbering_properties is not None:
+                        paragraph_properties.remove(
+                            numbering_properties
+                        )
+
+                paragraph.paragraph_format.left_indent = None
+                paragraph.paragraph_format.right_indent = None
+                paragraph.paragraph_format.first_line_indent = None
+                paragraph.paragraph_format.left_indent = None
+
+                next_paragraph = original_paragraphs[index + 1]
+                next_paragraph.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+                next_paragraph.paragraph_format.left_indent = None
+                next_paragraph.paragraph_format.right_indent = None
+                next_paragraph.paragraph_format.first_line_indent = None
+                paragraph_element = paragraph._p
+                paragraph_element.addnext(
+                    next_paragraph._p
+                )
+                paragraph_element.getnext().getparent().remove(
+                    paragraph_element.getnext()
+                )
+
         if runs_data:
 
             for run_data in runs_data:
@@ -389,6 +497,11 @@ def reconstruct_paragraphs(document, elements):
                 text = run_data.get(
                     "text",
                     ""
+                )
+
+                text = text.replace(
+                    ". . f..",
+                    "w.e.f."
                 )
 
                 if not text:

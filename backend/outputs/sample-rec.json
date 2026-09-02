@@ -401,37 +401,7 @@
                     }
                 },
                 {
-                    "text": " differences is important for setting user ",
-                    "style": {
-                        "font_name": null,
-                        "font_size": null,
-                        "font_color": {
-                            "type": "rgb",
-                            "value": "EE0000"
-                        },
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
-                        "highlight_color": null,
-                        "strike": null,
-                        "double_strike": null,
-                        "all_caps": null,
-                        "small_caps": null,
-                        "subscript": null,
-                        "superscript": null,
-                        "hidden": null,
-                        "outline": null,
-                        "shadow": null,
-                        "emboss": null,
-                        "imprint": null,
-                        "rtl": null,
-                        "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
-                    }
-                },
-                {
-                    "text": "expecta",
+                    "text": " differences is important for setting user expecta",
                     "style": {
                         "font_name": null,
                         "font_size": null,
@@ -600,38 +570,7 @@
                                     "runs": [
                                         {
                                             "run_index": 0,
-                                            "text": "  D ",
-                                            "style": {
-                                                "font_name": null,
-                                                "font_size": null,
-                                                "font_color": {
-                                                    "type": "rgb",
-                                                    "value": "EE0000"
-                                                },
-                                                "bold": null,
-                                                "italic": null,
-                                                "underline": null,
-                                                "highlight_color": null,
-                                                "strike": null,
-                                                "double_strike": null,
-                                                "all_caps": null,
-                                                "small_caps": null,
-                                                "subscript": null,
-                                                "superscript": null,
-                                                "hidden": null,
-                                                "outline": null,
-                                                "shadow": null,
-                                                "emboss": null,
-                                                "imprint": null,
-                                                "rtl": null,
-                                                "complex_script": null,
-                                                "cs_bold": null,
-                                                "cs_italic": null
-                                            }
-                                        },
-                                        {
-                                            "run_index": 1,
-                                            "text": "d",
+                                            "text": "  D d",
                                             "style": {
                                                 "font_name": null,
                                                 "font_size": null,
@@ -736,69 +675,7 @@
                                     "runs": [
                                         {
                                             "run_index": 0,
-                                            "text": " ",
-                                            "style": {
-                                                "font_name": "Aptos Display",
-                                                "font_size": null,
-                                                "font_color": {
-                                                    "type": "rgb",
-                                                    "value": "1F497D"
-                                                },
-                                                "bold": true,
-                                                "italic": null,
-                                                "underline": null,
-                                                "highlight_color": null,
-                                                "strike": null,
-                                                "double_strike": null,
-                                                "all_caps": null,
-                                                "small_caps": null,
-                                                "subscript": null,
-                                                "superscript": null,
-                                                "hidden": null,
-                                                "outline": null,
-                                                "shadow": null,
-                                                "emboss": null,
-                                                "imprint": null,
-                                                "rtl": null,
-                                                "complex_script": null,
-                                                "cs_bold": true,
-                                                "cs_italic": null
-                                            }
-                                        },
-                                        {
-                                            "run_index": 1,
-                                            "text": "Kncewcni",
-                                            "style": {
-                                                "font_name": "Aptos Display",
-                                                "font_size": null,
-                                                "font_color": {
-                                                    "type": "rgb",
-                                                    "value": "1F497D"
-                                                },
-                                                "bold": true,
-                                                "italic": null,
-                                                "underline": null,
-                                                "highlight_color": null,
-                                                "strike": null,
-                                                "double_strike": null,
-                                                "all_caps": null,
-                                                "small_caps": null,
-                                                "subscript": null,
-                                                "superscript": null,
-                                                "hidden": null,
-                                                "outline": null,
-                                                "shadow": null,
-                                                "emboss": null,
-                                                "imprint": null,
-                                                "rtl": null,
-                                                "complex_script": null,
-                                                "cs_bold": true,
-                                                "cs_italic": null
-                                            }
-                                        },
-                                        {
-                                            "run_index": 2,
-                                            "text": " ",
+                                            "text": " Kncewcni ",
                                             "style": {
                                                 "font_name": "Aptos Display",
                                                 "font_size": null,
@@ -899,37 +776,7 @@
             "text": "tions about conversion output.",
             "runs": [
                 {
-                    "text": "tions",
-                    "style": {
-                        "font_name": "Aptos Display",
-                        "font_size": null,
-                        "font_color": {
-                            "type": "rgb",
-                            "value": "1F497D"
-                        },
-                        "bold": true,
-                        "italic": null,
-                        "underline": null,
-                        "highlight_color": null,
-                        "strike": null,
-                        "double_strike": null,
-                        "all_caps": null,
-                        "small_caps": null,
-                        "subscript": null,
-                        "superscript": null,
-                        "hidden": null,
-                        "outline": null,
-                        "shadow": null,
-                        "emboss": null,
-                        "imprint": null,
-                        "rtl": null,
-                        "complex_script": null,
-                        "cs_bold": true,
-                        "cs_italic": null
-                    }
-                },
-                {
-                    "text": " about conversion output.",
+                    "text": "tions about conversion output.",
                     "style": {
                         "font_name": "Aptos Display",
                         "font_size": null,
@@ -981,6 +828,81 @@
             "image_name": "image_1.png",
             "text": "",
             "ocr_details": []
+        },
+        {
+            "id": 11,
+            "type": "image_text",
+            "order": 11,
+            "image_name": "image_2.jpeg",
+            "text": "\"LIVE LIFE WITH NO EXCLSES, TRAVEL WITH NO REGRET\"  OSCAR WILDE",
+            "ocr_details": [
+                {
+                    "text": "\"LIVE LIFE WITH NO EXCLSES,",
+                    "confidence": 0.5099704864045748,
+                    "bbox": [
+                        [
+                            103,
+                            47
+                        ],
+                        [
+                            685,
+                            47
+                        ],
+                        [
+                            685,
+                            89
+                        ],
+                        [
+                            103,
+                            89
+                        ]
+                    ]
+                },
+                {
+                    "text": "TRAVEL WITH NO REGRET\" ",
+                    "confidence": 0.937599380745476,
+                    "bbox": [
+                        [
+                            129,
+                            97
+                        ],
+                        [
+                            675,
+                            97
+                        ],
+                        [
+                            675,
+                            139
+                        ],
+                        [
+                            129,
+                            139
+                        ]
+                    ]
+                },
+                {
+                    "text": "OSCAR WILDE",
+                    "confidence": 0.5914778830580459,
+                    "bbox": [
+                        [
+                            563,
+                            163
+                        ],
+                        [
+                            683,
+                            163
+                        ],
+                        [
+                            683,
+                            183
+                        ],
+                        [
+                            563,
+                            183
+                        ]
+                    ]
+                }
+            ]
         }
     ]
 }

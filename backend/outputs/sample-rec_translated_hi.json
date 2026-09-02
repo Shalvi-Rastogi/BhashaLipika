@@ -401,37 +401,7 @@
                     }
                 },
                 {
-                    "text": " उपयोगकर्ता सेट करने के लिए अंतर महत्वपूर्ण है ",
-                    "style": {
-                        "font_name": null,
-                        "font_size": null,
-                        "font_color": {
-                            "type": "rgb",
-                            "value": "EE0000"
-                        },
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
-                        "highlight_color": null,
-                        "strike": null,
-                        "double_strike": null,
-                        "all_caps": null,
-                        "small_caps": null,
-                        "subscript": null,
-                        "superscript": null,
-                        "hidden": null,
-                        "outline": null,
-                        "shadow": null,
-                        "emboss": null,
-                        "imprint": null,
-                        "rtl": null,
-                        "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
-                    }
-                },
-                {
-                    "text": "उम्मीद है",
+                    "text": " उपयोगकर्ता की अपेक्षा निर्धारित करने के लिए अंतर महत्वपूर्ण है",
                     "style": {
                         "font_name": null,
                         "font_size": null,
@@ -491,16 +461,16 @@
                             "cell_index": 0,
                             "row": 0,
                             "column": 0,
-                            "text": "wdghdv",
+                            "text": "dv",
                             "original_text": "wdghdv",
                             "paragraphs": [
                                 {
                                     "paragraph_index": 0,
-                                    "text": "wdghdv",
+                                    "text": "dv",
                                     "runs": [
                                         {
                                             "run_index": 0,
-                                            "text": "wdghdv",
+                                            "text": "dv",
                                             "style": {
                                                 "font_name": null,
                                                 "font_size": null,
@@ -541,16 +511,16 @@
                             "cell_index": 1,
                             "row": 0,
                             "column": 1,
-                            "text": "dc",
+                            "text": "डीसी",
                             "original_text": "dc",
                             "paragraphs": [
                                 {
                                     "paragraph_index": 0,
-                                    "text": "dc",
+                                    "text": "डीसी",
                                     "runs": [
                                         {
                                             "run_index": 0,
-                                            "text": "dc",
+                                            "text": "डीसी",
                                             "style": {
                                                 "font_name": null,
                                                 "font_size": null,
@@ -591,47 +561,16 @@
                             "cell_index": 2,
                             "row": 0,
                             "column": 2,
-                            "text": "  D d",
+                            "text": "  डी डी",
                             "original_text": "  D d",
                             "paragraphs": [
                                 {
                                     "paragraph_index": 0,
-                                    "text": "  D d",
+                                    "text": "  डी डी",
                                     "runs": [
                                         {
                                             "run_index": 0,
-                                            "text": "  D ",
-                                            "style": {
-                                                "font_name": null,
-                                                "font_size": null,
-                                                "font_color": {
-                                                    "type": "rgb",
-                                                    "value": "EE0000"
-                                                },
-                                                "bold": null,
-                                                "italic": null,
-                                                "underline": null,
-                                                "highlight_color": null,
-                                                "strike": null,
-                                                "double_strike": null,
-                                                "all_caps": null,
-                                                "small_caps": null,
-                                                "subscript": null,
-                                                "superscript": null,
-                                                "hidden": null,
-                                                "outline": null,
-                                                "shadow": null,
-                                                "emboss": null,
-                                                "imprint": null,
-                                                "rtl": null,
-                                                "complex_script": null,
-                                                "cs_bold": null,
-                                                "cs_italic": null
-                                            }
-                                        },
-                                        {
-                                            "run_index": 1,
-                                            "text": "d",
+                                            "text": "  डी डी",
                                             "style": {
                                                 "font_name": null,
                                                 "font_size": null,
@@ -677,16 +616,16 @@
                             "cell_index": 0,
                             "row": 1,
                             "column": 0,
-                            "text": "bwbcb",
+                            "text": "बीडब्ल्यूबीसीबी",
                             "original_text": "bwbcb",
                             "paragraphs": [
                                 {
                                     "paragraph_index": 0,
-                                    "text": "bwbcb",
+                                    "text": "बीडब्ल्यूबीसीबी",
                                     "runs": [
                                         {
                                             "run_index": 0,
-                                            "text": "bwbcb",
+                                            "text": "बीडब्ल्यूबीसीबी",
                                             "style": {
                                                 "font_name": "Aptos Display",
                                                 "font_size": null,
@@ -736,69 +675,7 @@
                                     "runs": [
                                         {
                                             "run_index": 0,
-                                            "text": " ",
-                                            "style": {
-                                                "font_name": "Aptos Display",
-                                                "font_size": null,
-                                                "font_color": {
-                                                    "type": "rgb",
-                                                    "value": "1F497D"
-                                                },
-                                                "bold": true,
-                                                "italic": null,
-                                                "underline": null,
-                                                "highlight_color": null,
-                                                "strike": null,
-                                                "double_strike": null,
-                                                "all_caps": null,
-                                                "small_caps": null,
-                                                "subscript": null,
-                                                "superscript": null,
-                                                "hidden": null,
-                                                "outline": null,
-                                                "shadow": null,
-                                                "emboss": null,
-                                                "imprint": null,
-                                                "rtl": null,
-                                                "complex_script": null,
-                                                "cs_bold": true,
-                                                "cs_italic": null
-                                            }
-                                        },
-                                        {
-                                            "run_index": 1,
-                                            "text": "कंसीवनी",
-                                            "style": {
-                                                "font_name": "Aptos Display",
-                                                "font_size": null,
-                                                "font_color": {
-                                                    "type": "rgb",
-                                                    "value": "1F497D"
-                                                },
-                                                "bold": true,
-                                                "italic": null,
-                                                "underline": null,
-                                                "highlight_color": null,
-                                                "strike": null,
-                                                "double_strike": null,
-                                                "all_caps": null,
-                                                "small_caps": null,
-                                                "subscript": null,
-                                                "superscript": null,
-                                                "hidden": null,
-                                                "outline": null,
-                                                "shadow": null,
-                                                "emboss": null,
-                                                "imprint": null,
-                                                "rtl": null,
-                                                "complex_script": null,
-                                                "cs_bold": true,
-                                                "cs_italic": null
-                                            }
-                                        },
-                                        {
-                                            "run_index": 2,
-                                            "text": " ",
+                                            "text": " कंसीवनी ",
                                             "style": {
                                                 "font_name": "Aptos Display",
                                                 "font_size": null,
@@ -899,37 +776,7 @@
             "text": "रूपांतरण आउटपुट के बारे में.",
             "runs": [
                 {
-                    "text": "एसएन",
-                    "style": {
-                        "font_name": "Aptos Display",
-                        "font_size": null,
-                        "font_color": {
-                            "type": "rgb",
-                            "value": "1F497D"
-                        },
-                        "bold": true,
-                        "italic": null,
-                        "underline": null,
-                        "highlight_color": null,
-                        "strike": null,
-                        "double_strike": null,
-                        "all_caps": null,
-                        "small_caps": null,
-                        "subscript": null,
-                        "superscript": null,
-                        "hidden": null,
-                        "outline": null,
-                        "shadow": null,
-                        "emboss": null,
-                        "imprint": null,
-                        "rtl": null,
-                        "complex_script": null,
-                        "cs_bold": true,
-                        "cs_italic": null
-                    }
-                },
-                {
-                    "text": " रूपांतरण आउटपुट के बारे में.",
+                    "text": "रूपांतरण आउटपुट के बारे में.",
                     "style": {
                         "font_name": "Aptos Display",
                         "font_size": null,
@@ -981,6 +828,81 @@
             "image_name": "image_1.png",
             "text": "",
             "ocr_details": []
+        },
+        {
+            "id": 11,
+            "type": "image_text",
+            "order": 11,
+            "image_name": "image_2.jpeg",
+            "text": "\"बिना किसी एक्सक्लॉसेस के साथ लाइव लाइव, बिना किसी रेग्रेट \" ओस्कर वाइल्ड के साथ ट्रैवल करें",
+            "ocr_details": [
+                {
+                    "text": "\"बिना किसी एक्सक्लॉसेस के साथ जीवन जीओ,",
+                    "confidence": 0.5099704864045748,
+                    "bbox": [
+                        [
+                            103,
+                            47
+                        ],
+                        [
+                            685,
+                            47
+                        ],
+                        [
+                            685,
+                            89
+                        ],
+                        [
+                            103,
+                            89
+                        ]
+                    ]
+                },
+                {
+                    "text": "बिना किसी रजिस्ट्री के ट्रैवल\" ",
+                    "confidence": 0.937599380745476,
+                    "bbox": [
+                        [
+                            129,
+                            97
+                        ],
+                        [
+                            675,
+                            97
+                        ],
+                        [
+                            675,
+                            139
+                        ],
+                        [
+                            129,
+                            139
+                        ]
+                    ]
+                },
+                {
+                    "text": "ओस्कर वाइल्ड",
+                    "confidence": 0.5914778830580459,
+                    "bbox": [
+                        [
+                            563,
+                            163
+                        ],
+                        [
+                            683,
+                            163
+                        ],
+                        [
+                            683,
+                            183
+                        ],
+                        [
+                            563,
+                            183
+                        ]
+                    ]
+                }
+            ]
         }
     ]
 }
