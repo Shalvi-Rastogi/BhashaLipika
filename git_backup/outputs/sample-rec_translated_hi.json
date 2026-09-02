@@ -1,0 +1,908 @@
+{
+    "document_name": "sample-rec.docx",
+    "document_type": "docx",
+    "elements": [
+        {
+            "id": 1,
+            "type": "heading",
+            "list_type": null,
+            "level": 1,
+            "order": 1,
+            "text": "एम्बेडेड इमेज के साथ नमूना दस्तावेज।",
+            "runs": [
+                {
+                    "text": "एम्बेडेड इमेज के साथ नमूना दस्तावेज।",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Heading 1",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 2,
+            "type": "paragraph",
+            "list_type": null,
+            "level": null,
+            "order": 2,
+            "text": "यह दस्तावेज़ दिखाता है कि छवियों को DOCX फ़ाइल के भीतर कैसे एम्बेडेड किया जा सकता है। नीचे दी गई छवि को प्रोग्रामिंग रूप से पिलो लाइब्रेरी का उपयोग करके उत्पन्न किया गया था और पीढ़ी के दौरान दस्तावेज़ में डाला गया था।",
+            "runs": [
+                {
+                    "text": "यह दस्तावेज़ दिखाता है कि छवियों को DOCX फ़ाइल के भीतर कैसे एम्बेडेड किया जा सकता है। नीचे दी गई छवि को प्रोग्रामिंग रूप से पिलो लाइब्रेरी का उपयोग करके उत्पन्न किया गया था और पीढ़ी के दौरान दस्तावेज़ में डाला गया था।",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 3,
+            "type": "heading",
+            "list_type": null,
+            "level": 2,
+            "order": 3,
+            "text": "रंग ग्रेडिएंट छवि ।",
+            "runs": [
+                {
+                    "text": "रंग ग्रेडिएंट छवि ।",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Heading 2",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 4,
+            "type": "paragraph",
+            "list_type": null,
+            "level": null,
+            "order": 4,
+            "text": "नीचे की इमेज 200 x 200 पिक्सल ग्रेडिएंट है। लाल चैनल बाईं ओर से दाईं ओर बढ़ता है , हरा चैनल ऊपर से नीचे तक बढ़ता है , और नीला चैनल बाईं ओर से दाईं ओर कम हो जाता है । यह पूरी छवि में एक चिकनी रंग संक्रमण पैदा करता है।",
+            "runs": [
+                {
+                    "text": "नीचे की इमेज 200 x 200 पिक्सल ग्रेडिएंट है। लाल चैनल बाईं ओर से दाईं ओर बढ़ता है , हरा चैनल ऊपर से नीचे तक बढ़ता है , और नीला चैनल बाईं ओर से दाईं ओर कम हो जाता है । यह पूरी छवि में एक चिकनी रंग संक्रमण पैदा करता है।",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 5,
+            "type": "paragraph",
+            "list_type": null,
+            "level": null,
+            "order": 5,
+            "text": "एम्बेडेड छवियों को अलग मीडिया फ़ाइलों के रूप में DOCX संग्रह के अंदर संग्रहीत किया जाता है। रूपांतरण के दौरान, उपकरण को इन छवियों को निकालना चाहिए और उन्हें आउटपुट प्रारूप में सही ढंग से रखना चाहिए, आयामों और स्थिति को संरक्षित करना चाहिए।",
+            "runs": [
+                {
+                    "text": "एम्बेडेड छवियों को अलग मीडिया फ़ाइलों के रूप में DOCX संग्रह के अंदर संग्रहीत किया जाता है। रूपांतरण के दौरान, उपकरण को इन छवियों को निकालना चाहिए और उन्हें आउटपुट प्रारूप में सही ढंग से रखना चाहिए,",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": "परिमाणों और स्थिति को संरक्षित करना ।",
+                    "style": {
+                        "font_name": "Arial Black",
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 6,
+            "type": "heading",
+            "list_type": null,
+            "level": 2,
+            "order": 6,
+            "text": "रूपांतरण में छवि हैंडलिंग।",
+            "runs": [
+                {
+                    "text": "रूपांतरण में छवि हैंडलिंग।",
+                    "style": {
+                        "font_name": "Arial Black",
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Heading 2",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 7,
+            "type": "paragraph",
+            "list_type": null,
+            "level": null,
+            "order": 7,
+            "text": "DOCX फ़ाइल को पीडीएफ में परिवर्तित करते समय, छवियों को अपने मूल रिज़ॉल्यूशन और पहलू अनुपात को बनाए रखना चाहिए। सादे पाठ में परिवर्तित करते समय, छवियों को आमतौर पर हटा दिया जाता है क्योंकि प्रारूप दृश्य सामग्री का प्रतिनिधित्व नहीं कर सकता है। इन मतभेदों को समझना उपयोगकर्ता की अपेक्षा को सेट करने के लिए महत्वपूर्ण है।",
+            "runs": [
+                {
+                    "text": "DOCX फ़ाइल को पीडीएफ में परिवर्तित करते समय, छवियों को अपने मूल रिज़ॉल्यूशन और पहलू अनुपात को बनाए रखना चाहिए। सादे पाठ में परिवर्तित करते समय, छवियों को आमतौर पर प्रारूप के बाद से हटा दिया जाता है।",
+                    "style": {
+                        "font_name": "Arial Black",
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": "दृश्य सामग्री का प्रतिनिधित्व नहीं कर सकता है। इन बातों को समझें।",
+                    "style": {
+                        "font_name": "Arial Black",
+                        "font_size": null,
+                        "font_color": {
+                            "type": "rgb",
+                            "value": "EE0000"
+                        },
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": "उपयोगकर्ता की अपेक्षा निर्धारित करने के लिए अंतर महत्वपूर्ण है।",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": {
+                            "type": "rgb",
+                            "value": "EE0000"
+                        },
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 8,
+            "type": "table",
+            "level": null,
+            "order": 8,
+            "rows_count": 2,
+            "columns_count": 3,
+            "rows": [
+                {
+                    "row_index": 0,
+                    "cells": [
+                        {
+                            "cell_index": 0,
+                            "row": 0,
+                            "column": 0,
+                            "text": "dv ।",
+                            "original_text": "wdghdv",
+                            "paragraphs": [
+                                {
+                                    "paragraph_index": 0,
+                                    "text": "dv ।",
+                                    "runs": [
+                                        {
+                                            "run_index": 0,
+                                            "text": "dv ।",
+                                            "style": {
+                                                "font_name": null,
+                                                "font_size": null,
+                                                "font_color": {
+                                                    "type": "rgb",
+                                                    "value": "EE0000"
+                                                },
+                                                "bold": null,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": null,
+                                                "cs_italic": null
+                                            }
+                                        }
+                                    ],
+                                    "paragraph_style": {
+                                        "style_name": "Normal",
+                                        "alignment": "left"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "cell_index": 1,
+                            "row": 0,
+                            "column": 1,
+                            "text": "डीसी ।",
+                            "original_text": "dc",
+                            "paragraphs": [
+                                {
+                                    "paragraph_index": 0,
+                                    "text": "डीसी ।",
+                                    "runs": [
+                                        {
+                                            "run_index": 0,
+                                            "text": "डीसी ।",
+                                            "style": {
+                                                "font_name": null,
+                                                "font_size": null,
+                                                "font_color": {
+                                                    "type": "rgb",
+                                                    "value": "EE0000"
+                                                },
+                                                "bold": null,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": null,
+                                                "cs_italic": null
+                                            }
+                                        }
+                                    ],
+                                    "paragraph_style": {
+                                        "style_name": "Normal",
+                                        "alignment": "left"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "cell_index": 2,
+                            "row": 0,
+                            "column": 2,
+                            "text": "डी डी ।",
+                            "original_text": "  D d",
+                            "paragraphs": [
+                                {
+                                    "paragraph_index": 0,
+                                    "text": "डी डी ।",
+                                    "runs": [
+                                        {
+                                            "run_index": 0,
+                                            "text": "डी डी ।",
+                                            "style": {
+                                                "font_name": null,
+                                                "font_size": null,
+                                                "font_color": {
+                                                    "type": "rgb",
+                                                    "value": "EE0000"
+                                                },
+                                                "bold": null,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": null,
+                                                "cs_italic": null
+                                            }
+                                        }
+                                    ],
+                                    "paragraph_style": {
+                                        "style_name": "Normal",
+                                        "alignment": "left"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "row_index": 1,
+                    "cells": [
+                        {
+                            "cell_index": 0,
+                            "row": 1,
+                            "column": 0,
+                            "text": "बीडब्ल्यूबीसीबी ।",
+                            "original_text": "bwbcb",
+                            "paragraphs": [
+                                {
+                                    "paragraph_index": 0,
+                                    "text": "बीडब्ल्यूबीसीबी ।",
+                                    "runs": [
+                                        {
+                                            "run_index": 0,
+                                            "text": "बीडब्ल्यूबीसीबी ।",
+                                            "style": {
+                                                "font_name": "Aptos Display",
+                                                "font_size": null,
+                                                "font_color": {
+                                                    "type": "rgb",
+                                                    "value": "1F497D"
+                                                },
+                                                "bold": true,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": true,
+                                                "cs_italic": null
+                                            }
+                                        }
+                                    ],
+                                    "paragraph_style": {
+                                        "style_name": "Normal",
+                                        "alignment": "left"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "cell_index": 1,
+                            "row": 1,
+                            "column": 1,
+                            "text": "कंसीवनी ।",
+                            "original_text": " Kncewcni ",
+                            "paragraphs": [
+                                {
+                                    "paragraph_index": 0,
+                                    "text": "कंसीवनी ।",
+                                    "runs": [
+                                        {
+                                            "run_index": 0,
+                                            "text": "कंसीवनी ।",
+                                            "style": {
+                                                "font_name": "Aptos Display",
+                                                "font_size": null,
+                                                "font_color": {
+                                                    "type": "rgb",
+                                                    "value": "1F497D"
+                                                },
+                                                "bold": true,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": true,
+                                                "cs_italic": null
+                                            }
+                                        }
+                                    ],
+                                    "paragraph_style": {
+                                        "style_name": "Normal",
+                                        "alignment": "left"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "cell_index": 2,
+                            "row": 1,
+                            "column": 2,
+                            "text": "सेबेबडू ।",
+                            "original_text": "cebebdu",
+                            "paragraphs": [
+                                {
+                                    "paragraph_index": 0,
+                                    "text": "सेबेबडू ।",
+                                    "runs": [
+                                        {
+                                            "run_index": 0,
+                                            "text": "सेबेबडू ।",
+                                            "style": {
+                                                "font_name": "Aptos Display",
+                                                "font_size": null,
+                                                "font_color": {
+                                                    "type": "rgb",
+                                                    "value": "1F497D"
+                                                },
+                                                "bold": true,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": true,
+                                                "cs_italic": null
+                                            }
+                                        }
+                                    ],
+                                    "paragraph_style": {
+                                        "style_name": "Normal",
+                                        "alignment": "left"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "table_index": 0
+        },
+        {
+            "id": 9,
+            "type": "paragraph",
+            "list_type": null,
+            "level": null,
+            "order": 9,
+            "text": "रूपांतरण आउटपुट के बारे में ।",
+            "runs": [
+                {
+                    "text": "रूपांतरण आउटपुट के बारे में ।",
+                    "style": {
+                        "font_name": "Aptos Display",
+                        "font_size": null,
+                        "font_color": {
+                            "type": "rgb",
+                            "value": "1F497D"
+                        },
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": true,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 10,
+            "type": "image_text",
+            "order": 10,
+            "image_name": "image_1.png",
+            "text": "",
+            "ocr_details": []
+        },
+        {
+            "id": 11,
+            "type": "image_text",
+            "order": 11,
+            "image_name": "image_2.jpeg",
+            "text": "बिना किसी एक्सक्लॉसेस के साथ लाइव लाइव, बिना किसी रेग्रेट के ट्रैवल \" ओस्कर वाइल्ड ।",
+            "ocr_details": [
+                {
+                    "text": "बिना किसी एक्सक्लॉसेस के साथ लाइव लाइव,",
+                    "confidence": 0.5099704864045748,
+                    "bbox": [
+                        [
+                            103,
+                            47
+                        ],
+                        [
+                            685,
+                            47
+                        ],
+                        [
+                            685,
+                            89
+                        ],
+                        [
+                            103,
+                            89
+                        ]
+                    ]
+                },
+                {
+                    "text": "बिना किसी रजिस्ट्री के यात्रा",
+                    "confidence": 0.937599380745476,
+                    "bbox": [
+                        [
+                            129,
+                            97
+                        ],
+                        [
+                            675,
+                            97
+                        ],
+                        [
+                            675,
+                            139
+                        ],
+                        [
+                            129,
+                            139
+                        ]
+                    ]
+                },
+                {
+                    "text": "ओस्कर वाइल्ड।",
+                    "confidence": 0.5914778830580459,
+                    "bbox": [
+                        [
+                            563,
+                            163
+                        ],
+                        [
+                            683,
+                            163
+                        ],
+                        [
+                            683,
+                            183
+                        ],
+                        [
+                            563,
+                            183
+                        ]
+                    ]
+                }
+            ]
+        }
+    ]
+}

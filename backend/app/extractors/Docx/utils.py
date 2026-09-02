@@ -36,10 +36,13 @@ def get_font_color(color):
     return None
 
 
-def get_alignment(alignment):
+def get_alignment(alignment, style_alignment=None):
     """
-    Convert alignment enum to readable string.
+    Convert direct or inherited alignment to a readable string.
     """
+
+    if alignment is None:
+        alignment = style_alignment
 
     alignment_map = {
         WD_PARAGRAPH_ALIGNMENT.LEFT: "left",

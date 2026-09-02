@@ -1,0 +1,3597 @@
+{
+    "document_name": "sample-files.com-formatted-report (1).docx",
+    "document_type": "docx",
+    "elements": [
+        {
+            "id": 1,
+            "type": "heading",
+            "list_type": null,
+            "level": 1,
+            "order": 1,
+            "text": "Quarterly Business Performance Analysis",
+            "runs": [
+                {
+                    "text": "Quarterly Business Performance Analysis",
+                    "style": {
+                        "font_name": null,
+                        "font_size": 23.0,
+                        "font_color": null,
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Heading 1",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": 24.0,
+                "space_after": null,
+                "keep_together": false,
+                "keep_with_next": false,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 2,
+            "type": "heading",
+            "list_type": null,
+            "level": 2,
+            "order": 2,
+            "text": "Q3 2024 Executive Summary",
+            "runs": [
+                {
+                    "text": "Q3 2024 Executive Summary",
+                    "style": {
+                        "font_name": null,
+                        "font_size": 17.0,
+                        "font_color": null,
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Heading 2",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": 4.0,
+                "keep_together": false,
+                "keep_with_next": false,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 3,
+            "type": "paragraph",
+            "list_type": null,
+            "level": null,
+            "order": 3,
+            "text": "Prepared by: Business Analytics Team\nDate: October 15, 2024",
+            "runs": [
+                {
+                    "text": "Prepared by: Business Analytics Team",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": true,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": "\nDate: October 15, 2024",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": true,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": 12.0,
+                "space_after": 12.0,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 4,
+            "type": "heading",
+            "list_type": null,
+            "level": 2,
+            "order": 4,
+            "text": "Table of Contents",
+            "runs": [
+                {
+                    "text": "Table of Contents",
+                    "style": {
+                        "font_name": null,
+                        "font_size": 17.0,
+                        "font_color": null,
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Heading 2",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": 4.0,
+                "keep_together": false,
+                "keep_with_next": false,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 5,
+            "type": "heading",
+            "list_type": null,
+            "level": 2,
+            "order": 5,
+            "text": "Executive Summary",
+            "runs": [
+                {
+                    "text": "Executive Summary",
+                    "style": {
+                        "font_name": null,
+                        "font_size": 17.0,
+                        "font_color": null,
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Heading 2",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": 4.0,
+                "keep_together": false,
+                "keep_with_next": false,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 6,
+            "type": "paragraph",
+            "list_type": null,
+            "level": null,
+            "order": 6,
+            "text": "The third quarter of 2024 demonstrated robust growth across key performance indicators, with notable improvements in market share and operational efficiency. This report provides a detailed analysis of our performance and strategic positioning.",
+            "runs": [
+                {
+                    "text": "The third quarter of 2024 demonstrated robust growth across key performance indicators, with notable improvements in market share and operational efficiency. This report provides a detailed analysis of our performance and strategic positioning.",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": 12.0,
+                "space_after": 12.0,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 7,
+            "type": "heading",
+            "list_type": null,
+            "level": 3,
+            "order": 7,
+            "text": "Key Highlights",
+            "runs": [
+                {
+                    "text": "Key Highlights",
+                    "style": {
+                        "font_name": null,
+                        "font_size": 13.0,
+                        "font_color": {
+                            "type": "rgb",
+                            "value": "000000"
+                        },
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Heading 3",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": 14.0,
+                "space_after": null,
+                "keep_together": false,
+                "keep_with_next": false,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 8,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 8,
+            "text": "Revenue growth of 15.2% year-over-year",
+            "runs": [
+                {
+                    "text": "Revenue growth of 15.2% year-over-year",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": 12.0,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 9,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 9,
+            "text": "Operating margin improvement of 2.3 percentage points",
+            "runs": [
+                {
+                    "text": "Operating margin improvement of 2.3 percentage points",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 10,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 10,
+            "text": "Customer satisfaction score of 4.6/5.0",
+            "runs": [
+                {
+                    "text": "Customer satisfaction score of 4.6/5.0",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": 12.0,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 11,
+            "type": "heading",
+            "list_type": null,
+            "level": 2,
+            "order": 11,
+            "text": "Financial Performance",
+            "runs": [
+                {
+                    "text": "Financial Performance",
+                    "style": {
+                        "font_name": null,
+                        "font_size": 17.0,
+                        "font_color": null,
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Heading 2",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": 4.0,
+                "keep_together": false,
+                "keep_with_next": false,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 12,
+            "type": "heading",
+            "list_type": null,
+            "level": 3,
+            "order": 12,
+            "text": "Revenue Analysis",
+            "runs": [
+                {
+                    "text": "Revenue Analysis",
+                    "style": {
+                        "font_name": null,
+                        "font_size": 13.0,
+                        "font_color": {
+                            "type": "rgb",
+                            "value": "000000"
+                        },
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Heading 3",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": 14.0,
+                "space_after": null,
+                "keep_together": false,
+                "keep_with_next": false,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 13,
+            "type": "paragraph",
+            "list_type": null,
+            "level": null,
+            "order": 13,
+            "text": "Our Q3 2024 revenue reached $125.3M, representing a significant increase from the previous year's figure of $108.8M. This growth was primarily driven by:",
+            "runs": [
+                {
+                    "text": "Our Q3 2024 revenue reached $125.3M, representing a significant increase from the previous year's figure of $108.8M. This growth was primarily driven by:",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": 12.0,
+                "space_after": 12.0,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 14,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 14,
+            "text": "New product launches in emerging markets",
+            "runs": [
+                {
+                    "text": "New product launches in emerging markets",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": 12.0,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 15,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 15,
+            "text": "Expanded distribution channels",
+            "runs": [
+                {
+                    "text": "Expanded distribution channels",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 16,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 16,
+            "text": "Enhanced digital presence",
+            "runs": [
+                {
+                    "text": "Enhanced digital presence",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": 12.0,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 17,
+            "type": "heading",
+            "list_type": null,
+            "level": 2,
+            "order": 17,
+            "text": "Margin Analysis",
+            "runs": [
+                {
+                    "text": "Margin Analysis",
+                    "style": {
+                        "font_name": null,
+                        "font_size": 17.0,
+                        "font_color": null,
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Heading 2",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": 4.0,
+                "keep_together": false,
+                "keep_with_next": false,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 18,
+            "type": "table",
+            "level": null,
+            "order": 18,
+            "rows_count": 4,
+            "columns_count": 4,
+            "rows": [
+                {
+                    "row_index": 0,
+                    "cells": [
+                        {
+                            "cell_index": 0,
+                            "row": 0,
+                            "column": 0,
+                            "text": "Category",
+                            "original_text": "Category",
+                            "paragraphs": [
+                                {
+                                    "paragraph_index": 0,
+                                    "text": "Category",
+                                    "runs": [
+                                        {
+                                            "run_index": 0,
+                                            "text": "Category",
+                                            "style": {
+                                                "font_name": null,
+                                                "font_size": null,
+                                                "font_color": null,
+                                                "bold": true,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": null,
+                                                "cs_italic": null
+                                            }
+                                        }
+                                    ],
+                                    "paragraph_style": {
+                                        "style_name": "Normal",
+                                        "alignment": "left"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "cell_index": 1,
+                            "row": 0,
+                            "column": 1,
+                            "text": "Q3 2023",
+                            "original_text": "Q3 2023",
+                            "paragraphs": [
+                                {
+                                    "paragraph_index": 0,
+                                    "text": "Q3 2023",
+                                    "runs": [
+                                        {
+                                            "run_index": 0,
+                                            "text": "Q3 2023",
+                                            "style": {
+                                                "font_name": null,
+                                                "font_size": null,
+                                                "font_color": null,
+                                                "bold": true,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": null,
+                                                "cs_italic": null
+                                            }
+                                        }
+                                    ],
+                                    "paragraph_style": {
+                                        "style_name": "Normal",
+                                        "alignment": "left"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "cell_index": 2,
+                            "row": 0,
+                            "column": 2,
+                            "text": "Q3 2024",
+                            "original_text": "Q3 2024",
+                            "paragraphs": [
+                                {
+                                    "paragraph_index": 0,
+                                    "text": "Q3 2024",
+                                    "runs": [
+                                        {
+                                            "run_index": 0,
+                                            "text": "Q3 2024",
+                                            "style": {
+                                                "font_name": null,
+                                                "font_size": null,
+                                                "font_color": null,
+                                                "bold": true,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": null,
+                                                "cs_italic": null
+                                            }
+                                        }
+                                    ],
+                                    "paragraph_style": {
+                                        "style_name": "Normal",
+                                        "alignment": "left"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "cell_index": 3,
+                            "row": 0,
+                            "column": 3,
+                            "text": "Change",
+                            "original_text": "Change",
+                            "paragraphs": [
+                                {
+                                    "paragraph_index": 0,
+                                    "text": "Change",
+                                    "runs": [
+                                        {
+                                            "run_index": 0,
+                                            "text": "Change",
+                                            "style": {
+                                                "font_name": null,
+                                                "font_size": null,
+                                                "font_color": null,
+                                                "bold": true,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": null,
+                                                "cs_italic": null
+                                            }
+                                        }
+                                    ],
+                                    "paragraph_style": {
+                                        "style_name": "Normal",
+                                        "alignment": "left"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "row_index": 1,
+                    "cells": [
+                        {
+                            "cell_index": 0,
+                            "row": 1,
+                            "column": 0,
+                            "text": "Gross Margin",
+                            "original_text": "Gross Margin",
+                            "paragraphs": [
+                                {
+                                    "paragraph_index": 0,
+                                    "text": "Gross Margin",
+                                    "runs": [
+                                        {
+                                            "run_index": 0,
+                                            "text": "Gross Margin",
+                                            "style": {
+                                                "font_name": null,
+                                                "font_size": null,
+                                                "font_color": null,
+                                                "bold": null,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": null,
+                                                "cs_italic": null
+                                            }
+                                        }
+                                    ],
+                                    "paragraph_style": {
+                                        "style_name": "Normal",
+                                        "alignment": "left"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "cell_index": 1,
+                            "row": 1,
+                            "column": 1,
+                            "text": "62.5%",
+                            "original_text": "62.5%",
+                            "paragraphs": [
+                                {
+                                    "paragraph_index": 0,
+                                    "text": "62.5%",
+                                    "runs": [
+                                        {
+                                            "run_index": 0,
+                                            "text": "62.5%",
+                                            "style": {
+                                                "font_name": null,
+                                                "font_size": null,
+                                                "font_color": null,
+                                                "bold": null,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": null,
+                                                "cs_italic": null
+                                            }
+                                        }
+                                    ],
+                                    "paragraph_style": {
+                                        "style_name": "Normal",
+                                        "alignment": "left"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "cell_index": 2,
+                            "row": 1,
+                            "column": 2,
+                            "text": "64.1%",
+                            "original_text": "64.1%",
+                            "paragraphs": [
+                                {
+                                    "paragraph_index": 0,
+                                    "text": "64.1%",
+                                    "runs": [
+                                        {
+                                            "run_index": 0,
+                                            "text": "64.1%",
+                                            "style": {
+                                                "font_name": null,
+                                                "font_size": null,
+                                                "font_color": null,
+                                                "bold": null,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": null,
+                                                "cs_italic": null
+                                            }
+                                        }
+                                    ],
+                                    "paragraph_style": {
+                                        "style_name": "Normal",
+                                        "alignment": "left"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "cell_index": 3,
+                            "row": 1,
+                            "column": 3,
+                            "text": "+1.6%",
+                            "original_text": "+1.6%",
+                            "paragraphs": [
+                                {
+                                    "paragraph_index": 0,
+                                    "text": "+1.6%",
+                                    "runs": [
+                                        {
+                                            "run_index": 0,
+                                            "text": "+1.6%",
+                                            "style": {
+                                                "font_name": null,
+                                                "font_size": null,
+                                                "font_color": null,
+                                                "bold": null,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": null,
+                                                "cs_italic": null
+                                            }
+                                        }
+                                    ],
+                                    "paragraph_style": {
+                                        "style_name": "Normal",
+                                        "alignment": "left"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "row_index": 2,
+                    "cells": [
+                        {
+                            "cell_index": 0,
+                            "row": 2,
+                            "column": 0,
+                            "text": "Operating Margin",
+                            "original_text": "Operating Margin",
+                            "paragraphs": [
+                                {
+                                    "paragraph_index": 0,
+                                    "text": "Operating Margin",
+                                    "runs": [
+                                        {
+                                            "run_index": 0,
+                                            "text": "Operating Margin",
+                                            "style": {
+                                                "font_name": null,
+                                                "font_size": null,
+                                                "font_color": null,
+                                                "bold": null,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": null,
+                                                "cs_italic": null
+                                            }
+                                        }
+                                    ],
+                                    "paragraph_style": {
+                                        "style_name": "Normal",
+                                        "alignment": "left"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "cell_index": 1,
+                            "row": 2,
+                            "column": 1,
+                            "text": "28.3%",
+                            "original_text": "28.3%",
+                            "paragraphs": [
+                                {
+                                    "paragraph_index": 0,
+                                    "text": "28.3%",
+                                    "runs": [
+                                        {
+                                            "run_index": 0,
+                                            "text": "28.3%",
+                                            "style": {
+                                                "font_name": null,
+                                                "font_size": null,
+                                                "font_color": null,
+                                                "bold": null,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": null,
+                                                "cs_italic": null
+                                            }
+                                        }
+                                    ],
+                                    "paragraph_style": {
+                                        "style_name": "Normal",
+                                        "alignment": "left"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "cell_index": 2,
+                            "row": 2,
+                            "column": 2,
+                            "text": "30.6%",
+                            "original_text": "30.6%",
+                            "paragraphs": [
+                                {
+                                    "paragraph_index": 0,
+                                    "text": "30.6%",
+                                    "runs": [
+                                        {
+                                            "run_index": 0,
+                                            "text": "30.6%",
+                                            "style": {
+                                                "font_name": null,
+                                                "font_size": null,
+                                                "font_color": null,
+                                                "bold": null,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": null,
+                                                "cs_italic": null
+                                            }
+                                        }
+                                    ],
+                                    "paragraph_style": {
+                                        "style_name": "Normal",
+                                        "alignment": "left"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "cell_index": 3,
+                            "row": 2,
+                            "column": 3,
+                            "text": "+2.3%",
+                            "original_text": "+2.3%",
+                            "paragraphs": [
+                                {
+                                    "paragraph_index": 0,
+                                    "text": "+2.3%",
+                                    "runs": [
+                                        {
+                                            "run_index": 0,
+                                            "text": "+2.3%",
+                                            "style": {
+                                                "font_name": null,
+                                                "font_size": null,
+                                                "font_color": null,
+                                                "bold": null,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": null,
+                                                "cs_italic": null
+                                            }
+                                        }
+                                    ],
+                                    "paragraph_style": {
+                                        "style_name": "Normal",
+                                        "alignment": "left"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "row_index": 3,
+                    "cells": [
+                        {
+                            "cell_index": 0,
+                            "row": 3,
+                            "column": 0,
+                            "text": "Net Margin",
+                            "original_text": "Net Margin",
+                            "paragraphs": [
+                                {
+                                    "paragraph_index": 0,
+                                    "text": "Net Margin",
+                                    "runs": [
+                                        {
+                                            "run_index": 0,
+                                            "text": "Net Margin",
+                                            "style": {
+                                                "font_name": null,
+                                                "font_size": null,
+                                                "font_color": null,
+                                                "bold": null,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": null,
+                                                "cs_italic": null
+                                            }
+                                        }
+                                    ],
+                                    "paragraph_style": {
+                                        "style_name": "Normal",
+                                        "alignment": "left"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "cell_index": 1,
+                            "row": 3,
+                            "column": 1,
+                            "text": "21.4%",
+                            "original_text": "21.4%",
+                            "paragraphs": [
+                                {
+                                    "paragraph_index": 0,
+                                    "text": "21.4%",
+                                    "runs": [
+                                        {
+                                            "run_index": 0,
+                                            "text": "21.4%",
+                                            "style": {
+                                                "font_name": null,
+                                                "font_size": null,
+                                                "font_color": null,
+                                                "bold": null,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": null,
+                                                "cs_italic": null
+                                            }
+                                        }
+                                    ],
+                                    "paragraph_style": {
+                                        "style_name": "Normal",
+                                        "alignment": "left"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "cell_index": 2,
+                            "row": 3,
+                            "column": 2,
+                            "text": "23.1%",
+                            "original_text": "23.1%",
+                            "paragraphs": [
+                                {
+                                    "paragraph_index": 0,
+                                    "text": "23.1%",
+                                    "runs": [
+                                        {
+                                            "run_index": 0,
+                                            "text": "23.1%",
+                                            "style": {
+                                                "font_name": null,
+                                                "font_size": null,
+                                                "font_color": null,
+                                                "bold": null,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": null,
+                                                "cs_italic": null
+                                            }
+                                        }
+                                    ],
+                                    "paragraph_style": {
+                                        "style_name": "Normal",
+                                        "alignment": "left"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "cell_index": 3,
+                            "row": 3,
+                            "column": 3,
+                            "text": "+1.7%",
+                            "original_text": "+1.7%",
+                            "paragraphs": [
+                                {
+                                    "paragraph_index": 0,
+                                    "text": "+1.7%",
+                                    "runs": [
+                                        {
+                                            "run_index": 0,
+                                            "text": "+1.7%",
+                                            "style": {
+                                                "font_name": null,
+                                                "font_size": null,
+                                                "font_color": null,
+                                                "bold": null,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": null,
+                                                "cs_italic": null
+                                            }
+                                        }
+                                    ],
+                                    "paragraph_style": {
+                                        "style_name": "Normal",
+                                        "alignment": "left"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "table_index": 0
+        },
+        {
+            "id": 19,
+            "type": "heading",
+            "list_type": null,
+            "level": 2,
+            "order": 19,
+            "text": "Market Analysis",
+            "runs": [
+                {
+                    "text": "Market Analysis",
+                    "style": {
+                        "font_name": null,
+                        "font_size": 17.0,
+                        "font_color": null,
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Heading 2",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": 4.0,
+                "keep_together": false,
+                "keep_with_next": false,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 20,
+            "type": "paragraph",
+            "list_type": null,
+            "level": null,
+            "order": 20,
+            "text": "The company has maintained its strong market position while expanding into new territories. Key developments include:",
+            "runs": [
+                {
+                    "text": "The company has maintained its strong market position while expanding into new territories. Key developments include:",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": 12.0,
+                "space_after": 12.0,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 21,
+            "type": "heading",
+            "list_type": null,
+            "level": 3,
+            "order": 21,
+            "text": "Geographic Expansion",
+            "runs": [
+                {
+                    "text": "Geographic Expansion",
+                    "style": {
+                        "font_name": null,
+                        "font_size": 13.0,
+                        "font_color": {
+                            "type": "rgb",
+                            "value": "000000"
+                        },
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Heading 3",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": 14.0,
+                "space_after": null,
+                "keep_together": false,
+                "keep_with_next": false,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 22,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 22,
+            "text": "North America: 45% market share (+3%)",
+            "runs": [
+                {
+                    "text": "North America",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": ": 45% market share (+3%)",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": 12.0,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 23,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 23,
+            "text": "Europe: 28% market share (+2%)",
+            "runs": [
+                {
+                    "text": "Europe",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": ": 28% market share (+2%)",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 24,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 24,
+            "text": "Asia-Pacific: 18% market share (+5%)",
+            "runs": [
+                {
+                    "text": "Asia-Pacific",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": ": 18% market share (+5%)",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": 12.0,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 25,
+            "type": "heading",
+            "list_type": null,
+            "level": 3,
+            "order": 25,
+            "text": "Competitive Landscape",
+            "runs": [
+                {
+                    "text": "Competitive Landscape",
+                    "style": {
+                        "font_name": null,
+                        "font_size": 13.0,
+                        "font_color": {
+                            "type": "rgb",
+                            "value": "000000"
+                        },
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Heading 3",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": 14.0,
+                "space_after": null,
+                "keep_together": false,
+                "keep_with_next": false,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 26,
+            "type": "paragraph",
+            "list_type": null,
+            "level": null,
+            "order": 26,
+            "text": "Our competitive position has strengthened through:",
+            "runs": [
+                {
+                    "text": "Our competitive position has strengthened through:",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": 12.0,
+                "space_after": 12.0,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 27,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 27,
+            "text": "Strategic partnerships",
+            "runs": [
+                {
+                    "text": "Strategic partnerships",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": 12.0,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 28,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 28,
+            "text": "Product innovation",
+            "runs": [
+                {
+                    "text": "Product innovation",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 29,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 29,
+            "text": "Enhanced customer service",
+            "runs": [
+                {
+                    "text": "Enhanced customer service",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": 12.0,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 30,
+            "type": "heading",
+            "list_type": null,
+            "level": 2,
+            "order": 30,
+            "text": "Operational Metrics",
+            "runs": [
+                {
+                    "text": "Operational Metrics",
+                    "style": {
+                        "font_name": null,
+                        "font_size": 17.0,
+                        "font_color": null,
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Heading 2",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": 4.0,
+                "keep_together": false,
+                "keep_with_next": false,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 31,
+            "type": "heading",
+            "list_type": null,
+            "level": 3,
+            "order": 31,
+            "text": "Efficiency Indicators",
+            "runs": [
+                {
+                    "text": "Efficiency Indicators",
+                    "style": {
+                        "font_name": null,
+                        "font_size": 13.0,
+                        "font_color": {
+                            "type": "rgb",
+                            "value": "000000"
+                        },
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Heading 3",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": 14.0,
+                "space_after": null,
+                "keep_together": false,
+                "keep_with_next": false,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 32,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 32,
+            "text": "Production capacity utilization: 87%",
+            "runs": [
+                {
+                    "text": "Production capacity utilization: 87%",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": 12.0,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 33,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 33,
+            "text": "Supply chain optimization: 12% cost reduction",
+            "runs": [
+                {
+                    "text": "Supply chain optimization: 12% cost reduction",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 34,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 34,
+            "text": "Inventory turnover: 8.5 times/year",
+            "runs": [
+                {
+                    "text": "Inventory turnover: 8.5 times/year",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": 12.0,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 35,
+            "type": "heading",
+            "list_type": null,
+            "level": 3,
+            "order": 35,
+            "text": "Quality Metrics",
+            "runs": [
+                {
+                    "text": "Quality Metrics",
+                    "style": {
+                        "font_name": null,
+                        "font_size": 13.0,
+                        "font_color": {
+                            "type": "rgb",
+                            "value": "000000"
+                        },
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Heading 3",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": 14.0,
+                "space_after": null,
+                "keep_together": false,
+                "keep_with_next": false,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 36,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 36,
+            "text": "Defect rate: 0.3% (-0.2%)",
+            "runs": [
+                {
+                    "text": "Defect rate: 0.3% (-0.2%)",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": 12.0,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 37,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 37,
+            "text": "Customer returns: 1.2% (-0.4%)",
+            "runs": [
+                {
+                    "text": "Customer returns: 1.2% (-0.4%)",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 38,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 38,
+            "text": "On-time delivery: 98.5% (+1.5%)",
+            "runs": [
+                {
+                    "text": "On-time delivery: 98.5% (+1.5%)",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": 12.0,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 39,
+            "type": "heading",
+            "list_type": null,
+            "level": 2,
+            "order": 39,
+            "text": "Future Outlook",
+            "runs": [
+                {
+                    "text": "Future Outlook",
+                    "style": {
+                        "font_name": null,
+                        "font_size": 17.0,
+                        "font_color": null,
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Heading 2",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": 4.0,
+                "keep_together": false,
+                "keep_with_next": false,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 40,
+            "type": "heading",
+            "list_type": null,
+            "level": 3,
+            "order": 40,
+            "text": "Strategic Initiatives for Q4 2024",
+            "runs": [
+                {
+                    "text": "Strategic Initiatives for Q4 2024",
+                    "style": {
+                        "font_name": null,
+                        "font_size": 13.0,
+                        "font_color": {
+                            "type": "rgb",
+                            "value": "000000"
+                        },
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Heading 3",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": 14.0,
+                "space_after": null,
+                "keep_together": false,
+                "keep_with_next": false,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 41,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 41,
+            "text": "Digital Transformation",
+            "runs": [
+                {
+                    "text": "Digital Transformation",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": 12.0,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 42,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 42,
+            "text": "AI implementation in customer service",
+            "runs": [
+                {
+                    "text": "AI implementation in customer service",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 43,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 43,
+            "text": "Enhanced data analytics capabilities",
+            "runs": [
+                {
+                    "text": "Enhanced data analytics capabilities",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 44,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 44,
+            "text": "Automated reporting systems",
+            "runs": [
+                {
+                    "text": "Automated reporting systems",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 45,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 45,
+            "text": "Market Expansion",
+            "runs": [
+                {
+                    "text": "Market Expansion",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 46,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 46,
+            "text": "Entry into emerging markets",
+            "runs": [
+                {
+                    "text": "Entry into emerging markets",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 47,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 47,
+            "text": "Product localization",
+            "runs": [
+                {
+                    "text": "Product localization",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 48,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 48,
+            "text": "Channel partner development",
+            "runs": [
+                {
+                    "text": "Channel partner development",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 49,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 49,
+            "text": "Operational Excellence",
+            "runs": [
+                {
+                    "text": "Operational Excellence",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 50,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 50,
+            "text": "Process automation",
+            "runs": [
+                {
+                    "text": "Process automation",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 51,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 51,
+            "text": "Quality management system upgrade",
+            "runs": [
+                {
+                    "text": "Quality management system upgrade",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 52,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 52,
+            "text": "Workforce development",
+            "runs": [
+                {
+                    "text": "Workforce development",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": 12.0,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 53,
+            "type": "paragraph",
+            "list_type": null,
+            "level": null,
+            "order": 53,
+            "text": "This sample DOCX file is provided by Sample-Files.com. Visit us for more sample files and resources.",
+            "runs": [
+                {
+                    "text": "This sample DOCX file is provided by ",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": true,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": ". Visit us for more sample files and resources.",
+                    "style": {
+                        "font_name": null,
+                        "font_size": null,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": true,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": 12.0,
+                "space_after": 12.0,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        }
+    ]
+}

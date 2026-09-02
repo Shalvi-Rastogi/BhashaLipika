@@ -31,6 +31,8 @@ router = APIRouter()
 UPLOAD_FOLDER = "uploads"
 OUTPUT_FOLDER = "outputs"
 
+MAX_DOCX_FILE_SIZE = 5 * 1024 * 1024
+
 os.makedirs(
     UPLOAD_FOLDER,
     exist_ok=True
@@ -606,6 +608,21 @@ async def upload_document(
                 extension
             ]
         )
+
+        if file_type == "DOCX":
+
+            file_content = await file.read()
+
+            if len(file_content) > MAX_DOCX_FILE_SIZE:
+
+                raise HTTPException(
+                    status_code=413,
+                    detail=(
+                        "Only files up to 5 MB can be handled."
+                    )
+                )
+
+            await file.seek(0)
 
         # =================================================
         # 2. SAVE UPLOADED FILE
