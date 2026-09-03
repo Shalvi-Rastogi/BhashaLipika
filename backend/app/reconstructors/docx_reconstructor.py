@@ -3,6 +3,7 @@ from docx.shared import RGBColor, Pt
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 import json
 import os
+import re
 import zipfile
 
 from docx.oxml.shared import OxmlElement
@@ -117,14 +118,32 @@ def apply_style_to_run(run, style_dict):
     # Basic formatting
     # --------------------------------------------------------
 
-    if is_bold is True:
-        run.bold = True
+    if is_bold is not None:
+        run.bold = is_bold
 
-    if is_italic is True:
-        run.italic = True
+    if is_italic is not None:
+        run.italic = is_italic
 
-    if is_underline is True:
-        run.underline = True
+    if is_underline is not None:
+        run.underline = is_underline
+
+    for property_name in (
+        "strike",
+        "double_strike",
+        "all_caps",
+        "small_caps",
+        "subscript",
+        "superscript",
+        "hidden",
+        "outline",
+        "shadow",
+        "emboss",
+        "imprint",
+    ):
+        property_value = style_dict.get(property_name)
+
+        if property_value is not None:
+            setattr(run.font, property_name, property_value)
 
     # --------------------------------------------------------
     # Font name
@@ -243,6 +262,44 @@ def apply_paragraph_style(paragraph, paragraph_style):
 
         if alignment in alignment_map:
             paragraph.alignment = alignment_map[alignment]
+
+    for property_name in (
+        "left_indent",
+        "right_indent",
+        "first_line_indent",
+        "space_before",
+        "space_after",
+    ):
+        property_value = paragraph_style.get(property_name)
+
+        if property_value is not None:
+            setattr(
+                paragraph.paragraph_format,
+                property_name,
+                Pt(float(property_value))
+            )
+
+    line_spacing = paragraph_style.get("line_spacing")
+
+    if line_spacing is not None:
+        paragraph.paragraph_format.line_spacing = (
+            float(line_spacing)
+        )
+
+    for property_name in (
+        "keep_together",
+        "keep_with_next",
+        "page_break_before",
+        "widow_control",
+    ):
+        property_value = paragraph_style.get(property_name)
+
+        if property_value is not None:
+            setattr(
+                paragraph.paragraph_format,
+                property_name,
+                property_value
+            )
 
 
 # ============================================================
@@ -405,6 +462,14 @@ def reconstruct_paragraphs(document, elements):
             ""
         ).strip()
 
+        is_numbered_heading = (
+            element.get("type") == "list_item"
+            and re.match(
+                r"^\s*\d+[.)]\s+",
+                current_text
+            ) is not None
+        )
+
         if (
             current_text.lower() in {
                 "secretary-general",
@@ -511,6 +576,10 @@ def reconstruct_paragraphs(document, elements):
                     "style",
                     {}
                 )
+
+                if is_numbered_heading:
+                    style = dict(style)
+                    style["bold"] = True
 
                 lines = text.split("\n")
 
