@@ -9,16 +9,12 @@ def _extract_cell_paragraphs(cell):
     Extract all paragraphs inside a table cell,
     including paragraph formatting and run formatting.
     """
-
     paragraphs = []
 
     for paragraph_index, paragraph in enumerate(cell.paragraphs):
-
         runs = []
 
         for run_index, run in enumerate(paragraph.runs):
-
-            # Keep empty runs out of translated text
             if not run.text:
                 continue
 
@@ -51,97 +47,98 @@ def _extract_cell_paragraphs(cell):
     return paragraphs
 
 
-def _extract_cell(cell, row_index, column_index):
+# ============================================================
+# RECURSIVE NESTED TABLE EXTRACTOR
+# ============================================================
+def _extract_nested_tables(cell):
     """
-    Extract one table cell.
+    Check if a cell contains nested tables and extract them recursively.
     """
-
-    paragraphs = _extract_cell_paragraphs(cell)
-
-    return {
-        "cell_index": column_index,
-        "row": row_index,
-        "column": column_index,
-
-        # This is the text that translation API can use
-        "text": cell.text,
-
-        # Keep original text for reconstruction/debugging
-        "original_text": cell.text,
-
-        # Preserve paragraph/run structure
-        "paragraphs": paragraphs,
-    }
+    nested_tables = []
+    
+    if hasattr(cell, "tables") and cell.tables:
+        for t_idx, nested_table in enumerate(cell.tables):
+            nested_tables.append(_parse_table_block(nested_table, t_idx))
+            
+    return nested_tables
 
 
-def process_table(block, element_id):
+def _parse_table_block(table_block, table_index):
     """
-    Convert one DOCX table into structured JSON.
-
-    Structure:
-
-        table
-          └── rows
-                └── cells
-                      └── paragraphs
-                            └── runs
+    Helper to parse any table block (main or nested).
     """
-
-    if not isinstance(block, Table):
-        return None
-
     rows = []
 
-    for row_index, row in enumerate(block.rows):
-
+    for row_index, row in enumerate(table_block.rows):
         row_data = {
             "row_index": row_index,
             "cells": []
         }
 
         for column_index, cell in enumerate(row.cells):
-
-            cell_data = _extract_cell(
-                cell,
-                row_index,
-                column_index
-            )
-
+            cell_data = _extract_cell(cell, row_index, column_index)
             row_data["cells"].append(cell_data)
 
         rows.append(row_data)
+
+    return {
+        "table_index": table_index,
+        "rows_count": len(table_block.rows),
+        "columns_count": len(table_block.columns),
+        "rows": rows,
+    }
+
+
+def _extract_cell(cell, row_index, column_index):
+    """
+    Extract one table cell along with its paragraphs and any nested tables inside it.
+    """
+    paragraphs = _extract_cell_paragraphs(cell)
+    nested_tables = _extract_nested_tables(cell)
+
+    cell_dict = {
+        "cell_index": column_index,
+        "row": row_index,
+        "column": column_index,
+        "text": cell.text,
+        "original_text": cell.text,
+        "paragraphs": paragraphs,
+    }
+
+    if nested_tables:
+        cell_dict["nested_tables"] = nested_tables
+
+    return cell_dict
+
+
+def process_table(block, element_id):
+    """
+    Convert one DOCX table into structured JSON (supports nested tables inside cells).
+    """
+    if not isinstance(block, Table):
+        return None
+
+    table_data = _parse_table_block(block, 0)
 
     return {
         "id": element_id,
         "type": "table",
         "level": None,
         "order": element_id,
-
-        "rows_count": len(block.rows),
-        "columns_count": len(block.columns),
-
-        "rows": rows,
+        "rows_count": table_data["rows_count"],
+        "columns_count": table_data["columns_count"],
+        "rows": table_data["rows"],
     }
 
 
 def extract_tables(document):
     """
-    Backward-compatible helper for callers
-    that need all tables only.
+    Backward-compatible helper for callers that need all tables only.
     """
-
     tables = []
 
-    for table_id, table in enumerate(
-        document.tables,
-        start=1
-    ):
-
-        table_data = process_table(
-            table,
-            table_id
-        )
-
+    for table_id, table in enumerate(document.tables, start=1):
+        table_data = process_table(table, table_id)
         if table_data is not None:
             tables.append(table_data)
 

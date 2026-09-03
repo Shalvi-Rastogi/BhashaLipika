@@ -3,9 +3,18 @@ import json
 import traceback
 import requests
 import time
+import re
+
 from concurrent.futures import ThreadPoolExecutor
 
-from fastapi import APIRouter, UploadFile, File, HTTPException, Form
+from fastapi import (
+    APIRouter,
+    UploadFile,
+    File,
+    HTTPException,
+    Form
+)
+
 from docx import Document
 
 from app.extractors.Docx.document_parser import parse_document
@@ -22,8 +31,17 @@ router = APIRouter()
 UPLOAD_FOLDER = "uploads"
 OUTPUT_FOLDER = "outputs"
 
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-os.makedirs(OUTPUT_FOLDER, exist_ok=True)
+MAX_DOCX_FILE_SIZE = 5 * 1024 * 1024
+
+os.makedirs(
+    UPLOAD_FOLDER,
+    exist_ok=True
+)
+
+os.makedirs(
+    OUTPUT_FOLDER,
+    exist_ok=True
+)
 
 
 # =========================================================
@@ -69,44 +87,243 @@ def translate_text(
     src_lang="eng-latn",
     tgt_lang="hin-deva"
 ):
+    """
+    Translate a single text using C-DAC API.
 
-    # Don't translate empty text
+    Handles:
+        - empty text
+        - newlines
+        - punctuation
+        - spaces
+        - API retry
+    """
+
+    # -----------------------------------------------------
+    # Empty / whitespace-only text
+    # -----------------------------------------------------
+
     if not text or not text.strip():
         return text
 
+    # Preserve dotted abbreviations such as "w.e.f." exactly.
+    if re.fullmatch(
+        r"[A-Za-z](?:\.[A-Za-z])+\.?",
+        text.strip()
+    ):
+        return text
+
+    # -----------------------------------------------------
+    # Handle newlines
+    # -----------------------------------------------------
+
+    if "\n" in text:
+
+        lines = text.split("\n")
+
+        translated_lines = []
+
+        for line in lines:
+
+            if line.strip():
+
+                translated_lines.append(
+                    translate_text(
+                        line,
+                        src_lang,
+                        tgt_lang
+                    )
+                )
+
+            else:
+
+                translated_lines.append("")
+
+        return "\n".join(
+            translated_lines
+        )
+
+    # -----------------------------------------------------
+    # Smart punctuation separation
+    #
+    # Example:
+    #
+    # "Specifications:"
+    #
+    # becomes:
+    #
+    # core_text = "Specifications"
+    # trailing   = ":"
+    # -----------------------------------------------------
+
+    match = re.match(
+        r'^([^\w]*)(.*?[\w])([^\w]*)$',
+        text,
+        flags=re.UNICODE
+    )
+
+    if match:
+
+        leading_chars = match.group(1)
+        core_text = match.group(2)
+        trailing_chars = match.group(3)
+
+    else:
+
+        # Text contains only symbols/punctuation.
+        # No translation required.
+        return text
+
+    # -----------------------------------------------------
+    # Debug log
+    # -----------------------------------------------------
+
+    print(
+        "\n[TRANSLATE REQUEST]"
+    )
+
+    print(
+        "Source:",
+        src_lang
+    )
+
+    print(
+        "Target:",
+        tgt_lang
+    )
+
+    print(
+        "Text:",
+        repr(core_text)
+    )
+
+    # -----------------------------------------------------
+    # API payload
+    # -----------------------------------------------------
+
     payload = {
-        "ip_text": text,
+        "ip_text": core_text,
         "srcLang": src_lang,
         "tgtLang": tgt_lang,
         "delimiter": "",
         "nSuggestions": "1"
     }
 
+    translated_core = core_text
+
+    # -----------------------------------------------------
+    # API request with retry
+    # -----------------------------------------------------
+
     for attempt in range(3):
+
         try:
+
             response = requests.post(
                 TRANSLATION_API_URL,
                 json=payload,
                 timeout=60,
                 verify=False
             )
+
             response.raise_for_status()
 
-            translated_text = response.json().get("Output")
-            if translated_text:
-                return translated_text
+            response_json = response.json()
 
-            raise ValueError("Translation API returned no Output")
+            print(
+                "[API RESPONSE]:",
+                response_json
+            )
+
+            output = response_json.get(
+                "Output"
+            )
+
+            if output:
+
+                translated_core = (
+                    output.strip()
+                )
+
+                break
+
+            else:
+
+                print(
+                    "API returned empty Output."
+                )
 
         except Exception as error:
-            if attempt == 2:
-                print("Translation API error:", str(error))
-                return text
-            time.sleep(2 ** attempt)
+
+            print(
+                f"Translation attempt "
+                f"{attempt + 1}/3 failed:"
+            )
+
+            print(
+                str(error)
+            )
+
+            if attempt < 2:
+
+                time.sleep(
+                    2 ** attempt
+                )
+
+    # -----------------------------------------------------
+    # Remove unwanted Devanagari full stop
+    #
+    # Example:
+    #
+    # Original:
+    # "Laptop"
+    #
+    # API:
+    # "लैपटॉप।"
+    #
+    # Result:
+    # "लैपटॉप"
+    # -----------------------------------------------------
+
+    if (
+        not core_text.endswith(".")
+        and translated_core.endswith("।")
+    ):
+
+        translated_core = (
+            translated_core
+            .rstrip("।")
+            .strip()
+        )
+
+    # -----------------------------------------------------
+    # Restore punctuation / spaces
+    # -----------------------------------------------------
+
+    final_text = (
+        leading_chars
+        + translated_core
+        + trailing_chars
+    )
+
+    # -----------------------------------------------------
+    # Debug log
+    # -----------------------------------------------------
+
+    print(
+        "[TRANSLATION RESULT]"
+    )
+
+    print(
+        repr(text),
+        "->",
+        repr(final_text)
+    )
+
+    return final_text
 
 
 # =========================================================
-# TRANSLATE EXTRACTED JSON
+# TRANSLATE JSON RECURSIVELY
 # =========================================================
 
 def translate_json(
@@ -115,77 +332,155 @@ def translate_json(
     tgt_lang="hin-deva",
     translation_cache=None
 ):
+    """
+    Recursively translate all text fields
+    in extracted document JSON.
+
+    Handles:
+        - paragraphs
+        - headings
+        - table cells
+        - nested tables
+        - image text
+        - runs
+        - deeply nested structures
+    """
 
     if translation_cache is None:
+
         translation_cache = {}
+
+    # =====================================================
+    # DICTIONARY
+    # =====================================================
 
     if isinstance(data, dict):
 
-        # -----------------------------------------
-        # Translate main text field
-        # -----------------------------------------
+        # -------------------------------------------------
+        # Translate main "text" field
+        # -------------------------------------------------
 
         if (
             "text" in data
-            and isinstance(data["text"], str)
+            and isinstance(
+                data["text"],
+                str
+            )
         ):
 
             original_text = data["text"]
 
-            cache_key = (original_text, src_lang, tgt_lang)
-            if cache_key not in translation_cache:
-                translation_cache[cache_key] = translate_text(
+            if original_text.strip():
+
+                cache_key = (
                     original_text,
                     src_lang,
                     tgt_lang
                 )
-            data["text"] = translation_cache[cache_key]
 
+                if cache_key not in translation_cache:
 
-        # -----------------------------------------
-        # Translate text inside runs
-        # -----------------------------------------
+                    translation_cache[
+                        cache_key
+                    ] = translate_text(
+                        original_text,
+                        src_lang,
+                        tgt_lang
+                    )
+
+                data["text"] = (
+                    translation_cache[
+                        cache_key
+                    ]
+                )
+
+        # -------------------------------------------------
+        # Translate runs
+        # -------------------------------------------------
 
         if (
             "runs" in data
-            and isinstance(data["runs"], list)
+            and isinstance(
+                data["runs"],
+                list
+            )
         ):
 
             for run in data["runs"]:
 
-                if (
-                    isinstance(run, dict)
-                    and "text" in run
-                    and isinstance(run["text"], str)
+                if not isinstance(
+                    run,
+                    dict
                 ):
-                    original_text = run["text"]
-                    cache_key = (original_text, src_lang, tgt_lang)
+                    continue
+
+                if (
+                    "text" in run
+                    and isinstance(
+                        run["text"],
+                        str
+                    )
+                ):
+
+                    original_text = (
+                        run["text"]
+                    )
+
+                    if not original_text.strip():
+                        continue
+
+                    cache_key = (
+                        original_text,
+                        src_lang,
+                        tgt_lang
+                    )
+
                     if cache_key not in translation_cache:
-                        translation_cache[cache_key] = translate_text(
+
+                        translation_cache[
+                            cache_key
+                        ] = translate_text(
                             original_text,
                             src_lang,
                             tgt_lang
                         )
-                    run["text"] = translation_cache[cache_key]
 
+                    run["text"] = (
+                        translation_cache[
+                            cache_key
+                        ]
+                    )
 
-        # -----------------------------------------
-        # Process nested objects
-        # -----------------------------------------
+        # -------------------------------------------------
+        # Recursively process all other fields
+        #
+        # IMPORTANT:
+        # Do not process "text", "runs",
+        # or "original_text" again.
+        # -------------------------------------------------
 
-        for key, value in data.items():
+        for key in list(data.keys()):
 
-            if key not in ["text", "runs", "original_text"]:
+            if key in [
+                "text",
+                "runs",
+                "original_text"
+            ]:
 
-                data[key] = translate_json(
-                    value,
-                    src_lang,
-                    tgt_lang,
-                    translation_cache
-                )
+                continue
+
+            data[key] = translate_json(
+                data[key],
+                src_lang,
+                tgt_lang,
+                translation_cache
+            )
 
         return data
 
+    # =====================================================
+    # LIST
+    # =====================================================
 
     elif isinstance(data, list):
 
@@ -193,26 +488,33 @@ def translate_json(
             translate_json(
                 item,
                 src_lang,
-                    tgt_lang,
-                    translation_cache
+                tgt_lang,
+                translation_cache
             )
             for item in data
         ]
 
+    # =====================================================
+    # OTHER DATA TYPES
+    # =====================================================
 
     return data
 
 
+# =========================================================
+# COLLECT CANONICAL TEXTS
+# =========================================================
+
 def collect_translation_texts(data, texts=None):
     """Collect canonical text fields without structural duplicates."""
-
     if texts is None:
         texts = set()
 
     if isinstance(data, dict):
         text = data.get("text")
         if isinstance(text, str) and text.strip():
-            texts.add(text)
+            # Strip spaces to prevent mismatch on first lines/headings
+            texts.add(text.strip())
 
         for key, value in data.items():
             if key not in ["text", "runs", "original_text"]:
@@ -223,6 +525,62 @@ def collect_translation_texts(data, texts=None):
             collect_translation_texts(item, texts)
 
     return texts
+
+# =========================================================
+# DEBUG: FIND PARTICULAR TEXT
+# =========================================================
+
+def find_text_in_json(
+    data,
+    target_text
+):
+    """
+    Debug helper.
+
+    Finds whether a particular text exists
+    anywhere in extracted JSON.
+    """
+
+    found = False
+
+    if isinstance(data, dict):
+
+        for key, value in data.items():
+
+            if (
+                isinstance(value, str)
+                and value == target_text
+            ):
+
+                print(
+                    f"[FOUND] "
+                    f"{target_text!r} "
+                    f"inside key: {key}"
+                )
+
+                found = True
+
+            elif isinstance(value, (dict, list)):
+
+                if find_text_in_json(
+                    value,
+                    target_text
+                ):
+
+                    found = True
+
+    elif isinstance(data, list):
+
+        for item in data:
+
+            if find_text_in_json(
+                item,
+                target_text
+            ):
+
+                found = True
+
+    return found
 
 
 # =========================================================
@@ -252,9 +610,26 @@ async def upload_document(
                 detail="Unsupported file type"
             )
 
+        file_type = (
+            ALLOWED_EXTENSIONS[
+                extension
+            ]
+        )
 
-        file_type = ALLOWED_EXTENSIONS[extension]
+        if file_type == "DOCX":
 
+            file_content = await file.read()
+
+            if len(file_content) > MAX_DOCX_FILE_SIZE:
+
+                raise HTTPException(
+                    status_code=413,
+                    detail=(
+                        "Only files up to 5 MB can be handled."
+                    )
+                )
+
+            await file.seek(0)
 
         # =================================================
         # 2. SAVE UPLOADED FILE
@@ -275,20 +650,23 @@ async def upload_document(
             )
 
         print(
-            f"File saved: {file_path}"
+            f"\nFile saved: {file_path}"
         )
 
         print(
             f"Detected file type: {file_type}"
         )
 
-
         # =================================================
         # 3. CHECK TARGET LANGUAGE
         # =================================================
 
+        target_language = (
+            target_language.lower().strip()
+        )
+
         tgt_lang = LANGUAGE_MAP.get(
-            target_language.lower()
+            target_language
         )
 
         if not tgt_lang:
@@ -311,7 +689,6 @@ async def upload_document(
             f"{tgt_lang}"
         )
 
-
         # =================================================
         # 4. DOCX PROCESSING
         # =================================================
@@ -323,13 +700,12 @@ async def upload_document(
             # ---------------------------------------------
 
             print(
-                "Opening DOCX document..."
+                "\nOpening DOCX document..."
             )
 
             document = Document(
                 file_path
             )
-
 
             # ---------------------------------------------
             # Extract document
@@ -348,6 +724,36 @@ async def upload_document(
                 "Document parsed successfully!"
             )
 
+            # =================================================
+            # DEBUG: CHECK HEADING EXTRACTION
+            # =================================================
+
+            print(
+                "\n========== HEADING EXTRACTION CHECK =========="
+            )
+
+            heading_found = find_text_in_json(
+                result,
+                "NESTED TABLE SAMPLE DOCUMENT"
+            )
+
+            if heading_found:
+
+                print(
+                    "Heading was successfully "
+                    "extracted into JSON."
+                )
+
+            else:
+
+                print(
+                    "WARNING: Heading was NOT found "
+                    "in extracted JSON."
+                )
+
+            print(
+                "=============================================="
+            )
 
             # =================================================
             # 5. SAVE EXTRACTED JSON
@@ -380,49 +786,185 @@ async def upload_document(
                 )
 
             print(
-                f"JSON saved: {json_path}"
+                f"\nJSON saved: {json_path}"
             )
-
 
             # =================================================
             # 6. TRANSLATION
             # =================================================
 
             print(
+                "\n========== TRANSLATION =========="
+            )
+
+            print(
                 "Starting translation..."
             )
 
             translation_cache = {}
-            translation_texts = collect_translation_texts(result)
 
-            with ThreadPoolExecutor(max_workers=4) as executor:
-                translated_texts = executor.map(
-                    lambda text: translate_text(
-                        text,
-                        "eng-latn",
-                        tgt_lang
-                    ),
-                    translation_texts
+            # -------------------------------------------------
+            # Collect unique text
+            # -------------------------------------------------
+
+            translation_texts = (
+                collect_translation_texts(
+                    result
+                )
+            )
+
+            print(
+                f"Unique texts to translate: "
+                f"{len(translation_texts)}"
+            )
+
+            # -------------------------------------------------
+            # Check heading specifically
+            # -------------------------------------------------
+
+            heading_text = (
+                "NESTED TABLE SAMPLE DOCUMENT"
+            )
+
+            if heading_text in translation_texts:
+
+                print(
+                    "\n[HEADING FOUND IN "
+                    "TRANSLATION QUEUE]"
                 )
 
-            translation_cache.update(
-                zip(translation_texts, translated_texts)
-            )
+                print(
+                    repr(heading_text)
+                )
+
+            else:
+
+                print(
+                    "\n[WARNING] Heading is NOT "
+                    "present in translation queue:"
+                )
+
+                print(
+                    repr(heading_text)
+                )
+
+            # -------------------------------------------------
+            # Translate unique texts concurrently
+            # -------------------------------------------------
+
+            with ThreadPoolExecutor(
+                max_workers=4
+            ) as executor:
+
+                translated_texts = list(
+                    executor.map(
+                        lambda text:
+                            translate_text(
+                                text,
+                                "eng-latn",
+                                tgt_lang
+                            ),
+                        translation_texts
+                    )
+                )
+
+            # -------------------------------------------------
+            # Build cache
+            # -------------------------------------------------
+
+            for original, translated in zip(
+                translation_texts,
+                translated_texts
+            ):
+
+                cache_key = (
+                    original,
+                    "eng-latn",
+                    tgt_lang
+                )
+
+                translation_cache[
+                    cache_key
+                ] = translated
+
+            # -------------------------------------------------
+            # Apply translations recursively
+            # -------------------------------------------------
 
             translated_result = translate_json(
                 result,
                 src_lang="eng-latn",
                 tgt_lang=tgt_lang,
-                translation_cache={
-                    (text, "eng-latn", tgt_lang): translated
-                    for text, translated in translation_cache.items()
-                }
+                translation_cache=translation_cache
             )
 
             print(
-                "Translation completed!"
+                "\nTranslation completed!"
             )
 
+            # =================================================
+            # DEBUG: CHECK TRANSLATED HEADING
+            # =================================================
+
+            print(
+                "\n========== TRANSLATED HEADING CHECK =========="
+            )
+
+            find_text_in_json(
+                translated_result,
+                "NESTED TABLE SAMPLE DOCUMENT"
+            )
+
+            print(
+                "Looking for translated heading..."
+            )
+
+            # Search recursively for Devanagari
+            # version isn't exact because API output
+            # can vary, so print top-level paragraphs.
+
+            if isinstance(
+                translated_result,
+                dict
+            ):
+
+                elements = (
+                    translated_result.get(
+                        "elements",
+                        []
+                    )
+                )
+
+                if isinstance(
+                    elements,
+                    list
+                ):
+
+                    for index, element in enumerate(
+                        elements[:10]
+                    ):
+
+                        if not isinstance(
+                            element,
+                            dict
+                        ):
+                            continue
+
+                        element_text = element.get(
+                            "text",
+                            ""
+                        )
+
+                        if element_text:
+
+                            print(
+                                f"Element {index}: "
+                                f"{element_text!r}"
+                            )
+
+            print(
+                "=============================================="
+            )
 
             # =================================================
             # 7. SAVE TRANSLATED JSON
@@ -431,7 +973,7 @@ async def upload_document(
             translated_json_filename = (
                 f"{base_name}"
                 f"_translated_"
-                f"{target_language.lower()}.json"
+                f"{target_language}.json"
             )
 
             translated_json_path = os.path.join(
@@ -453,17 +995,20 @@ async def upload_document(
                 )
 
             print(
-                "Translated JSON saved:"
+                "\nTranslated JSON saved:"
             )
 
             print(
                 translated_json_path
             )
 
-
             # =================================================
             # 8. RECONSTRUCTION
             # =================================================
+
+            print(
+                "\n========== RECONSTRUCTION =========="
+            )
 
             print(
                 "Starting document reconstruction..."
@@ -472,7 +1017,7 @@ async def upload_document(
             reconstructed_docx_filename = (
                 f"{base_name}"
                 f"_reconstructed_"
-                f"{target_language.lower()}.docx"
+                f"{target_language}.docx"
             )
 
             reconstructed_docx_path = os.path.join(
@@ -480,13 +1025,11 @@ async def upload_document(
                 reconstructed_docx_filename
             )
 
-
             reconstruct_docx(
                 file_path,
                 translated_json_path,
                 reconstructed_docx_path
             )
-
 
             print(
                 "Document reconstruction completed!"
@@ -500,7 +1043,6 @@ async def upload_document(
                 reconstructed_docx_path
             )
 
-
             # =================================================
             # 9. RETURN RESPONSE
             # =================================================
@@ -509,7 +1051,8 @@ async def upload_document(
 
                 "message":
                     "File uploaded, extracted, "
-                    "translated and reconstructed successfully",
+                    "translated and reconstructed "
+                    "successfully",
 
                 "filename":
                     file.filename,
@@ -539,7 +1082,6 @@ async def upload_document(
                     translated_result
             }
 
-
         # =================================================
         # 10. OTHER FILE TYPES
         # =================================================
@@ -561,7 +1103,6 @@ async def upload_document(
                 target_language
         }
 
-
     # =====================================================
     # HTTP EXCEPTION
     # =====================================================
@@ -569,7 +1110,6 @@ async def upload_document(
     except HTTPException:
 
         raise
-
 
     # =====================================================
     # GENERAL EXCEPTION

@@ -85,10 +85,10 @@
             "type": "image_text",
             "order": 2,
             "image_name": "image_1.png",
-            "text": "नमस्ते दुनिया।",
+            "text": "नमस्ते दुनिया!",
             "ocr_details": [
                 {
-                    "text": "नमस्ते दुनिया।",
+                    "text": "नमस्ते दुनिया!",
                     "confidence": 0.9951958137064714,
                     "bbox": [
                         [

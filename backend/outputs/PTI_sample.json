@@ -1,0 +1,1156 @@
+{
+    "document_name": "PTI_sample.docx",
+    "document_type": "docx",
+    "elements": [
+        {
+            "id": 1,
+            "type": "paragraph",
+            "list_type": null,
+            "level": null,
+            "order": 1,
+            "text": "Sample File Having text, image and table",
+            "runs": [
+                {
+                    "text": "Sample File Having text, image and table",
+                    "style": {
+                        "font_name": null,
+                        "font_size": 20.0,
+                        "font_color": null,
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": true,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "center",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 2,
+            "type": "paragraph",
+            "list_type": null,
+            "level": null,
+            "order": 2,
+            "text": "We are working on project named document structure extraction and reconstruction for multilingual machine translation.",
+            "runs": [
+                {
+                    "text": "We are working on project named ",
+                    "style": {
+                        "font_name": null,
+                        "font_size": 12.0,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": "document structure extraction and reconstruction for multilingual machine translation",
+                    "style": {
+                        "font_name": null,
+                        "font_size": 12.0,
+                        "font_color": {
+                            "type": "rgb",
+                            "value": "2E74B5"
+                        },
+                        "bold": true,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": true,
+                        "cs_italic": null
+                    }
+                },
+                {
+                    "text": ".",
+                    "style": {
+                        "font_name": null,
+                        "font_size": 12.0,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 3,
+            "type": "paragraph",
+            "list_type": null,
+            "level": null,
+            "order": 3,
+            "text": "We will be working on –",
+            "runs": [
+                {
+                    "text": "We will be working on –",
+                    "style": {
+                        "font_name": null,
+                        "font_size": 12.0,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 4,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 4,
+            "text": "Docx",
+            "runs": [
+                {
+                    "text": "Docx",
+                    "style": {
+                        "font_name": null,
+                        "font_size": 12.0,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "List Paragraph",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 5,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 5,
+            "text": "RTF",
+            "runs": [
+                {
+                    "text": "RTF",
+                    "style": {
+                        "font_name": null,
+                        "font_size": 12.0,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "List Paragraph",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 6,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 6,
+            "text": "PPT",
+            "runs": [
+                {
+                    "text": "PPT",
+                    "style": {
+                        "font_name": null,
+                        "font_size": 12.0,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "List Paragraph",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 7,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 7,
+            "text": "Excel",
+            "runs": [
+                {
+                    "text": "Excel",
+                    "style": {
+                        "font_name": null,
+                        "font_size": 12.0,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "List Paragraph",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 8,
+            "type": "list_item",
+            "list_type": "bulleted",
+            "level": null,
+            "order": 8,
+            "text": "PDF",
+            "runs": [
+                {
+                    "text": "PDF",
+                    "style": {
+                        "font_name": null,
+                        "font_size": 12.0,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "List Paragraph",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 9,
+            "type": "paragraph",
+            "list_type": null,
+            "level": null,
+            "order": 9,
+            "text": "Table",
+            "runs": [
+                {
+                    "text": "Table",
+                    "style": {
+                        "font_name": null,
+                        "font_size": 12.0,
+                        "font_color": null,
+                        "bold": null,
+                        "italic": null,
+                        "underline": null,
+                        "highlight_color": null,
+                        "strike": null,
+                        "double_strike": null,
+                        "all_caps": null,
+                        "small_caps": null,
+                        "subscript": null,
+                        "superscript": null,
+                        "hidden": null,
+                        "outline": null,
+                        "shadow": null,
+                        "emboss": null,
+                        "imprint": null,
+                        "rtl": null,
+                        "complex_script": null,
+                        "cs_bold": null,
+                        "cs_italic": null
+                    }
+                }
+            ],
+            "paragraph_style": {
+                "style_name": "Normal",
+                "alignment": "left",
+                "left_indent": null,
+                "right_indent": null,
+                "first_line_indent": null,
+                "line_spacing": null,
+                "space_before": null,
+                "space_after": null,
+                "keep_together": null,
+                "keep_with_next": null,
+                "page_break_before": null,
+                "widow_control": null
+            }
+        },
+        {
+            "id": 10,
+            "type": "table",
+            "level": null,
+            "order": 10,
+            "rows_count": 3,
+            "columns_count": 3,
+            "rows": [
+                {
+                    "row_index": 0,
+                    "cells": [
+                        {
+                            "cell_index": 0,
+                            "row": 0,
+                            "column": 0,
+                            "text": "Shambhavi",
+                            "original_text": "Shambhavi",
+                            "paragraphs": [
+                                {
+                                    "paragraph_index": 0,
+                                    "text": "Shambhavi",
+                                    "runs": [
+                                        {
+                                            "run_index": 0,
+                                            "text": "Shambhavi",
+                                            "style": {
+                                                "font_name": null,
+                                                "font_size": 12.0,
+                                                "font_color": null,
+                                                "bold": null,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": null,
+                                                "cs_italic": null
+                                            }
+                                        }
+                                    ],
+                                    "paragraph_style": {
+                                        "style_name": "Normal",
+                                        "alignment": "left"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "cell_index": 1,
+                            "row": 0,
+                            "column": 1,
+                            "text": "Paragraph",
+                            "original_text": "Paragraph",
+                            "paragraphs": [
+                                {
+                                    "paragraph_index": 0,
+                                    "text": "Paragraph",
+                                    "runs": [
+                                        {
+                                            "run_index": 0,
+                                            "text": "Paragraph",
+                                            "style": {
+                                                "font_name": null,
+                                                "font_size": 12.0,
+                                                "font_color": null,
+                                                "bold": null,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": null,
+                                                "cs_italic": null
+                                            }
+                                        }
+                                    ],
+                                    "paragraph_style": {
+                                        "style_name": "Normal",
+                                        "alignment": "left"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "cell_index": 2,
+                            "row": 0,
+                            "column": 2,
+                            "text": "Done",
+                            "original_text": "Done",
+                            "paragraphs": [
+                                {
+                                    "paragraph_index": 0,
+                                    "text": "Done",
+                                    "runs": [
+                                        {
+                                            "run_index": 0,
+                                            "text": "Done",
+                                            "style": {
+                                                "font_name": null,
+                                                "font_size": 12.0,
+                                                "font_color": null,
+                                                "bold": null,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": null,
+                                                "cs_italic": null
+                                            }
+                                        }
+                                    ],
+                                    "paragraph_style": {
+                                        "style_name": "Normal",
+                                        "alignment": "left"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "row_index": 1,
+                    "cells": [
+                        {
+                            "cell_index": 0,
+                            "row": 1,
+                            "column": 0,
+                            "text": "Samia",
+                            "original_text": "Samia",
+                            "paragraphs": [
+                                {
+                                    "paragraph_index": 0,
+                                    "text": "Samia",
+                                    "runs": [
+                                        {
+                                            "run_index": 0,
+                                            "text": "Samia",
+                                            "style": {
+                                                "font_name": null,
+                                                "font_size": 12.0,
+                                                "font_color": null,
+                                                "bold": null,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": null,
+                                                "cs_italic": null
+                                            }
+                                        }
+                                    ],
+                                    "paragraph_style": {
+                                        "style_name": "Normal",
+                                        "alignment": "left"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "cell_index": 1,
+                            "row": 1,
+                            "column": 1,
+                            "text": "Image",
+                            "original_text": "Image",
+                            "paragraphs": [
+                                {
+                                    "paragraph_index": 0,
+                                    "text": "Image",
+                                    "runs": [
+                                        {
+                                            "run_index": 0,
+                                            "text": "Image",
+                                            "style": {
+                                                "font_name": null,
+                                                "font_size": 12.0,
+                                                "font_color": null,
+                                                "bold": null,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": null,
+                                                "cs_italic": null
+                                            }
+                                        }
+                                    ],
+                                    "paragraph_style": {
+                                        "style_name": "Normal",
+                                        "alignment": "left"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "cell_index": 2,
+                            "row": 1,
+                            "column": 2,
+                            "text": "Done",
+                            "original_text": "Done",
+                            "paragraphs": [
+                                {
+                                    "paragraph_index": 0,
+                                    "text": "Done",
+                                    "runs": [
+                                        {
+                                            "run_index": 0,
+                                            "text": "Done",
+                                            "style": {
+                                                "font_name": null,
+                                                "font_size": 12.0,
+                                                "font_color": null,
+                                                "bold": null,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": null,
+                                                "cs_italic": null
+                                            }
+                                        }
+                                    ],
+                                    "paragraph_style": {
+                                        "style_name": "Normal",
+                                        "alignment": "left"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "row_index": 2,
+                    "cells": [
+                        {
+                            "cell_index": 0,
+                            "row": 2,
+                            "column": 0,
+                            "text": "Shalvi",
+                            "original_text": "Shalvi",
+                            "paragraphs": [
+                                {
+                                    "paragraph_index": 0,
+                                    "text": "Shalvi",
+                                    "runs": [
+                                        {
+                                            "run_index": 0,
+                                            "text": "Shalvi",
+                                            "style": {
+                                                "font_name": null,
+                                                "font_size": 12.0,
+                                                "font_color": null,
+                                                "bold": null,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": null,
+                                                "cs_italic": null
+                                            }
+                                        }
+                                    ],
+                                    "paragraph_style": {
+                                        "style_name": "Normal",
+                                        "alignment": "left"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "cell_index": 1,
+                            "row": 2,
+                            "column": 1,
+                            "text": "Table",
+                            "original_text": "Table",
+                            "paragraphs": [
+                                {
+                                    "paragraph_index": 0,
+                                    "text": "Table",
+                                    "runs": [
+                                        {
+                                            "run_index": 0,
+                                            "text": "Table",
+                                            "style": {
+                                                "font_name": null,
+                                                "font_size": 12.0,
+                                                "font_color": null,
+                                                "bold": null,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": null,
+                                                "cs_italic": null
+                                            }
+                                        }
+                                    ],
+                                    "paragraph_style": {
+                                        "style_name": "Normal",
+                                        "alignment": "left"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "cell_index": 2,
+                            "row": 2,
+                            "column": 2,
+                            "text": "Done",
+                            "original_text": "Done",
+                            "paragraphs": [
+                                {
+                                    "paragraph_index": 0,
+                                    "text": "Done",
+                                    "runs": [
+                                        {
+                                            "run_index": 0,
+                                            "text": "Done",
+                                            "style": {
+                                                "font_name": null,
+                                                "font_size": 12.0,
+                                                "font_color": null,
+                                                "bold": null,
+                                                "italic": null,
+                                                "underline": null,
+                                                "highlight_color": null,
+                                                "strike": null,
+                                                "double_strike": null,
+                                                "all_caps": null,
+                                                "small_caps": null,
+                                                "subscript": null,
+                                                "superscript": null,
+                                                "hidden": null,
+                                                "outline": null,
+                                                "shadow": null,
+                                                "emboss": null,
+                                                "imprint": null,
+                                                "rtl": null,
+                                                "complex_script": null,
+                                                "cs_bold": null,
+                                                "cs_italic": null
+                                            }
+                                        }
+                                    ],
+                                    "paragraph_style": {
+                                        "style_name": "Normal",
+                                        "alignment": "left"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "table_index": 0
+        },
+        {
+            "id": 11,
+            "type": "image_text",
+            "order": 11,
+            "image_name": "image_1.jpeg",
+            "text": "Once you replace negative thoughts with positive ones, start having positive results: Willie Nelson BrainyQuote you'II",
+            "ocr_details": [
+                {
+                    "text": "Once you replace",
+                    "confidence": 0.971034507950562,
+                    "bbox": [
+                        [
+                            193,
+                            27
+                        ],
+                        [
+                            409,
+                            27
+                        ],
+                        [
+                            409,
+                            65
+                        ],
+                        [
+                            193,
+                            65
+                        ]
+                    ]
+                },
+                {
+                    "text": "negative thoughts with",
+                    "confidence": 0.9999621553483614,
+                    "bbox": [
+                        [
+                            151,
+                            64
+                        ],
+                        [
+                            449,
+                            64
+                        ],
+                        [
+                            449,
+                            107
+                        ],
+                        [
+                            151,
+                            107
+                        ]
+                    ]
+                },
+                {
+                    "text": "positive ones,",
+                    "confidence": 0.8565989373593067,
+                    "bbox": [
+                        [
+                            174,
+                            107
+                        ],
+                        [
+                            353,
+                            107
+                        ],
+                        [
+                            353,
+                            145
+                        ],
+                        [
+                            174,
+                            145
+                        ]
+                    ]
+                },
+                {
+                    "text": "start having positive",
+                    "confidence": 0.9079290681406746,
+                    "bbox": [
+                        [
+                            167,
+                            145
+                        ],
+                        [
+                            433,
+                            145
+                        ],
+                        [
+                            433,
+                            189
+                        ],
+                        [
+                            167,
+                            189
+                        ]
+                    ]
+                },
+                {
+                    "text": "results:",
+                    "confidence": 0.59505656678109,
+                    "bbox": [
+                        [
+                            248,
+                            194
+                        ],
+                        [
+                            350,
+                            194
+                        ],
+                        [
+                            350,
+                            222
+                        ],
+                        [
+                            248,
+                            222
+                        ]
+                    ]
+                },
+                {
+                    "text": "Willie Nelson",
+                    "confidence": 0.9998768544089606,
+                    "bbox": [
+                        [
+                            249,
+                            235
+                        ],
+                        [
+                            351,
+                            235
+                        ],
+                        [
+                            351,
+                            255
+                        ],
+                        [
+                            249,
+                            255
+                        ]
+                    ]
+                },
+                {
+                    "text": "BrainyQuote",
+                    "confidence": 0.9999416634668153,
+                    "bbox": [
+                        [
+                            247,
+                            286
+                        ],
+                        [
+                            352,
+                            286
+                        ],
+                        [
+                            352,
+                            311
+                        ],
+                        [
+                            247,
+                            311
+                        ]
+                    ]
+                },
+                {
+                    "text": "you'II",
+                    "confidence": 0.41960731729195044,
+                    "bbox": [
+                        [
+                            349,
+                            113
+                        ],
+                        [
+                            426,
+                            107
+                        ],
+                        [
+                            427,
+                            140
+                        ],
+                        [
+                            350,
+                            146
+                        ]
+                    ]
+                }
+            ]
+        }
+    ]
+}

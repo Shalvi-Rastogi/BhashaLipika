@@ -130,7 +130,12 @@ def process_paragraph(block, element_id):
 
         "style_name": style_name,
 
-        "alignment": get_alignment(block.alignment),
+        "alignment": get_alignment(
+            block.alignment,
+            block.style.paragraph_format.alignment
+            if block.style
+            else None,
+        ),
 
         "left_indent": get_indent(
             block.paragraph_format.left_indent
