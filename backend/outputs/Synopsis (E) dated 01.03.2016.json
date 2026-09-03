@@ -17,8 +17,8 @@
                         "font_size": 11.0,
                         "font_color": null,
                         "bold": true,
-                        "italic": null,
-                        "underline": null,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -33,8 +33,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 }
             ],
@@ -68,8 +68,8 @@
                         "font_size": 11.0,
                         "font_color": null,
                         "bold": true,
-                        "italic": null,
-                        "underline": null,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -84,8 +84,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 }
             ],
@@ -119,8 +119,8 @@
                         "font_size": 11.0,
                         "font_color": null,
                         "bold": true,
-                        "italic": null,
-                        "underline": null,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -135,8 +135,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 }
             ],
@@ -170,8 +170,8 @@
                         "font_size": 11.0,
                         "font_color": null,
                         "bold": true,
-                        "italic": null,
-                        "underline": null,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -186,8 +186,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 }
             ],
@@ -221,8 +221,8 @@
                         "font_size": 11.0,
                         "font_color": null,
                         "bold": true,
-                        "italic": null,
-                        "underline": null,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -237,8 +237,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 }
             ],
@@ -272,8 +272,8 @@
                         "font_size": 11.0,
                         "font_color": null,
                         "bold": true,
-                        "italic": null,
-                        "underline": null,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -288,8 +288,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 }
             ],
@@ -323,8 +323,8 @@
                         "font_size": 11.0,
                         "font_color": null,
                         "bold": true,
-                        "italic": null,
-                        "underline": null,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -339,8 +339,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -350,8 +350,8 @@
                         "font_size": 11.0,
                         "font_color": null,
                         "bold": true,
-                        "italic": null,
-                        "underline": null,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -366,8 +366,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -377,8 +377,8 @@
                         "font_size": 11.0,
                         "font_color": null,
                         "bold": true,
-                        "italic": null,
-                        "underline": null,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -393,8 +393,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -404,8 +404,8 @@
                         "font_size": 11.0,
                         "font_color": null,
                         "bold": true,
-                        "italic": null,
-                        "underline": null,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -420,8 +420,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -431,8 +431,8 @@
                         "font_size": 11.0,
                         "font_color": null,
                         "bold": true,
-                        "italic": null,
-                        "underline": null,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -447,8 +447,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -458,8 +458,8 @@
                         "font_size": 11.0,
                         "font_color": null,
                         "bold": true,
-                        "italic": null,
-                        "underline": null,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -474,8 +474,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -485,8 +485,8 @@
                         "font_size": 11.0,
                         "font_color": null,
                         "bold": true,
-                        "italic": null,
-                        "underline": null,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -501,8 +501,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -512,8 +512,8 @@
                         "font_size": 11.0,
                         "font_color": null,
                         "bold": true,
-                        "italic": null,
-                        "underline": null,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -528,8 +528,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -539,8 +539,8 @@
                         "font_size": 11.0,
                         "font_color": null,
                         "bold": true,
-                        "italic": null,
-                        "underline": null,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -555,8 +555,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -566,8 +566,8 @@
                         "font_size": 11.0,
                         "font_color": null,
                         "bold": true,
-                        "italic": null,
-                        "underline": null,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -582,8 +582,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -593,8 +593,8 @@
                         "font_size": 11.0,
                         "font_color": null,
                         "bold": true,
-                        "italic": null,
-                        "underline": null,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -609,8 +609,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -620,8 +620,8 @@
                         "font_size": 11.0,
                         "font_color": null,
                         "bold": true,
-                        "italic": null,
-                        "underline": null,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -636,8 +636,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -647,8 +647,8 @@
                         "font_size": 11.0,
                         "font_color": null,
                         "bold": true,
-                        "italic": null,
-                        "underline": null,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -663,8 +663,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -674,8 +674,8 @@
                         "font_size": 11.0,
                         "font_color": null,
                         "bold": true,
-                        "italic": null,
-                        "underline": null,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -690,8 +690,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -701,8 +701,8 @@
                         "font_size": 11.0,
                         "font_color": null,
                         "bold": true,
-                        "italic": null,
-                        "underline": null,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -717,8 +717,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -728,8 +728,8 @@
                         "font_size": 11.0,
                         "font_color": null,
                         "bold": true,
-                        "italic": null,
-                        "underline": null,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -744,8 +744,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -755,8 +755,8 @@
                         "font_size": 11.0,
                         "font_color": null,
                         "bold": true,
-                        "italic": null,
-                        "underline": null,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -771,8 +771,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 }
             ],
@@ -806,8 +806,8 @@
                         "font_size": 11.0,
                         "font_color": null,
                         "bold": true,
-                        "italic": null,
-                        "underline": null,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -822,8 +822,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -833,8 +833,8 @@
                         "font_size": 11.0,
                         "font_color": null,
                         "bold": true,
-                        "italic": null,
-                        "underline": null,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -849,8 +849,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 }
             ],
@@ -883,9 +883,9 @@
                         "font_name": null,
                         "font_size": null,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -900,8 +900,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 }
             ],
@@ -935,8 +935,8 @@
                         "font_size": 11.0,
                         "font_color": null,
                         "bold": true,
-                        "italic": null,
-                        "underline": null,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -952,7 +952,7 @@
                         "rtl": null,
                         "complex_script": null,
                         "cs_bold": true,
-                        "cs_italic": null
+                        "cs_italic": false
                     }
                 },
                 {
@@ -961,9 +961,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -978,8 +978,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -988,9 +988,9 @@
                         "font_name": null,
                         "font_size": null,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -1005,8 +1005,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -1015,9 +1015,9 @@
                         "font_name": null,
                         "font_size": null,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -1032,8 +1032,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -1042,9 +1042,9 @@
                         "font_name": null,
                         "font_size": null,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -1059,8 +1059,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -1069,9 +1069,9 @@
                         "font_name": null,
                         "font_size": null,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -1086,8 +1086,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -1096,9 +1096,9 @@
                         "font_name": null,
                         "font_size": null,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -1113,8 +1113,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -1123,9 +1123,9 @@
                         "font_name": null,
                         "font_size": null,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -1140,8 +1140,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -1150,9 +1150,9 @@
                         "font_name": null,
                         "font_size": null,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -1167,8 +1167,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -1177,9 +1177,9 @@
                         "font_name": null,
                         "font_size": null,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -1194,8 +1194,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -1204,9 +1204,9 @@
                         "font_name": null,
                         "font_size": null,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -1221,8 +1221,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -1231,9 +1231,9 @@
                         "font_name": null,
                         "font_size": null,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -1248,8 +1248,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -1258,9 +1258,9 @@
                         "font_name": null,
                         "font_size": null,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -1275,8 +1275,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -1285,9 +1285,9 @@
                         "font_name": null,
                         "font_size": null,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -1302,8 +1302,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -1312,9 +1312,9 @@
                         "font_name": null,
                         "font_size": null,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -1329,8 +1329,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -1339,9 +1339,9 @@
                         "font_name": null,
                         "font_size": null,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -1356,8 +1356,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 }
             ],
@@ -1390,9 +1390,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -1407,8 +1407,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -1417,9 +1417,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -1434,8 +1434,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -1444,9 +1444,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -1461,8 +1461,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -1471,9 +1471,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -1488,8 +1488,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -1498,9 +1498,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -1515,8 +1515,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -1525,9 +1525,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -1542,8 +1542,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -1552,9 +1552,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -1569,8 +1569,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -1579,9 +1579,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -1596,8 +1596,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -1606,9 +1606,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -1623,8 +1623,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -1633,9 +1633,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -1650,8 +1650,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -1660,9 +1660,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -1677,8 +1677,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -1687,9 +1687,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -1704,8 +1704,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -1714,9 +1714,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -1731,8 +1731,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -1741,9 +1741,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -1758,8 +1758,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -1768,9 +1768,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -1785,8 +1785,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -1795,9 +1795,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -1812,8 +1812,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -1822,9 +1822,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -1839,8 +1839,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -1849,9 +1849,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -1866,8 +1866,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -1876,9 +1876,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -1893,8 +1893,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -1903,9 +1903,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -1920,8 +1920,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -1930,9 +1930,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -1947,8 +1947,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -1957,9 +1957,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -1974,8 +1974,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -1984,9 +1984,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -2001,8 +2001,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -2011,9 +2011,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -2028,8 +2028,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -2038,9 +2038,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -2055,8 +2055,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -2065,9 +2065,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -2082,8 +2082,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -2092,9 +2092,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -2109,8 +2109,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 }
             ],
@@ -2143,9 +2143,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
+                        "bold": false,
                         "italic": true,
-                        "underline": null,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -2160,7 +2160,7 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
+                        "cs_bold": false,
                         "cs_italic": true
                     }
                 },
@@ -2170,9 +2170,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
+                        "bold": false,
                         "italic": true,
-                        "underline": null,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -2187,7 +2187,7 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
+                        "cs_bold": false,
                         "cs_italic": true
                     }
                 },
@@ -2197,9 +2197,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
+                        "bold": false,
                         "italic": true,
-                        "underline": null,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -2214,7 +2214,7 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
+                        "cs_bold": false,
                         "cs_italic": true
                     }
                 }
@@ -2248,9 +2248,9 @@
                         "font_name": null,
                         "font_size": null,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -2265,8 +2265,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -2275,9 +2275,9 @@
                         "font_name": null,
                         "font_size": null,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -2292,8 +2292,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -2302,9 +2302,9 @@
                         "font_name": null,
                         "font_size": null,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -2319,8 +2319,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -2329,9 +2329,9 @@
                         "font_name": null,
                         "font_size": null,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -2346,8 +2346,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -2356,9 +2356,9 @@
                         "font_name": null,
                         "font_size": 10.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -2373,8 +2373,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 }
             ],
@@ -2407,9 +2407,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -2424,8 +2424,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -2434,9 +2434,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -2451,8 +2451,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -2461,9 +2461,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -2478,8 +2478,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -2488,9 +2488,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -2505,8 +2505,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -2515,9 +2515,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -2532,8 +2532,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -2542,9 +2542,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -2559,8 +2559,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -2569,9 +2569,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -2586,8 +2586,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -2596,9 +2596,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -2613,8 +2613,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 }
             ],
@@ -2647,9 +2647,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -2664,8 +2664,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -2674,9 +2674,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
+                        "bold": false,
                         "italic": true,
-                        "underline": null,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -2691,7 +2691,7 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
+                        "cs_bold": false,
                         "cs_italic": true
                     }
                 },
@@ -2701,9 +2701,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
+                        "bold": false,
                         "italic": true,
-                        "underline": null,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -2718,7 +2718,7 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
+                        "cs_bold": false,
                         "cs_italic": true
                     }
                 },
@@ -2728,9 +2728,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
+                        "bold": false,
                         "italic": true,
-                        "underline": null,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -2745,7 +2745,7 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
+                        "cs_bold": false,
                         "cs_italic": true
                     }
                 }
@@ -2780,8 +2780,8 @@
                         "font_size": 11.0,
                         "font_color": null,
                         "bold": true,
-                        "italic": null,
-                        "underline": null,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -2797,7 +2797,7 @@
                         "rtl": null,
                         "complex_script": null,
                         "cs_bold": true,
-                        "cs_italic": null
+                        "cs_italic": false
                     }
                 },
                 {
@@ -2806,9 +2806,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -2823,8 +2823,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -2833,9 +2833,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -2850,8 +2850,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -2860,9 +2860,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -2877,8 +2877,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -2887,9 +2887,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -2904,8 +2904,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -2914,9 +2914,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -2931,8 +2931,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -2941,9 +2941,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -2958,8 +2958,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 }
             ],
@@ -2992,9 +2992,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -3009,8 +3009,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -3019,9 +3019,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -3036,8 +3036,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -3046,9 +3046,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -3063,8 +3063,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -3073,9 +3073,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -3090,8 +3090,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -3100,9 +3100,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -3117,8 +3117,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -3127,9 +3127,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -3144,8 +3144,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -3154,9 +3154,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -3171,8 +3171,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -3181,9 +3181,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -3198,8 +3198,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -3208,9 +3208,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -3225,8 +3225,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -3235,9 +3235,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -3252,8 +3252,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 }
             ],
@@ -3286,9 +3286,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -3303,8 +3303,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -3313,9 +3313,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": true,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -3330,8 +3330,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": true
                     }
                 },
                 {
@@ -3340,9 +3340,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": true,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -3357,8 +3357,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": true
                     }
                 },
                 {
@@ -3367,9 +3367,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": true,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -3384,8 +3384,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": true
                     }
                 },
                 {
@@ -3394,9 +3394,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": true,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -3411,8 +3411,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": true
                     }
                 },
                 {
@@ -3421,9 +3421,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": true,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -3438,8 +3438,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": true
                     }
                 },
                 {
@@ -3448,9 +3448,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -3465,8 +3465,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -3475,9 +3475,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
+                        "bold": false,
                         "italic": true,
-                        "underline": null,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -3492,7 +3492,7 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
+                        "cs_bold": false,
                         "cs_italic": true
                     }
                 }
@@ -3527,8 +3527,8 @@
                         "font_size": 11.0,
                         "font_color": null,
                         "bold": true,
-                        "italic": null,
-                        "underline": null,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -3544,7 +3544,7 @@
                         "rtl": null,
                         "complex_script": null,
                         "cs_bold": true,
-                        "cs_italic": null
+                        "cs_italic": false
                     }
                 },
                 {
@@ -3553,9 +3553,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -3570,8 +3570,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -3580,9 +3580,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -3597,8 +3597,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -3607,9 +3607,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -3624,8 +3624,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -3634,9 +3634,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -3651,8 +3651,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -3661,9 +3661,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -3678,8 +3678,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 }
             ],
@@ -3712,9 +3712,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -3729,8 +3729,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -3739,9 +3739,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -3756,8 +3756,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -3766,9 +3766,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -3783,8 +3783,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -3793,9 +3793,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -3810,8 +3810,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -3820,9 +3820,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -3837,8 +3837,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -3847,9 +3847,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -3864,8 +3864,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -3874,9 +3874,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -3891,8 +3891,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -3901,9 +3901,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -3918,8 +3918,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -3928,9 +3928,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -3945,8 +3945,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 }
             ],
@@ -3979,9 +3979,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -3996,8 +3996,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -4006,9 +4006,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": true,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -4023,8 +4023,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": true
                     }
                 },
                 {
@@ -4033,9 +4033,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": true,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -4050,8 +4050,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": true
                     }
                 },
                 {
@@ -4060,9 +4060,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": true,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -4077,8 +4077,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": true
                     }
                 },
                 {
@@ -4087,9 +4087,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": true,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -4104,8 +4104,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": true
                     }
                 },
                 {
@@ -4114,9 +4114,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": true,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -4131,8 +4131,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": true
                     }
                 }
             ],
@@ -4166,8 +4166,8 @@
                         "font_size": 11.0,
                         "font_color": null,
                         "bold": true,
-                        "italic": null,
-                        "underline": null,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -4183,7 +4183,7 @@
                         "rtl": null,
                         "complex_script": null,
                         "cs_bold": true,
-                        "cs_italic": null
+                        "cs_italic": false
                     }
                 },
                 {
@@ -4192,9 +4192,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -4209,8 +4209,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -4219,9 +4219,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -4236,8 +4236,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -4246,9 +4246,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -4263,8 +4263,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -4273,9 +4273,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -4290,8 +4290,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -4300,9 +4300,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -4317,8 +4317,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -4327,9 +4327,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -4344,8 +4344,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -4354,9 +4354,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -4371,8 +4371,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -4381,9 +4381,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -4398,8 +4398,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -4408,9 +4408,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -4425,8 +4425,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -4435,9 +4435,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -4452,8 +4452,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 }
             ],
@@ -4486,9 +4486,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -4503,8 +4503,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -4513,9 +4513,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": true,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -4530,8 +4530,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": true,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -4540,9 +4540,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -4557,8 +4557,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -4567,9 +4567,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -4584,8 +4584,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -4594,9 +4594,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -4611,8 +4611,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -4621,9 +4621,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -4638,8 +4638,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -4648,9 +4648,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -4665,8 +4665,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -4675,9 +4675,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -4692,8 +4692,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -4702,9 +4702,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -4719,8 +4719,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -4729,9 +4729,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -4746,8 +4746,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -4756,9 +4756,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -4773,8 +4773,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -4783,9 +4783,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -4800,8 +4800,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -4810,9 +4810,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -4827,8 +4827,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -4837,9 +4837,9 @@
                         "font_name": null,
                         "font_size": 11.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -4854,8 +4854,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 }
             ],
@@ -4892,8 +4892,8 @@
                             "value": "000000"
                         },
                         "bold": true,
-                        "italic": null,
-                        "underline": null,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -4909,7 +4909,7 @@
                         "rtl": null,
                         "complex_script": null,
                         "cs_bold": true,
-                        "cs_italic": null
+                        "cs_italic": false
                     }
                 }
             ],
@@ -4945,9 +4945,9 @@
                             "type": "rgb",
                             "value": "000000"
                         },
-                        "bold": null,
+                        "bold": false,
                         "italic": true,
-                        "underline": null,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -4962,7 +4962,7 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
+                        "cs_bold": false,
                         "cs_italic": true
                     }
                 }
