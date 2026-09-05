@@ -20,6 +20,11 @@ from docx import Document
 from app.extractors.Docx.document_parser import parse_document
 from app.reconstructors.docx_reconstructor import reconstruct_docx
 
+# =========================================================
+# ADDED PPTX IMPORT (MODULAR SERVICE)
+# =========================================================
+from app.services.pptx_service import process_pptx_pipeline
+
 
 router = APIRouter()
 
@@ -1080,6 +1085,47 @@ async def upload_document(
 
                 "translated_data":
                     translated_result
+            }
+
+        # =================================================
+        # 9.5 PPTX PROCESSING (NAYA BLOCK ADD KIYA GAYA)
+        # =================================================
+
+        elif file_type == "PPTX":
+
+            print(
+                "\nProcessing PPTX document..."
+            )
+
+            result = process_pptx_pipeline(
+                file_path=file_path,
+                filename=file.filename,
+                target_language=target_language,
+                tgt_lang_code=tgt_lang,
+                output_folder=OUTPUT_FOLDER,
+                translate_func=translate_text
+            )
+
+            return {
+
+                "message":
+                    "PPTX File uploaded, extracted, "
+                    "translated and reconstructed "
+                    "successfully",
+
+                "filename":
+                    file.filename,
+
+                "file_type":
+                    file_type,
+
+                "target_language":
+                    target_language,
+
+                "target_language_code":
+                    tgt_lang,
+
+                **result
             }
 
         # =================================================
