@@ -17,12 +17,24 @@ from fastapi import (
 
 from docx import Document
 
+# =========================================================
+# POSTGRESQL IMPORTS
+# =========================================================
+
+from app.database.database import SessionLocal
+from app.database.models import Document as DocumentModel
+
+# =========================================================
+# PROJECT IMPORTS
+# =========================================================
+
 from app.extractors.Docx.document_parser import parse_document
 from app.reconstructors.docx_reconstructor import reconstruct_docx
 
 # =========================================================
-# ADDED PPTX IMPORT (MODULAR SERVICE)
+# PPTX IMPORT
 # =========================================================
+
 from app.services.pptx_service import process_pptx_pipeline
 
 
@@ -110,7 +122,10 @@ def translate_text(
     if not text or not text.strip():
         return text
 
-    # Preserve dotted abbreviations such as "w.e.f." exactly.
+    # -----------------------------------------------------
+    # Preserve dotted abbreviations
+    # -----------------------------------------------------
+
     if re.fullmatch(
         r"[A-Za-z](?:\.[A-Za-z])+\.?",
         text.strip()
@@ -149,15 +164,6 @@ def translate_text(
 
     # -----------------------------------------------------
     # Smart punctuation separation
-    #
-    # Example:
-    #
-    # "Specifications:"
-    #
-    # becomes:
-    #
-    # core_text = "Specifications"
-    # trailing   = ":"
     # -----------------------------------------------------
 
     match = re.match(
@@ -174,8 +180,6 @@ def translate_text(
 
     else:
 
-        # Text contains only symbols/punctuation.
-        # No translation required.
         return text
 
     # -----------------------------------------------------
@@ -276,17 +280,6 @@ def translate_text(
 
     # -----------------------------------------------------
     # Remove unwanted Devanagari full stop
-    #
-    # Example:
-    #
-    # Original:
-    # "Laptop"
-    #
-    # API:
-    # "लैपटॉप।"
-    #
-    # Result:
-    # "लैपटॉप"
     # -----------------------------------------------------
 
     if (
@@ -340,15 +333,6 @@ def translate_json(
     """
     Recursively translate all text fields
     in extracted document JSON.
-
-    Handles:
-        - paragraphs
-        - headings
-        - table cells
-        - nested tables
-        - image text
-        - runs
-        - deeply nested structures
     """
 
     if translation_cache is None:
@@ -457,11 +441,7 @@ def translate_json(
                     )
 
         # -------------------------------------------------
-        # Recursively process all other fields
-        #
-        # IMPORTANT:
-        # Do not process "text", "runs",
-        # or "original_text" again.
+        # Recursively process other fields
         # -------------------------------------------------
 
         for key in list(data.keys()):
@@ -510,26 +490,56 @@ def translate_json(
 # COLLECT CANONICAL TEXTS
 # =========================================================
 
-def collect_translation_texts(data, texts=None):
-    """Collect canonical text fields without structural duplicates."""
+def collect_translation_texts(
+    data,
+    texts=None
+):
+    """
+    Collect canonical text fields
+    without structural duplicates.
+    """
+
     if texts is None:
+
         texts = set()
 
     if isinstance(data, dict):
+
         text = data.get("text")
-        if isinstance(text, str) and text.strip():
-            # Strip spaces to prevent mismatch on first lines/headings
-            texts.add(text.strip())
+
+        if (
+            isinstance(text, str)
+            and text.strip()
+        ):
+
+            texts.add(
+                text.strip()
+            )
 
         for key, value in data.items():
-            if key not in ["text", "runs", "original_text"]:
-                collect_translation_texts(value, texts)
+
+            if key not in [
+                "text",
+                "runs",
+                "original_text"
+            ]:
+
+                collect_translation_texts(
+                    value,
+                    texts
+                )
 
     elif isinstance(data, list):
+
         for item in data:
-            collect_translation_texts(item, texts)
+
+            collect_translation_texts(
+                item,
+                texts
+            )
 
     return texts
+
 
 # =========================================================
 # DEBUG: FIND PARTICULAR TEXT
@@ -541,9 +551,6 @@ def find_text_in_json(
 ):
     """
     Debug helper.
-
-    Finds whether a particular text exists
-    anywhere in extracted JSON.
     """
 
     found = False
@@ -565,7 +572,10 @@ def find_text_in_json(
 
                 found = True
 
-            elif isinstance(value, (dict, list)):
+            elif isinstance(
+                value,
+                (dict, list)
+            ):
 
                 if find_text_in_json(
                     value,
@@ -589,6 +599,66 @@ def find_text_in_json(
 
 
 # =========================================================
+# DATABASE STATUS UPDATE HELPER
+# =========================================================
+
+def update_document_status(
+    document_id,
+    status,
+    output_filename=None
+):
+    """
+    Update document processing status
+    in PostgreSQL.
+    """
+
+    db = SessionLocal()
+
+    try:
+
+        db_document = db.get(
+            DocumentModel,
+            document_id
+        )
+
+        if db_document is None:
+
+            print(
+                f"WARNING: Document ID "
+                f"{document_id} not found "
+                f"in PostgreSQL."
+            )
+
+            return
+
+        db_document.status = status
+
+        if output_filename is not None:
+
+            db_document.output_filename = (
+                output_filename
+            )
+
+        db.commit()
+
+        print(
+            f"PostgreSQL updated: "
+            f"ID={document_id}, "
+            f"status={status}"
+        )
+
+    except Exception:
+
+        db.rollback()
+
+        traceback.print_exc()
+
+    finally:
+
+        db.close()
+
+
+# =========================================================
 # UPLOAD API
 # =========================================================
 
@@ -597,6 +667,8 @@ async def upload_document(
     file: UploadFile = File(...),
     target_language: str = Form(...)
 ):
+
+    document_id = None
 
     try:
 
@@ -621,6 +693,10 @@ async def upload_document(
             ]
         )
 
+        # =================================================
+        # 2. DOCX FILE SIZE CHECK
+        # =================================================
+
         if file_type == "DOCX":
 
             file_content = await file.read()
@@ -630,37 +706,12 @@ async def upload_document(
                 raise HTTPException(
                     status_code=413,
                     detail=(
-                        "Only files up to 5 MB can be handled."
+                        "Only files up to 5 MB "
+                        "can be handled."
                     )
                 )
 
             await file.seek(0)
-
-        # =================================================
-        # 2. SAVE UPLOADED FILE
-        # =================================================
-
-        file_path = os.path.join(
-            UPLOAD_FOLDER,
-            file.filename
-        )
-
-        with open(
-            file_path,
-            "wb"
-        ) as buffer:
-
-            buffer.write(
-                await file.read()
-            )
-
-        print(
-            f"\nFile saved: {file_path}"
-        )
-
-        print(
-            f"Detected file type: {file_type}"
-        )
 
         # =================================================
         # 3. CHECK TARGET LANGUAGE
@@ -695,7 +746,75 @@ async def upload_document(
         )
 
         # =================================================
-        # 4. DOCX PROCESSING
+        # 4. SAVE DOCUMENT METADATA IN POSTGRESQL
+        # =================================================
+
+        db = SessionLocal()
+
+        try:
+
+            db_document = DocumentModel(
+                original_filename=file.filename,
+                file_type=file_type,
+                source_language="en",
+                target_language=target_language,
+                status="uploaded"
+            )
+
+            db.add(db_document)
+
+            db.commit()
+
+            db.refresh(db_document)
+
+            document_id = db_document.id
+
+            print(
+                f"\nDocument saved in PostgreSQL."
+            )
+
+            print(
+                f"Document ID: {document_id}"
+            )
+
+        except Exception:
+
+            db.rollback()
+
+            raise
+
+        finally:
+
+            db.close()
+
+        # =================================================
+        # 5. SAVE UPLOADED FILE
+        # =================================================
+
+        file_path = os.path.join(
+            UPLOAD_FOLDER,
+            file.filename
+        )
+
+        with open(
+            file_path,
+            "wb"
+        ) as buffer:
+
+            buffer.write(
+                await file.read()
+            )
+
+        print(
+            f"\nFile saved: {file_path}"
+        )
+
+        print(
+            f"Detected file type: {file_type}"
+        )
+
+        # =================================================
+        # 6. DOCX PROCESSING
         # =================================================
 
         if file_type == "DOCX":
@@ -730,6 +849,15 @@ async def upload_document(
             )
 
             # =================================================
+            # UPDATE STATUS: EXTRACTED
+            # =================================================
+
+            update_document_status(
+                document_id,
+                "extracted"
+            )
+
+            # =================================================
             # DEBUG: CHECK HEADING EXTRACTION
             # =================================================
 
@@ -761,7 +889,7 @@ async def upload_document(
             )
 
             # =================================================
-            # 5. SAVE EXTRACTED JSON
+            # 7. SAVE EXTRACTED JSON
             # =================================================
 
             base_name = os.path.splitext(
@@ -795,7 +923,7 @@ async def upload_document(
             )
 
             # =================================================
-            # 6. TRANSLATION
+            # 8. TRANSLATION
             # =================================================
 
             print(
@@ -908,6 +1036,15 @@ async def upload_document(
             )
 
             # =================================================
+            # UPDATE STATUS: TRANSLATED
+            # =================================================
+
+            update_document_status(
+                document_id,
+                "translated"
+            )
+
+            # =================================================
             # DEBUG: CHECK TRANSLATED HEADING
             # =================================================
 
@@ -923,10 +1060,6 @@ async def upload_document(
             print(
                 "Looking for translated heading..."
             )
-
-            # Search recursively for Devanagari
-            # version isn't exact because API output
-            # can vary, so print top-level paragraphs.
 
             if isinstance(
                 translated_result,
@@ -972,7 +1105,7 @@ async def upload_document(
             )
 
             # =================================================
-            # 7. SAVE TRANSLATED JSON
+            # 9. SAVE TRANSLATED JSON
             # =================================================
 
             translated_json_filename = (
@@ -1008,7 +1141,7 @@ async def upload_document(
             )
 
             # =================================================
-            # 8. RECONSTRUCTION
+            # 10. RECONSTRUCTION
             # =================================================
 
             print(
@@ -1049,7 +1182,17 @@ async def upload_document(
             )
 
             # =================================================
-            # 9. RETURN RESPONSE
+            # UPDATE STATUS: COMPLETED
+            # =================================================
+
+            update_document_status(
+                document_id,
+                "completed",
+                reconstructed_docx_filename
+            )
+
+            # =================================================
+            # 11. RETURN RESPONSE
             # =================================================
 
             return {
@@ -1058,6 +1201,9 @@ async def upload_document(
                     "File uploaded, extracted, "
                     "translated and reconstructed "
                     "successfully",
+
+                "document_id":
+                    document_id,
 
                 "filename":
                     file.filename,
@@ -1070,6 +1216,9 @@ async def upload_document(
 
                 "target_language_code":
                     tgt_lang,
+
+                "status":
+                    "completed",
 
                 "json_file":
                     json_filename,
@@ -1088,7 +1237,7 @@ async def upload_document(
             }
 
         # =================================================
-        # 9.5 PPTX PROCESSING (NAYA BLOCK ADD KIYA GAYA)
+        # 12. PPTX PROCESSING
         # =================================================
 
         elif file_type == "PPTX":
@@ -1106,12 +1255,41 @@ async def upload_document(
                 translate_func=translate_text
             )
 
+            # =================================================
+            # UPDATE STATUS: COMPLETED
+            # =================================================
+
+            output_filename = None
+
+            if isinstance(result, dict):
+
+                output_filename = (
+                    result.get(
+                        "reconstructed_pptx_file"
+                    )
+                    or result.get(
+                        "output_filename"
+                    )
+                    or result.get(
+                        "output_file"
+                    )
+                )
+
+            update_document_status(
+                document_id,
+                "completed",
+                output_filename
+            )
+
             return {
 
                 "message":
                     "PPTX File uploaded, extracted, "
                     "translated and reconstructed "
                     "successfully",
+
+                "document_id":
+                    document_id,
 
                 "filename":
                     file.filename,
@@ -1125,12 +1303,20 @@ async def upload_document(
                 "target_language_code":
                     tgt_lang,
 
+                "status":
+                    "completed",
+
                 **result
             }
 
         # =================================================
-        # 10. OTHER FILE TYPES
+        # 13. OTHER FILE TYPES
         # =================================================
+
+        update_document_status(
+            document_id,
+            "uploaded"
+        )
 
         return {
 
@@ -1139,6 +1325,9 @@ async def upload_document(
                 "Extraction/reconstruction is not "
                 "implemented yet.",
 
+            "document_id":
+                document_id,
+
             "filename":
                 file.filename,
 
@@ -1146,7 +1335,10 @@ async def upload_document(
                 file_type,
 
             "target_language":
-                target_language
+                target_language,
+
+            "status":
+                "uploaded"
         }
 
     # =====================================================
@@ -1154,6 +1346,14 @@ async def upload_document(
     # =====================================================
 
     except HTTPException:
+
+        # Update database if record was already created
+        if document_id is not None:
+
+            update_document_status(
+                document_id,
+                "failed"
+            )
 
         raise
 
@@ -1172,6 +1372,17 @@ async def upload_document(
         print(
             "===========================\n"
         )
+
+        # -------------------------------------------------
+        # UPDATE DATABASE: FAILED
+        # -------------------------------------------------
+
+        if document_id is not None:
+
+            update_document_status(
+                document_id,
+                "failed"
+            )
 
         raise HTTPException(
             status_code=500,

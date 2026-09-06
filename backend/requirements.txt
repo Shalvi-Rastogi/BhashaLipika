@@ -26,6 +26,8 @@ pydantic_core==2.46.4
 python-bidi==0.6.11
 python-multipart==0.0.20
 PyYAML==6.0.3
+psycopg2-binary==2.9.11
+SQLAlchemy==2.0.46
 scikit-image==0.24.0
 scipy==1.13.1
 shapely==2.0.7

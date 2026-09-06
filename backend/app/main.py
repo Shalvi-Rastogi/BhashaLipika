@@ -1,6 +1,11 @@
 from fastapi import FastAPI
 from app.routes import upload
 from fastapi.middleware.cors import CORSMiddleware
+from app.database.database import Base, engine
+from app.database import models
+
+
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="Multilingual Document Translation API",
