@@ -19,6 +19,10 @@ from docx import Document
 
 from app.extractors.Docx.document_parser import parse_document
 from app.reconstructors.docx_reconstructor import reconstruct_docx
+from app.utils.doc_converter import (
+    convert_doc_to_docx,
+    convert_docx_to_doc
+)
 
 
 router = APIRouter()
@@ -50,6 +54,7 @@ os.makedirs(
 
 ALLOWED_EXTENSIONS = {
     ".pdf": "PDF",
+    ".doc": "DOC",
     ".docx": "DOCX",
     ".pptx": "PPTX",
     ".xlsx": "XLSX",
@@ -105,12 +110,17 @@ def translate_text(
     if not text or not text.strip():
         return text
 
-    # Preserve dotted abbreviations such as "w.e.f." exactly.
+
+    # -----------------------------------------------------
+    # Preserve dotted abbreviations such as "w.e.f."
+    # -----------------------------------------------------
+
     if re.fullmatch(
         r"[A-Za-z](?:\.[A-Za-z])+\.?",
         text.strip()
     ):
         return text
+
 
     # -----------------------------------------------------
     # Handle newlines
@@ -142,6 +152,7 @@ def translate_text(
             translated_lines
         )
 
+
     # -----------------------------------------------------
     # Smart punctuation separation
     #
@@ -171,7 +182,9 @@ def translate_text(
 
         # Text contains only symbols/punctuation.
         # No translation required.
+
         return text
+
 
     # -----------------------------------------------------
     # Debug log
@@ -196,6 +209,7 @@ def translate_text(
         repr(core_text)
     )
 
+
     # -----------------------------------------------------
     # API payload
     # -----------------------------------------------------
@@ -210,6 +224,7 @@ def translate_text(
 
     translated_core = core_text
 
+
     # -----------------------------------------------------
     # API request with retry
     # -----------------------------------------------------
@@ -222,7 +237,7 @@ def translate_text(
                 TRANSLATION_API_URL,
                 json=payload,
                 timeout=60,
-                verify=False
+                #verify=False
             )
 
             response.raise_for_status()
@@ -269,19 +284,9 @@ def translate_text(
                     2 ** attempt
                 )
 
+
     # -----------------------------------------------------
     # Remove unwanted Devanagari full stop
-    #
-    # Example:
-    #
-    # Original:
-    # "Laptop"
-    #
-    # API:
-    # "लैपटॉप।"
-    #
-    # Result:
-    # "लैपटॉप"
     # -----------------------------------------------------
 
     if (
@@ -295,6 +300,7 @@ def translate_text(
             .strip()
         )
 
+
     # -----------------------------------------------------
     # Restore punctuation / spaces
     # -----------------------------------------------------
@@ -304,6 +310,7 @@ def translate_text(
         + translated_core
         + trailing_chars
     )
+
 
     # -----------------------------------------------------
     # Debug log
@@ -333,21 +340,17 @@ def translate_json(
     translation_cache=None
 ):
     """
-    Recursively translate all text fields
-    in extracted document JSON.
+    Recursively translate document JSON.
 
-    Handles:
-        - paragraphs
-        - headings
-        - table cells
-        - nested tables
-        - image text
-        - runs
-        - deeply nested structures
+    For image_text elements:
+        - keep original OCR text in "text"
+        - store translated OCR text in "translated_text"
+
+    This allows image reconstruction to use the translated
+    text while preserving the original OCR result.
     """
 
     if translation_cache is None:
-
         translation_cache = {}
 
     # =====================================================
@@ -356,9 +359,131 @@ def translate_json(
 
     if isinstance(data, dict):
 
-        # -------------------------------------------------
-        # Translate main "text" field
-        # -------------------------------------------------
+        # =================================================
+        # IMAGE TEXT
+        # =================================================
+
+        if data.get("type") == "image_text":
+
+            # ---------------------------------------------
+            # Translate complete image text
+            # ---------------------------------------------
+
+            original_text = data.get(
+                "text",
+                ""
+            )
+
+            if (
+                isinstance(original_text, str)
+                and original_text.strip()
+            ):
+
+                cache_key = (
+                    original_text,
+                    src_lang,
+                    tgt_lang
+                )
+
+                if cache_key not in translation_cache:
+
+                    translation_cache[
+                        cache_key
+                    ] = translate_text(
+                        original_text,
+                        src_lang,
+                        tgt_lang
+                    )
+
+                data["translated_text"] = (
+                    translation_cache[
+                        cache_key
+                    ]
+                )
+
+            # ---------------------------------------------
+            # Translate each OCR region
+            # ---------------------------------------------
+
+            ocr_details = data.get(
+                "ocr_details",
+                []
+            )
+
+            if isinstance(
+                ocr_details,
+                list
+            ):
+
+                for item in ocr_details:
+
+                    if not isinstance(
+                        item,
+                        dict
+                    ):
+                        continue
+
+                    original_ocr_text = item.get(
+                        "text",
+                        ""
+                    )
+
+                    if not isinstance(
+                        original_ocr_text,
+                        str
+                    ):
+                        continue
+
+                    if not original_ocr_text.strip():
+                        continue
+
+                    cache_key = (
+                        original_ocr_text,
+                        src_lang,
+                        tgt_lang
+                    )
+
+                    if cache_key not in translation_cache:
+
+                        translation_cache[
+                            cache_key
+                        ] = translate_text(
+                            original_ocr_text,
+                            src_lang,
+                            tgt_lang
+                        )
+
+                    # IMPORTANT:
+                    # Keep original OCR text
+                    item["translated_text"] = (
+                        translation_cache[
+                            cache_key
+                        ]
+                    )
+
+            # Do not recursively translate the same
+            # image OCR fields again.
+            for key in list(data.keys()):
+
+                if key in [
+                    "text",
+                    "translated_text",
+                    "ocr_details"
+                ]:
+                    continue
+
+                data[key] = translate_json(
+                    data[key],
+                    src_lang,
+                    tgt_lang,
+                    translation_cache
+                )
+
+            return data
+
+        # =================================================
+        # NORMAL DOCUMENT TEXT
+        # =================================================
 
         if (
             "text" in data
@@ -394,9 +519,9 @@ def translate_json(
                     ]
                 )
 
-        # -------------------------------------------------
-        # Translate runs
-        # -------------------------------------------------
+        # =================================================
+        # RUNS
+        # =================================================
 
         if (
             "runs" in data
@@ -422,9 +547,7 @@ def translate_json(
                     )
                 ):
 
-                    original_text = (
-                        run["text"]
-                    )
+                    original_text = run["text"]
 
                     if not original_text.strip():
                         continue
@@ -451,13 +574,9 @@ def translate_json(
                         ]
                     )
 
-        # -------------------------------------------------
-        # Recursively process all other fields
-        #
-        # IMPORTANT:
-        # Do not process "text", "runs",
-        # or "original_text" again.
-        # -------------------------------------------------
+        # =================================================
+        # OTHER FIELDS
+        # =================================================
 
         for key in list(data.keys()):
 
@@ -466,7 +585,6 @@ def translate_json(
                 "runs",
                 "original_text"
             ]:
-
                 continue
 
             data[key] = translate_json(
@@ -505,26 +623,62 @@ def translate_json(
 # COLLECT CANONICAL TEXTS
 # =========================================================
 
-def collect_translation_texts(data, texts=None):
-    """Collect canonical text fields without structural duplicates."""
+def collect_translation_texts(
+    data,
+    texts=None
+):
+    """
+    Collect canonical text fields
+    without structural duplicates.
+    """
+
     if texts is None:
         texts = set()
 
+
     if isinstance(data, dict):
+
         text = data.get("text")
-        if isinstance(text, str) and text.strip():
-            # Strip spaces to prevent mismatch on first lines/headings
-            texts.add(text.strip())
+
+        if (
+            isinstance(text, str)
+            and text.strip()
+        ):
+
+            # Strip spaces to prevent mismatch
+            # on first lines/headings
+
+            texts.add(
+                text.strip()
+            )
+
 
         for key, value in data.items():
-            if key not in ["text", "runs", "original_text"]:
-                collect_translation_texts(value, texts)
+
+            if key not in [
+                "text",
+                "runs",
+                "original_text"
+            ]:
+
+                collect_translation_texts(
+                    value,
+                    texts
+                )
+
 
     elif isinstance(data, list):
+
         for item in data:
-            collect_translation_texts(item, texts)
+
+            collect_translation_texts(
+                item,
+                texts
+            )
+
 
     return texts
+
 
 # =========================================================
 # DEBUG: FIND PARTICULAR TEXT
@@ -543,6 +697,7 @@ def find_text_in_json(
 
     found = False
 
+
     if isinstance(data, dict):
 
         for key, value in data.items():
@@ -560,7 +715,11 @@ def find_text_in_json(
 
                 found = True
 
-            elif isinstance(value, (dict, list)):
+
+            elif isinstance(
+                value,
+                (dict, list)
+            ):
 
                 if find_text_in_json(
                     value,
@@ -568,6 +727,7 @@ def find_text_in_json(
                 ):
 
                     found = True
+
 
     elif isinstance(data, list):
 
@@ -579,6 +739,7 @@ def find_text_in_json(
             ):
 
                 found = True
+
 
     return found
 
@@ -603,6 +764,7 @@ async def upload_document(
             file.filename
         )[1].lower()
 
+
         if extension not in ALLOWED_EXTENSIONS:
 
             raise HTTPException(
@@ -610,13 +772,19 @@ async def upload_document(
                 detail="Unsupported file type"
             )
 
+
         file_type = (
             ALLOWED_EXTENSIONS[
                 extension
             ]
         )
 
-        if file_type == "DOCX":
+
+        # =================================================
+        # CHECK DOC / DOCX FILE SIZE
+        # =================================================
+
+        if file_type in ["DOC", "DOCX"]:
 
             file_content = await file.read()
 
@@ -625,11 +793,13 @@ async def upload_document(
                 raise HTTPException(
                     status_code=413,
                     detail=(
-                        "Only files up to 5 MB can be handled."
+                        "Only files up to 5 MB "
+                        "can be handled."
                     )
                 )
 
             await file.seek(0)
+
 
         # =================================================
         # 2. SAVE UPLOADED FILE
@@ -640,6 +810,7 @@ async def upload_document(
             file.filename
         )
 
+
         with open(
             file_path,
             "wb"
@@ -649,6 +820,7 @@ async def upload_document(
                 await file.read()
             )
 
+
         print(
             f"\nFile saved: {file_path}"
         )
@@ -656,6 +828,7 @@ async def upload_document(
         print(
             f"Detected file type: {file_type}"
         )
+
 
         # =================================================
         # 3. CHECK TARGET LANGUAGE
@@ -665,9 +838,11 @@ async def upload_document(
             target_language.lower().strip()
         )
 
+
         tgt_lang = LANGUAGE_MAP.get(
             target_language
         )
+
 
         if not tgt_lang:
 
@@ -679,6 +854,7 @@ async def upload_document(
                 )
             )
 
+
         print(
             f"Selected target language: "
             f"{target_language}"
@@ -689,23 +865,49 @@ async def upload_document(
             f"{tgt_lang}"
         )
 
+
         # =================================================
-        # 4. DOCX PROCESSING
+        # 4. DOC / DOCX PROCESSING
         # =================================================
 
-        if file_type == "DOCX":
+        if file_type in ["DOC", "DOCX"]:
 
             # ---------------------------------------------
-            # Open DOCX
+            # Convert legacy DOC to DOCX
+            # ---------------------------------------------
+
+            if file_type == "DOC":
+
+                print(
+                    "\nConverting DOC to DOCX..."
+                )
+
+
+                file_path = convert_doc_to_docx(
+                    file_path,
+                    UPLOAD_FOLDER
+                )
+
+
+                print(
+                    f"DOC converted successfully: "
+                    f"{file_path}"
+                )
+
+
+            # ---------------------------------------------
+            # Open DOCX document
             # ---------------------------------------------
 
             print(
                 "\nOpening DOCX document..."
             )
 
+
             document = Document(
                 file_path
             )
+
 
             # ---------------------------------------------
             # Extract document
@@ -715,14 +917,17 @@ async def upload_document(
                 "Calling parse_document()..."
             )
 
+
             result = parse_document(
                 file_path,
                 document
             )
 
+
             print(
                 "Document parsed successfully!"
             )
+
 
             # =================================================
             # DEBUG: CHECK HEADING EXTRACTION
@@ -732,10 +937,12 @@ async def upload_document(
                 "\n========== HEADING EXTRACTION CHECK =========="
             )
 
+
             heading_found = find_text_in_json(
                 result,
                 "NESTED TABLE SAMPLE DOCUMENT"
             )
+
 
             if heading_found:
 
@@ -751,9 +958,11 @@ async def upload_document(
                     "in extracted JSON."
                 )
 
+
             print(
                 "=============================================="
             )
+
 
             # =================================================
             # 5. SAVE EXTRACTED JSON
@@ -763,14 +972,17 @@ async def upload_document(
                 file.filename
             )[0]
 
+
             json_filename = (
                 f"{base_name}.json"
             )
+
 
             json_path = os.path.join(
                 OUTPUT_FOLDER,
                 json_filename
             )
+
 
             with open(
                 json_path,
@@ -785,9 +997,11 @@ async def upload_document(
                     ensure_ascii=False
                 )
 
+
             print(
                 f"\nJSON saved: {json_path}"
             )
+
 
             # =================================================
             # 6. TRANSLATION
@@ -797,11 +1011,14 @@ async def upload_document(
                 "\n========== TRANSLATION =========="
             )
 
+
             print(
                 "Starting translation..."
             )
 
+
             translation_cache = {}
+
 
             # -------------------------------------------------
             # Collect unique text
@@ -813,10 +1030,12 @@ async def upload_document(
                 )
             )
 
+
             print(
                 f"Unique texts to translate: "
                 f"{len(translation_texts)}"
             )
+
 
             # -------------------------------------------------
             # Check heading specifically
@@ -826,6 +1045,7 @@ async def upload_document(
                 "NESTED TABLE SAMPLE DOCUMENT"
             )
 
+
             if heading_text in translation_texts:
 
                 print(
@@ -833,9 +1053,11 @@ async def upload_document(
                     "TRANSLATION QUEUE]"
                 )
 
+
                 print(
                     repr(heading_text)
                 )
+
 
             else:
 
@@ -844,9 +1066,11 @@ async def upload_document(
                     "present in translation queue:"
                 )
 
+
                 print(
                     repr(heading_text)
                 )
+
 
             # -------------------------------------------------
             # Translate unique texts concurrently
@@ -868,6 +1092,7 @@ async def upload_document(
                     )
                 )
 
+
             # -------------------------------------------------
             # Build cache
             # -------------------------------------------------
@@ -883,9 +1108,11 @@ async def upload_document(
                     tgt_lang
                 )
 
+
                 translation_cache[
                     cache_key
                 ] = translated
+
 
             # -------------------------------------------------
             # Apply translations recursively
@@ -898,9 +1125,11 @@ async def upload_document(
                 translation_cache=translation_cache
             )
 
+
             print(
                 "\nTranslation completed!"
             )
+
 
             # =================================================
             # DEBUG: CHECK TRANSLATED HEADING
@@ -910,18 +1139,21 @@ async def upload_document(
                 "\n========== TRANSLATED HEADING CHECK =========="
             )
 
+
             find_text_in_json(
                 translated_result,
                 "NESTED TABLE SAMPLE DOCUMENT"
             )
 
+
             print(
                 "Looking for translated heading..."
             )
 
-            # Search recursively for Devanagari
-            # version isn't exact because API output
-            # can vary, so print top-level paragraphs.
+
+            # Search recursively for translated content.
+            # API output can vary, so print top-level
+            # paragraphs/elements for inspection.
 
             if isinstance(
                 translated_result,
@@ -934,6 +1166,7 @@ async def upload_document(
                         []
                     )
                 )
+
 
                 if isinstance(
                     elements,
@@ -950,10 +1183,12 @@ async def upload_document(
                         ):
                             continue
 
+
                         element_text = element.get(
                             "text",
                             ""
                         )
+
 
                         if element_text:
 
@@ -962,9 +1197,11 @@ async def upload_document(
                                 f"{element_text!r}"
                             )
 
+
             print(
                 "=============================================="
             )
+
 
             # =================================================
             # 7. SAVE TRANSLATED JSON
@@ -976,10 +1213,12 @@ async def upload_document(
                 f"{target_language}.json"
             )
 
+
             translated_json_path = os.path.join(
                 OUTPUT_FOLDER,
                 translated_json_filename
             )
+
 
             with open(
                 translated_json_path,
@@ -994,13 +1233,16 @@ async def upload_document(
                     ensure_ascii=False
                 )
 
+
             print(
                 "\nTranslated JSON saved:"
             )
 
+
             print(
                 translated_json_path
             )
+
 
             # =================================================
             # 8. RECONSTRUCTION
@@ -1010,9 +1252,11 @@ async def upload_document(
                 "\n========== RECONSTRUCTION =========="
             )
 
+
             print(
                 "Starting document reconstruction..."
             )
+
 
             reconstructed_docx_filename = (
                 f"{base_name}"
@@ -1020,10 +1264,12 @@ async def upload_document(
                 f"{target_language}.docx"
             )
 
+
             reconstructed_docx_path = os.path.join(
                 OUTPUT_FOLDER,
                 reconstructed_docx_filename
             )
+
 
             reconstruct_docx(
                 file_path,
@@ -1031,17 +1277,58 @@ async def upload_document(
                 reconstructed_docx_path
             )
 
+
             print(
                 "Document reconstruction completed!"
             )
+
 
             print(
                 "Reconstructed DOCX saved:"
             )
 
+
             print(
                 reconstructed_docx_path
             )
+
+            # =================================================
+            # 9. CONVERT BACK TO DOC IF ORIGINAL WAS DOC
+            # =================================================
+
+            if file_type == "DOC":
+
+                print(
+                    "\nConverting reconstructed DOCX "
+                    "back to DOC..."
+                )
+
+                final_file_path = convert_docx_to_doc(
+                    reconstructed_docx_path,
+                    OUTPUT_FOLDER
+                )
+
+                final_filename = os.path.basename(
+                    final_file_path
+                )
+
+                print(
+                    "Final DOC saved:"
+                )
+
+                print(
+                    final_file_path
+                )
+
+            else:
+
+                final_file_path = reconstructed_docx_path
+
+                final_filename = (
+                    reconstructed_docx_filename
+                )
+
+
 
             # =================================================
             # 9. RETURN RESPONSE
@@ -1073,7 +1360,7 @@ async def upload_document(
                     translated_json_filename,
 
                 "reconstructed_docx_file":
-                    reconstructed_docx_filename,
+                    final_filename,
 
                 "data":
                     result,
@@ -1081,6 +1368,7 @@ async def upload_document(
                 "translated_data":
                     translated_result
             }
+
 
         # =================================================
         # 10. OTHER FILE TYPES
@@ -1103,6 +1391,7 @@ async def upload_document(
                 target_language
         }
 
+
     # =====================================================
     # HTTP EXCEPTION
     # =====================================================
@@ -1110,6 +1399,7 @@ async def upload_document(
     except HTTPException:
 
         raise
+
 
     # =====================================================
     # GENERAL EXCEPTION
@@ -1121,11 +1411,14 @@ async def upload_document(
             "\n========== ERROR =========="
         )
 
+
         traceback.print_exc()
+
 
         print(
             "===========================\n"
         )
+
 
         raise HTTPException(
             status_code=500,

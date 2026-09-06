@@ -42,8 +42,9 @@ def extract_images_from_docx(docx_path, output_folder="app/temp"):
 
             extracted_images.append({
                 "image_name": os.path.basename(output_path),
+                "original_media": image_file,
                 "image_path": output_path,
                 "ocr": ocr_result
-            })
+        })
 
     return extracted_images

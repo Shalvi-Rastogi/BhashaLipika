@@ -3,7 +3,35 @@ from docx.table import Table
 from .style_extractor import extract_run_style
 from .utils import get_alignment
 
+def safe_get_alignment(paragraph):
+    """
+    Safely get paragraph alignment.
 
+    LibreOffice may generate XML alignment values such as
+    'start' and 'end' when converting DOC to DOCX.
+    python-docx can raise ValueError when accessing
+    paragraph.alignment for these values.
+    """
+
+    try:
+        return paragraph.alignment
+
+    except (KeyError, ValueError):
+
+        try:
+            pPr = paragraph._p.pPr
+
+            if pPr is None or pPr.jc is None:
+                return None
+
+            # Read the raw XML value directly.
+            # This avoids python-docx trying to convert
+            # 'start'/'end' into WD_PARAGRAPH_ALIGNMENT.
+            return pPr.jc.get("val")
+
+        except (AttributeError, KeyError, ValueError):
+            return None
+        
 def _extract_cell_paragraphs(cell):
     """
     Extract all paragraphs inside a table cell,
@@ -38,7 +66,7 @@ def _extract_cell_paragraphs(cell):
                         else "Normal"
                     ),
                     "alignment": get_alignment(
-                        paragraph.alignment
+                        safe_get_alignment(paragraph)
                     ),
                 },
             }
