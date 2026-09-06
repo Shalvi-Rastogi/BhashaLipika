@@ -1,0 +1,22 @@
+{
+    "slide_1": [
+        {
+            "shape_index": 0,
+            "type": "text_frame",
+            "original_text": "This Is the sample file",
+            "translated_text": "यह नमूना फ़ाइल है"
+        },
+        {
+            "shape_index": 1,
+            "type": "text_frame",
+            "original_text": "Introduction\nBuilding confidence\nEngaging the audience\nVisual aids\nFinal tips & takeaways",
+            "translated_text": "परिचय\nआत्मविश्वास का निर्माण करें\nदर्शकों को लुभाना\nविजुअल एड्स\nअंतिम सुझाव और टिप्स"
+        },
+        {
+            "shape_index": 2,
+            "type": "text_frame",
+            "original_text": "1",
+            "translated_text": "1"
+        }
+    ]
+}
