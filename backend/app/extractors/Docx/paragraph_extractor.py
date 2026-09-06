@@ -64,6 +64,146 @@ def detect_list(paragraph):
     return False, None
 
 
+# def process_paragraph(block, element_id):
+#     """
+#     Process a DOCX paragraph.
+
+#     Supports:
+#     - Headings
+#     - Paragraphs
+#     - Numbered Lists
+#     - Bulleted Lists
+#     """
+
+#     if not isinstance(block, Paragraph):
+#         return None
+
+#     if not block.text.strip():
+#         return None
+
+#     style_name = block.style.name if block.style else "Normal"
+
+#     element_type = "paragraph"
+#     level = None
+#     list_type = None
+
+#     # -----------------------------------
+#     # Heading
+#     # -----------------------------------
+#     if style_name.startswith("Heading"):
+
+#         element_type = "heading"
+
+#         try:
+#             level = int(style_name.split()[-1])
+#         except (ValueError, IndexError):
+#             level = 1
+
+#     else:
+
+#         is_list, list_type = detect_list(block)
+
+#         if is_list:
+#             element_type = "list_item"
+
+#     # -----------------------------------
+#     # Runs
+#     # -----------------------------------
+#     runs = []
+
+#     for run in block.runs:
+
+#         if not run.text:
+#             continue
+
+#         runs.append(
+#             {
+#                 "text": run.text,
+#                 "style": extract_run_style(run),
+#             }
+#         )
+
+#     # -----------------------------------
+#     # Paragraph Formatting
+#     # -----------------------------------
+#     paragraph_style = {
+
+#         "style_name": style_name,
+
+#         try:
+#             alignment = block.alignment
+#         except (KeyError, ValueError):
+#             alignment = None
+
+#         try:
+#             style_alignment = (
+#                 block.style.paragraph_format.alignment
+#                 if block.style
+#                 else None
+#         )
+#         except (KeyError, ValueError):
+#             style_alignment = None
+
+#         "alignment": get_alignment(
+#             alignment,
+#             style_alignment
+#         ),
+
+#         "left_indent": get_indent(
+#             block.paragraph_format.left_indent
+#         ),
+
+#         "right_indent": get_indent(
+#             block.paragraph_format.right_indent
+#         ),
+
+#         "first_line_indent": get_indent(
+#             block.paragraph_format.first_line_indent
+#         ),
+
+#         "line_spacing": get_line_spacing(
+#             block.paragraph_format.line_spacing
+#         ),
+
+#         "space_before": get_spacing(
+#             block.paragraph_format.space_before
+#         ),
+
+#         "space_after": get_spacing(
+#             block.paragraph_format.space_after
+#         ),
+
+#         "keep_together": block.paragraph_format.keep_together,
+
+#         "keep_with_next": block.paragraph_format.keep_with_next,
+
+#         "page_break_before": block.paragraph_format.page_break_before,
+
+#         "widow_control": block.paragraph_format.widow_control,
+#     }
+
+#     # -----------------------------------
+#     # Final JSON
+#     # -----------------------------------
+#     return {
+
+#         "id": element_id,
+
+#         "type": element_type,
+
+#         "list_type": list_type,
+
+#         "level": level,
+
+#         "order": element_id,
+
+#         "text": block.text.strip(),
+
+#         "runs": runs,
+
+#         "paragraph_style": paragraph_style,
+
+#     }
 def process_paragraph(block, element_id):
     """
     Process a DOCX paragraph.
@@ -90,6 +230,7 @@ def process_paragraph(block, element_id):
     # -----------------------------------
     # Heading
     # -----------------------------------
+
     if style_name.startswith("Heading"):
 
         element_type = "heading"
@@ -109,6 +250,7 @@ def process_paragraph(block, element_id):
     # -----------------------------------
     # Runs
     # -----------------------------------
+
     runs = []
 
     for run in block.runs:
@@ -124,17 +266,36 @@ def process_paragraph(block, element_id):
         )
 
     # -----------------------------------
+    # Paragraph Alignment
+    # -----------------------------------
+
+    try:
+        alignment = block.alignment
+    except (KeyError, ValueError):
+        alignment = None
+
+    # Get alignment from paragraph style if direct
+    # alignment is not available.
+    try:
+        style_alignment = (
+            block.style.paragraph_format.alignment
+            if block.style
+            else None
+        )
+    except (KeyError, ValueError):
+        style_alignment = None
+
+    # -----------------------------------
     # Paragraph Formatting
     # -----------------------------------
+
     paragraph_style = {
 
         "style_name": style_name,
 
         "alignment": get_alignment(
-            block.alignment,
-            block.style.paragraph_format.alignment
-            if block.style
-            else None,
+            alignment,
+            style_alignment
         ),
 
         "left_indent": get_indent(
@@ -173,6 +334,7 @@ def process_paragraph(block, element_id):
     # -----------------------------------
     # Final JSON
     # -----------------------------------
+
     return {
 
         "id": element_id,

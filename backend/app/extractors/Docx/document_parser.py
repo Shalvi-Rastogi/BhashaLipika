@@ -51,6 +51,8 @@ def parse_document(docx_path, document):
             "type": "image_text",
             "order": element_id,
             "image_name": image["image_name"],
+            "original_media": image["original_media"],
+            "image_path": image["image_path"],
             "text": ocr_text,
             "ocr_details": image["ocr"]
         })

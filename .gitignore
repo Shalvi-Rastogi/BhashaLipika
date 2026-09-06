@@ -27,3 +27,7 @@ dist-ssr
 venv/
 __pycache__/
 *.pyc
+# Generated files
+backend/outputs/
+backend/uploads/
+backend/app/temp/

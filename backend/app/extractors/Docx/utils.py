@@ -38,12 +38,36 @@ def get_font_color(color):
 
 def get_alignment(alignment, style_alignment=None):
     """
-    Convert direct or inherited alignment to a readable string.
+    Convert direct or inherited paragraph alignment to a readable string.
+
+    Handles standard python-docx alignment values as well as
+    XML alignment values such as 'start' and 'end' that may
+    appear after DOC -> DOCX conversion.
     """
 
     if alignment is None:
         alignment = style_alignment
 
+    if alignment is None:
+        return "left"
+
+    # Handle XML/string alignment values such as those produced
+    # by LibreOffice during DOC -> DOCX conversion.
+    if isinstance(alignment, str):
+        alignment_map = {
+            "left": "left",
+            "center": "center",
+            "right": "right",
+            "justify": "justify",
+            "start": "left",
+            "end": "right",
+            "both": "justify",
+            "distribute": "distribute",
+        }
+
+        return alignment_map.get(alignment.lower(), "left")
+
+    # Handle python-docx alignment enum values.
     alignment_map = {
         WD_PARAGRAPH_ALIGNMENT.LEFT: "left",
         WD_PARAGRAPH_ALIGNMENT.CENTER: "center",
