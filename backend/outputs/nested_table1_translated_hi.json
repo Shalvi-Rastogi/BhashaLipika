@@ -17,8 +17,8 @@
                         "font_size": 20.0,
                         "font_color": null,
                         "bold": true,
-                        "italic": null,
-                        "underline": null,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -34,7 +34,7 @@
                         "rtl": null,
                         "complex_script": null,
                         "cs_bold": true,
-                        "cs_italic": null
+                        "cs_italic": false
                     }
                 }
             ],
@@ -67,9 +67,9 @@
                         "font_name": null,
                         "font_size": 14.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -84,8 +84,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -94,9 +94,9 @@
                         "font_name": null,
                         "font_size": 14.0,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -111,8 +111,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 }
             ],
@@ -163,9 +163,9 @@
                                                     "type": "rgb",
                                                     "value": "EE0000"
                                                 },
-                                                "bold": null,
-                                                "italic": null,
-                                                "underline": null,
+                                                "bold": false,
+                                                "italic": false,
+                                                "underline": false,
                                                 "highlight_color": null,
                                                 "strike": null,
                                                 "double_strike": null,
@@ -180,8 +180,8 @@
                                                 "imprint": null,
                                                 "rtl": null,
                                                 "complex_script": null,
-                                                "cs_bold": null,
-                                                "cs_italic": null
+                                                "cs_bold": false,
+                                                "cs_italic": false
                                             }
                                         }
                                     ],
@@ -213,9 +213,9 @@
                                                     "type": "rgb",
                                                     "value": "EE0000"
                                                 },
-                                                "bold": null,
-                                                "italic": null,
-                                                "underline": null,
+                                                "bold": false,
+                                                "italic": false,
+                                                "underline": false,
                                                 "highlight_color": null,
                                                 "strike": null,
                                                 "double_strike": null,
@@ -230,8 +230,8 @@
                                                 "imprint": null,
                                                 "rtl": null,
                                                 "complex_script": null,
-                                                "cs_bold": null,
-                                                "cs_italic": null
+                                                "cs_bold": false,
+                                                "cs_italic": false
                                             }
                                         }
                                     ],
@@ -263,9 +263,9 @@
                                                     "type": "rgb",
                                                     "value": "EE0000"
                                                 },
-                                                "bold": null,
-                                                "italic": null,
-                                                "underline": null,
+                                                "bold": false,
+                                                "italic": false,
+                                                "underline": false,
                                                 "highlight_color": null,
                                                 "strike": null,
                                                 "double_strike": null,
@@ -280,8 +280,8 @@
                                                 "imprint": null,
                                                 "rtl": null,
                                                 "complex_script": null,
-                                                "cs_bold": null,
-                                                "cs_italic": null
+                                                "cs_bold": false,
+                                                "cs_italic": false
                                             }
                                         }
                                     ],
@@ -315,9 +315,9 @@
                                                 "font_name": null,
                                                 "font_size": 14.0,
                                                 "font_color": null,
-                                                "bold": null,
-                                                "italic": null,
-                                                "underline": null,
+                                                "bold": false,
+                                                "italic": false,
+                                                "underline": false,
                                                 "highlight_color": null,
                                                 "strike": null,
                                                 "double_strike": null,
@@ -332,8 +332,8 @@
                                                 "imprint": null,
                                                 "rtl": null,
                                                 "complex_script": null,
-                                                "cs_bold": null,
-                                                "cs_italic": null
+                                                "cs_bold": false,
+                                                "cs_italic": false
                                             }
                                         }
                                     ],
@@ -362,9 +362,9 @@
                                                 "font_name": null,
                                                 "font_size": 14.0,
                                                 "font_color": null,
-                                                "bold": null,
-                                                "italic": null,
-                                                "underline": null,
+                                                "bold": false,
+                                                "italic": false,
+                                                "underline": false,
                                                 "highlight_color": null,
                                                 "strike": null,
                                                 "double_strike": null,
@@ -379,8 +379,8 @@
                                                 "imprint": null,
                                                 "rtl": null,
                                                 "complex_script": null,
-                                                "cs_bold": null,
-                                                "cs_italic": null
+                                                "cs_bold": false,
+                                                "cs_italic": false
                                             }
                                         }
                                     ],
@@ -471,9 +471,9 @@
                                                                         "font_name": null,
                                                                         "font_size": 14.0,
                                                                         "font_color": null,
-                                                                        "bold": null,
-                                                                        "italic": null,
-                                                                        "underline": null,
+                                                                        "bold": false,
+                                                                        "italic": false,
+                                                                        "underline": false,
                                                                         "highlight_color": null,
                                                                         "strike": null,
                                                                         "double_strike": null,
@@ -488,8 +488,8 @@
                                                                         "imprint": null,
                                                                         "rtl": null,
                                                                         "complex_script": null,
-                                                                        "cs_bold": null,
-                                                                        "cs_italic": null
+                                                                        "cs_bold": false,
+                                                                        "cs_italic": false
                                                                     }
                                                                 }
                                                             ],
@@ -518,9 +518,9 @@
                                                                         "font_name": null,
                                                                         "font_size": 14.0,
                                                                         "font_color": null,
-                                                                        "bold": null,
-                                                                        "italic": null,
-                                                                        "underline": null,
+                                                                        "bold": false,
+                                                                        "italic": false,
+                                                                        "underline": false,
                                                                         "highlight_color": null,
                                                                         "strike": null,
                                                                         "double_strike": null,
@@ -535,8 +535,8 @@
                                                                         "imprint": null,
                                                                         "rtl": null,
                                                                         "complex_script": null,
-                                                                        "cs_bold": null,
-                                                                        "cs_italic": null
+                                                                        "cs_bold": false,
+                                                                        "cs_italic": false
                                                                     }
                                                                 }
                                                             ],
@@ -570,9 +570,9 @@
                                                                         "font_name": null,
                                                                         "font_size": 14.0,
                                                                         "font_color": null,
-                                                                        "bold": null,
-                                                                        "italic": null,
-                                                                        "underline": null,
+                                                                        "bold": false,
+                                                                        "italic": false,
+                                                                        "underline": false,
                                                                         "highlight_color": null,
                                                                         "strike": null,
                                                                         "double_strike": null,
@@ -587,8 +587,8 @@
                                                                         "imprint": null,
                                                                         "rtl": null,
                                                                         "complex_script": null,
-                                                                        "cs_bold": null,
-                                                                        "cs_italic": null
+                                                                        "cs_bold": false,
+                                                                        "cs_italic": false
                                                                     }
                                                                 }
                                                             ],
@@ -617,9 +617,9 @@
                                                                         "font_name": null,
                                                                         "font_size": 14.0,
                                                                         "font_color": null,
-                                                                        "bold": null,
-                                                                        "italic": null,
-                                                                        "underline": null,
+                                                                        "bold": false,
+                                                                        "italic": false,
+                                                                        "underline": false,
                                                                         "highlight_color": null,
                                                                         "strike": null,
                                                                         "double_strike": null,
@@ -634,8 +634,8 @@
                                                                         "imprint": null,
                                                                         "rtl": null,
                                                                         "complex_script": null,
-                                                                        "cs_bold": null,
-                                                                        "cs_italic": null
+                                                                        "cs_bold": false,
+                                                                        "cs_italic": false
                                                                     }
                                                                 }
                                                             ],
@@ -669,9 +669,9 @@
                                                                         "font_name": null,
                                                                         "font_size": 14.0,
                                                                         "font_color": null,
-                                                                        "bold": null,
-                                                                        "italic": null,
-                                                                        "underline": null,
+                                                                        "bold": false,
+                                                                        "italic": false,
+                                                                        "underline": false,
                                                                         "highlight_color": null,
                                                                         "strike": null,
                                                                         "double_strike": null,
@@ -686,8 +686,8 @@
                                                                         "imprint": null,
                                                                         "rtl": null,
                                                                         "complex_script": null,
-                                                                        "cs_bold": null,
-                                                                        "cs_italic": null
+                                                                        "cs_bold": false,
+                                                                        "cs_italic": false
                                                                     }
                                                                 }
                                                             ],
@@ -716,9 +716,9 @@
                                                                         "font_name": null,
                                                                         "font_size": 14.0,
                                                                         "font_color": null,
-                                                                        "bold": null,
-                                                                        "italic": null,
-                                                                        "underline": null,
+                                                                        "bold": false,
+                                                                        "italic": false,
+                                                                        "underline": false,
                                                                         "highlight_color": null,
                                                                         "strike": null,
                                                                         "double_strike": null,
@@ -733,8 +733,8 @@
                                                                         "imprint": null,
                                                                         "rtl": null,
                                                                         "complex_script": null,
-                                                                        "cs_bold": null,
-                                                                        "cs_italic": null
+                                                                        "cs_bold": false,
+                                                                        "cs_italic": false
                                                                     }
                                                                 }
                                                             ],
@@ -768,9 +768,9 @@
                                                                         "font_name": null,
                                                                         "font_size": 14.0,
                                                                         "font_color": null,
-                                                                        "bold": null,
-                                                                        "italic": null,
-                                                                        "underline": null,
+                                                                        "bold": false,
+                                                                        "italic": false,
+                                                                        "underline": false,
                                                                         "highlight_color": null,
                                                                         "strike": null,
                                                                         "double_strike": null,
@@ -785,8 +785,8 @@
                                                                         "imprint": null,
                                                                         "rtl": null,
                                                                         "complex_script": null,
-                                                                        "cs_bold": null,
-                                                                        "cs_italic": null
+                                                                        "cs_bold": false,
+                                                                        "cs_italic": false
                                                                     }
                                                                 }
                                                             ],
@@ -815,9 +815,9 @@
                                                                         "font_name": null,
                                                                         "font_size": 14.0,
                                                                         "font_color": null,
-                                                                        "bold": null,
-                                                                        "italic": null,
-                                                                        "underline": null,
+                                                                        "bold": false,
+                                                                        "italic": false,
+                                                                        "underline": false,
                                                                         "highlight_color": null,
                                                                         "strike": null,
                                                                         "double_strike": null,
@@ -832,8 +832,8 @@
                                                                         "imprint": null,
                                                                         "rtl": null,
                                                                         "complex_script": null,
-                                                                        "cs_bold": null,
-                                                                        "cs_italic": null
+                                                                        "cs_bold": false,
+                                                                        "cs_italic": false
                                                                     }
                                                                 }
                                                             ],
@@ -873,9 +873,9 @@
                                                 "font_name": null,
                                                 "font_size": 14.0,
                                                 "font_color": null,
-                                                "bold": null,
-                                                "italic": null,
-                                                "underline": null,
+                                                "bold": false,
+                                                "italic": false,
+                                                "underline": false,
                                                 "highlight_color": null,
                                                 "strike": null,
                                                 "double_strike": null,
@@ -890,8 +890,8 @@
                                                 "imprint": null,
                                                 "rtl": null,
                                                 "complex_script": null,
-                                                "cs_bold": null,
-                                                "cs_italic": null
+                                                "cs_bold": false,
+                                                "cs_italic": false
                                             }
                                         }
                                     ],
@@ -920,9 +920,9 @@
                                                 "font_name": null,
                                                 "font_size": 14.0,
                                                 "font_color": null,
-                                                "bold": null,
-                                                "italic": null,
-                                                "underline": null,
+                                                "bold": false,
+                                                "italic": false,
+                                                "underline": false,
                                                 "highlight_color": null,
                                                 "strike": null,
                                                 "double_strike": null,
@@ -937,8 +937,8 @@
                                                 "imprint": null,
                                                 "rtl": null,
                                                 "complex_script": null,
-                                                "cs_bold": null,
-                                                "cs_italic": null
+                                                "cs_bold": false,
+                                                "cs_italic": false
                                             }
                                         }
                                     ],
@@ -993,9 +993,9 @@
                                                                         "font_name": null,
                                                                         "font_size": 14.0,
                                                                         "font_color": null,
-                                                                        "bold": null,
-                                                                        "italic": null,
-                                                                        "underline": null,
+                                                                        "bold": false,
+                                                                        "italic": false,
+                                                                        "underline": false,
                                                                         "highlight_color": null,
                                                                         "strike": null,
                                                                         "double_strike": null,
@@ -1010,8 +1010,8 @@
                                                                         "imprint": null,
                                                                         "rtl": null,
                                                                         "complex_script": null,
-                                                                        "cs_bold": null,
-                                                                        "cs_italic": null
+                                                                        "cs_bold": false,
+                                                                        "cs_italic": false
                                                                     }
                                                                 }
                                                             ],
@@ -1040,9 +1040,9 @@
                                                                         "font_name": null,
                                                                         "font_size": 14.0,
                                                                         "font_color": null,
-                                                                        "bold": null,
-                                                                        "italic": null,
-                                                                        "underline": null,
+                                                                        "bold": false,
+                                                                        "italic": false,
+                                                                        "underline": false,
                                                                         "highlight_color": null,
                                                                         "strike": null,
                                                                         "double_strike": null,
@@ -1057,8 +1057,8 @@
                                                                         "imprint": null,
                                                                         "rtl": null,
                                                                         "complex_script": null,
-                                                                        "cs_bold": null,
-                                                                        "cs_italic": null
+                                                                        "cs_bold": false,
+                                                                        "cs_italic": false
                                                                     }
                                                                 }
                                                             ],
@@ -1092,9 +1092,9 @@
                                                                         "font_name": null,
                                                                         "font_size": 14.0,
                                                                         "font_color": null,
-                                                                        "bold": null,
-                                                                        "italic": null,
-                                                                        "underline": null,
+                                                                        "bold": false,
+                                                                        "italic": false,
+                                                                        "underline": false,
                                                                         "highlight_color": null,
                                                                         "strike": null,
                                                                         "double_strike": null,
@@ -1109,8 +1109,8 @@
                                                                         "imprint": null,
                                                                         "rtl": null,
                                                                         "complex_script": null,
-                                                                        "cs_bold": null,
-                                                                        "cs_italic": null
+                                                                        "cs_bold": false,
+                                                                        "cs_italic": false
                                                                     }
                                                                 }
                                                             ],
@@ -1139,9 +1139,9 @@
                                                                         "font_name": null,
                                                                         "font_size": 14.0,
                                                                         "font_color": null,
-                                                                        "bold": null,
-                                                                        "italic": null,
-                                                                        "underline": null,
+                                                                        "bold": false,
+                                                                        "italic": false,
+                                                                        "underline": false,
                                                                         "highlight_color": null,
                                                                         "strike": null,
                                                                         "double_strike": null,
@@ -1156,8 +1156,8 @@
                                                                         "imprint": null,
                                                                         "rtl": null,
                                                                         "complex_script": null,
-                                                                        "cs_bold": null,
-                                                                        "cs_italic": null
+                                                                        "cs_bold": false,
+                                                                        "cs_italic": false
                                                                     }
                                                                 }
                                                             ],
@@ -1191,9 +1191,9 @@
                                                                         "font_name": null,
                                                                         "font_size": 14.0,
                                                                         "font_color": null,
-                                                                        "bold": null,
-                                                                        "italic": null,
-                                                                        "underline": null,
+                                                                        "bold": false,
+                                                                        "italic": false,
+                                                                        "underline": false,
                                                                         "highlight_color": null,
                                                                         "strike": null,
                                                                         "double_strike": null,
@@ -1208,8 +1208,8 @@
                                                                         "imprint": null,
                                                                         "rtl": null,
                                                                         "complex_script": null,
-                                                                        "cs_bold": null,
-                                                                        "cs_italic": null
+                                                                        "cs_bold": false,
+                                                                        "cs_italic": false
                                                                     }
                                                                 }
                                                             ],
@@ -1238,9 +1238,9 @@
                                                                         "font_name": null,
                                                                         "font_size": 14.0,
                                                                         "font_color": null,
-                                                                        "bold": null,
-                                                                        "italic": null,
-                                                                        "underline": null,
+                                                                        "bold": false,
+                                                                        "italic": false,
+                                                                        "underline": false,
                                                                         "highlight_color": null,
                                                                         "strike": null,
                                                                         "double_strike": null,
@@ -1255,8 +1255,8 @@
                                                                         "imprint": null,
                                                                         "rtl": null,
                                                                         "complex_script": null,
-                                                                        "cs_bold": null,
-                                                                        "cs_italic": null
+                                                                        "cs_bold": false,
+                                                                        "cs_italic": false
                                                                     }
                                                                 }
                                                             ],
@@ -1290,9 +1290,9 @@
                                                                         "font_name": null,
                                                                         "font_size": 14.0,
                                                                         "font_color": null,
-                                                                        "bold": null,
-                                                                        "italic": null,
-                                                                        "underline": null,
+                                                                        "bold": false,
+                                                                        "italic": false,
+                                                                        "underline": false,
                                                                         "highlight_color": null,
                                                                         "strike": null,
                                                                         "double_strike": null,
@@ -1307,8 +1307,8 @@
                                                                         "imprint": null,
                                                                         "rtl": null,
                                                                         "complex_script": null,
-                                                                        "cs_bold": null,
-                                                                        "cs_italic": null
+                                                                        "cs_bold": false,
+                                                                        "cs_italic": false
                                                                     }
                                                                 }
                                                             ],
@@ -1337,9 +1337,9 @@
                                                                         "font_name": null,
                                                                         "font_size": 14.0,
                                                                         "font_color": null,
-                                                                        "bold": null,
-                                                                        "italic": null,
-                                                                        "underline": null,
+                                                                        "bold": false,
+                                                                        "italic": false,
+                                                                        "underline": false,
                                                                         "highlight_color": null,
                                                                         "strike": null,
                                                                         "double_strike": null,
@@ -1354,8 +1354,8 @@
                                                                         "imprint": null,
                                                                         "rtl": null,
                                                                         "complex_script": null,
-                                                                        "cs_bold": null,
-                                                                        "cs_italic": null
+                                                                        "cs_bold": false,
+                                                                        "cs_italic": false
                                                                     }
                                                                 }
                                                             ],
