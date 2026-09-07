@@ -906,6 +906,7 @@
 from docx import Document
 from docx.shared import RGBColor, Pt
 from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.enum.text import WD_COLOR_INDEX
 import json
 import os
 import zipfile
@@ -937,6 +938,7 @@ DEVANAGARI_FONT_PATHS = [
     # Windows
     r"C:\Windows\Fonts\Nirmala.ttf",
     r"C:\Windows\Fonts\NirmalaUI.ttf",
+    r"C:\Windows\Fonts\Nirmala.ttc",
     r"C:\Windows\Fonts\Mangal.ttf",
     r"C:\Windows\Fonts\Kokila.ttf",
 ]
@@ -1224,6 +1226,33 @@ def apply_style_to_run(run, style_dict):
                     )
                 except Exception:
                     pass
+
+    # --------------------------------------------------------
+    # Text highlight color
+    # --------------------------------------------------------
+
+    highlight_color = style_dict.get(
+        "highlight_color"
+    )
+
+    if highlight_color:
+
+        try:
+            highlight_name = str(
+                highlight_color
+            ).split(".")[-1].upper()
+
+            highlight_value = getattr(
+                WD_COLOR_INDEX,
+                highlight_name,
+                None
+            )
+
+            if highlight_value is not None:
+                run.font.highlight_color = highlight_value
+
+        except Exception:
+            pass
 
     # --------------------------------------------------------
     # Complex script formatting
