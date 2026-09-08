@@ -248,6 +248,18 @@ def translate_text(
     if not text or not text.strip():
         return text
 
+    if "\t" in text:
+        return "\t".join(
+            translate_text(
+                segment,
+                src_lang,
+                tgt_lang
+            )
+            if segment.strip()
+            else segment
+            for segment in text.split("\t")
+        )
+
     # -----------------------------------------------------
     # Preserve dotted abbreviations
     # -----------------------------------------------------

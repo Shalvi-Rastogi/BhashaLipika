@@ -1,6 +1,7 @@
 import re
 
 from docx.text.paragraph import Paragraph
+from docx.oxml.ns import qn
 
 from .style_extractor import extract_run_style
 from .utils import (
@@ -273,6 +274,21 @@ def process_paragraph(block, element_id):
         alignment = block.alignment
     except (KeyError, ValueError):
         alignment = None
+
+    if alignment is None:
+
+        paragraph_properties = block._p.pPr
+
+        if paragraph_properties is not None:
+
+            alignment_element = paragraph_properties.find(
+                qn("w:jc")
+            )
+
+            if alignment_element is not None:
+                alignment = alignment_element.get(
+                    qn("w:val")
+                )
 
     # Get alignment from paragraph style if direct
     # alignment is not available.

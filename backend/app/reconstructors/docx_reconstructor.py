@@ -224,9 +224,11 @@ def apply_style_to_run(run, style_dict):
 
     font_name = style_dict.get("font_name")
 
+    bold = style_dict.get("bold")
     is_bold = (
-        style_dict.get("bold") is True
-        or style_dict.get("cs_bold") is True
+        bold
+        if bold is not None
+        else style_dict.get("cs_bold") is True
     )
 
     is_italic = (
@@ -458,6 +460,95 @@ def apply_paragraph_style(
             paragraph.alignment = (
                 alignment_map[alignment]
             )
+
+    paragraph_format = paragraph.paragraph_format
+
+    for property_name in (
+        "left_indent",
+        "right_indent",
+        "first_line_indent",
+        "space_before",
+        "space_after",
+    ):
+
+        value = paragraph_style.get(
+            property_name
+        )
+
+        if value is not None:
+
+            setattr(
+                paragraph_format,
+                property_name,
+                Pt(float(value))
+            )
+
+    line_spacing = paragraph_style.get(
+        "line_spacing"
+    )
+
+    if line_spacing is not None:
+
+        if isinstance(line_spacing, (int, float)):
+            paragraph_format.line_spacing = line_spacing
+        else:
+            paragraph_format.line_spacing = Pt(
+                float(line_spacing)
+            )
+
+    for property_name in (
+        "keep_together",
+        "keep_with_next",
+        "page_break_before",
+        "widow_control",
+    ):
+
+        value = paragraph_style.get(
+            property_name
+        )
+
+        if value is not None:
+
+            setattr(
+                paragraph_format,
+                property_name,
+                value
+            )
+
+
+def snapshot_header_footer_alignment(document):
+    """Capture alignment before reconstruction can modify document XML."""
+
+    alignment_snapshot = []
+
+    for section in document.sections:
+
+        for story in (
+            section.header,
+            section.first_page_header,
+            section.even_page_header,
+            section.footer,
+            section.first_page_footer,
+            section.even_page_footer,
+        ):
+
+            for paragraph in story.paragraphs:
+
+                alignment_snapshot.append(
+                    (
+                        paragraph,
+                        paragraph.alignment,
+                    )
+                )
+
+    return alignment_snapshot
+
+
+def restore_header_footer_alignment(alignment_snapshot):
+    """Restore the original alignment of header/footer paragraphs."""
+
+    for paragraph, alignment in alignment_snapshot:
+        paragraph.alignment = alignment
 
 
 # ============================================================
@@ -775,6 +866,14 @@ def reconstruct_paragraphs(
             ).strip().endswith(",")
         ):
 
+            apply_paragraph_style(
+                paragraph,
+                text_elements[index].get(
+                    "paragraph_style",
+                    {}
+                )
+            )
+
             continue
 
         runs_data = element.get(
@@ -804,29 +903,6 @@ def reconstruct_paragraphs(
             apply_paragraph_style(
                 paragraph,
                 paragraph_style
-            )
-
-        # ----------------------------------------------------
-        # Special Secretary-General formatting
-        # ----------------------------------------------------
-
-        if (
-            current_text.lower()
-            in {
-                "secretary-general",
-                "महासचिव"
-            }
-            and index > 0
-            and text_elements[
-                index - 1
-            ].get(
-                "text",
-                ""
-            ).strip().endswith(",")
-        ):
-
-            paragraph.alignment = (
-                WD_ALIGN_PARAGRAPH.RIGHT
             )
 
         # ----------------------------------------------------
@@ -905,10 +981,6 @@ def reconstruct_paragraphs(
                 paragraph.paragraph_format.keep_together = False
                 paragraph.paragraph_format.page_break_before = False
 
-                paragraph.alignment = (
-                    WD_ALIGN_PARAGRAPH.RIGHT
-                )
-
                 paragraph_properties = (
                     paragraph._p.pPr
                 )
@@ -937,8 +1009,12 @@ def reconstruct_paragraphs(
                         ]
                     )
 
-                    next_paragraph.alignment = (
-                        WD_ALIGN_PARAGRAPH.RIGHT
+                    apply_paragraph_style(
+                        next_paragraph,
+                        next_element.get(
+                            "paragraph_style",
+                            {}
+                        )
                     )
 
                     next_paragraph.paragraph_format.left_indent = None
@@ -2350,6 +2426,12 @@ def reconstruct_docx(
         original_docx_path
     )
 
+    header_footer_alignment = (
+        snapshot_header_footer_alignment(
+            document
+        )
+    )
+
     # --------------------------------------------------------
     # Load translated JSON
     # --------------------------------------------------------
@@ -2443,6 +2525,10 @@ def reconstruct_docx(
 
     translate_footnotes_xml(
         document
+    )
+
+    restore_header_footer_alignment(
+        header_footer_alignment
     )
 
     # --------------------------------------------------------
