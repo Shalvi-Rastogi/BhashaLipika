@@ -635,6 +635,63 @@ def translate_json(
                     )
 
         # -------------------------------------------------
+        # Translate textbox paragraphs
+        # -------------------------------------------------
+
+        if (
+            data.get("type") == "textbox"
+            and isinstance(
+                data.get("paragraphs"),
+                list
+            )
+        ):
+
+            translated_paragraphs = []
+
+            for paragraph_text in data["paragraphs"]:
+
+                if not isinstance(
+                    paragraph_text,
+                    str
+                ):
+                    translated_paragraphs.append(
+                        paragraph_text
+                    )
+                    continue
+
+                if not paragraph_text.strip():
+                    translated_paragraphs.append(
+                        paragraph_text
+                    )
+                    continue
+
+                cache_key = (
+                    paragraph_text,
+                    src_lang,
+                    tgt_lang
+                )
+
+                if cache_key not in translation_cache:
+
+                    translation_cache[
+                        cache_key
+                    ] = translate_text(
+                        paragraph_text,
+                        src_lang,
+                        tgt_lang
+                    )
+
+                translated_paragraphs.append(
+                    translation_cache[
+                        cache_key
+                    ]
+                )
+
+            data["paragraphs"] = (
+                translated_paragraphs
+            )
+
+        # -------------------------------------------------
         # Recursively process other fields
         # -------------------------------------------------
 
@@ -697,7 +754,41 @@ def collect_translation_texts(
 
         texts = set()
 
+    # =====================================================
+    # DICTIONARY
+    # =====================================================
+
     if isinstance(data, dict):
+
+        # -------------------------------------------------
+        # Collect textbox paragraph text
+        # -------------------------------------------------
+
+        if (
+            data.get("type") == "textbox"
+            and isinstance(
+                data.get("paragraphs"),
+                list
+            )
+        ):
+
+            for paragraph_text in data["paragraphs"]:
+
+                if (
+                    isinstance(
+                        paragraph_text,
+                        str
+                    )
+                    and paragraph_text.strip()
+                ):
+
+                    texts.add(
+                        paragraph_text.strip()
+                    )
+
+        # -------------------------------------------------
+        # Collect normal text
+        # -------------------------------------------------
 
         text = data.get("text")
 
@@ -710,18 +801,28 @@ def collect_translation_texts(
                 text.strip()
             )
 
+        # -------------------------------------------------
+        # Recursively collect other fields
+        # -------------------------------------------------
+
         for key, value in data.items():
 
-            if key not in [
+            if key in [
                 "text",
                 "runs",
-                "original_text"
+                "original_text",
+                "paragraphs"
             ]:
+                continue
 
-                collect_translation_texts(
-                    value,
-                    texts
-                )
+            collect_translation_texts(
+                value,
+                texts
+            )
+
+    # =====================================================
+    # LIST
+    # =====================================================
 
     elif isinstance(data, list):
 

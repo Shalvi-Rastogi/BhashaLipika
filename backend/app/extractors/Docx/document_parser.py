@@ -4,7 +4,7 @@ from .document_iterator import iter_block_items
 from .paragraph_extractor import process_paragraph
 from .table_extractor import process_table
 from .image_extractor import extract_images_from_docx
-
+from .textbox_extractor import extract_textboxes_from_docx
 
 def parse_document(docx_path, document):
     """
@@ -37,6 +37,21 @@ def parse_document(docx_path, document):
 
             result["elements"].append(element)
             element_id += 1
+
+        # Extract text from Word textboxes/shapes
+    textbox_elements = extract_textboxes_from_docx(docx_path)
+
+    for textbox in textbox_elements:
+        result["elements"].append({
+            "id": element_id,
+            "type": "textbox",
+            "order": element_id,
+            "textbox_id": textbox["id"],
+            "text": textbox["text"],
+            "paragraphs": textbox["paragraphs"]
+        })
+
+        element_id += 1
 
     # Extract text from images using OCR
     image_elements = extract_images_from_docx(docx_path)
