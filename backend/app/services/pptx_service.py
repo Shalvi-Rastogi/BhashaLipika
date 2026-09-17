@@ -27,7 +27,11 @@ def process_pptx_pipeline(file_path, filename, target_language, tgt_lang_code, o
             elif shape.get("type") == "table":
                 for row in shape.get("original_data", []):
                     for cell in row:
-                        if cell.strip(): texts_to_translate.add(cell)
+                        if cell.strip(): 
+                            texts_to_translate.add(cell)
+            elif shape.get("type") == "image":
+                if shape.get("original_text", "").strip():
+                    texts_to_translate.add(shape["original_text"])
 
     translation_texts = list(texts_to_translate)
     pptx_translation_cache = {}
@@ -53,6 +57,12 @@ def process_pptx_pipeline(file_path, filename, target_language, tgt_lang_code, o
                     [pptx_translation_cache.get(cell, cell) if cell.strip() else "" for cell in row]
                     for row in shape.get("original_data", [])
                 ]
+            elif shape.get("type") == "image":
+                orig = shape.get("original_text", "")
+                shape["translated_text"] = pptx_translation_cache.get(
+                    orig,
+                    orig
+                )
 
     translated_json_filename = f"{base_name}_translated_{target_language}.json"
     translated_json_path = os.path.join(output_folder, translated_json_filename)

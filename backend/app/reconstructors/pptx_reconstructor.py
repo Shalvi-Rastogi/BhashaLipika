@@ -1,4 +1,6 @@
 import json
+import os
+from PIL import Image, ImageDraw, ImageFont
 from pptx import Presentation
 from pptx.enum.text import MSO_AUTO_SIZE
 from pptx.enum.text import MSO_ANCHOR
@@ -45,6 +47,79 @@ def _set_cell_text(cell, text):
     for paragraph in text_frame.paragraphs:
         for run in paragraph.runs:
             run.font.size = Pt(font_size)
+
+def reconstruct_image(image_path, ocr_data, translated_text, output_path):
+    """
+    Create a translated version of an image using OCR bounding boxes.
+    Original detected text is covered and translated text is drawn in its place.
+    """
+
+    try:
+        image = Image.open(image_path).convert("RGB")
+        draw = ImageDraw.Draw(image)
+
+        translated_lines = translated_text.splitlines()
+
+        for index, item in enumerate(ocr_data):
+            text = item.get("text", "")
+            bbox = item.get("bbox", [])
+
+            if not text or not bbox:
+                continue
+
+            # Bounding box coordinates
+            xs = [point[0] for point in bbox]
+            ys = [point[1] for point in bbox]
+
+            x1 = min(xs)
+            y1 = min(ys)
+            x2 = max(xs)
+            y2 = max(ys)
+
+            # Cover original text
+            draw.rectangle(
+                [x1, y1, x2, y2],
+                fill="white"
+            )
+
+            # Use corresponding translated line
+            if index < len(translated_lines):
+                new_text = translated_lines[index]
+            else:
+                new_text = ""
+
+            if not new_text.strip():
+                continue
+
+            # Calculate approximate font size from OCR box height
+            box_height = max(10, y2 - y1)
+            font_size = max(10, int(box_height * 0.8))
+
+            try:
+                font = ImageFont.truetype(
+                    "/System/Library/Fonts/Supplemental/DevanagariMT.ttc",
+                    font_size
+                )
+            except Exception:
+                font = ImageFont.load_default()
+
+            # Draw translated text
+            draw.text(
+                (x1, y1),
+                new_text,
+                fill="black",
+                font=font
+            )
+
+        image.save(output_path)
+
+        print(f"Translated image saved: {output_path}")
+
+        return output_path
+
+    except Exception as e:
+        print(f"Error reconstructing image: {e}")
+        return image_path
 
 def reconstruct_pptx(original_pptx_path, translated_json_path, output_pptx_path):
     """
@@ -99,7 +174,47 @@ def reconstruct_pptx(original_pptx_path, translated_json_path, output_pptx_path)
                             # Bounds check to avoid index errors if structure changed
                             if row_idx < len(trans_table) and col_idx < len(trans_table[row_idx]):
                                 _set_cell_text(cell, trans_table[row_idx][col_idx])
-                                    
+                        # --- Replace Image With Translated Image ---
+            elif item['type'] == 'image':
+                image_path = item.get('image_path')
+                ocr_data = item.get('ocr_data', [])
+                translated_text = item.get('translated_text', '')
+
+                if image_path and ocr_data and translated_text:
+                    translated_image_path = os.path.join(
+                        os.path.dirname(image_path),
+                        f"translated_{os.path.basename(image_path)}"
+                    )
+
+                    reconstruct_image(
+                        image_path,
+                        ocr_data,
+                        translated_text,
+                        translated_image_path
+                    )
+
+                    try:
+                        # Preserve original image position and size
+                        left = shape.left
+                        top = shape.top
+                        width = shape.width
+                        height = shape.height
+
+                        # Remove original image
+                        sp = shape._element
+                        sp.getparent().remove(sp)
+
+                        # Add translated image in exactly the same position
+                        slide.shapes.add_picture(
+                            translated_image_path,
+                            left,
+                            top,
+                            width,
+                            height
+                        )
+
+                    except Exception as e:
+                        print(f"Error replacing PPT image: {e}")                                    
     # 4. Save the final reconstructed file
     prs.save(output_pptx_path)
     print(f"Success: Reconstructed PPTX saved to {output_pptx_path}")
