@@ -32,8 +32,16 @@ def _shape_path(shape_index):
 def _set_cell_text(cell, text):
     """Replace cell text while keeping translated text inside its cell."""
     text_frame = cell.text_frame
-    text_frame.word_wrap = True
-    text_frame.auto_size = MSO_AUTO_SIZE.TEXT_TO_FIT_SHAPE
+    original_font_sizes = [
+        run.font.size
+        for paragraph in text_frame.paragraphs
+        for run in paragraph.runs
+        if run.font.size is not None
+    ]
+    # Keep fixed-height table rows from expanding translated text into the
+    # rows below; the original font size is preserved separately.
+    text_frame.word_wrap = False
+    text_frame.auto_size = MSO_AUTO_SIZE.NONE
     text_frame.vertical_anchor = MSO_ANCHOR.MIDDLE
     text_frame.margin_left = Pt(2)
     text_frame.margin_right = Pt(2)
@@ -41,12 +49,46 @@ def _set_cell_text(cell, text):
     text_frame.margin_bottom = Pt(1)
     text_frame.text = text
 
-    # Table rows have fixed heights, so explicitly reduce long translations.
-    longest_line = max((len(line) for line in text.splitlines()), default=0)
-    font_size = 7 if longest_line > 14 or len(text) > 20 else 8 if longest_line > 9 or len(text) > 12 else 9
-    for paragraph in text_frame.paragraphs:
-        for run in paragraph.runs:
-            run.font.size = Pt(font_size)
+    if original_font_sizes:
+        fallback_size = original_font_sizes[0]
+        for paragraph in text_frame.paragraphs:
+            for run in paragraph.runs:
+                run.font.size = fallback_size
+
+
+def _get_image_font(font_size):
+    """Return a font that can render translated Indic text on Windows/Linux."""
+    font_paths = (
+        "C:/Windows/Fonts/Nirmala.ttf",
+        "C:/Windows/Fonts/NirmalaUI.ttf",
+        "C:/Windows/Fonts/Nirmala.ttc",
+        "/usr/share/fonts/truetype/noto/NotoSansDevanagari-Regular.ttf",
+        "/System/Library/Fonts/Supplemental/DevanagariMT.ttc",
+    )
+
+    for font_path in font_paths:
+        if os.path.exists(font_path):
+            try:
+                return ImageFont.truetype(font_path, font_size)
+            except OSError:
+                continue
+
+    return ImageFont.load_default()
+
+
+def _fit_image_text(draw, text, box, max_font_size):
+    """Fit translated text inside an OCR box without allowing overflow."""
+    x1, y1, x2, y2 = box
+    box_width = max(1, x2 - x1)
+    box_height = max(1, y2 - y1)
+
+    for font_size in range(max_font_size, 5, -1):
+        font = _get_image_font(font_size)
+        measured = draw.textbbox((0, 0), text, font=font)
+        if measured[2] - measured[0] <= box_width and measured[3] - measured[1] <= box_height:
+            return font
+
+    return _get_image_font(6)
 
 def reconstruct_image(image_path, ocr_data, translated_text, output_path):
     """
@@ -58,7 +100,7 @@ def reconstruct_image(image_path, ocr_data, translated_text, output_path):
         image = Image.open(image_path).convert("RGB")
         draw = ImageDraw.Draw(image)
 
-        translated_lines = translated_text.splitlines()
+        translated_lines = [line.strip() for line in translated_text.splitlines()]
 
         for index, item in enumerate(ocr_data):
             text = item.get("text", "")
@@ -76,9 +118,10 @@ def reconstruct_image(image_path, ocr_data, translated_text, output_path):
             x2 = max(xs)
             y2 = max(ys)
 
-            # Cover original text
+            # Keep replacement text inside the same OCR region as the source.
+            box = (x1, y1, x2, y2)
             draw.rectangle(
-                [x1, y1, x2, y2],
+                box,
                 fill="white"
             )
 
@@ -91,25 +134,15 @@ def reconstruct_image(image_path, ocr_data, translated_text, output_path):
             if not new_text.strip():
                 continue
 
-            # Calculate approximate font size from OCR box height
             box_height = max(10, y2 - y1)
-            font_size = max(10, int(box_height * 0.8))
+            font = _fit_image_text(draw, new_text, box, max(10, int(box_height * 0.8)))
+            text_bbox = draw.textbbox((0, 0), new_text, font=font)
+            text_width = text_bbox[2] - text_bbox[0]
+            text_height = text_bbox[3] - text_bbox[1]
+            text_x = x1 + max(0, (x2 - x1 - text_width) // 2)
+            text_y = y1 + max(0, (y2 - y1 - text_height) // 2) - text_bbox[1]
 
-            try:
-                font = ImageFont.truetype(
-                    "/System/Library/Fonts/Supplemental/DevanagariMT.ttc",
-                    font_size
-                )
-            except Exception:
-                font = ImageFont.load_default()
-
-            # Draw translated text
-            draw.text(
-                (x1, y1),
-                new_text,
-                fill="black",
-                font=font
-            )
+            draw.text((text_x, text_y), new_text, fill="black", font=font)
 
         image.save(output_path)
 
