@@ -46,6 +46,12 @@ from app.reconstructors.docx_reconstructor import reconstruct_docx
 
 from app.services.pptx_service import process_pptx_pipeline
 
+# =========================================================
+# XLSX IMPORT (NAYA ADD KIYA HAI)
+# =========================================================
+
+from app.services.xlsx_service import process_xlsx_pipeline
+
 
 router = APIRouter()
 
@@ -1638,6 +1644,54 @@ async def upload_document(
                 "status":
                     "completed",
 
+                **result
+            }
+
+        # =================================================
+        # 12.5 XLSX PROCESSING (NAYA ADD KIYA HAI)
+        # =================================================
+
+        elif file_type == "XLSX":
+
+            print(
+                "\nProcessing XLSX document..."
+            )
+
+            result = process_xlsx_pipeline(
+                file_path=file_path,
+                filename=file.filename,
+                target_language=target_language,
+                tgt_lang_code=tgt_lang,
+                output_folder=OUTPUT_FOLDER,
+                translate_func=translate_text
+            )
+
+            # =================================================
+            # UPDATE STATUS: COMPLETED
+            # =================================================
+
+            output_filename = None
+
+            if isinstance(result, dict):
+                output_filename = (
+                    result.get("reconstructed_file")
+                    or result.get("output_filename")
+                )
+
+            update_document_status(
+                document_id,
+                "completed",
+                output_filename
+            )
+
+            return {
+                "message": "XLSX File uploaded, extracted, translated and reconstructed successfully",
+                "document_id": document_id,
+                "filename": file.filename,
+                "file_type": file_type,
+                "target_language": target_language,
+                "target_language_code": tgt_lang,
+                "status": "completed",
                 **result
             }
 
