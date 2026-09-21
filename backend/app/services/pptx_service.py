@@ -1,11 +1,11 @@
 import os
 import json
+import re
 from concurrent.futures import ThreadPoolExecutor
 
 from app.extractors.PPTX.slide_iterator import extract_pptx_to_json
 from app.reconstructors.pptx_reconstructor import reconstruct_pptx
 
-# Dhyan dein: Humne yahan "translate_func" as parameter add kiya hai
 def process_pptx_pipeline(file_path, filename, target_language, tgt_lang_code, output_folder, translate_func):
     
     base_name = os.path.splitext(filename)[0]
@@ -18,30 +18,66 @@ def process_pptx_pipeline(file_path, filename, target_language, tgt_lang_code, o
     with open(json_path, "r", encoding="utf-8") as f:
         pptx_data = json.load(f)
 
+    # Basic cleaning
+    def clean_string(text):
+        if not isinstance(text, str):
+            return text
+        cleaned = text.replace('\x0b', '\n').replace('\xa0', ' ').replace('\r', '')
+        # Remove strict invisible unicode characters
+        cleaned = re.sub(r'[^\x00-\x7F\n]+', '', cleaned)
+        return cleaned.strip()
+
     # 2. Collect Texts
     texts_to_translate = set()
     for slide_id, shapes in pptx_data.items():
         for shape in shapes:
             if shape.get("type") == "text_frame" and shape.get("original_text", "").strip():
-                texts_to_translate.add(shape["original_text"])
+                cleaned = clean_string(shape["original_text"])
+                if cleaned: texts_to_translate.add(cleaned)
+                    
             elif shape.get("type") == "table":
                 for row in shape.get("original_data", []):
                     for cell in row:
-                        if cell.strip(): 
-                            texts_to_translate.add(cell)
+                        cleaned = clean_string(cell)
+                        if cleaned: texts_to_translate.add(cleaned)
+                            
             elif shape.get("type") == "image":
                 if shape.get("original_text", "").strip():
-                    texts_to_translate.add(shape["original_text"])
+                    cleaned = clean_string(shape["original_text"])
+                    if cleaned: texts_to_translate.add(cleaned)
 
     translation_texts = list(texts_to_translate)
     pptx_translation_cache = {}
     
-    # 3. Translate using the passed function (translate_func)
+    # NEW: Ziddi Translation Logic (API ko force karne ke liye)
+    def safe_translate(text):
+        lines = text.split('\n')
+        translated_lines = []
+        for line in lines:
+            clean_line = line.strip()
+            if not clean_line:
+                translated_lines.append("")
+                continue
+                
+            # Pehli koshish (Normal Translation)
+            trans = translate_func(clean_line, "eng-latn", tgt_lang_code)
+            
+            # Agar API ne same English wapas bhej di (Yani wo kisi word/hyphen par atak gayi)
+            if trans.strip().lower() == clean_line.lower():
+                # FALLBACK TRICK: Hyphen ko space banayein aur ek full stop (.) lagayein
+                alt_line = clean_line.replace("-", " ") + " ."
+                alt_trans = translate_func(alt_line, "eng-latn", tgt_lang_code)
+                
+                # Agar ye trick kaam kar gayi, toh full stop aur poorna viram (।) hata kar original me save karein
+                if alt_trans.strip().lower() != alt_line.lower():
+                    trans = alt_trans.replace(" .", "").replace(".", "").replace("।", "").strip()
+                    
+            translated_lines.append(trans)
+        return '\n'.join(translated_lines)
+
+    # 3. Translate using the safe_translate function
     with ThreadPoolExecutor(max_workers=4) as executor:
-        translated_texts = list(executor.map(
-            lambda text: translate_func(text, "eng-latn", tgt_lang_code), 
-            translation_texts
-        ))
+        translated_texts = list(executor.map(safe_translate, translation_texts))
 
     for orig, trans in zip(translation_texts, translated_texts):
         pptx_translation_cache[orig] = trans
@@ -50,19 +86,18 @@ def process_pptx_pipeline(file_path, filename, target_language, tgt_lang_code, o
     for slide_id, shapes in pptx_data.items():
         for shape in shapes:
             if shape.get("type") == "text_frame":
-                orig = shape.get("original_text", "")
-                shape["translated_text"] = pptx_translation_cache.get(orig, orig)
+                orig_clean = clean_string(shape.get("original_text", ""))
+                shape["translated_text"] = pptx_translation_cache.get(orig_clean, orig_clean)
+                
             elif shape.get("type") == "table":
                 shape["translated_data"] = [
-                    [pptx_translation_cache.get(cell, cell) if cell.strip() else "" for cell in row]
+                    [pptx_translation_cache.get(clean_string(cell), clean_string(cell)) if cell.strip() else "" for cell in row]
                     for row in shape.get("original_data", [])
                 ]
+                
             elif shape.get("type") == "image":
-                orig = shape.get("original_text", "")
-                shape["translated_text"] = pptx_translation_cache.get(
-                    orig,
-                    orig
-                )
+                orig_clean = clean_string(shape.get("original_text", ""))
+                shape["translated_text"] = pptx_translation_cache.get(orig_clean, orig_clean)
 
     translated_json_filename = f"{base_name}_translated_{target_language}.json"
     translated_json_path = os.path.join(output_folder, translated_json_filename)
