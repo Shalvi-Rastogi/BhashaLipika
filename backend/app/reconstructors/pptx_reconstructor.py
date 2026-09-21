@@ -2,6 +2,7 @@ import json
 import os
 from PIL import Image, ImageDraw, ImageFont
 from pptx import Presentation
+from pptx.opc.constants import RELATIONSHIP_TYPE as RT
 from pptx.enum.text import MSO_AUTO_SIZE, MSO_ANCHOR
 from pptx.util import Pt
 
@@ -104,12 +105,6 @@ def _set_cell_text(cell, text):
             if orig_font_name: run.font.name = orig_font_name
             if orig_font_bold is not None: run.font.bold = orig_font_bold
 
-    text_frame.word_wrap = True 
-    text_frame.auto_size = MSO_AUTO_SIZE.TEXT_TO_FIT_SHAPE
-    text_frame.margin_left = Pt(1)
-    text_frame.margin_right = Pt(1)
-    text_frame.margin_top = Pt(1)
-    text_frame.margin_bottom = Pt(1)
 
 def _get_image_font(font_size):
     font_paths = (
@@ -157,7 +152,9 @@ def reconstruct_image(image_path, ocr_data, translated_text, output_path):
             box = (x1, y1, x2, y2)
             draw.rectangle(box, fill="white")
 
-            new_text = translated_lines[index] if index < len(translated_lines) else ""
+            new_text = item.get("translated_text", "").strip()
+            if not new_text:
+                new_text = translated_lines[index] if index < len(translated_lines) else ""
             if not new_text.strip():
                 continue
 
@@ -176,6 +173,90 @@ def reconstruct_image(image_path, ocr_data, translated_text, output_path):
     except Exception as e:
         print(f"Error reconstructing image: {e}")
         return image_path
+
+def _replace_picture_image(shape, image_path):
+    """Replace only the picture payload and preserve the original shape transform."""
+    image_part, _ = shape.part.get_or_add_image_part(image_path)
+    relationship_id = shape.part.relate_to(image_part, RT.IMAGE)
+    shape._element.blipFill.blip.embed = relationship_id
+
+def _resolve_image_path(image_path, translated_json_path):
+    if os.path.exists(image_path):
+        return image_path
+
+    normalized_path = image_path.replace("\\", os.sep).replace("/", os.sep)
+    image_name = os.path.basename(normalized_path)
+    json_directory = os.path.dirname(os.path.abspath(translated_json_path))
+    candidates = (
+        os.path.join(json_directory, image_name),
+        os.path.join(os.path.dirname(json_directory), normalized_path),
+    )
+    for candidate in candidates:
+        if os.path.exists(candidate):
+            return candidate
+    return image_path
+
+def _table_cell_bounds(table_shape, row_index, column_index):
+    left = table_shape.left + sum(
+        table_shape.table.columns[index].width for index in range(column_index)
+    )
+    top = table_shape.top + sum(
+        table_shape.table.rows[index].height for index in range(row_index)
+    )
+    width = table_shape.table.columns[column_index].width
+    height = table_shape.table.rows[row_index].height
+    return left, top, left + width, top + height
+
+def _fit_nested_tables(slide, slide_width, slide_height):
+    table_shapes = [shape for shape in slide.shapes if shape.has_table]
+    if len(table_shapes) < 2:
+        return
+
+    slide_right = slide_width
+    slide_bottom = slide_height
+    margin = Pt(2)
+
+    for inner_table in table_shapes:
+        center_x = inner_table.left + inner_table.width // 2
+        center_y = inner_table.top + inner_table.height // 2
+        containing_cells = []
+
+        for outer_table in table_shapes:
+            if outer_table is inner_table:
+                continue
+            for row_index, _ in enumerate(outer_table.table.rows):
+                for column_index, _ in enumerate(outer_table.table.columns):
+                    bounds = _table_cell_bounds(outer_table, row_index, column_index)
+                    if bounds[0] <= center_x <= bounds[2] and bounds[1] <= center_y <= bounds[3]:
+                        containing_cells.append(bounds)
+
+        if not containing_cells:
+            continue
+
+        cell_left, cell_top, cell_right, cell_bottom = min(
+            containing_cells,
+            key=lambda bounds: (bounds[2] - bounds[0]) * (bounds[3] - bounds[1]),
+        )
+        left = max(cell_left + margin, 0)
+        top = max(cell_top + margin, 0)
+        right = min(cell_right - margin, slide_right)
+        bottom = min(cell_bottom - margin, slide_bottom)
+        if right > left and bottom > top:
+            inner_table.left = left
+            inner_table.top = top
+            inner_table.width = right - left
+            inner_table.height = bottom - top
+            if len(inner_table.table.columns) == 2:
+                first_column_width = round(inner_table.width * 0.55)
+                inner_table.table.columns[0].width = first_column_width
+                inner_table.table.columns[1].width = inner_table.width - first_column_width
+                inner_table.width = right - left
+            row_height = inner_table.height // len(inner_table.table.rows)
+            for row_index, row in enumerate(inner_table.table.rows):
+                if row_index == len(inner_table.table.rows) - 1:
+                    row.height = inner_table.height - row_height * row_index
+                else:
+                    row.height = row_height
 
 def reconstruct_pptx(original_pptx_path, translated_json_path, output_pptx_path):
     print(f"Loading original PPTX: {original_pptx_path}")
@@ -224,6 +305,7 @@ def reconstruct_pptx(original_pptx_path, translated_json_path, output_pptx_path)
                 translated_text = item.get('translated_text', '')
 
                 if image_path and ocr_data and translated_text:
+                    image_path = _resolve_image_path(image_path, translated_json_path)
                     translated_image_path = os.path.join(
                         os.path.dirname(image_path),
                         f"translated_{os.path.basename(image_path)}"
@@ -232,12 +314,11 @@ def reconstruct_pptx(original_pptx_path, translated_json_path, output_pptx_path)
                     reconstruct_image(image_path, ocr_data, translated_text, translated_image_path)
 
                     try:
-                        left, top, width, height = shape.left, shape.top, shape.width, shape.height
-                        sp = shape._element
-                        sp.getparent().remove(sp)
-                        slide.shapes.add_picture(translated_image_path, left, top, width, height)
+                        _replace_picture_image(shape, translated_image_path)
                     except Exception as e:
                         print(f"Error replacing PPT image: {e}")                                    
+
+        _fit_nested_tables(slide, prs.slide_width, prs.slide_height)
 
     prs.save(output_pptx_path)
     print(f"Success: Reconstructed PPTX saved to {output_pptx_path}")

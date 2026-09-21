@@ -45,11 +45,13 @@ def process_pptx_pipeline(file_path, filename, target_language, tgt_lang_code, o
                 if shape.get("original_text", "").strip():
                     cleaned = clean_string(shape["original_text"])
                     if cleaned: texts_to_translate.add(cleaned)
+                for ocr_item in shape.get("ocr_data", []):
+                    cleaned = clean_string(ocr_item.get("text", ""))
+                    if cleaned: texts_to_translate.add(cleaned)
 
     translation_texts = list(texts_to_translate)
     pptx_translation_cache = {}
     
-    # NEW: Ziddi Translation Logic (API ko force karne ke liye)
     def safe_translate(text):
         lines = text.split('\n')
         translated_lines = []
@@ -61,14 +63,11 @@ def process_pptx_pipeline(file_path, filename, target_language, tgt_lang_code, o
                 
             # Pehli koshish (Normal Translation)
             trans = translate_func(clean_line, "eng-latn", tgt_lang_code)
-            
-            # Agar API ne same English wapas bhej di (Yani wo kisi word/hyphen par atak gayi)
+
             if trans.strip().lower() == clean_line.lower():
-                # FALLBACK TRICK: Hyphen ko space banayein aur ek full stop (.) lagayein
                 alt_line = clean_line.replace("-", " ") + " ."
                 alt_trans = translate_func(alt_line, "eng-latn", tgt_lang_code)
-                
-                # Agar ye trick kaam kar gayi, toh full stop aur poorna viram (।) hata kar original me save karein
+            
                 if alt_trans.strip().lower() != alt_line.lower():
                     trans = alt_trans.replace(" .", "").replace(".", "").replace("।", "").strip()
                     
@@ -98,6 +97,12 @@ def process_pptx_pipeline(file_path, filename, target_language, tgt_lang_code, o
             elif shape.get("type") == "image":
                 orig_clean = clean_string(shape.get("original_text", ""))
                 shape["translated_text"] = pptx_translation_cache.get(orig_clean, orig_clean)
+                for ocr_item in shape.get("ocr_data", []):
+                    orig_ocr_text = clean_string(ocr_item.get("text", ""))
+                    ocr_item["translated_text"] = (
+                        pptx_translation_cache.get(orig_ocr_text, orig_ocr_text)
+                        if orig_ocr_text else ""
+                    )
 
     translated_json_filename = f"{base_name}_translated_{target_language}.json"
     translated_json_path = os.path.join(output_folder, translated_json_filename)
