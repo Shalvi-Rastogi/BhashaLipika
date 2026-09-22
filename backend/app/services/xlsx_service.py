@@ -2,79 +2,402 @@ import os
 import json
 from concurrent.futures import ThreadPoolExecutor
 
-from app.extractors.XLSX.sheet_iterator import extract_xlsx_to_json 
-from app.reconstructors.xlsx_reconstructor import reconstruct_xlsx
+from app.extractors.XLSX.sheet_iterator import (
+    extract_xlsx_to_json
+)
 
-def process_xlsx_pipeline(file_path, filename, target_language, tgt_lang_code, output_folder, translate_func):
-    
-    base_name = os.path.splitext(filename)[0]
-    json_filename = f"{base_name}.json"
-    json_path = os.path.join(output_folder, json_filename)
+from app.reconstructors.xlsx_reconstructor import (
+    reconstruct_xlsx
+)
 
-    # 1. Extract
-    extract_xlsx_to_json(file_path, json_path)
 
-    with open(json_path, "r", encoding="utf-8") as f:
-        xlsx_data = json.load(f)
+# ============================================================
+# XLSX TRANSLATION PIPELINE
+# ============================================================
 
-    # 2. Collect Texts from DOCX-like structure
+def process_xlsx_pipeline(
+    file_path,
+    filename,
+    target_language,
+    tgt_lang_code,
+    output_folder,
+    translate_func
+):
+
+    print("\n========================================")
+    print("XLSX TRANSLATION PIPELINE STARTED")
+    print("========================================")
+
+    os.makedirs(
+        output_folder,
+        exist_ok=True
+    )
+
+    base_name = os.path.splitext(
+        filename
+    )[0]
+
+    # ========================================================
+    # FILE 1
+    # ORIGINAL EXTRACTED JSON
+    # ========================================================
+
+    json_filename = (
+        f"{base_name}.json"
+    )
+
+    json_path = os.path.join(
+        output_folder,
+        json_filename
+    )
+
+    print(
+        f"\n[XLSX] Extracting: {filename}"
+    )
+
+    xlsx_data = extract_xlsx_to_json(
+        file_path,
+        json_path
+    )
+
+    # ========================================================
+    # COLLECT TEXTS
+    # ========================================================
+
     texts_to_translate = set()
-    for sheet in xlsx_data.get("sheets", []):
-        for cell in sheet.get("cells", []):
-            text_val = cell.get("text")
-            if isinstance(text_val, str) and text_val.strip():
-                texts_to_translate.add(text_val.strip())
-                
-    translation_texts = list(texts_to_translate)
+
+    def collect_texts(data):
+
+        if isinstance(data, dict):
+
+            # ------------------------------------------------
+            # Text fields
+            # ------------------------------------------------
+
+            text_value = data.get(
+                "original_text"
+            )
+
+            if not isinstance(
+                text_value,
+                str
+            ):
+
+                text_value = data.get(
+                    "text"
+                )
+
+            if isinstance(
+                text_value,
+                str
+            ):
+
+                clean_text = text_value.strip()
+
+                if clean_text:
+                    texts_to_translate.add(
+                        clean_text
+                    )
+
+            # ------------------------------------------------
+            # Continue recursively
+            # ------------------------------------------------
+
+            for value in data.values():
+                collect_texts(value)
+
+        elif isinstance(data, list):
+
+            for item in data:
+                collect_texts(item)
+
+    collect_texts(
+        xlsx_data
+    )
+
+    translation_texts = list(
+        texts_to_translate
+    )
+
+    print(
+        f"\n[XLSX] Unique texts found for translation: "
+        f"{len(translation_texts)}"
+    )
+
+    # ========================================================
+    # TRANSLATION
+    # ========================================================
+
     translation_cache = {}
 
-    # 3. Translate (PPTX wala strict logic for C-DAC API)
     def safe_translate(text):
+
         clean_line = text.strip()
+
         if not clean_line:
             return ""
-        trans = translate_func(clean_line, "eng-latn", tgt_lang_code)
-        
-        if trans.strip().lower() == clean_line.lower():
-            alt_line = clean_line.replace("-", " ") + " ."
-            alt_trans = translate_func(alt_line, "eng-latn", tgt_lang_code)
-            if alt_trans.strip().lower() != alt_line.lower():
-                trans = alt_trans.replace(" .", "").replace(".", "").replace("।", "").strip()
-        return trans
 
-    with ThreadPoolExecutor(max_workers=4) as executor:
-        translated_texts = list(executor.map(safe_translate, translation_texts))
+        try:
 
-    for orig, trans in zip(translation_texts, translated_texts):
-        translation_cache[orig] = trans
+            print(
+                f"[XLSX TRANSLATE] "
+                f"{clean_line[:100]}"
+            )
 
-    # 4. Apply Translations back
-    for sheet in xlsx_data.get("sheets", []):
-        for cell in sheet.get("cells", []):
-            text_val = cell.get("text")
-            if isinstance(text_val, str) and text_val.strip():
-                orig = text_val.strip()
-                translated_val = translation_cache.get(orig, orig)
-                
-                # Main text field aur runs dono update karein
-                cell["translated_text"] = translated_val
-                for run in cell.get("runs", []):
-                    if run.get("text") == orig:
-                        run["translated_text"] = translated_val
+            translated = translate_func(
+                clean_line,
+                "eng-latn",
+                tgt_lang_code
+            )
 
-    translated_json_filename = f"{base_name}_translated_{target_language}.json"
-    translated_json_path = os.path.join(output_folder, translated_json_filename)
-    with open(translated_json_path, "w", encoding="utf-8") as f:
-        json.dump(xlsx_data, f, indent=4, ensure_ascii=False)
+            if not isinstance(
+                translated,
+                str
+            ):
 
-    # 5. Reconstruct
-    reconstructed_filename = f"{base_name}_reconstructed_{target_language}.xlsx"
-    reconstructed_path = os.path.join(output_folder, reconstructed_filename)
-    reconstruct_xlsx(file_path, translated_json_path, reconstructed_path)
+                translated = str(
+                    translated
+                )
+
+            translated = translated.strip()
+
+            # ------------------------------------------------
+            # Fallback used in your existing pipeline
+            # ------------------------------------------------
+
+            if (
+                translated.lower()
+                == clean_line.lower()
+            ):
+
+                alt_line = (
+                    clean_line.replace(
+                        "-",
+                        " "
+                    )
+                    + " ."
+                )
+
+                alt_trans = translate_func(
+                    alt_line,
+                    "eng-latn",
+                    tgt_lang_code
+                )
+
+                if not isinstance(
+                    alt_trans,
+                    str
+                ):
+
+                    alt_trans = str(
+                        alt_trans
+                    )
+
+                if (
+                    alt_trans.strip().lower()
+                    != alt_line.lower()
+                ):
+
+                    translated = (
+                        alt_trans
+                        .replace(
+                            " .",
+                            ""
+                        )
+                        .replace(
+                            ".",
+                            ""
+                        )
+                        .replace(
+                            "।",
+                            ""
+                        )
+                        .strip()
+                    )
+
+            return translated
+
+        except Exception as e:
+
+            print(
+                f"[XLSX TRANSLATION ERROR] "
+                f"{clean_line[:80]} -> {e}"
+            )
+
+            # If translation fails, retain original.
+            return clean_line
+
+    if translation_texts:
+
+        with ThreadPoolExecutor(
+            max_workers=4
+        ) as executor:
+
+            translated_texts = list(
+                executor.map(
+                    safe_translate,
+                    translation_texts
+                )
+            )
+
+        for original, translated in zip(
+            translation_texts,
+            translated_texts
+        ):
+
+            translation_cache[
+                original
+            ] = translated
+
+    # ========================================================
+    # APPLY TRANSLATIONS TO JSON
+    # ========================================================
+
+    def apply_translations(data):
+
+        if isinstance(data, dict):
+
+            text_value = data.get(
+                "original_text"
+            )
+
+            if not isinstance(
+                text_value,
+                str
+            ):
+
+                text_value = data.get(
+                    "text"
+                )
+
+            if isinstance(
+                text_value,
+                str
+            ):
+
+                original = text_value.strip()
+
+                if original:
+
+                    data["translated_text"] = (
+                        translation_cache.get(
+                            original,
+                            original
+                        )
+                    )
+
+            for value in data.values():
+
+                # Prevent accidental recursion
+                # into strings.
+                if isinstance(
+                    value,
+                    (dict, list)
+                ):
+
+                    apply_translations(
+                        value
+                    )
+
+        elif isinstance(data, list):
+
+            for item in data:
+
+                if isinstance(
+                    item,
+                    (dict, list)
+                ):
+
+                    apply_translations(
+                        item
+                    )
+
+    apply_translations(
+        xlsx_data
+    )
+
+    # ========================================================
+    # FILE 2
+    # TRANSLATED JSON
+    # ========================================================
+
+    translated_json_filename = (
+        f"{base_name}_translated_"
+        f"{target_language}.json"
+    )
+
+    translated_json_path = os.path.join(
+        output_folder,
+        translated_json_filename
+    )
+
+    with open(
+        translated_json_path,
+        "w",
+        encoding="utf-8"
+    ) as f:
+
+        json.dump(
+            xlsx_data,
+            f,
+            indent=4,
+            ensure_ascii=False
+        )
+
+    print(
+        f"\n[XLSX] Translated JSON saved: "
+        f"{translated_json_path}"
+    )
+
+    # ========================================================
+    # FILE 3
+    # RECONSTRUCTED XLSX
+    # ========================================================
+
+    reconstructed_filename = (
+        f"{base_name}_reconstructed_"
+        f"{target_language}.xlsx"
+    )
+
+    reconstructed_path = os.path.join(
+        output_folder,
+        reconstructed_filename
+    )
+
+    print(
+        "\n[XLSX] Starting reconstruction..."
+    )
+
+    reconstruct_xlsx(
+        original_file_path=file_path,
+
+        translated_json_path=translated_json_path,
+
+        output_file_path=reconstructed_path
+    )
+
+    print(
+        f"\n[XLSX] Reconstructed file: "
+        f"{reconstructed_path}"
+    )
+
+    print("\n========================================")
+    print("XLSX PIPELINE COMPLETED")
+    print("========================================")
+
+    # ========================================================
+    # RETURN SAME STRUCTURE EXPECTED BY upload.py
+    # ========================================================
 
     return {
+
         "json_file": json_filename,
-        "translated_json_file": translated_json_filename,
-        "reconstructed_file": reconstructed_filename,
+
+        "translated_json_file":
+            translated_json_filename,
+
+        "reconstructed_file":
+            reconstructed_filename,
+
         "data": xlsx_data
     }
