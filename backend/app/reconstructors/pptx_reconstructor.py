@@ -3,6 +3,7 @@ import os
 from PIL import Image, ImageDraw, ImageFont
 from pptx import Presentation
 from pptx.opc.constants import RELATIONSHIP_TYPE as RT
+from pptx.oxml.ns import qn
 from pptx.enum.text import MSO_AUTO_SIZE, MSO_ANCHOR
 from pptx.util import Pt
 
@@ -175,10 +176,13 @@ def reconstruct_image(image_path, ocr_data, translated_text, output_path):
         return image_path
 
 def _replace_picture_image(shape, image_path):
-    """Replace only the picture payload and preserve the original shape transform."""
+    """Replace the picture image while preserving the original shape position and size."""
+
     image_part, _ = shape.part.get_or_add_image_part(image_path)
     relationship_id = shape.part.relate_to(image_part, RT.IMAGE)
-    shape._element.blipFill.blip.embed = relationship_id
+
+    blip = shape._element.blipFill.blip
+    blip.set(qn("r:embed"), relationship_id)
 
 def _resolve_image_path(image_path, translated_json_path):
     if os.path.exists(image_path):

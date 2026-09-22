@@ -38,12 +38,17 @@ def _extract_shape(shape, shape_path, slide_index, image_output_dir):
         return [text_data] if text_data else []
 
     if shape.shape_type == MSO_SHAPE_TYPE.PICTURE:
+        print(f"[PPTX IMAGE DETECTED] slide={slide_index}, shape={shape_index}")
+
         image_data = extract_image(
             shape,
             shape_index,
             slide_index,
             image_output_dir,
         )
+
+        print(f"[PPTX IMAGE RESULT] {image_data}")
+
         return [image_data] if image_data else []
 
     return []
