@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowRightLeft } from "lucide-react";
 
-function LanguageSelector({ onLanguageChange }) {
+function LanguageSelector({ onLanguageChange, resetKey }) {
   const languages = [
     { code: "en", name: "English" },
     { code: "hi", name: "Hindi" },
@@ -14,6 +14,10 @@ function LanguageSelector({ onLanguageChange }) {
 
   // No target language selected initially
   const [targetLanguage, setTargetLanguage] = useState("");
+
+  useEffect(() => {
+    setTargetLanguage("");
+  }, [resetKey]);
 
   const handleTargetChange = (e) => {
     const value = e.target.value;

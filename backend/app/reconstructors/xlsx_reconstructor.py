@@ -1,6 +1,7 @@
 import json
 import os
 import copy
+import re
 import zipfile
 import xml.etree.ElementTree as ET
 
@@ -19,6 +20,16 @@ NS = {
     "xdr": "http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing",
 
     "a": "http://schemas.openxmlformats.org/drawingml/2006/main",
+
+    "mc": "http://schemas.openxmlformats.org/markup-compatibility/2006",
+
+    "x14ac": "http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac",
+
+    "xr": "http://schemas.microsoft.com/office/spreadsheetml/2014/revision",
+
+    "xr2": "http://schemas.microsoft.com/office/spreadsheetml/2015/revision2",
+
+    "xr3": "http://schemas.microsoft.com/office/spreadsheetml/2016/revision3",
 }
 
 
@@ -45,6 +56,31 @@ ET.register_namespace(
     NS["a"]
 )
 
+ET.register_namespace(
+    "mc",
+    NS["mc"]
+)
+
+ET.register_namespace(
+    "x14ac",
+    NS["x14ac"]
+)
+
+ET.register_namespace(
+    "xr",
+    NS["xr"]
+)
+
+ET.register_namespace(
+    "xr2",
+    NS["xr2"]
+)
+
+ET.register_namespace(
+    "xr3",
+    NS["xr3"]
+)
+
 
 # ============================================================
 # HELPERS
@@ -52,6 +88,47 @@ ET.register_namespace(
 
 def qname(namespace, tag):
     return f"{{{namespace}}}{tag}"
+
+def serialize_xml_preserving_namespaces(root, original_xml):
+    """Serialize XML without dropping unused Excel namespace declarations."""
+
+    namespace_declarations = re.findall(
+        rb'xmlns(?::([A-Za-z_][\w.-]*))?="([^"]+)"',
+        original_xml
+    )
+
+    for prefix_bytes, uri_bytes in namespace_declarations:
+        prefix = prefix_bytes.decode("ascii") if prefix_bytes else ""
+        uri = uri_bytes.decode("utf-8")
+        ET.register_namespace(prefix, uri)
+
+    serialized = ET.tostring(
+        root,
+        encoding="utf-8",
+        xml_declaration=True
+    )
+
+    root_start = serialized.find(b"<", serialized.find(b"?>") + 2)
+    start_tag_end = serialized.find(b">", root_start)
+
+    if start_tag_end == -1:
+        return serialized
+
+    start_tag = serialized[:start_tag_end]
+
+    for prefix_bytes, uri_bytes in namespace_declarations:
+        prefix = prefix_bytes.decode("ascii") if prefix_bytes else ""
+        uri = uri_bytes.decode("utf-8")
+        attribute = (
+            f'xmlns:{prefix}="{uri}"'
+            if prefix
+            else f'xmlns="{uri}"'
+        ).encode("utf-8")
+
+        if attribute not in start_tag:
+            start_tag += b" " + attribute
+
+    return start_tag + serialized[start_tag_end:]
 
 
 def normalize_zip_path(path):
@@ -711,7 +788,9 @@ def update_drawing_xml(
 
 def update_cell_xml(
     xml_bytes,
-    cell_updates
+    cell_updates,
+    shared_strings_root=None,
+    shared_string_cache=None,
 ):
 
     try:
@@ -828,9 +907,67 @@ def update_cell_xml(
 
         elif cell_type == "s":
 
-            # Leave shared strings unchanged.
-            # TextBox processing remains completely safe.
-            continue
+            if shared_strings_root is None:
+                continue
+
+            value_element = cell.find(
+                "main:v",
+                NS
+            )
+
+            if value_element is None:
+                continue
+
+            try:
+                original_index = int(value_element.text or "")
+            except ValueError:
+                continue
+
+            cache_key = (
+                original_index,
+                str(new_text)
+            )
+
+            new_index = None
+
+            if shared_string_cache is not None:
+                new_index = shared_string_cache.get(cache_key)
+
+            if new_index is None:
+                shared_items = shared_strings_root.findall(
+                    "main:si",
+                    NS
+                )
+
+                if original_index >= len(shared_items):
+                    continue
+
+                new_item = ET.Element(
+                    qname(NS["main"], "si")
+                )
+                text_element = ET.SubElement(
+                    new_item,
+                    qname(NS["main"], "t")
+                )
+                text_element.text = str(new_text)
+
+                if (
+                    str(new_text).startswith(" ")
+                    or str(new_text).endswith(" ")
+                ):
+                    text_element.set(
+                        "{http://www.w3.org/XML/1998/namespace}space",
+                        "preserve"
+                    )
+
+                shared_strings_root.append(new_item)
+                new_index = len(shared_items)
+
+                if shared_string_cache is not None:
+                    shared_string_cache[cache_key] = new_index
+
+            value_element.text = str(new_index)
+            updated_count += 1
 
         # ----------------------------------------------------
         # Normal string cell
@@ -861,10 +998,9 @@ def update_cell_xml(
     if updated_count == 0:
         return xml_bytes, 0
 
-    new_xml = ET.tostring(
+    new_xml = serialize_xml_preserving_namespaces(
         root,
-        encoding="utf-8",
-        xml_declaration=True
+        xml_bytes
     )
 
     return new_xml, updated_count
@@ -903,6 +1039,10 @@ def reconstruct_xlsx(
     drawing_updates = {}
 
     cell_updates = {}
+
+    shared_strings_root = None
+
+    shared_string_cache = {}
 
     for sheet_data in data.get(
         "sheets",
@@ -996,6 +1136,62 @@ def reconstruct_xlsx(
         "r"
     ) as source_zip:
 
+        if "xl/sharedStrings.xml" in source_zip.namelist():
+            try:
+                shared_strings_root = ET.fromstring(
+                    source_zip.read("xl/sharedStrings.xml")
+                )
+            except ET.ParseError:
+                shared_strings_root = None
+
+        worksheet_name_by_path = {}
+
+        try:
+            workbook_xml = ET.fromstring(
+                source_zip.read("xl/workbook.xml")
+            )
+            workbook_rels = ET.fromstring(
+                source_zip.read("xl/_rels/workbook.xml.rels")
+            )
+            workbook_rel_map = {}
+
+            for rel in workbook_rels.findall(
+                "rel:Relationship",
+                NS
+            ):
+                rel_id = rel.attrib.get("Id")
+                target = rel.attrib.get("Target")
+
+                if rel_id and target:
+                    workbook_rel_map[rel_id] = get_relationship_target(
+                        "xl/workbook.xml",
+                        target
+                    )
+
+            sheets_element = workbook_xml.find(
+                "main:sheets",
+                NS
+            )
+
+            if sheets_element is not None:
+                for sheet in sheets_element.findall(
+                    "main:sheet",
+                    NS
+                ):
+                    rel_id = sheet.attrib.get(
+                        qname(NS["r"], "id")
+                    )
+                    worksheet_path = workbook_rel_map.get(rel_id)
+                    sheet_name = sheet.attrib.get("name")
+
+                    if worksheet_path and sheet_name:
+                        worksheet_name_by_path[worksheet_path] = sheet_name
+
+        except Exception as e:
+            print(
+                f"[XLSX WARNING] Could not map worksheets: {e}"
+            )
+
         with zipfile.ZipFile(
             output_file_path,
             "w",
@@ -1054,116 +1250,16 @@ def reconstruct_xlsx(
                     )
                 ):
 
-                    # ------------------------------------------------
-                    # We currently update only inline/normal string
-                    # cells here.
-                    # ------------------------------------------------
-
-                    sheet_name = None
-
-                    # Find matching sheet by comparing
-                    # its relationship/drawing information.
-                    #
-                    # Since TextBox reconstruction is the main
-                    # requirement, cell reconstruction is kept
-                    # conservative.
-                    #
-                    # We match sheet XML using workbook mapping.
-                    # ------------------------------------------------
-
-                    try:
-
-                        workbook_xml = ET.fromstring(
-                            source_zip.read(
-                                "xl/workbook.xml"
-                            )
-                        )
-
-                        workbook_rels = ET.fromstring(
-                            source_zip.read(
-                                "xl/_rels/workbook.xml.rels"
-                            )
-                        )
-
-                        workbook_rel_map = {}
-
-                        for rel in workbook_rels.findall(
-                            "rel:Relationship",
-                            NS
-                        ):
-
-                            rel_id = rel.attrib.get(
-                                "Id"
-                            )
-
-                            target = rel.attrib.get(
-                                "Target"
-                            )
-
-                            if rel_id and target:
-
-                                workbook_rel_map[
-                                    rel_id
-                                ] = get_relationship_target(
-                                    "xl/workbook.xml",
-                                    target
-                                )
-
-                        sheets_element = (
-                            workbook_xml.find(
-                                "main:sheets",
-                                NS
-                            )
-                        )
-
-                        if sheets_element is not None:
-
-                            for sheet in (
-                                sheets_element.findall(
-                                    "main:sheet",
-                                    NS
-                                )
-                            ):
-
-                                rel_id = sheet.attrib.get(
-                                    qname(
-                                        NS["r"],
-                                        "id"
-                                    )
-                                )
-
-                                worksheet_path = (
-                                    workbook_rel_map.get(
-                                        rel_id
-                                    )
-                                )
-
-                                if worksheet_path == file_name:
-
-                                    sheet_name = (
-                                        sheet.attrib.get(
-                                            "name"
-                                        )
-                                    )
-
-                                    break
-
-                    except Exception as e:
-
-                        print(
-                            f"[XLSX WARNING] "
-                            f"Could not identify worksheet "
-                            f"{file_name}: {e}"
-                        )
+                    sheet_name = worksheet_name_by_path.get(file_name)
 
                     if sheet_name in cell_updates:
 
                         modified_bytes, count = (
                             update_cell_xml(
                                 original_bytes,
-                                cell_updates[
-                                    sheet_name
-                                ]
+                                cell_updates[sheet_name],
+                                shared_strings_root,
+                                shared_string_cache,
                             )
                         )
 
@@ -1174,6 +1270,17 @@ def reconstruct_xlsx(
                                 f"{count} cell(s) updated "
                                 f"in {sheet_name}"
                             )
+
+                elif (
+                    file_name == "xl/sharedStrings.xml"
+                    and shared_strings_root is not None
+                ):
+
+                    modified_bytes = ET.tostring(
+                        shared_strings_root,
+                        encoding="utf-8",
+                        xml_declaration=True
+                    )
 
                 # ====================================================
                 # WRITE FILE

@@ -31,6 +31,7 @@ function Home() {
         {/* Language Selection */}
         <LanguageSelector
           onLanguageChange={setTargetLanguage}
+          resetKey={resetKey}
         />
 
         {/* Input & Output */}

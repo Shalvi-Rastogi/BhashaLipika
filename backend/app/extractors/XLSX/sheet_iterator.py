@@ -4,6 +4,7 @@ import zipfile
 import xml.etree.ElementTree as ET
 
 import openpyxl
+from openpyxl.utils.cell import range_boundaries
 
 from .text_extractor import extract_cell_text
 from .style_extractor import extract_cell_style
@@ -405,6 +406,76 @@ def extract_textboxes_from_xlsx(file_path):
 
 
 # ============================================================
+# TABLE EXTRACTION
+# ============================================================
+
+def extract_sheet_tables(sheet):
+    """Extract structured metadata and text for every Excel table."""
+
+    tables = []
+
+    for table in sheet.tables.values():
+        min_column, min_row, max_column, max_row = range_boundaries(
+            table.ref
+        )
+
+        style_info = table.tableStyleInfo
+        table_info = {
+            "type": "table",
+            "name": table.name,
+            "display_name": table.displayName,
+            "ref": table.ref,
+            "header_row_count": table.headerRowCount,
+            "totals_row_count": table.totalsRowCount,
+            "auto_filter": table.autoFilter is not None,
+            "style": {
+                "name": style_info.name if style_info else None,
+                "show_first_column": (
+                    style_info.showFirstColumn if style_info else False
+                ),
+                "show_last_column": (
+                    style_info.showLastColumn if style_info else False
+                ),
+                "show_row_stripes": (
+                    style_info.showRowStripes if style_info else False
+                ),
+                "show_column_stripes": (
+                    style_info.showColumnStripes if style_info else False
+                ),
+            },
+            "columns": [],
+            "cells": [],
+        }
+
+        for column in table.tableColumns:
+            table_info["columns"].append({
+                "id": column.id,
+                "name": column.name,
+            })
+
+        for row in sheet.iter_rows(
+            min_row=min_row,
+            max_row=max_row,
+            min_col=min_column,
+            max_col=max_column,
+        ):
+            for cell in row:
+                text = extract_cell_text(cell)
+                table_info["cells"].append({
+                    "type": "table_cell",
+                    "coordinate": cell.coordinate,
+                    "row": cell.row,
+                    "column": cell.column,
+                    "original_text": text,
+                    "text": text,
+                })
+
+        tables.append(table_info)
+
+    return tables
+
+
+# ============================================================
 # MAIN XLSX EXTRACTION
 # ============================================================
 
@@ -448,6 +519,8 @@ def extract_xlsx_to_json(file_path, json_path):
             "sheet_name": sheet_name,
 
             "cells": [],
+
+            "tables": extract_sheet_tables(sheet),
 
             "textboxes": []
         }

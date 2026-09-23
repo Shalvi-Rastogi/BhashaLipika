@@ -34,6 +34,14 @@ function InputPanel({ resetKey , targetLanguage}) {
 
     if (!file) return;
 
+    if (!targetLanguage) {
+      setSelectedFile(null);
+      setUploadStatus("Select a target language first.");
+      e.target.value = "";
+      alert("Please select a target language before uploading a file.");
+      return;
+    }
+
     if (
       file.name.toLowerCase().endsWith(".docx") &&
       file.size > MAX_DOCX_FILE_SIZE
@@ -80,8 +88,10 @@ function InputPanel({ resetKey , targetLanguage}) {
           "Processing is taking too long. Please check the backend."
         );
       } else {
+        const detail = error.response?.data?.detail;
+
         alert(
-          error.response?.data?.detail ||
+          detail ||
             "Upload or processing failed."
         );
       }
