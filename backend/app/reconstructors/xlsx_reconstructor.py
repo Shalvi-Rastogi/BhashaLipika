@@ -5,6 +5,7 @@ import re
 import zipfile
 import xml.etree.ElementTree as ET
 
+from PIL import Image, ImageDraw, ImageFont
 
 # ============================================================
 # XML NAMESPACES
@@ -1010,6 +1011,189 @@ def update_cell_xml(
 # MAIN RECONSTRUCTOR
 # ============================================================
 
+def create_translated_image(
+    original_image_path,
+    ocr_data,
+    output_image_path
+):
+    """
+    Create a new image containing translated OCR text
+    at approximately the same positions as the original text.
+    """
+
+    try:
+        image = Image.open(original_image_path).convert("RGB")
+        draw = ImageDraw.Draw(image)
+
+        for item in ocr_data:
+
+            bbox = item.get("bbox", [])
+            translated_text = item.get("translated_text", "")
+
+            if not bbox or not translated_text:
+                continue
+
+            # Get bounding box coordinates
+            xs = [point[0] for point in bbox]
+            ys = [point[1] for point in bbox]
+
+            x1 = min(xs)
+            y1 = min(ys)
+            x2 = max(xs)
+            y2 = max(ys)
+
+            width = max(1, x2 - x1)
+            height = max(1, y2 - y1)
+
+            # Estimate the background color around the text
+            padding = 3
+
+            sample_points = [
+                (max(0, x1 - padding), max(0, y1 - padding)),
+                (min(image.width - 1, x2 + padding), max(0, y1 - padding)),
+                (max(0, x1 - padding), min(image.height - 1, y2 + padding)),
+                (min(image.width - 1, x2 + padding), min(image.height - 1, y2 + padding))
+            ]
+
+            colors = [
+                image.getpixel(point)
+                for point in sample_points
+            ]
+
+            background_color = tuple(
+                sum(color[channel] for color in colors) // len(colors)
+                for channel in range(3)
+            )
+
+            draw.rectangle(
+                [x1, y1, x2, y2],
+                fill=background_color
+            )
+
+            # Start with a reasonable font size
+            font_size = max(
+                12,
+                int(height * 0.65)
+            )
+
+            try:
+                font = ImageFont.truetype(
+                    "/System/Library/Fonts/DevanagariSangamMN.ttc",
+                    font_size
+                )
+            except Exception:
+                try:
+                    font = ImageFont.truetype(
+                        "/System/Library/Fonts/Arial Unicode.ttf",
+                        font_size
+                    )
+                except Exception:
+                    font = ImageFont.load_default()
+
+            # Draw translated Hindi text
+            draw.text(
+                (x1, y1),
+                translated_text,
+                fill="black",
+                font=font
+            )
+
+        os.makedirs(
+            os.path.dirname(output_image_path),
+            exist_ok=True
+        )
+
+        image.save(output_image_path)
+
+        print(
+            f"[XLSX IMAGE] Translated image created: "
+            f"{output_image_path}"
+        )
+
+        return True
+
+    except Exception as e:
+
+        print(
+            f"[XLSX IMAGE ERROR] "
+            f"Could not create translated image: {e}"
+        )
+
+        return False
+
+def replace_xlsx_images(
+    source_zip,
+    image_updates
+):
+    """
+    Create translated versions of XLSX images
+    and return them as a dictionary mapped to
+    their original xl/media paths.
+    """
+
+    translated_media = {}
+
+    media_files = [
+        name
+        for name in source_zip.namelist()
+        if name.startswith("xl/media/")
+    ]
+
+    if not media_files:
+        print("[XLSX IMAGE] No images found in XLSX package.")
+        return translated_media
+
+    for index, update in enumerate(image_updates):
+
+        image_path = update.get("image_path")
+        ocr_data = update.get("ocr_data", [])
+
+        if not image_path or not ocr_data:
+            continue
+
+        if not os.path.exists(image_path):
+            print(
+                f"[XLSX IMAGE WARNING] "
+                f"Image not found: {image_path}"
+            )
+            continue
+
+        if index >= len(media_files):
+            print(
+                "[XLSX IMAGE WARNING] "
+                "No matching media file found."
+            )
+            continue
+
+        original_media_path = media_files[index]
+
+        temp_translated_path = os.path.join(
+            os.path.dirname(image_path),
+            f"translated_{os.path.basename(image_path)}"
+        )
+
+        success = create_translated_image(
+            image_path,
+            ocr_data,
+            temp_translated_path
+        )
+
+        if not success:
+            continue
+
+        with open(
+            temp_translated_path,
+            "rb"
+        ) as f:
+            translated_media[original_media_path] = f.read()
+
+        print(
+            f"[XLSX IMAGE READY] "
+            f"{original_media_path}"
+        )
+
+    return translated_media
+
 def reconstruct_xlsx(
     original_file_path,
     translated_json_path,
@@ -1039,6 +1223,8 @@ def reconstruct_xlsx(
     drawing_updates = {}
 
     cell_updates = {}
+
+    image_updates = []
 
     shared_strings_root = None
 
@@ -1095,6 +1281,18 @@ def reconstruct_xlsx(
             ).append(
                 textbox
             )
+
+        # ----------------------------------------------------
+        # Images
+        # ----------------------------------------------------
+
+        for image in sheet_data.get("images", []):
+
+            image_updates.append({
+                "sheet_name": sheet_data.get("sheet_name"),
+                "image_path": image.get("image_path"),
+                "ocr_data": image.get("ocr_data", [])
+            })
 
     print(
         f"[XLSX] Drawings containing updates: "
@@ -1197,7 +1395,10 @@ def reconstruct_xlsx(
             "w",
             compression=zipfile.ZIP_DEFLATED
         ) as output_zip:
-
+            translated_media = replace_xlsx_images(
+                source_zip,
+                image_updates
+            )
             for item in source_zip.infolist():
 
                 file_name = item.filename
@@ -1211,6 +1412,17 @@ def reconstruct_xlsx(
                 modified_bytes = (
                     original_bytes
                 )
+
+                if file_name in translated_media:
+
+                    modified_bytes = translated_media[
+                        file_name
+                    ]
+
+                    print(
+                        f"[XLSX IMAGE UPDATED] "
+                        f"{file_name}"
+                    )
 
                 # ====================================================
                 # DRAWING XML

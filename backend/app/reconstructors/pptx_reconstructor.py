@@ -151,7 +151,31 @@ def reconstruct_image(image_path, ocr_data, translated_text, output_path):
             x1, y1, x2, y2 = min(xs), min(ys), max(xs), max(ys)
             
             box = (x1, y1, x2, y2)
-            draw.rectangle(box, fill="white")
+
+            # Estimate the local background color around the OCR region
+            padding = 3
+
+            sample_points = [
+                (max(0, x1 - padding), max(0, y1 - padding)),
+                (min(image.width - 1, x2 + padding), max(0, y1 - padding)),
+                (max(0, x1 - padding), min(image.height - 1, y2 + padding)),
+                (min(image.width - 1, x2 + padding), min(image.height - 1, y2 + padding))
+            ]
+
+            colors = [
+                image.getpixel(point)
+                for point in sample_points
+            ]
+
+            background_color = tuple(
+                sum(color[channel] for color in colors) // len(colors)
+                for channel in range(3)
+            )
+
+            draw.rectangle(
+                box,
+                fill=background_color
+            )
 
             new_text = item.get("translated_text", "").strip()
             if not new_text:

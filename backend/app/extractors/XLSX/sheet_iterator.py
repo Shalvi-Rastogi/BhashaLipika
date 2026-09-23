@@ -8,6 +8,7 @@ from openpyxl.utils.cell import range_boundaries
 
 from .text_extractor import extract_cell_text
 from .style_extractor import extract_cell_style
+from app.extractors.Docx.ocr_extractor import extract_text_from_image
 
 
 # ============================================================
@@ -479,6 +480,79 @@ def extract_sheet_tables(sheet):
 # MAIN XLSX EXTRACTION
 # ============================================================
 
+def extract_images_from_sheet(sheet, sheet_name, output_dir):
+    """Extract images from an Excel sheet and run OCR on them."""
+
+    images_data = []
+
+    image_output_dir = os.path.join(
+        output_dir,
+        f"{sheet_name}_images"
+    )
+
+    os.makedirs(image_output_dir, exist_ok=True)
+
+    for image_index, image in enumerate(sheet._images):
+
+        try:
+            image_bytes = image._data()
+
+            image_filename = (
+                f"{sheet_name}_image_{image_index + 1}.png"
+            )
+
+            image_path = os.path.join(
+                image_output_dir,
+                image_filename
+            )
+
+            # Save image
+            with open(image_path, "wb") as f:
+                f.write(image_bytes)
+
+            print(f"[XLSX IMAGE] Saved: {image_path}")
+
+            # Run OCR
+            ocr_results = extract_text_from_image(image_path)
+
+            print(f"[XLSX OCR] {ocr_results}")
+
+            extracted_text = "\n".join(
+                item["text"]
+                for item in ocr_results
+                if item.get("text")
+            )
+
+            # Get image position
+            row = None
+            column = None
+
+            anchor = image.anchor
+
+            if hasattr(anchor, "_from"):
+                row = anchor._from.row + 1
+                column = anchor._from.col + 1
+
+            images_data.append({
+                "type": "image",
+                "image_index": image_index,
+                "image_path": image_path,
+                "row": row,
+                "column": column,
+                "original_text": extracted_text,
+                "ocr_data": ocr_results,
+                "translated_text": ""
+            })
+
+        except Exception as e:
+            print(
+                f"[XLSX IMAGE ERROR] "
+                f"Sheet={sheet_name}, "
+                f"Image={image_index}: {e}"
+            )
+
+    return images_data
+
 def extract_xlsx_to_json(file_path, json_path):
 
     print("\n========================================")
@@ -522,7 +596,9 @@ def extract_xlsx_to_json(file_path, json_path):
 
             "tables": extract_sheet_tables(sheet),
 
-            "textboxes": []
+            "textboxes": [],
+
+            "images": []
         }
 
         for row in sheet.iter_rows():
@@ -554,6 +630,14 @@ def extract_xlsx_to_json(file_path, json_path):
                     )
 
                     total_cells += 1
+
+        images = extract_images_from_sheet(
+            sheet,
+            sheet_name,
+            os.path.dirname(json_path)
+        )
+
+        sheet_data["images"] = images
 
         document_data["sheets"].append(
             sheet_data
