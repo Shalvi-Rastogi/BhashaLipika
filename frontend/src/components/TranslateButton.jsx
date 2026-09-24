@@ -1,6 +1,8 @@
-function TranslateButton() {
+function TranslateButton({ onTranslate}) {
   return (
     <button
+      type="button"
+      onClick={onTranslate}
       className="
         bg-violet-600
         hover:bg-violet-700

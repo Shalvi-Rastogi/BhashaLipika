@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 import LanguageSelector from "../components/LanguageSelector";
 import InputPanel from "../components/Input";
 import OutputPanel from "../components/Output";
@@ -14,6 +15,39 @@ function Home() {
 
   // Selected target language
   const [targetLanguage, setTargetLanguage] = useState("");
+
+  const handleTranslate = async () => {
+    if (!inputText.trim()) {
+      alert("Please enter some text to translate.");
+      return;
+    }
+
+    if (!targetLanguage) {
+      alert("Please select a target language.");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/translate",
+        {
+          text: inputText,
+          target_language: targetLanguage,
+        }
+      );
+
+      console.log("Translation response:", response.data);
+
+      setTranslatedText(response.data.translated_text);
+    } catch (error) {
+      console.error("Translation failed:", error);
+
+      alert(
+        error.response?.data?.detail ||
+        "Translation failed. Please try again."
+      );
+    }
+  };
 
   const handleReset = () => {
     setInputText("");
@@ -42,11 +76,13 @@ function Home() {
             <InputPanel
               resetKey={resetKey}
               targetLanguage={targetLanguage}
+              text={inputText}
+              setText={setInputText}
             />
 
             {/* Translate & Reset Buttons */}
             <div className="mt-5 flex gap-4">
-              <TranslateButton />
+              <TranslateButton onTranslate={handleTranslate} />
 
               <ResetButton
                 onReset={handleReset}
@@ -56,7 +92,7 @@ function Home() {
 
           {/* RIGHT SIDE */}
           <div>
-            <OutputPanel />
+            <OutputPanel translatedText={translatedText} />
 
             {/* Download & Save Buttons */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">

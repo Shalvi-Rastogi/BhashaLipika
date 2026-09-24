@@ -7,9 +7,9 @@ const API_BASE_URL =
 
 const MAX_DOCX_FILE_SIZE = 5 * 1024 * 1024;
 
-function InputPanel({ resetKey , targetLanguage}) {
+function InputPanel({ resetKey , targetLanguage, text, setText}) {
   const [mode, setMode] = useState("text");
-  const [text, setText] = useState("");
+  //const [text, setText] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadStatus, setUploadStatus] = useState("");
   const [isUploading, setIsUploading] = useState(false);

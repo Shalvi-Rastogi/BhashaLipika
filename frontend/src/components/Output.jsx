@@ -1,4 +1,4 @@
-function OutputPanel() {
+function OutputPanel({ translatedText }) {
   return (
     <div className="bg-white rounded-2xl shadow-md p-6 h-[450px]">
 
@@ -7,6 +7,7 @@ function OutputPanel() {
       </h2>
 
       <textarea
+        value={translatedText}
         readOnly
         placeholder="Translation will appear here..."
         className="w-full h-[340px] border rounded-xl p-4 resize-none
