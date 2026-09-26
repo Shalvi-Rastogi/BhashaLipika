@@ -5,7 +5,7 @@ import axios from "axios";
 const API_BASE_URL =
   import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
-const MAX_DOCX_FILE_SIZE = 5 * 1024 * 1024;
+const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
 function InputPanel({ resetKey , targetLanguage, text, setText}) {
   const [mode, setMode] = useState("text");
@@ -42,14 +42,11 @@ function InputPanel({ resetKey , targetLanguage, text, setText}) {
       return;
     }
 
-    if (
-      file.name.toLowerCase().endsWith(".docx") &&
-      file.size > MAX_DOCX_FILE_SIZE
-    ) {
+    if (file.size >= MAX_FILE_SIZE) {
       setSelectedFile(null);
-      setUploadStatus("Upload failed.");
+      setUploadStatus("File must be smaller than 5 MB.");
       e.target.value = "";
-      alert("Only files up to 5 MB can be handled.");
+      alert("All files must be smaller than 5 MB.");
       return;
     }
 
@@ -174,7 +171,7 @@ function InputPanel({ resetKey , targetLanguage, text, setText}) {
           <p className="text-gray-500 mt-2 mb-5">
             PDF, DOCX, PPTX, XLSX, RTF
             <br />
-            DOCX files up to 5 MB
+            All files must be smaller than 5 MB
           </p>
 
           {/* Hidden File Input */}
@@ -213,6 +210,7 @@ function InputPanel({ resetKey , targetLanguage, text, setText}) {
             <p
               className={`mt-3 text-sm font-medium ${
                 uploadStatus === "Upload failed."
+                  || uploadStatus === "File must be smaller than 5 MB."
                   ? "text-red-600"
                   : uploadStatus === "Completed successfully!"
                   ? "text-green-600"

@@ -71,6 +71,22 @@ def process_xlsx_pipeline(
         if isinstance(data, dict):
 
             # ------------------------------------------------
+            # OCR text inside image boxes must also be translated.
+            # ------------------------------------------------
+
+            ocr_items = data.get("ocr_data")
+            if isinstance(ocr_items, list):
+                for item in ocr_items:
+                    if not isinstance(item, dict):
+                        continue
+
+                    ocr_text = item.get("text")
+                    if isinstance(ocr_text, str):
+                        clean_text = ocr_text.strip()
+                        if clean_text:
+                            texts_to_translate.add(clean_text)
+
+            # ------------------------------------------------
             # Text fields
             # ------------------------------------------------
 
@@ -256,6 +272,24 @@ def process_xlsx_pipeline(
     def apply_translations(data):
 
         if isinstance(data, dict):
+
+            # Translate nested OCR text blocks inside image objects.
+            ocr_items = data.get("ocr_data")
+            if isinstance(ocr_items, list):
+                for item in ocr_items:
+                    if not isinstance(item, dict):
+                        continue
+
+                    ocr_text = item.get("text")
+                    if isinstance(ocr_text, str):
+                        clean_text = ocr_text.strip()
+                        if clean_text:
+                            item["translated_text"] = (
+                                translation_cache.get(
+                                    clean_text,
+                                    clean_text
+                                )
+                            )
 
             text_value = data.get(
                 "original_text"

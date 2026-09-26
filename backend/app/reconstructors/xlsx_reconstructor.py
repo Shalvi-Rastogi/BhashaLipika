@@ -1,11 +1,13 @@
 import json
 import os
 import copy
+import hashlib
+from io import BytesIO
 import re
 import zipfile
 import xml.etree.ElementTree as ET
-
 from PIL import Image, ImageDraw, ImageFont
+
 
 # ============================================================
 # XML NAMESPACES
@@ -180,6 +182,108 @@ def get_relationship_target(
             target
         )
     )
+
+
+def get_image_font(font_size):
+    font_paths = (
+        "C:/Windows/Fonts/Nirmala.ttf",
+        "C:/Windows/Fonts/NirmalaUI.ttf",
+        "C:/Windows/Fonts/Nirmala.ttc",
+        "/usr/share/fonts/truetype/noto/NotoSansDevanagari-Regular.ttf",
+        "/System/Library/Fonts/Supplemental/DevanagariMT.ttc",
+    )
+
+    for font_path in font_paths:
+        if os.path.exists(font_path):
+            try:
+                return ImageFont.truetype(font_path, font_size)
+            except OSError:
+                continue
+
+    return ImageFont.load_default()
+
+
+def fit_image_text(draw, text, box, max_font_size):
+    x1, y1, x2, y2 = box
+    box_width = max(1, x2 - x1)
+    box_height = max(1, y2 - y1)
+
+    for font_size in range(max_font_size, 5, -1):
+        font = get_image_font(font_size)
+        measured = draw.textbbox((0, 0), text, font=font)
+
+        if (
+            measured[2] - measured[0] <= box_width
+            and measured[3] - measured[1] <= box_height
+        ):
+            return font
+
+    return get_image_font(6)
+
+
+def reconstruct_image_bytes(image_bytes, ocr_data, translated_text):
+    try:
+        with Image.open(BytesIO(image_bytes)) as source_image:
+            image_format = source_image.format
+            image_mode = "RGBA" if "A" in source_image.getbands() else "RGB"
+            image = source_image.convert(image_mode)
+
+        draw = ImageDraw.Draw(image)
+        translated_lines = str(translated_text or "").splitlines()
+
+        for index, item in enumerate(ocr_data):
+            original_text = item.get("text", "")
+            bbox = item.get("bbox", [])
+            if not original_text or not bbox:
+                continue
+
+            xs = [point[0] for point in bbox]
+            ys = [point[1] for point in bbox]
+            x1 = max(0, min(image.width - 1, min(xs)))
+            y1 = max(0, min(image.height - 1, min(ys)))
+            x2 = max(x1 + 1, min(image.width, max(xs)))
+            y2 = max(y1 + 1, min(image.height, max(ys)))
+            box = (x1, y1, x2, y2)
+
+            new_text = str(item.get("translated_text", "")).strip()
+            if not new_text and index < len(translated_lines):
+                new_text = translated_lines[index].strip()
+            if not new_text:
+                continue
+
+            sample_points = [
+                (max(0, x1 - 3), max(0, y1 - 3)),
+                (min(image.width - 1, x2 + 3), max(0, y1 - 3)),
+                (max(0, x1 - 3), min(image.height - 1, y2 + 3)),
+                (min(image.width - 1, x2 + 3), min(image.height - 1, y2 + 3)),
+            ]
+            colors = [image.getpixel(point) for point in sample_points]
+            background_color = tuple(
+                sum(color[channel] for color in colors) // len(colors)
+                for channel in range(len(colors[0]))
+            )
+            draw.rectangle(box, fill=background_color)
+
+            font = fit_image_text(
+                draw,
+                new_text,
+                box,
+                max(10, int((y2 - y1) * 0.8)),
+            )
+            text_bbox = draw.textbbox((0, 0), new_text, font=font)
+            text_width = text_bbox[2] - text_bbox[0]
+            text_height = text_bbox[3] - text_bbox[1]
+            text_x = x1 + max(0, (x2 - x1 - text_width) // 2)
+            text_y = y1 + max(0, (y2 - y1 - text_height) // 2) - text_bbox[1]
+            draw.text((text_x, text_y), new_text, fill="black", font=font)
+
+        output = BytesIO()
+        image.save(output, format=image_format)
+        return output.getvalue()
+
+    except Exception as e:
+        print(f"[XLSX IMAGE RECONSTRUCTION ERROR] {e}")
+        return image_bytes
 
 
 # ============================================================
@@ -1011,189 +1115,6 @@ def update_cell_xml(
 # MAIN RECONSTRUCTOR
 # ============================================================
 
-def create_translated_image(
-    original_image_path,
-    ocr_data,
-    output_image_path
-):
-    """
-    Create a new image containing translated OCR text
-    at approximately the same positions as the original text.
-    """
-
-    try:
-        image = Image.open(original_image_path).convert("RGB")
-        draw = ImageDraw.Draw(image)
-
-        for item in ocr_data:
-
-            bbox = item.get("bbox", [])
-            translated_text = item.get("translated_text", "")
-
-            if not bbox or not translated_text:
-                continue
-
-            # Get bounding box coordinates
-            xs = [point[0] for point in bbox]
-            ys = [point[1] for point in bbox]
-
-            x1 = min(xs)
-            y1 = min(ys)
-            x2 = max(xs)
-            y2 = max(ys)
-
-            width = max(1, x2 - x1)
-            height = max(1, y2 - y1)
-
-            # Estimate the background color around the text
-            padding = 3
-
-            sample_points = [
-                (max(0, x1 - padding), max(0, y1 - padding)),
-                (min(image.width - 1, x2 + padding), max(0, y1 - padding)),
-                (max(0, x1 - padding), min(image.height - 1, y2 + padding)),
-                (min(image.width - 1, x2 + padding), min(image.height - 1, y2 + padding))
-            ]
-
-            colors = [
-                image.getpixel(point)
-                for point in sample_points
-            ]
-
-            background_color = tuple(
-                sum(color[channel] for color in colors) // len(colors)
-                for channel in range(3)
-            )
-
-            draw.rectangle(
-                [x1, y1, x2, y2],
-                fill=background_color
-            )
-
-            # Start with a reasonable font size
-            font_size = max(
-                12,
-                int(height * 0.65)
-            )
-
-            try:
-                font = ImageFont.truetype(
-                    "/System/Library/Fonts/DevanagariSangamMN.ttc",
-                    font_size
-                )
-            except Exception:
-                try:
-                    font = ImageFont.truetype(
-                        "/System/Library/Fonts/Arial Unicode.ttf",
-                        font_size
-                    )
-                except Exception:
-                    font = ImageFont.load_default()
-
-            # Draw translated Hindi text
-            draw.text(
-                (x1, y1),
-                translated_text,
-                fill="black",
-                font=font
-            )
-
-        os.makedirs(
-            os.path.dirname(output_image_path),
-            exist_ok=True
-        )
-
-        image.save(output_image_path)
-
-        print(
-            f"[XLSX IMAGE] Translated image created: "
-            f"{output_image_path}"
-        )
-
-        return True
-
-    except Exception as e:
-
-        print(
-            f"[XLSX IMAGE ERROR] "
-            f"Could not create translated image: {e}"
-        )
-
-        return False
-
-def replace_xlsx_images(
-    source_zip,
-    image_updates
-):
-    """
-    Create translated versions of XLSX images
-    and return them as a dictionary mapped to
-    their original xl/media paths.
-    """
-
-    translated_media = {}
-
-    media_files = [
-        name
-        for name in source_zip.namelist()
-        if name.startswith("xl/media/")
-    ]
-
-    if not media_files:
-        print("[XLSX IMAGE] No images found in XLSX package.")
-        return translated_media
-
-    for index, update in enumerate(image_updates):
-
-        image_path = update.get("image_path")
-        ocr_data = update.get("ocr_data", [])
-
-        if not image_path or not ocr_data:
-            continue
-
-        if not os.path.exists(image_path):
-            print(
-                f"[XLSX IMAGE WARNING] "
-                f"Image not found: {image_path}"
-            )
-            continue
-
-        if index >= len(media_files):
-            print(
-                "[XLSX IMAGE WARNING] "
-                "No matching media file found."
-            )
-            continue
-
-        original_media_path = media_files[index]
-
-        temp_translated_path = os.path.join(
-            os.path.dirname(image_path),
-            f"translated_{os.path.basename(image_path)}"
-        )
-
-        success = create_translated_image(
-            image_path,
-            ocr_data,
-            temp_translated_path
-        )
-
-        if not success:
-            continue
-
-        with open(
-            temp_translated_path,
-            "rb"
-        ) as f:
-            translated_media[original_media_path] = f.read()
-
-        print(
-            f"[XLSX IMAGE READY] "
-            f"{original_media_path}"
-        )
-
-    return translated_media
-
 def reconstruct_xlsx(
     original_file_path,
     translated_json_path,
@@ -1224,7 +1145,7 @@ def reconstruct_xlsx(
 
     cell_updates = {}
 
-    image_updates = []
+    image_updates = {}
 
     shared_strings_root = None
 
@@ -1282,17 +1203,37 @@ def reconstruct_xlsx(
                 textbox
             )
 
-        # ----------------------------------------------------
-        # Images
-        # ----------------------------------------------------
-
         for image in sheet_data.get("images", []):
+            image_path = image.get("image_path")
+            ocr_data = image.get("ocr_data", [])
+            if not image_path or not ocr_data:
+                continue
 
-            image_updates.append({
-                "sheet_name": sheet_data.get("sheet_name"),
-                "image_path": image.get("image_path"),
-                "ocr_data": image.get("ocr_data", [])
-            })
+            if not os.path.exists(image_path):
+                image_path = os.path.join(
+                    os.path.dirname(translated_json_path),
+                    image_path,
+                )
+
+            if not os.path.exists(image_path):
+                print(f"[XLSX WARNING] Image source not found: {image_path}")
+                continue
+
+            try:
+                with open(image_path, "rb") as image_file:
+                    original_image_bytes = image_file.read()
+
+                translated_image_bytes = reconstruct_image_bytes(
+                    original_image_bytes,
+                    ocr_data,
+                    image.get("translated_text", ""),
+                )
+
+                image_hash = hashlib.sha256(original_image_bytes).digest()
+                if translated_image_bytes != original_image_bytes:
+                    image_updates[image_hash] = translated_image_bytes
+            except OSError as e:
+                print(f"[XLSX WARNING] Could not read image {image_path}: {e}")
 
     print(
         f"[XLSX] Drawings containing updates: "
@@ -1395,13 +1336,18 @@ def reconstruct_xlsx(
             "w",
             compression=zipfile.ZIP_DEFLATED
         ) as output_zip:
-            translated_media = replace_xlsx_images(
-                source_zip,
-                image_updates
-            )
+
+            shared_strings_item = None
+            shared_strings_original_bytes = None
+
             for item in source_zip.infolist():
 
                 file_name = item.filename
+
+                if file_name == "xl/sharedStrings.xml":
+                    shared_strings_item = item
+                    shared_strings_original_bytes = source_zip.read(file_name)
+                    continue
 
                 original_bytes = (
                     source_zip.read(
@@ -1413,16 +1359,11 @@ def reconstruct_xlsx(
                     original_bytes
                 )
 
-                if file_name in translated_media:
-
-                    modified_bytes = translated_media[
-                        file_name
-                    ]
-
-                    print(
-                        f"[XLSX IMAGE UPDATED] "
-                        f"{file_name}"
-                    )
+                if file_name.startswith("xl/media/"):
+                    image_hash = hashlib.sha256(original_bytes).digest()
+                    if image_hash in image_updates:
+                        modified_bytes = image_updates[image_hash]
+                        print(f"[XLSX] Reconstructed image: {file_name}")
 
                 # ====================================================
                 # DRAWING XML
@@ -1483,17 +1424,6 @@ def reconstruct_xlsx(
                                 f"in {sheet_name}"
                             )
 
-                elif (
-                    file_name == "xl/sharedStrings.xml"
-                    and shared_strings_root is not None
-                ):
-
-                    modified_bytes = ET.tostring(
-                        shared_strings_root,
-                        encoding="utf-8",
-                        xml_declaration=True
-                    )
-
                 # ====================================================
                 # WRITE FILE
                 # ====================================================
@@ -1501,6 +1431,20 @@ def reconstruct_xlsx(
                 output_zip.writestr(
                     item,
                     modified_bytes
+                )
+
+            if shared_strings_item is not None:
+                if shared_strings_root is not None:
+                    shared_strings_bytes = serialize_xml_preserving_namespaces(
+                        shared_strings_root,
+                        shared_strings_original_bytes
+                    )
+                else:
+                    shared_strings_bytes = shared_strings_original_bytes
+
+                output_zip.writestr(
+                    shared_strings_item,
+                    shared_strings_bytes
                 )
 
     # ========================================================
