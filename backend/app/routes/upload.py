@@ -52,6 +52,11 @@ from app.services.pptx_service import process_pptx_pipeline
 
 from app.services.xlsx_service import process_xlsx_pipeline
 
+from app.utils.xls_converter import (
+    convert_xls_to_xlsx,
+    convert_xlsx_to_xls
+)
+
 
 router = APIRouter()
 
@@ -85,6 +90,7 @@ ALLOWED_EXTENSIONS = {
     ".doc": "DOC",
     ".docx": "DOCX",
     ".pptx": "PPTX",
+    ".xls": "XLS",
     ".xlsx": "XLSX",
     ".rtf": "RTF"
 }
@@ -1651,20 +1657,59 @@ async def upload_document(
         # 12.5 XLSX PROCESSING (NAYA ADD KIYA HAI)
         # =================================================
 
-        elif file_type == "XLSX":
+        elif file_type in ["XLS", "XLSX"]:
 
             print(
-                "\nProcessing XLSX document..."
+                f"\nProcessing {file_type} spreadsheet..."
             )
 
+            pipeline_file_path = file_path
+            pipeline_filename = file.filename
+
+            if file_type == "XLS":
+                print("Converting XLS to XLSX...")
+                conversion_dir = os.path.join(
+                    UPLOAD_FOLDER,
+                    f"xls_to_xlsx_{document_id}"
+                )
+                pipeline_file_path = convert_xls_to_xlsx(
+                    file_path,
+                    conversion_dir
+                )
+                pipeline_filename = os.path.basename(
+                    pipeline_file_path
+                )
+
             result = process_xlsx_pipeline(
-                file_path=file_path,
-                filename=file.filename,
+                file_path=pipeline_file_path,
+                filename=pipeline_filename,
                 target_language=target_language,
                 tgt_lang_code=tgt_lang,
                 output_folder=OUTPUT_FOLDER,
                 translate_func=translate_text
             )
+
+            if file_type == "XLS":
+                reconstructed_xlsx_filename = result.get(
+                    "reconstructed_file"
+                )
+                if not reconstructed_xlsx_filename:
+                    raise RuntimeError(
+                        "XLSX reconstruction did not return an output file."
+                    )
+
+                reconstructed_xlsx_path = os.path.join(
+                    OUTPUT_FOLDER,
+                    reconstructed_xlsx_filename
+                )
+                final_file_path = convert_xlsx_to_xls(
+                    reconstructed_xlsx_path,
+                    OUTPUT_FOLDER
+                )
+                final_filename = os.path.basename(final_file_path)
+
+                result["reconstructed_xlsx_file"] = reconstructed_xlsx_filename
+                result["reconstructed_file"] = final_filename
 
             # =================================================
             # UPDATE STATUS: COMPLETED
@@ -1685,7 +1730,7 @@ async def upload_document(
             )
 
             return {
-                "message": "XLSX File uploaded, extracted, translated and reconstructed successfully",
+                "message": f"{file_type} file uploaded, extracted, translated and reconstructed successfully",
                 "document_id": document_id,
                 "filename": file.filename,
                 "file_type": file_type,
