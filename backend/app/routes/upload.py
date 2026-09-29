@@ -1,5 +1,6 @@
 import os
 import json
+import copy
 import traceback
 import requests
 import time
@@ -1355,7 +1356,7 @@ async def upload_document(
             # -------------------------------------------------
 
             translated_result = translate_json(
-                result,
+                copy.deepcopy(result),
                 src_lang="eng-latn",
                 tgt_lang=tgt_lang,
                 translation_cache=translation_cache

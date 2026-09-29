@@ -316,6 +316,19 @@ function Home() {
     sessionStorage.removeItem("translatorHomeState");
   };
 
+  const isExcelDocument = [
+    documentData?.file_type,
+    documentData?.data?.document_type,
+    documentData?.filename,
+    documentData?.data?.filename,
+  ].some((value) => /(?:xls[x]?|excel)/i.test(value || ""));
+  const isWordDocument = [
+    documentData?.file_type,
+    documentData?.data?.document_type,
+    documentData?.filename,
+    documentData?.data?.filename,
+  ].some((value) => /(?:docx?|word)/i.test(value || ""));
+
   // ------------------------------------------------
   // RETURN
   // ------------------------------------------------
@@ -409,7 +422,7 @@ function Home() {
                 <div>
 
                   <h2 className="text-2xl font-bold text-gray-800">
-                    Translated Document
+                    {isExcelDocument || isWordDocument ? "Review Reconstructed Document" : "Translated Document"}
                   </h2>
 
                   <p className="text-gray-500 mt-1">
@@ -439,7 +452,11 @@ function Home() {
                       transition
                     "
                   >
-                    Edit Reconstructed Document
+                    {isExcelDocument
+                      ? "Review Excel Workbook"
+                      : isWordDocument
+                        ? "Review Word Document"
+                        : "Edit Reconstructed Document"}
                   </button>
 
                 </div>
@@ -447,7 +464,7 @@ function Home() {
               </div>
 
               {/* SHEETS */}
-              {documentData.data?.sheets?.map(
+              {!isExcelDocument && !isWordDocument && documentData.data?.sheets?.map(
                 (sheet, sheetIndex) => (
 
                   <div
