@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.routes import upload, translate
+from app.routes import upload, translate, review
 from fastapi.middleware.cors import CORSMiddleware
 from app.database.database import Base, engine
 from app.database import models
@@ -27,6 +27,7 @@ app.add_middleware(
 
 app.include_router(upload.router)
 app.include_router(translate.router)
+app.include_router(review.router)
 
 @app.get("/")
 def root():

@@ -7,7 +7,13 @@ const API_BASE_URL =
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
-function InputPanel({ resetKey , targetLanguage, text, setText}) {
+function InputPanel({
+  resetKey,
+  targetLanguage,
+  text,
+  setText,
+  onDocumentProcessed,
+}) {
   const [mode, setMode] = useState("text");
   //const [text, setText] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
@@ -70,6 +76,10 @@ function InputPanel({ resetKey , targetLanguage, text, setText}) {
       console.log("Backend Response:", response.data);
 
       setUploadStatus("Completed successfully!");
+
+      if (onDocumentProcessed) {
+        onDocumentProcessed(response.data);
+      }
 
       alert(
         response.data.message ||
