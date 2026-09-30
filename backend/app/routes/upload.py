@@ -47,7 +47,7 @@ from app.reconstructors.docx_reconstructor import reconstruct_docx
 from app.services.pptx_service import process_pptx_pipeline
 
 # =========================================================
-# XLSX IMPORT (NAYA ADD KIYA HAI)
+# XLSX IMPORT
 # =========================================================
 
 from app.services.xlsx_service import process_xlsx_pipeline
@@ -56,6 +56,12 @@ from app.utils.xls_converter import (
     convert_xls_to_xlsx,
     convert_xlsx_to_xls
 )
+
+# =========================================================
+# PDF IMPORT
+# =========================================================
+
+from app.services.pdf_service import process_pdf_pipeline
 
 
 router = APIRouter()
@@ -126,110 +132,220 @@ _translation_memory_lock = threading.Lock()
 
 
 def _translation_hash(text):
-    return hashlib.sha256(text.encode("utf-8")).hexdigest()
+    return hashlib.sha256(
+        text.encode("utf-8")
+    ).hexdigest()
 
 
 def _ensure_translation_memory_table():
-    """Create translation_memory once, without storing complete documents."""
+    """
+    Create translation_memory once,
+    without storing complete documents.
+    """
+
     global _translation_memory_initialized
 
     if _translation_memory_initialized:
         return
 
     with _translation_memory_lock:
+
         if _translation_memory_initialized:
             return
 
         db = SessionLocal()
+
         try:
-            db.execute(sql_text("""
-                CREATE TABLE IF NOT EXISTS translation_memory (
-                    id SERIAL PRIMARY KEY,
-                    text_hash VARCHAR(64) NOT NULL,
-                    source_text TEXT NOT NULL,
-                    source_language VARCHAR(32) NOT NULL,
-                    target_language VARCHAR(32) NOT NULL,
-                    translated_text TEXT NOT NULL,
-                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                    UNIQUE (text_hash, source_language, target_language)
+
+            db.execute(
+                sql_text(
+                    """
+                    CREATE TABLE IF NOT EXISTS translation_memory (
+                        id SERIAL PRIMARY KEY,
+                        text_hash VARCHAR(64) NOT NULL,
+                        source_text TEXT NOT NULL,
+                        source_language VARCHAR(32) NOT NULL,
+                        target_language VARCHAR(32) NOT NULL,
+                        translated_text TEXT NOT NULL,
+                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                        UNIQUE (
+                            text_hash,
+                            source_language,
+                            target_language
+                        )
+                    )
+                    """
                 )
-            """))
+            )
+
             db.commit()
+
             _translation_memory_initialized = True
-            print("[DB] translation_memory table is ready.")
+
+            print(
+                "[DB] translation_memory table is ready."
+            )
+
         except Exception:
+
             db.rollback()
-            print("[DB] Could not initialize translation_memory. API will still be used.")
+
+            print(
+                "[DB] Could not initialize "
+                "translation_memory. "
+                "API will still be used."
+            )
+
             traceback.print_exc()
+
         finally:
+
             db.close()
 
 
-def get_cached_translation(source_text, src_lang, tgt_lang):
-    """Fetch only the translated text from PostgreSQL."""
+def get_cached_translation(
+    source_text,
+    src_lang,
+    tgt_lang
+):
+    """
+    Fetch only the translated text
+    from PostgreSQL.
+    """
+
     _ensure_translation_memory_table()
 
     db = SessionLocal()
+
     try:
+
         return db.execute(
-            sql_text("""
+            sql_text(
+                """
                 SELECT translated_text
                 FROM translation_memory
                 WHERE text_hash = :text_hash
                   AND source_language = :source_language
                   AND target_language = :target_language
                 LIMIT 1
-            """),
+                """
+            ),
             {
-                "text_hash": _translation_hash(source_text),
-                "source_language": src_lang,
-                "target_language": tgt_lang
+                "text_hash":
+                    _translation_hash(source_text),
+
+                "source_language":
+                    src_lang,
+
+                "target_language":
+                    tgt_lang
             }
         ).scalar_one_or_none()
+
     except Exception:
+
         db.rollback()
-        print("[DB LOOKUP FAILED] Falling back to translation API.")
+
+        print(
+            "[DB LOOKUP FAILED] "
+            "Falling back to translation API."
+        )
+
         traceback.print_exc()
+
         return None
+
     finally:
+
         db.close()
 
 
-def save_translation(source_text, src_lang, tgt_lang, translated_text):
-    """Store only a reusable text/translation pair."""
+def save_translation(
+    source_text,
+    src_lang,
+    tgt_lang,
+    translated_text
+):
+    """
+    Store only a reusable
+    text/translation pair.
+    """
+
     if not source_text or not source_text.strip():
         return
 
     _ensure_translation_memory_table()
 
     db = SessionLocal()
+
     try:
+
         db.execute(
-            sql_text("""
+            sql_text(
+                """
                 INSERT INTO translation_memory
-                    (text_hash, source_text, source_language,
-                     target_language, translated_text)
+                    (
+                        text_hash,
+                        source_text,
+                        source_language,
+                        target_language,
+                        translated_text
+                    )
                 VALUES
-                    (:text_hash, :source_text, :source_language,
-                     :target_language, :translated_text)
-                ON CONFLICT (text_hash, source_language, target_language)
-                DO UPDATE SET translated_text = EXCLUDED.translated_text
-            """),
+                    (
+                        :text_hash,
+                        :source_text,
+                        :source_language,
+                        :target_language,
+                        :translated_text
+                    )
+                ON CONFLICT (
+                    text_hash,
+                    source_language,
+                    target_language
+                )
+                DO UPDATE SET
+                    translated_text =
+                        EXCLUDED.translated_text
+                """
+            ),
             {
-                "text_hash": _translation_hash(source_text),
-                "source_text": source_text,
-                "source_language": src_lang,
-                "target_language": tgt_lang,
-                "translated_text": translated_text
+                "text_hash":
+                    _translation_hash(source_text),
+
+                "source_text":
+                    source_text,
+
+                "source_language":
+                    src_lang,
+
+                "target_language":
+                    tgt_lang,
+
+                "translated_text":
+                    translated_text
             }
         )
+
         db.commit()
-        print("[DB SAVE] Translation saved to PostgreSQL.")
+
+        print(
+            "[DB SAVE] Translation saved to PostgreSQL."
+        )
+
     except Exception:
+
         db.rollback()
-        print("[DB SAVE FAILED] Continuing with in-memory translation.")
+
+        print(
+            "[DB SAVE FAILED] "
+            "Continuing with in-memory translation."
+        )
+
         traceback.print_exc()
+
     finally:
+
         db.close()
 
 
@@ -260,7 +376,12 @@ def translate_text(
     if not text or not text.strip():
         return text
 
+    # -----------------------------------------------------
+    # Handle tabs
+    # -----------------------------------------------------
+
     if "\t" in text:
+
         return "\t".join(
             translate_text(
                 segment,
@@ -285,6 +406,7 @@ def translate_text(
     # -----------------------------------------------------
     # PostgreSQL translation-memory lookup
     # -----------------------------------------------------
+
     cached_translation = get_cached_translation(
         text,
         src_lang,
@@ -292,7 +414,13 @@ def translate_text(
     )
 
     if cached_translation is not None:
-        print("[DB HIT] Using cached translation; API call skipped.")
+
+        print(
+            "[DB HIT] "
+            "Using cached translation; "
+            "API call skipped."
+        )
+
         return cached_translation
 
     # -----------------------------------------------------
@@ -480,7 +608,10 @@ def translate_text(
         repr(final_text)
     )
 
-    # Store only text + translation, never the complete document.
+    # -----------------------------------------------------
+    # Store translation
+    # -----------------------------------------------------
+
     save_translation(
         text,
         src_lang,
@@ -507,7 +638,6 @@ def translate_json(
     """
 
     if translation_cache is None:
-
         translation_cache = {}
 
     # =====================================================
@@ -519,25 +649,74 @@ def translate_json(
         # =================================================
         # IMAGE OCR TEXT
         # =================================================
+
         if data.get("type") == "image_text":
-            original_text = data.get("text", "")
 
-            if isinstance(original_text, str) and original_text.strip():
-                cache_key = (original_text, src_lang, tgt_lang)
+            original_text = data.get(
+                "text",
+                ""
+            )
+
+            if (
+                isinstance(
+                    original_text,
+                    str
+                )
+                and original_text.strip()
+            ):
+
+                cache_key = (
+                    original_text,
+                    src_lang,
+                    tgt_lang
+                )
+
                 if cache_key not in translation_cache:
-                    translation_cache[cache_key] = translate_text(
-                        original_text, src_lang, tgt_lang
-                    )
-                data["translated_text"] = translation_cache[cache_key]
 
-            ocr_details = data.get("ocr_details", [])
-            if isinstance(ocr_details, list):
+                    translation_cache[
+                        cache_key
+                    ] = translate_text(
+                        original_text,
+                        src_lang,
+                        tgt_lang
+                    )
+
+                data["translated_text"] = (
+                    translation_cache[
+                        cache_key
+                    ]
+                )
+
+            ocr_details = data.get(
+                "ocr_details",
+                []
+            )
+
+            if isinstance(
+                ocr_details,
+                list
+            ):
+
                 for item in ocr_details:
-                    if not isinstance(item, dict):
+
+                    if not isinstance(
+                        item,
+                        dict
+                    ):
                         continue
 
-                    original_ocr_text = item.get("text", "")
-                    if not isinstance(original_ocr_text, str) or not original_ocr_text.strip():
+                    original_ocr_text = item.get(
+                        "text",
+                        ""
+                    )
+
+                    if (
+                        not isinstance(
+                            original_ocr_text,
+                            str
+                        )
+                        or not original_ocr_text.strip()
+                    ):
                         continue
 
                     cache_key = (
@@ -545,27 +724,47 @@ def translate_json(
                         src_lang,
                         tgt_lang
                     )
+
                     if cache_key not in translation_cache:
-                        translation_cache[cache_key] = translate_text(
-                            original_ocr_text, src_lang, tgt_lang
+
+                        translation_cache[
+                            cache_key
+                        ] = translate_text(
+                            original_ocr_text,
+                            src_lang,
+                            tgt_lang
                         )
 
-                    # Keep OCR original text and add its translation separately.
-                    item["translated_text"] = translation_cache[cache_key]
+                    item["translated_text"] = (
+                        translation_cache[
+                            cache_key
+                        ]
+                    )
 
-            # Avoid translating image OCR fields twice.
+            # Avoid translating image OCR
+            # fields twice.
+
             for key in list(data.keys()):
-                if key in ["text", "translated_text", "ocr_details"]:
+
+                if key in [
+                    "text",
+                    "translated_text",
+                    "ocr_details"
+                ]:
                     continue
+
                 data[key] = translate_json(
-                    data[key], src_lang, tgt_lang, translation_cache
+                    data[key],
+                    src_lang,
+                    tgt_lang,
+                    translation_cache
                 )
 
             return data
 
-        # -------------------------------------------------
+        # =================================================
         # Translate main "text" field
-        # -------------------------------------------------
+        # =================================================
 
         if (
             "text" in data
@@ -601,9 +800,9 @@ def translate_json(
                     ]
                 )
 
-        # -------------------------------------------------
+        # =================================================
         # Translate runs
-        # -------------------------------------------------
+        # =================================================
 
         if (
             "runs" in data
@@ -658,9 +857,9 @@ def translate_json(
                         ]
                     )
 
-        # -------------------------------------------------
+        # =================================================
         # Translate textbox paragraphs
-        # -------------------------------------------------
+        # =================================================
 
         if (
             data.get("type") == "textbox"
@@ -678,15 +877,19 @@ def translate_json(
                     paragraph_text,
                     str
                 ):
+
                     translated_paragraphs.append(
                         paragraph_text
                     )
+
                     continue
 
                 if not paragraph_text.strip():
+
                     translated_paragraphs.append(
                         paragraph_text
                     )
+
                     continue
 
                 cache_key = (
@@ -715,9 +918,9 @@ def translate_json(
                 translated_paragraphs
             )
 
-        # -------------------------------------------------
+        # =================================================
         # Recursively process other fields
-        # -------------------------------------------------
+        # =================================================
 
         for key in list(data.keys()):
 
@@ -726,7 +929,6 @@ def translate_json(
                 "runs",
                 "original_text"
             ]:
-
                 continue
 
             data[key] = translate_json(
@@ -775,7 +977,6 @@ def collect_translation_texts(
     """
 
     if texts is None:
-
         texts = set()
 
     # =====================================================
@@ -817,7 +1018,10 @@ def collect_translation_texts(
         text = data.get("text")
 
         if (
-            isinstance(text, str)
+            isinstance(
+                text,
+                str
+            )
             and text.strip()
         ):
 
@@ -1016,7 +1220,10 @@ async def upload_document(
         # 2. DOCX FILE SIZE CHECK
         # =================================================
 
-        if file_type in ["DOC", "DOCX"]:
+        if file_type in [
+            "DOC",
+            "DOCX"
+        ]:
 
             file_content = await file.read()
 
@@ -1089,7 +1296,7 @@ async def upload_document(
             document_id = db_document.id
 
             print(
-                f"\nDocument saved in PostgreSQL."
+                "\nDocument saved in PostgreSQL."
             )
 
             print(
@@ -1136,18 +1343,30 @@ async def upload_document(
         # 6. DOCX PROCESSING
         # =================================================
 
-        if file_type in ["DOC", "DOCX"]:
+        if file_type in [
+            "DOC",
+            "DOCX"
+        ]:
 
             # ---------------------------------------------
             # Convert legacy DOC to DOCX
             # ---------------------------------------------
+
             if file_type == "DOC":
-                print("\nConverting DOC to DOCX...")
+
+                print(
+                    "\nConverting DOC to DOCX..."
+                )
+
                 file_path = convert_doc_to_docx(
                     file_path,
                     UPLOAD_FOLDER
                 )
-                print(f"DOC converted successfully: {file_path}")
+
+                print(
+                    f"DOC converted successfully: "
+                    f"{file_path}"
+                )
 
             # ---------------------------------------------
             # Open DOCX
@@ -1178,18 +1397,18 @@ async def upload_document(
                 "Document parsed successfully!"
             )
 
-            # =================================================
+            # ---------------------------------------------
             # UPDATE STATUS: EXTRACTED
-            # =================================================
+            # ---------------------------------------------
 
             update_document_status(
                 document_id,
                 "extracted"
             )
 
-            # =================================================
+            # ---------------------------------------------
             # DEBUG: CHECK HEADING EXTRACTION
-            # =================================================
+            # ---------------------------------------------
 
             print(
                 "\n========== HEADING EXTRACTION CHECK =========="
@@ -1218,9 +1437,9 @@ async def upload_document(
                 "=============================================="
             )
 
-            # =================================================
-            # 7. SAVE EXTRACTED JSON
-            # =================================================
+            # ---------------------------------------------
+            # SAVE EXTRACTED JSON
+            # ---------------------------------------------
 
             base_name = os.path.splitext(
                 file.filename
@@ -1252,9 +1471,9 @@ async def upload_document(
                 f"\nJSON saved: {json_path}"
             )
 
-            # =================================================
-            # 8. TRANSLATION
-            # =================================================
+            # ---------------------------------------------
+            # TRANSLATION
+            # ---------------------------------------------
 
             print(
                 "\n========== TRANSLATION =========="
@@ -1266,10 +1485,6 @@ async def upload_document(
 
             translation_cache = {}
 
-            # -------------------------------------------------
-            # Collect unique text
-            # -------------------------------------------------
-
             translation_texts = (
                 collect_translation_texts(
                     result
@@ -1280,10 +1495,6 @@ async def upload_document(
                 f"Unique texts to translate: "
                 f"{len(translation_texts)}"
             )
-
-            # -------------------------------------------------
-            # Check heading specifically
-            # -------------------------------------------------
 
             heading_text = (
                 "NESTED TABLE SAMPLE DOCUMENT"
@@ -1311,9 +1522,9 @@ async def upload_document(
                     repr(heading_text)
                 )
 
-            # -------------------------------------------------
+            # ---------------------------------------------
             # Translate unique texts concurrently
-            # -------------------------------------------------
+            # ---------------------------------------------
 
             with ThreadPoolExecutor(
                 max_workers=4
@@ -1331,9 +1542,9 @@ async def upload_document(
                     )
                 )
 
-            # -------------------------------------------------
+            # ---------------------------------------------
             # Build cache
-            # -------------------------------------------------
+            # ---------------------------------------------
 
             for original, translated in zip(
                 translation_texts,
@@ -1350,9 +1561,9 @@ async def upload_document(
                     cache_key
                 ] = translated
 
-            # -------------------------------------------------
+            # ---------------------------------------------
             # Apply translations recursively
-            # -------------------------------------------------
+            # ---------------------------------------------
 
             translated_result = translate_json(
                 result,
@@ -1365,18 +1576,18 @@ async def upload_document(
                 "\nTranslation completed!"
             )
 
-            # =================================================
+            # ---------------------------------------------
             # UPDATE STATUS: TRANSLATED
-            # =================================================
+            # ---------------------------------------------
 
             update_document_status(
                 document_id,
                 "translated"
             )
 
-            # =================================================
+            # ---------------------------------------------
             # DEBUG: CHECK TRANSLATED HEADING
-            # =================================================
+            # ---------------------------------------------
 
             print(
                 "\n========== TRANSLATED HEADING CHECK =========="
@@ -1434,9 +1645,9 @@ async def upload_document(
                 "=============================================="
             )
 
-            # =================================================
-            # 9. SAVE TRANSLATED JSON
-            # =================================================
+            # ---------------------------------------------
+            # SAVE TRANSLATED JSON
+            # ---------------------------------------------
 
             translated_json_filename = (
                 f"{base_name}"
@@ -1470,9 +1681,9 @@ async def upload_document(
                 translated_json_path
             )
 
-            # =================================================
-            # 10. RECONSTRUCTION
-            # =================================================
+            # ---------------------------------------------
+            # RECONSTRUCTION
+            # ---------------------------------------------
 
             print(
                 "\n========== RECONSTRUCTION =========="
@@ -1511,23 +1722,39 @@ async def upload_document(
                 reconstructed_docx_path
             )
 
-            # =================================================
-            # CONVERT BACK TO DOC IF ORIGINAL WAS DOC
-            # =================================================
+            # ---------------------------------------------
+            # CONVERT BACK TO DOC
+            # ---------------------------------------------
+
             if file_type == "DOC":
-                print("\nConverting reconstructed DOCX back to DOC...")
+
+                print(
+                    "\nConverting reconstructed DOCX "
+                    "back to DOC..."
+                )
+
                 final_file_path = convert_docx_to_doc(
                     reconstructed_docx_path,
                     OUTPUT_FOLDER
                 )
-                final_filename = os.path.basename(final_file_path)
-            else:
-                final_file_path = reconstructed_docx_path
-                final_filename = reconstructed_docx_filename
 
-            # =================================================
+                final_filename = os.path.basename(
+                    final_file_path
+                )
+
+            else:
+
+                final_file_path = (
+                    reconstructed_docx_path
+                )
+
+                final_filename = (
+                    reconstructed_docx_filename
+                )
+
+            # ---------------------------------------------
             # UPDATE STATUS: COMPLETED
-            # =================================================
+            # ---------------------------------------------
 
             update_document_status(
                 document_id,
@@ -1535,9 +1762,9 @@ async def upload_document(
                 final_filename
             )
 
-            # =================================================
-            # 11. RETURN RESPONSE
-            # =================================================
+            # ---------------------------------------------
+            # RETURN RESPONSE
+            # ---------------------------------------------
 
             return {
 
@@ -1581,7 +1808,7 @@ async def upload_document(
             }
 
         # =================================================
-        # 12. PPTX PROCESSING
+        # 7. PPTX PROCESSING
         # =================================================
 
         elif file_type == "PPTX":
@@ -1599,13 +1826,16 @@ async def upload_document(
                 translate_func=translate_text
             )
 
-            # =================================================
+            # ---------------------------------------------
             # UPDATE STATUS: COMPLETED
-            # =================================================
+            # ---------------------------------------------
 
             output_filename = None
 
-            if isinstance(result, dict):
+            if isinstance(
+                result,
+                dict
+            ):
 
                 output_filename = (
                     result.get(
@@ -1654,31 +1884,53 @@ async def upload_document(
             }
 
         # =================================================
-        # 12.5 XLSX PROCESSING (NAYA ADD KIYA HAI)
+        # 8. XLSX / XLS PROCESSING
         # =================================================
 
-        elif file_type in ["XLS", "XLSX"]:
+        elif file_type in [
+            "XLS",
+            "XLSX"
+        ]:
 
             print(
-                f"\nProcessing {file_type} spreadsheet..."
+                f"\nProcessing "
+                f"{file_type} spreadsheet..."
             )
 
             pipeline_file_path = file_path
             pipeline_filename = file.filename
 
+            # ---------------------------------------------
+            # Convert XLS to XLSX
+            # ---------------------------------------------
+
             if file_type == "XLS":
-                print("Converting XLS to XLSX...")
+
+                print(
+                    "Converting XLS to XLSX..."
+                )
+
                 conversion_dir = os.path.join(
                     UPLOAD_FOLDER,
                     f"xls_to_xlsx_{document_id}"
                 )
-                pipeline_file_path = convert_xls_to_xlsx(
-                    file_path,
-                    conversion_dir
+
+                pipeline_file_path = (
+                    convert_xls_to_xlsx(
+                        file_path,
+                        conversion_dir
+                    )
                 )
-                pipeline_filename = os.path.basename(
-                    pipeline_file_path
+
+                pipeline_filename = (
+                    os.path.basename(
+                        pipeline_file_path
+                    )
                 )
+
+            # ---------------------------------------------
+            # XLSX PIPELINE
+            # ---------------------------------------------
 
             result = process_xlsx_pipeline(
                 file_path=pipeline_file_path,
@@ -1689,38 +1941,72 @@ async def upload_document(
                 translate_func=translate_text
             )
 
+            # ---------------------------------------------
+            # Convert reconstructed XLSX back to XLS
+            # ---------------------------------------------
+
             if file_type == "XLS":
-                reconstructed_xlsx_filename = result.get(
-                    "reconstructed_file"
+
+                reconstructed_xlsx_filename = (
+                    result.get(
+                        "reconstructed_file"
+                    )
                 )
+
                 if not reconstructed_xlsx_filename:
+
                     raise RuntimeError(
-                        "XLSX reconstruction did not return an output file."
+                        "XLSX reconstruction "
+                        "did not return "
+                        "an output file."
                     )
 
-                reconstructed_xlsx_path = os.path.join(
-                    OUTPUT_FOLDER,
-                    reconstructed_xlsx_filename
+                reconstructed_xlsx_path = (
+                    os.path.join(
+                        OUTPUT_FOLDER,
+                        reconstructed_xlsx_filename
+                    )
                 )
-                final_file_path = convert_xlsx_to_xls(
-                    reconstructed_xlsx_path,
-                    OUTPUT_FOLDER
+
+                final_file_path = (
+                    convert_xlsx_to_xls(
+                        reconstructed_xlsx_path,
+                        OUTPUT_FOLDER
+                    )
                 )
-                final_filename = os.path.basename(final_file_path)
 
-                result["reconstructed_xlsx_file"] = reconstructed_xlsx_filename
-                result["reconstructed_file"] = final_filename
+                final_filename = (
+                    os.path.basename(
+                        final_file_path
+                    )
+                )
 
-            # =================================================
+                result[
+                    "reconstructed_xlsx_file"
+                ] = reconstructed_xlsx_filename
+
+                result[
+                    "reconstructed_file"
+                ] = final_filename
+
+            # ---------------------------------------------
             # UPDATE STATUS: COMPLETED
-            # =================================================
+            # ---------------------------------------------
 
             output_filename = None
 
-            if isinstance(result, dict):
+            if isinstance(
+                result,
+                dict
+            ):
+
                 output_filename = (
-                    result.get("reconstructed_file")
-                    or result.get("output_filename")
+                    result.get(
+                        "reconstructed_file"
+                    )
+                    or result.get(
+                        "output_filename"
+                    )
                 )
 
             update_document_status(
@@ -1730,47 +2016,178 @@ async def upload_document(
             )
 
             return {
-                "message": f"{file_type} file uploaded, extracted, translated and reconstructed successfully",
-                "document_id": document_id,
-                "filename": file.filename,
-                "file_type": file_type,
-                "target_language": target_language,
-                "target_language_code": tgt_lang,
-                "status": "completed",
+
+                "message":
+                    f"{file_type} file uploaded, "
+                    "extracted, translated and "
+                    "reconstructed successfully",
+
+                "document_id":
+                    document_id,
+
+                "filename":
+                    file.filename,
+
+                "file_type":
+                    file_type,
+
+                "target_language":
+                    target_language,
+
+                "target_language_code":
+                    tgt_lang,
+
+                "status":
+                    "completed",
+
                 **result
             }
 
         # =================================================
-        # 13. OTHER FILE TYPES
+        # 9. PDF PROCESSING
         # =================================================
 
-        update_document_status(
-            document_id,
-            "uploaded"
-        )
+        elif file_type == "PDF":
 
-        return {
+            print(
+                "\n=========================================="
+            )
 
-            "message":
-                f"{file_type} upload successful. "
-                "Extraction/reconstruction is not "
-                "implemented yet.",
+            print(
+                "Processing PDF document..."
+            )
 
-            "document_id":
+            print(
+                "PDF detector will identify whether "
+                "the PDF is Native or Scanned."
+            )
+
+            print(
+                "=========================================="
+            )
+
+            # ---------------------------------------------
+            # PDF PIPELINE
+            #
+            # The PDF service will handle:
+            #
+            # 1. PDF type detection
+            # 2. Native PDF extraction
+            # 3. Scanned PDF extraction
+            # 4. Original JSON creation
+            # 5. Translation
+            # 6. Translated JSON creation
+            # 7. PDF reconstruction
+            #
+            # ---------------------------------------------
+
+            result = process_pdf_pipeline(
+                file_path=file_path,
+                filename=file.filename,
+                target_language=target_language,
+                tgt_lang_code=tgt_lang,
+                output_folder=OUTPUT_FOLDER,
+                translate_func=translate_text
+            )
+
+            # ---------------------------------------------
+            # GET RECONSTRUCTED PDF FILE
+            # ---------------------------------------------
+
+            output_filename = None
+
+            if isinstance(
+                result,
+                dict
+            ):
+
+                output_filename = (
+                    result.get(
+                        "reconstructed_pdf_file"
+                    )
+                    or result.get(
+                        "reconstructed_file"
+                    )
+                    or result.get(
+                        "output_filename"
+                    )
+                )
+
+            # ---------------------------------------------
+            # UPDATE POSTGRESQL STATUS
+            # ---------------------------------------------
+
+            update_document_status(
                 document_id,
+                "completed",
+                output_filename
+            )
 
-            "filename":
-                file.filename,
+            # ---------------------------------------------
+            # RETURN PDF RESPONSE
+            # ---------------------------------------------
 
-            "file_type":
-                file_type,
+            return {
 
-            "target_language":
-                target_language,
+                "message":
+                    "PDF file uploaded, extracted, "
+                    "translated and reconstructed "
+                    "successfully",
 
-            "status":
+                "document_id":
+                    document_id,
+
+                "filename":
+                    file.filename,
+
+                "file_type":
+                    file_type,
+
+                "target_language":
+                    target_language,
+
+                "target_language_code":
+                    tgt_lang,
+
+                "status":
+                    "completed",
+
+                **result
+            }
+
+        # =================================================
+        # 10. OTHER FILE TYPES
+        # =================================================
+
+        else:
+
+            update_document_status(
+                document_id,
                 "uploaded"
-        }
+            )
+
+            return {
+
+                "message":
+                    f"{file_type} upload successful. "
+                    "Extraction/reconstruction is not "
+                    "implemented yet.",
+
+                "document_id":
+                    document_id,
+
+                "filename":
+                    file.filename,
+
+                "file_type":
+                    file_type,
+
+                "target_language":
+                    target_language,
+
+                "status":
+                    "uploaded"
+            }
 
     # =====================================================
     # HTTP EXCEPTION
@@ -1778,7 +2195,9 @@ async def upload_document(
 
     except HTTPException:
 
-        # Update database if record was already created
+        # Update database if record
+        # was already created
+
         if document_id is not None:
 
             update_document_status(
@@ -1804,9 +2223,9 @@ async def upload_document(
             "===========================\n"
         )
 
-        # -------------------------------------------------
+        # ---------------------------------------------
         # UPDATE DATABASE: FAILED
-        # -------------------------------------------------
+        # ---------------------------------------------
 
         if document_id is not None:
 
