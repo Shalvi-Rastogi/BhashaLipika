@@ -34,9 +34,10 @@ def process_pdf_pipeline(
     print(f"[PDF] Detected type: {pdf_type}")
 
     if pdf_type != "native":
-        raise ValueError(
-            "Scanned PDF detected. Scanned PDF pipeline is not implemented yet."
-        )
+        # raise ValueError(
+        #     "Scanned PDF detected. Scanned PDF pipeline is not implemented yet."
+        # )
+        print("[PDF] Continuing with image extraction test...")
 
     # 2. ORIGINAL JSON 
     json_filename = f"{base_name}.json"
@@ -59,6 +60,15 @@ def process_pdf_pipeline(
                         text = cell.get("original_text", "")
                         if isinstance(text, str) and text.strip():
                             texts.add(text.strip())
+        # Text detected inside images using OCR
+        for image in page.get("images", []):
+
+            for ocr_item in image.get("ocr_data", []):
+
+                text = ocr_item.get("text", "")
+
+                if isinstance(text, str) and text.strip():
+                    texts.add(text.strip())
 
     texts = list(texts)
     print(f"[PDF] Texts found for translation: {len(texts)}")
@@ -109,6 +119,42 @@ def process_pdf_pipeline(
                         cell["translated_text"] = _fix_colon(
                             original_text, translated, target_language
                         )
+        # Apply translations to OCR text inside images
+        for image in page.get("images", []):
+
+            translated_ocr = []
+
+            for ocr_item in image.get("ocr_data", []):
+
+                original_text = ocr_item.get("text", "")
+
+                if not isinstance(original_text, str):
+                    continue
+
+                original_text = original_text.strip()
+
+                if not original_text:
+                    continue
+
+                translated = translation_cache.get(
+                    original_text,
+                    original_text
+                )
+
+                translated = _fix_colon(
+                    original_text,
+                    translated,
+                    target_language
+                )
+
+                translated_ocr.append({
+                    "text": original_text,
+                    "confidence": ocr_item.get("confidence", 0),
+                    "bbox": ocr_item.get("bbox"),
+                    "translated_text": translated
+                })
+
+            image["translated_text"] = translated_ocr
 
     # 6. TRANSLATED JSON
     translated_json_filename = f"{base_name}_translated_{target_language}.json"

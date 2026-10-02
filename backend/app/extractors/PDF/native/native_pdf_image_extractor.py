@@ -1,6 +1,7 @@
 import os
 import pymupdf as fitz
 
+from app.extractors.PPTX.image_extractor import extract_text_from_image
 
 def extract_native_pdf_images(document, output_directory):
     """
@@ -51,6 +52,13 @@ def extract_native_pdf_images(document, output_directory):
 
                 bbox = image_info.get("bbox")
 
+                print(f"[PDF] Extracted image: page={page_number}, image={image_index}")
+
+                # Run OCR on the extracted image
+                ocr_data = extract_text_from_image(image_path)
+
+                print(f"[PDF] OCR RESULT: {ocr_data}")
+
                 images_data.append({
                     "page_number": page_number,
                     "image_index": image_index,
@@ -60,7 +68,7 @@ def extract_native_pdf_images(document, output_directory):
                         round(value, 2)
                         for value in bbox
                     ] if bbox else None,
-                    "ocr_data": [],
+                    "ocr_data": ocr_data,
                     "translated_text": []
                 })
 

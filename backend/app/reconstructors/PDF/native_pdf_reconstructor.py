@@ -3,6 +3,7 @@ import json
 import os
 
 import pymupdf as fitz
+from PIL import Image, ImageDraw, ImageFont
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 FONT_DIR = os.path.join(BASE_DIR, "assets", "fonts")
@@ -55,6 +56,147 @@ def _overlaps_table(element, tables):
 
     return False
 
+def _reconstruct_translated_image(image_path, translated_texts, target_language):
+    """
+    Replace OCR-detected text in an image with translated text.
+    """
+
+    try:
+        image = Image.open(image_path).convert("RGB")
+        draw = ImageDraw.Draw(image)
+
+        # Select font
+        if target_language in ("hi", "mr"):
+            font_path = os.path.join(
+                FONT_DIR,
+                "NotoSansDevanagari-Regular.ttf"
+            )
+        else:
+            font_path = os.path.join(
+                FONT_DIR,
+                "NotoSans-Regular.ttf"
+            )
+
+        if not os.path.exists(font_path):
+            raise FileNotFoundError(
+                f"Font not found: {font_path}"
+            )
+
+        for item in translated_texts:
+
+            translated = item.get("translated_text", "")
+            bbox = item.get("bbox")
+
+            if not translated or not bbox:
+                continue
+
+            # OCR bbox is:
+            # [[x0,y0], [x1,y0], [x1,y1], [x0,y1]]
+
+            x0 = int(min(point[0] for point in bbox))
+            y0 = int(min(point[1] for point in bbox))
+            x1 = int(max(point[0] for point in bbox))
+            y1 = int(max(point[1] for point in bbox))
+
+            box_width = max(1, x1 - x0)
+            box_height = max(1, y1 - y0)
+
+            # Estimate font size from original OCR box
+            font_size = max(12, int(box_height * 0.65))
+
+            font = ImageFont.truetype(
+                font_path,
+                font_size
+            )
+
+            # Sample background around the OCR box.
+            sample_points = [
+                (max(0, x0 - 5), max(0, y0 - 5)),
+                (min(image.width - 1, x1 + 5), max(0, y0 - 5)),
+                (max(0, x0 - 5), min(image.height - 1, y1 + 5)),
+                (min(image.width - 1, x1 + 5), min(image.height - 1, y1 + 5)),
+            ]
+
+            background_colors = [
+                image.getpixel(point)
+                for point in sample_points
+            ]
+
+            background = tuple(
+                sum(color[channel] for color in background_colors)
+                // len(background_colors)
+                for channel in range(3)
+            )
+
+            # Cover original text
+            draw.rectangle(
+                [x0, y0, x1, y1],
+                fill=background
+            )
+
+            # Calculate translated text size
+            text_bbox = draw.textbbox(
+                (0, 0),
+                translated,
+                font=font
+            )
+
+            text_width = text_bbox[2] - text_bbox[0]
+            text_height = text_bbox[3] - text_bbox[1]
+
+            # Reduce font size if translation is wider
+            while text_width > box_width and font_size > 8:
+
+                font_size -= 1
+
+                font = ImageFont.truetype(
+                    font_path,
+                    font_size
+                )
+
+                text_bbox = draw.textbbox(
+                    (0, 0),
+                    translated,
+                    font=font
+                )
+
+                text_width = text_bbox[2] - text_bbox[0]
+                text_height = text_bbox[3] - text_bbox[1]
+
+            # Center translated text inside original OCR box
+            text_x = x0 + (box_width - text_width) / 2
+            text_y = y0 + (box_height - text_height) / 2
+
+            draw.text(
+                (text_x, text_y),
+                translated,
+                font=font,
+                fill=(0, 0, 0)
+            )
+
+        # Save reconstructed image
+        translated_image_path = os.path.splitext(
+            image_path
+        )[0] + "_translated.png"
+
+        image.save(
+            translated_image_path
+        )
+
+        print(
+            f"[PDF] Translated image created: "
+            f"{translated_image_path}"
+        )
+
+        return translated_image_path
+
+    except Exception as e:
+
+        print(
+            f"[PDF] Failed to reconstruct translated image: {e}"
+        )
+
+        return image_path
 
 def reconstruct_native_pdf(
     original_pdf_path,
@@ -108,6 +250,54 @@ def reconstruct_native_pdf(
             width = float(page_data.get("width", 595))
             height = float(page_data.get("height", 842))
             page = out.new_page(width=width, height=height)
+            # Reconstruct embedded images
+            for image_data in page_data.get("images", []):
+                image_path = image_data.get("image_path")
+                bbox = image_data.get("bbox")
+
+                if not image_path or not bbox:
+                    continue
+
+                image_to_insert = image_path
+
+                translated_texts = image_data.get(
+                    "translated_text",
+                    []
+                )
+
+                if translated_texts:
+
+                    image_to_insert = _reconstruct_translated_image(
+                        image_path,
+                        translated_texts,
+                        target_language
+                    )
+
+                try:
+
+                    image_rect = fitz.Rect(
+                        float(bbox[0]),
+                        float(bbox[1]),
+                        float(bbox[2]),
+                        float(bbox[3])
+                    )
+
+                    page.insert_image(
+                        image_rect,
+                        filename=image_to_insert
+                    )
+
+                    print(
+                        f"[PDF] Reconstructed image: "
+                        f"page={page_data.get('page_number')}, "
+                        f"path={image_to_insert}"
+                    )
+
+                except Exception as e:
+
+                    print(
+                        f"[PDF] Failed to reconstruct image: {e}"
+                    )
 
             table_elements = [
                 e for e in page_data.get("elements", []) if e.get("type") == "table"
