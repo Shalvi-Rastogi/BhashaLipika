@@ -56,6 +56,18 @@ def _overlaps_table(element, tables):
     return False
 
 
+def _span_style(f):
+    f = f or {}
+    c = f.get("color") or {}
+    deco = "underline" if f.get("underline") else "none"
+    return (
+        f"font-weight:{'bold' if f.get('bold') else 'normal'};"
+        f"font-style:{'italic' if f.get('italic') else 'normal'};"
+        f"text-decoration:{deco};"
+        f"color:rgb({c.get('r', 0)},{c.get('g', 0)},{c.get('b', 0)});"
+    )
+
+
 def reconstruct_native_pdf(
     original_pdf_path,
     translated_json_path,
@@ -99,7 +111,9 @@ def reconstruct_native_pdf(
             "@font-face { font-family: %s; src: url(%s); "
             "font-weight: bold; font-style: italic; }"
         ) % (family, bold)
-    css += "* { font-family: %s; margin: 0; padding: 0; line-height: 1.4; }" % family
+    
+    # FIX 1: line-height 1.4 se 1.15 kar diya gaya hai spacing sahi karne ke liye
+    css += "* { font-family: %s; margin: 0; padding: 0; line-height: 1.15; }" % family
 
     out = fitz.open()
 
@@ -126,6 +140,7 @@ def reconstruct_native_pdf(
                 ]
                 return (min(tops) - 2) if tops else (height - 20)
 
+            # ---------------- TEXT ----------------
             for el in text_elements:
                 text = el.get("translated_text") or el.get("original_text", "")
                 if not isinstance(text, str) or not text.strip():
@@ -143,35 +158,42 @@ def reconstruct_native_pdf(
                 else:
                     x1 = min(max(x1, width - 72), width - 5)
 
-                y1 = max(bottom_limit(el), y0 + size * 1.5)
+                # FIX 2: purana y1 limit hata kar, box ko poori height di taaki font chhota na ho
+                y1_box = height - 10 
 
-                r, g, b = 0, 0, 0
-                c = font.get("color")
-                if isinstance(c, dict):
-                    r, g, b = c.get("r", 0), c.get("g", 0), c.get("b", 0)
-
-                weight = "bold" if font.get("bold") else "normal"
-                font_style = "italic" if font.get("italic") else "normal"
                 align = "right" if rtl else "left"
+                segs = el.get("segments") or []
+
+                if segs:
+                    inner = " ".join(
+                        f'<span style="{_span_style(s.get("font"))}">'
+                        f'{html.escape(s.get("translated_text") or s.get("text", ""))}</span>'
+                        for s in segs
+                        if (s.get("translated_text") or s.get("text", "")).strip()
+                    )
+                else:
+                    inner = (
+                        f'<span style="{_span_style(font)}">{html.escape(text)}</span>'
+                    )
 
                 body = (
                     f'<div dir="{direction}" style="font-size:{size}pt; '
-                    f'color:rgb({r},{g},{b}); font-weight:{weight}; '
-                    f'font-style:{font_style}; '
                     f'text-align:{align}; width:100%; overflow-wrap:anywhere; '
-                    f'word-break:break-word;">{html.escape(text)}</div>'
+                    f'word-break:break-word;">{inner}</div>'
                 )
 
+                # FIX 3: y1_box aur scale_low=1.0 ka istemal
                 spare, _ = page.insert_htmlbox(
-                    fitz.Rect(x0, y0, x1, y1),
+                    fitz.Rect(x0, y0, x1, y1_box),
                     body,
                     css=css,
                     archive=archive,
-                    scale_low=0,
+                    scale_low=1.0, # Font ko chhota hone se rokega
                 )
                 if spare < 0:
                     print(f"[PDF] fit nahi hua: {text[:30]!r}")
 
+            # ---------------- TABLES (Shalvi, unchanged) ----------------
             for table in table_elements:
                 for row in table.get("rows", []):
                     for cell in row.get("cells", []):

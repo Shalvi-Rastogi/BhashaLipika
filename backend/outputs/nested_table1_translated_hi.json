@@ -348,16 +348,16 @@
                             "cell_index": 1,
                             "row": 1,
                             "column": 1,
-                            "text": "बिजनेस लैपटॉप.\n\n\n\n",
+                            "text": "Business laptop\n\n\n\n",
                             "original_text": "Business laptop\n\n\n\n",
                             "paragraphs": [
                                 {
                                     "paragraph_index": 0,
-                                    "text": "बिजनेस लैपटॉप.",
+                                    "text": "Business laptop",
                                     "runs": [
                                         {
                                             "run_index": 0,
-                                            "text": "बिजनेस लैपटॉप.",
+                                            "text": "Business laptop",
                                             "style": {
                                                 "font_name": null,
                                                 "font_size": 14.0,

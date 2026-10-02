@@ -6,6 +6,10 @@ import pymupdf as fitz
 BULLETS = {"•", "▪", "◦", "●", "-", "–", "∙", "·", "○", "■"}
 
 
+# =========================================================
+# BASIC HELPERS
+# =========================================================
+
 def _color_to_rgb(color):
     if color is None:
         return {"r": 0, "g": 0, "b": 0}
@@ -32,22 +36,129 @@ def _get_font_properties(span):
     }
 
 
-def _make_element(element_id, text, spans, block_number):
+# =========================================================
+# UNDERLINE / SEGMENT HELPERS (text paragraphs)
+# =========================================================
+
+def _underline_lines(page):
+    """Page par drawn patli horizontal lines/rects (underline candidates)."""
+    found = []
+    try:
+        drawings = page.get_drawings()
+    except Exception:
+        return found
+    for d in drawings:
+        for item in d.get("items", []):
+            if item[0] == "l":
+                p1, p2 = item[1], item[2]
+                if abs(p1.y - p2.y) < 1.0:
+                    found.append((min(p1.x, p2.x), max(p1.x, p2.x), (p1.y + p2.y) / 2))
+            elif item[0] == "re":
+                r = item[1]
+                if r.height < 2.5 and r.width > 2:
+                    found.append((r.x0, r.x1, (r.y0 + r.y1) / 2))
+    return found
+
+
+def _is_underlined(span, lines):
+    x0, _, x1, y1 = span["bbox"]
+    size = span.get("size") or 10
+    base = span.get("origin", (0, y1))[1]
+    width = x1 - x0
+    if width <= 0:
+        return False
+    for lx0, lx1, ly in lines:
+        if base - 1 <= ly <= base + size * 0.3:
+            if (min(x1, lx1) - max(x0, lx0)) / width >= 0.5:
+                return True
+    return False
+
+
+def _span_font(span, underlines):
+    font = _get_font_properties(span)
+    font["underline"] = _is_underlined(span, underlines)
+    return font
+
+
+def _style_key(font):
+    c = font["color"]
+    return (font["bold"], font["italic"], font["underline"], c["r"], c["g"], c["b"])
+
+
+def _clean(text):
+    return " ".join(text.split())
+
+
+def _build_segments(line_spans, underlines):
+    """Paragraph ko (label + baaki) style-segments me todta hai."""
+    runs = []
+    for spans in line_spans:
+        for i, s in enumerate(spans):
+            t = s["text"] + (" " if i == len(spans) - 1 else "")
+            font = _span_font(s, underlines)
+            k = _style_key(font)
+            if runs and runs[-1]["key"] == k:
+                runs[-1]["text"] += t
+            else:
+                runs.append({"text": t, "font": font, "key": k})
+
+    if len(runs) == 1:
+        return [{"text": _clean(runs[0]["text"]), "translated_text": "", "font": runs[0]["font"]}]
+
+    lead, rest = runs[0], runs[1:]
+
+    weight = {}
+    for r in rest:
+        weight[r["key"]] = weight.get(r["key"], 0) + len(r["text"].strip())
+    dom_key = max(weight, key=weight.get)
+    dom_font = next(r["font"] for r in rest if r["key"] == dom_key)
+    rest_text = _clean(" ".join(r["text"] for r in rest))
+
+    if lead["key"] == dom_key or not rest_text:
+        full = _clean(" ".join(r["text"] for r in runs))
+        return [{"text": full, "translated_text": "", "font": dom_font}]
+
+    return [
+        {"text": _clean(lead["text"]), "translated_text": "", "font": lead["font"]},
+        {"text": rest_text, "translated_text": "", "font": dom_font},
+    ]
+
+
+def _split_inline_bullet(span):
+    """'• text' wale span ko (bullet span, text span) me todo."""
+    t = span["text"].lstrip()
+    if len(t) > 1 and t[0] in BULLETS and t[1] == " ":
+        x0, y0, x1, y1 = span["bbox"]
+        size = span.get("size") or 10
+        bullet = dict(span, text=t[0], bbox=(x0, y0, x0 + size * 0.5, y1))
+        rest = dict(span, text=t[1:].strip(), bbox=(x0 + size * 0.6, y0, x1, y1))
+        return bullet, rest
+    return None, span
+
+
+def _make_element(element_id, text, spans, block_number, font, segments=None):
     x0 = min(s["bbox"][0] for s in spans)
     y0 = min(s["bbox"][1] for s in spans)
     x1 = max(s["bbox"][2] for s in spans)
     y1 = max(s["bbox"][3] for s in spans)
 
-    return {
+    el = {
         "id": element_id,
         "type": "text",
         "original_text": text,
         "translated_text": "",
         "bbox": [round(x0, 2), round(y0, 2), round(x1, 2), round(y1, 2)],
-        "font": _get_font_properties(spans[0]),
+        "font": font,
         "block_number": block_number,
     }
+    if segments:
+        el["segments"] = segments
+    return el
 
+
+# =========================================================
+# TABLE CODE (Shalvi) - UNCHANGED
+# =========================================================
 
 def _infer_cell_alignment(cell_bbox, matching_spans):
     if not matching_spans:
@@ -297,12 +408,11 @@ def _extract_tables(page, page_dict, element_id):
     return elements, table_bounds
 
 
-def extract_native_pdf_to_json(file_path, json_path):
-    """
-    Native PDF se paragraph-level text extract karke JSON banata hai.
-    Har block = ek paragraph (bullet alag element).
-    """
+# =========================================================
+# MAIN EXTRACTOR
+# =========================================================
 
+def extract_native_pdf_to_json(file_path, json_path):
     document = fitz.open(file_path)
 
     document_data = {
@@ -325,12 +435,16 @@ def extract_native_pdf_to_json(file_path, json_path):
             }
 
             page_dict = page.get_text("dict")
+            underlines = _underline_lines(page)
+
+            # ---- TABLES ----
             table_elements, table_bounds = _extract_tables(
                 page, page_dict, element_id
             )
             page_data["elements"].extend(table_elements)
             element_id += len(table_elements)
 
+            # ---- TEXT ----
             for block in page_dict.get("blocks", []):
 
                 if block.get("type") != 0:
@@ -338,15 +452,17 @@ def extract_native_pdf_to_json(file_path, json_path):
 
                 block_bbox = block.get("bbox")
                 if block_bbox and any(
-                    table_bbox[0] <= (block_bbox[0] + block_bbox[2]) / 2 <= table_bbox[2]
-                    and table_bbox[1] <= (block_bbox[1] + block_bbox[3]) / 2 <= table_bbox[3]
-                    for table_bbox in table_bounds
+                    tb[0] <= (block_bbox[0] + block_bbox[2]) / 2 <= tb[2]
+                    and tb[1] <= (block_bbox[1] + block_bbox[3]) / 2 <= tb[3]
+                    for tb in table_bounds
                 ):
                     continue
 
                 block_number = block.get("number")
-                bullet_span = None
-                line_spans = []
+
+                # har bullet-line se naya paragraph
+                paragraphs = []
+                current = None
 
                 for line in block.get("lines", []):
                     spans = [
@@ -356,47 +472,57 @@ def extract_native_pdf_to_json(file_path, json_path):
                     if not spans:
                         continue
 
-                    if (
-                        bullet_span is None
-                        and not line_spans
-                        and spans[0]["text"].strip() in BULLETS
-                    ):
-                        bullet_span = spans[0]
-                        spans = spans[1:]
+                    first = spans[0]
+                    bullet = None
+
+                    if first["text"].strip() in BULLETS:
+                        bullet, spans = first, spans[1:]
+                    else:
+                        b, rest = _split_inline_bullet(first)
+                        if b is not None:
+                            bullet, spans = b, [rest] + spans[1:]
+
+                    if bullet is not None or current is None:
+                        current = {"bullet": bullet, "lines": []}
+                        paragraphs.append(current)
 
                     if spans:
-                        line_spans.append(spans)
+                        current["lines"].append(spans)
 
-                if bullet_span is not None:
-                    page_data["elements"].append(
-                        _make_element(
-                            element_id,
-                            bullet_span["text"].strip(),
-                            [bullet_span],
-                            block_number,
-                        )
-                    )
-                    element_id += 1
-
-                if line_spans:
-                    all_spans = [s for spans in line_spans for s in spans]
-
-                    paragraph = " ".join(
-                        "".join(s["text"] for s in spans).strip()
-                        for spans in line_spans
-                    )
-                    paragraph = " ".join(paragraph.split())
-
-                    if paragraph:
+                for para in paragraphs:
+                    if para["bullet"] is not None:
+                        bs = para["bullet"]
                         page_data["elements"].append(
                             _make_element(
                                 element_id,
-                                paragraph,
-                                all_spans,
+                                bs["text"].strip(),
+                                [bs],
                                 block_number,
+                                _span_font(bs, underlines),
                             )
                         )
                         element_id += 1
+
+                    if not para["lines"]:
+                        continue
+
+                    segments = _build_segments(para["lines"], underlines)
+                    full_text = _clean(" ".join(s["text"] for s in segments))
+                    if not full_text:
+                        continue
+
+                    all_spans = [s for spans in para["lines"] for s in spans]
+                    page_data["elements"].append(
+                        _make_element(
+                            element_id,
+                            full_text,
+                            all_spans,
+                            block_number,
+                            segments[-1]["font"],
+                            segments,
+                        )
+                    )
+                    element_id += 1
 
             document_data["pages"].append(page_data)
 
