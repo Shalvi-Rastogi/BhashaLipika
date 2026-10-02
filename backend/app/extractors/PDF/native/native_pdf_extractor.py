@@ -74,6 +74,7 @@ def extract_native_pdf_to_json(file_path, json_path):
                 "width": page.rect.width,
                 "height": page.rect.height,
                 "elements": [],
+                "images": [],
             }
 
             page_dict = page.get_text("dict")
