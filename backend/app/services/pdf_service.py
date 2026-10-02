@@ -49,12 +49,16 @@ def process_pdf_pipeline(
 
     for page in pdf_data.get("pages", []):
         for element in page.get("elements", []):
-            if element.get("type") != "text":
-                continue
-
-            text = element.get("original_text", "")
-            if isinstance(text, str) and text.strip():
-                texts.add(text.strip())
+            if element.get("type") == "text":
+                text = element.get("original_text", "")
+                if isinstance(text, str) and text.strip():
+                    texts.add(text.strip())
+            elif element.get("type") == "table":
+                for row in element.get("rows", []):
+                    for cell in row.get("cells", []):
+                        text = cell.get("original_text", "")
+                        if isinstance(text, str) and text.strip():
+                            texts.add(text.strip())
 
     texts = list(texts)
     print(f"[PDF] Texts found for translation: {len(texts)}")
@@ -83,15 +87,28 @@ def process_pdf_pipeline(
     # 5. APPLY TRANSLATIONS
     for page in pdf_data.get("pages", []):
         for element in page.get("elements", []):
-            original_text = element.get("original_text", "")
+            if element.get("type") == "text":
+                original_text = element.get("original_text", "")
+                if not isinstance(original_text, str) or not original_text.strip():
+                    continue
 
-            if not original_text.strip():
-                continue
+                translated = translation_cache.get(original_text.strip(), original_text)
+                element["translated_text"] = _fix_colon(
+                    original_text, translated, target_language
+                )
+            elif element.get("type") == "table":
+                for row in element.get("rows", []):
+                    for cell in row.get("cells", []):
+                        original_text = cell.get("original_text", "")
+                        if not isinstance(original_text, str) or not original_text.strip():
+                            continue
 
-            translated = translation_cache.get(original_text.strip(), original_text)
-            translated = _fix_colon(original_text, translated, target_language)
-
-            element["translated_text"] = translated
+                        translated = translation_cache.get(
+                            original_text.strip(), original_text
+                        )
+                        cell["translated_text"] = _fix_colon(
+                            original_text, translated, target_language
+                        )
 
     # 6. TRANSLATED JSON
     translated_json_filename = f"{base_name}_translated_{target_language}.json"
