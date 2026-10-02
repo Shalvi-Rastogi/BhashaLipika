@@ -1,1597 +1,1741 @@
 {
-    "document_name": "nested_table.docx",
-    "document_type": "docx",
-    "elements": [
+    "document_name": "nested_table.pdf",
+    "document_type": "pdf",
+    "pdf_type": "native",
+    "pages": [
         {
-            "id": 1,
-            "type": "paragraph",
-            "list_type": null,
-            "level": null,
-            "order": 1,
-            "text": "Nested Table Sample Document",
-            "runs": [
+            "page_number": 1,
+            "width": 612.0,
+            "height": 792.0,
+            "elements": [
                 {
-                    "text": "N",
-                    "style": {
-                        "font_name": null,
-                        "font_size": 20.0,
-                        "font_color": null,
-                        "bold": true,
-                        "italic": false,
-                        "underline": false,
-                        "highlight_color": null,
-                        "strike": null,
-                        "double_strike": null,
-                        "all_caps": null,
-                        "small_caps": null,
-                        "subscript": null,
-                        "superscript": null,
-                        "hidden": null,
-                        "outline": null,
-                        "shadow": null,
-                        "emboss": null,
-                        "imprint": null,
-                        "rtl": null,
-                        "complex_script": null,
-                        "cs_bold": true,
-                        "cs_italic": false
-                    }
+                    "id": 1,
+                    "type": "table",
+                    "bbox": [
+                        43.2,
+                        110.4,
+                        568.8,
+                        310.4
+                    ],
+                    "rows_count": 4,
+                    "columns_count": 5,
+                    "rows": [
+                        {
+                            "row_index": 0,
+                            "cells": [
+                                {
+                                    "row": 0,
+                                    "column": 0,
+                                    "bbox": [
+                                        43.2,
+                                        110.4,
+                                        100.8,
+                                        133.4
+                                    ],
+                                    "original_text": "Order ID",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "left",
+                                    "font": {
+                                        "font_name": "Helvetica-Bold",
+                                        "font_size": 9.0,
+                                        "bold": true,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 255,
+                                            "g": 255,
+                                            "b": 255
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 0,
+                                    "column": 1,
+                                    "bbox": [
+                                        100.8,
+                                        110.4,
+                                        172.8,
+                                        133.4
+                                    ],
+                                    "original_text": "Customer",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "left",
+                                    "font": {
+                                        "font_name": "Helvetica-Bold",
+                                        "font_size": 9.0,
+                                        "bold": true,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 255,
+                                            "g": 255,
+                                            "b": 255
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 0,
+                                    "column": 2,
+                                    "bbox": [
+                                        172.8,
+                                        110.4,
+                                        230.4,
+                                        133.4
+                                    ],
+                                    "original_text": "Date",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "left",
+                                    "font": {
+                                        "font_name": "Helvetica-Bold",
+                                        "font_size": 9.0,
+                                        "bold": true,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 255,
+                                            "g": 255,
+                                            "b": 255
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 0,
+                                    "column": 3,
+                                    "bbox": [
+                                        230.4,
+                                        110.4,
+                                        518.4,
+                                        133.4
+                                    ],
+                                    "original_text": "Line Items",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "left",
+                                    "font": {
+                                        "font_name": "Helvetica-Bold",
+                                        "font_size": 9.0,
+                                        "bold": true,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 255,
+                                            "g": 255,
+                                            "b": 255
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 0,
+                                    "column": 4,
+                                    "bbox": [
+                                        518.4,
+                                        110.4,
+                                        568.8,
+                                        133.4
+                                    ],
+                                    "original_text": "Total",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "left",
+                                    "font": {
+                                        "font_name": "Helvetica-Bold",
+                                        "font_size": 9.0,
+                                        "bold": true,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 255,
+                                            "g": 255,
+                                            "b": 255
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "row_index": 1,
+                            "cells": [
+                                {
+                                    "row": 1,
+                                    "column": 0,
+                                    "bbox": [
+                                        43.2,
+                                        133.4,
+                                        100.8,
+                                        192.4
+                                    ],
+                                    "original_text": "ORD-1001",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "center",
+                                    "font": {
+                                        "font_name": "Helvetica",
+                                        "font_size": 9.0,
+                                        "bold": false,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 1,
+                                    "column": 1,
+                                    "bbox": [
+                                        100.8,
+                                        133.4,
+                                        172.8,
+                                        192.4
+                                    ],
+                                    "original_text": "Asha Verma",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "left",
+                                    "font": {
+                                        "font_name": "Helvetica",
+                                        "font_size": 9.0,
+                                        "bold": false,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 1,
+                                    "column": 2,
+                                    "bbox": [
+                                        172.8,
+                                        133.4,
+                                        230.4,
+                                        192.4
+                                    ],
+                                    "original_text": "2026-09-12",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "center",
+                                    "font": {
+                                        "font_name": "Helvetica",
+                                        "font_size": 9.0,
+                                        "bold": false,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 1,
+                                    "column": 3,
+                                    "bbox": [
+                                        230.4,
+                                        133.4,
+                                        518.4,
+                                        192.4
+                                    ],
+                                    "original_text": "Item Qty Unit Price Subtotal\nLaptop Stand 2 $25.00 $50.00\nUSB-C Hub 1 $40.00 $40.00",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "left"
+                                },
+                                {
+                                    "row": 1,
+                                    "column": 4,
+                                    "bbox": [
+                                        518.4,
+                                        133.4,
+                                        568.8,
+                                        192.4
+                                    ],
+                                    "original_text": "$90.00",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "right",
+                                    "font": {
+                                        "font_name": "Helvetica",
+                                        "font_size": 9.0,
+                                        "bold": false,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "row_index": 2,
+                            "cells": [
+                                {
+                                    "row": 2,
+                                    "column": 0,
+                                    "bbox": [
+                                        43.2,
+                                        192.4,
+                                        100.8,
+                                        267.4
+                                    ],
+                                    "original_text": "ORD-1002",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "center",
+                                    "font": {
+                                        "font_name": "Helvetica",
+                                        "font_size": 9.0,
+                                        "bold": false,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 2,
+                                    "column": 1,
+                                    "bbox": [
+                                        100.8,
+                                        192.4,
+                                        172.8,
+                                        267.4
+                                    ],
+                                    "original_text": "Rohan Gupta",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "left",
+                                    "font": {
+                                        "font_name": "Helvetica",
+                                        "font_size": 9.0,
+                                        "bold": false,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 2,
+                                    "column": 2,
+                                    "bbox": [
+                                        172.8,
+                                        192.4,
+                                        230.4,
+                                        267.4
+                                    ],
+                                    "original_text": "2026-09-15",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "center",
+                                    "font": {
+                                        "font_name": "Helvetica",
+                                        "font_size": 9.0,
+                                        "bold": false,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 2,
+                                    "column": 3,
+                                    "bbox": [
+                                        230.4,
+                                        192.4,
+                                        518.4,
+                                        267.4
+                                    ],
+                                    "original_text": "Item Qty Unit Price Subtotal\nMechanical Keyboard 1 $89.50 $89.50\nMouse Pad 3 $8.00 $24.00\nWebcam 1 $55.00 $55.00",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "left"
+                                },
+                                {
+                                    "row": 2,
+                                    "column": 4,
+                                    "bbox": [
+                                        518.4,
+                                        192.4,
+                                        568.8,
+                                        267.4
+                                    ],
+                                    "original_text": "$168.50",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "right",
+                                    "font": {
+                                        "font_name": "Helvetica",
+                                        "font_size": 9.0,
+                                        "bold": false,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "row_index": 3,
+                            "cells": [
+                                {
+                                    "row": 3,
+                                    "column": 0,
+                                    "bbox": [
+                                        43.2,
+                                        267.4,
+                                        100.8,
+                                        310.4
+                                    ],
+                                    "original_text": "ORD-1003",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "center",
+                                    "font": {
+                                        "font_name": "Helvetica",
+                                        "font_size": 9.0,
+                                        "bold": false,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 3,
+                                    "column": 1,
+                                    "bbox": [
+                                        100.8,
+                                        267.4,
+                                        172.8,
+                                        310.4
+                                    ],
+                                    "original_text": "Meera Singh",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "left",
+                                    "font": {
+                                        "font_name": "Helvetica",
+                                        "font_size": 9.0,
+                                        "bold": false,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 3,
+                                    "column": 2,
+                                    "bbox": [
+                                        172.8,
+                                        267.4,
+                                        230.4,
+                                        310.4
+                                    ],
+                                    "original_text": "2026-09-20",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "center",
+                                    "font": {
+                                        "font_name": "Helvetica",
+                                        "font_size": 9.0,
+                                        "bold": false,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 3,
+                                    "column": 3,
+                                    "bbox": [
+                                        230.4,
+                                        267.4,
+                                        518.4,
+                                        310.4
+                                    ],
+                                    "original_text": "Item Qty Unit Price Subtotal\nMonitor 24in 2 $140.00 $280.00",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "left"
+                                },
+                                {
+                                    "row": 3,
+                                    "column": 4,
+                                    "bbox": [
+                                        518.4,
+                                        267.4,
+                                        568.8,
+                                        310.4
+                                    ],
+                                    "original_text": "$280.00",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "right",
+                                    "font": {
+                                        "font_name": "Helvetica",
+                                        "font_size": 9.0,
+                                        "bold": false,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    ]
                 },
                 {
-                    "text": "ested",
-                    "style": {
-                        "font_name": null,
-                        "font_size": 20.0,
-                        "font_color": null,
-                        "bold": true,
-                        "italic": false,
-                        "underline": false,
-                        "highlight_color": null,
-                        "strike": null,
-                        "double_strike": null,
-                        "all_caps": null,
-                        "small_caps": null,
-                        "subscript": null,
-                        "superscript": null,
-                        "hidden": null,
-                        "outline": null,
-                        "shadow": null,
-                        "emboss": null,
-                        "imprint": null,
-                        "rtl": null,
-                        "complex_script": null,
-                        "cs_bold": true,
-                        "cs_italic": false
-                    }
+                    "id": 2,
+                    "type": "table",
+                    "bbox": [
+                        236.4,
+                        139.4,
+                        524.4,
+                        186.4
+                    ],
+                    "rows_count": 3,
+                    "columns_count": 5,
+                    "rows": [
+                        {
+                            "row_index": 0,
+                            "cells": [
+                                {
+                                    "row": 0,
+                                    "column": 0,
+                                    "bbox": [
+                                        236.4,
+                                        139.4,
+                                        373.2,
+                                        154.4
+                                    ],
+                                    "original_text": "Item",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "left",
+                                    "font": {
+                                        "font_name": "Helvetica-Bold",
+                                        "font_size": 9.0,
+                                        "bold": true,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 0,
+                                    "column": 1,
+                                    "bbox": [
+                                        373.2,
+                                        139.4,
+                                        409.2,
+                                        154.4
+                                    ],
+                                    "original_text": "Qty",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "left",
+                                    "font": {
+                                        "font_name": "Helvetica-Bold",
+                                        "font_size": 9.0,
+                                        "bold": true,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 0,
+                                    "column": 2,
+                                    "bbox": [
+                                        409.2,
+                                        139.4,
+                                        466.8,
+                                        154.4
+                                    ],
+                                    "original_text": "Unit Price",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "center",
+                                    "font": {
+                                        "font_name": "Helvetica-Bold",
+                                        "font_size": 9.0,
+                                        "bold": true,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 0,
+                                    "column": 3,
+                                    "bbox": [
+                                        466.8,
+                                        139.4,
+                                        518.4,
+                                        154.4
+                                    ],
+                                    "original_text": "Subtotal",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "center",
+                                    "font": {
+                                        "font_name": "Helvetica-Bold",
+                                        "font_size": 9.0,
+                                        "bold": true,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 0,
+                                    "column": 4,
+                                    "bbox": [
+                                        518.4,
+                                        139.4,
+                                        524.4,
+                                        154.4
+                                    ],
+                                    "original_text": "",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "left"
+                                }
+                            ]
+                        },
+                        {
+                            "row_index": 1,
+                            "cells": [
+                                {
+                                    "row": 1,
+                                    "column": 0,
+                                    "bbox": [
+                                        236.4,
+                                        154.4,
+                                        373.2,
+                                        170.4
+                                    ],
+                                    "original_text": "Laptop Stand",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "left",
+                                    "font": {
+                                        "font_name": "Helvetica",
+                                        "font_size": 9.0,
+                                        "bold": false,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 1,
+                                    "column": 1,
+                                    "bbox": [
+                                        373.2,
+                                        154.4,
+                                        409.2,
+                                        170.4
+                                    ],
+                                    "original_text": "2",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "right",
+                                    "font": {
+                                        "font_name": "Helvetica",
+                                        "font_size": 9.0,
+                                        "bold": false,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 1,
+                                    "column": 2,
+                                    "bbox": [
+                                        409.2,
+                                        154.4,
+                                        466.8,
+                                        170.4
+                                    ],
+                                    "original_text": "$25.00",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "right",
+                                    "font": {
+                                        "font_name": "Helvetica",
+                                        "font_size": 9.0,
+                                        "bold": false,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 1,
+                                    "column": 3,
+                                    "bbox": [
+                                        466.8,
+                                        154.4,
+                                        518.4,
+                                        170.4
+                                    ],
+                                    "original_text": "$50.00",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "right",
+                                    "font": {
+                                        "font_name": "Helvetica",
+                                        "font_size": 9.0,
+                                        "bold": false,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 1,
+                                    "column": 4,
+                                    "bbox": [
+                                        518.4,
+                                        154.4,
+                                        524.4,
+                                        170.4
+                                    ],
+                                    "original_text": "",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "left"
+                                }
+                            ]
+                        },
+                        {
+                            "row_index": 2,
+                            "cells": [
+                                {
+                                    "row": 2,
+                                    "column": 0,
+                                    "bbox": [
+                                        236.4,
+                                        170.4,
+                                        373.2,
+                                        186.4
+                                    ],
+                                    "original_text": "USB-C Hub",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "left",
+                                    "font": {
+                                        "font_name": "Helvetica",
+                                        "font_size": 9.0,
+                                        "bold": false,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 2,
+                                    "column": 1,
+                                    "bbox": [
+                                        373.2,
+                                        170.4,
+                                        409.2,
+                                        186.4
+                                    ],
+                                    "original_text": "1",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "right",
+                                    "font": {
+                                        "font_name": "Helvetica",
+                                        "font_size": 9.0,
+                                        "bold": false,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 2,
+                                    "column": 2,
+                                    "bbox": [
+                                        409.2,
+                                        170.4,
+                                        466.8,
+                                        186.4
+                                    ],
+                                    "original_text": "$40.00",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "right",
+                                    "font": {
+                                        "font_name": "Helvetica",
+                                        "font_size": 9.0,
+                                        "bold": false,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 2,
+                                    "column": 3,
+                                    "bbox": [
+                                        466.8,
+                                        170.4,
+                                        518.4,
+                                        186.4
+                                    ],
+                                    "original_text": "$40.00",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "right",
+                                    "font": {
+                                        "font_name": "Helvetica",
+                                        "font_size": 9.0,
+                                        "bold": false,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 2,
+                                    "column": 4,
+                                    "bbox": [
+                                        518.4,
+                                        170.4,
+                                        524.4,
+                                        186.4
+                                    ],
+                                    "original_text": "",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "left"
+                                }
+                            ]
+                        }
+                    ]
                 },
                 {
-                    "text": " ",
-                    "style": {
-                        "font_name": null,
-                        "font_size": 20.0,
-                        "font_color": null,
-                        "bold": true,
-                        "italic": false,
-                        "underline": false,
-                        "highlight_color": null,
-                        "strike": null,
-                        "double_strike": null,
-                        "all_caps": null,
-                        "small_caps": null,
-                        "subscript": null,
-                        "superscript": null,
-                        "hidden": null,
-                        "outline": null,
-                        "shadow": null,
-                        "emboss": null,
-                        "imprint": null,
-                        "rtl": null,
-                        "complex_script": null,
-                        "cs_bold": true,
-                        "cs_italic": false
-                    }
+                    "id": 3,
+                    "type": "table",
+                    "bbox": [
+                        236.4,
+                        198.4,
+                        524.4,
+                        261.4
+                    ],
+                    "rows_count": 4,
+                    "columns_count": 5,
+                    "rows": [
+                        {
+                            "row_index": 0,
+                            "cells": [
+                                {
+                                    "row": 0,
+                                    "column": 0,
+                                    "bbox": [
+                                        236.4,
+                                        198.4,
+                                        373.2,
+                                        213.4
+                                    ],
+                                    "original_text": "Item",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "left",
+                                    "font": {
+                                        "font_name": "Helvetica-Bold",
+                                        "font_size": 9.0,
+                                        "bold": true,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 0,
+                                    "column": 1,
+                                    "bbox": [
+                                        373.2,
+                                        198.4,
+                                        409.2,
+                                        213.4
+                                    ],
+                                    "original_text": "Qty",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "left",
+                                    "font": {
+                                        "font_name": "Helvetica-Bold",
+                                        "font_size": 9.0,
+                                        "bold": true,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 0,
+                                    "column": 2,
+                                    "bbox": [
+                                        409.2,
+                                        198.4,
+                                        466.8,
+                                        213.4
+                                    ],
+                                    "original_text": "Unit Price",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "center",
+                                    "font": {
+                                        "font_name": "Helvetica-Bold",
+                                        "font_size": 9.0,
+                                        "bold": true,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 0,
+                                    "column": 3,
+                                    "bbox": [
+                                        466.8,
+                                        198.4,
+                                        518.4,
+                                        213.4
+                                    ],
+                                    "original_text": "Subtotal",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "center",
+                                    "font": {
+                                        "font_name": "Helvetica-Bold",
+                                        "font_size": 9.0,
+                                        "bold": true,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 0,
+                                    "column": 4,
+                                    "bbox": [
+                                        518.4,
+                                        198.4,
+                                        524.4,
+                                        213.4
+                                    ],
+                                    "original_text": "",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "left"
+                                }
+                            ]
+                        },
+                        {
+                            "row_index": 1,
+                            "cells": [
+                                {
+                                    "row": 1,
+                                    "column": 0,
+                                    "bbox": [
+                                        236.4,
+                                        213.4,
+                                        373.2,
+                                        229.4
+                                    ],
+                                    "original_text": "Mechanical Keyboard",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "left",
+                                    "font": {
+                                        "font_name": "Helvetica",
+                                        "font_size": 9.0,
+                                        "bold": false,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 1,
+                                    "column": 1,
+                                    "bbox": [
+                                        373.2,
+                                        213.4,
+                                        409.2,
+                                        229.4
+                                    ],
+                                    "original_text": "1",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "right",
+                                    "font": {
+                                        "font_name": "Helvetica",
+                                        "font_size": 9.0,
+                                        "bold": false,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 1,
+                                    "column": 2,
+                                    "bbox": [
+                                        409.2,
+                                        213.4,
+                                        466.8,
+                                        229.4
+                                    ],
+                                    "original_text": "$89.50",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "right",
+                                    "font": {
+                                        "font_name": "Helvetica",
+                                        "font_size": 9.0,
+                                        "bold": false,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 1,
+                                    "column": 3,
+                                    "bbox": [
+                                        466.8,
+                                        213.4,
+                                        518.4,
+                                        229.4
+                                    ],
+                                    "original_text": "$89.50",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "right",
+                                    "font": {
+                                        "font_name": "Helvetica",
+                                        "font_size": 9.0,
+                                        "bold": false,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 1,
+                                    "column": 4,
+                                    "bbox": [
+                                        518.4,
+                                        213.4,
+                                        524.4,
+                                        229.4
+                                    ],
+                                    "original_text": "",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "left"
+                                }
+                            ]
+                        },
+                        {
+                            "row_index": 2,
+                            "cells": [
+                                {
+                                    "row": 2,
+                                    "column": 0,
+                                    "bbox": [
+                                        236.4,
+                                        229.4,
+                                        373.2,
+                                        245.4
+                                    ],
+                                    "original_text": "Mouse Pad",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "left",
+                                    "font": {
+                                        "font_name": "Helvetica",
+                                        "font_size": 9.0,
+                                        "bold": false,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 2,
+                                    "column": 1,
+                                    "bbox": [
+                                        373.2,
+                                        229.4,
+                                        409.2,
+                                        245.4
+                                    ],
+                                    "original_text": "3",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "right",
+                                    "font": {
+                                        "font_name": "Helvetica",
+                                        "font_size": 9.0,
+                                        "bold": false,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 2,
+                                    "column": 2,
+                                    "bbox": [
+                                        409.2,
+                                        229.4,
+                                        466.8,
+                                        245.4
+                                    ],
+                                    "original_text": "$8.00",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "right",
+                                    "font": {
+                                        "font_name": "Helvetica",
+                                        "font_size": 9.0,
+                                        "bold": false,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 2,
+                                    "column": 3,
+                                    "bbox": [
+                                        466.8,
+                                        229.4,
+                                        518.4,
+                                        245.4
+                                    ],
+                                    "original_text": "$24.00",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "right",
+                                    "font": {
+                                        "font_name": "Helvetica",
+                                        "font_size": 9.0,
+                                        "bold": false,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 2,
+                                    "column": 4,
+                                    "bbox": [
+                                        518.4,
+                                        229.4,
+                                        524.4,
+                                        245.4
+                                    ],
+                                    "original_text": "",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "left"
+                                }
+                            ]
+                        },
+                        {
+                            "row_index": 3,
+                            "cells": [
+                                {
+                                    "row": 3,
+                                    "column": 0,
+                                    "bbox": [
+                                        236.4,
+                                        245.4,
+                                        373.2,
+                                        261.4
+                                    ],
+                                    "original_text": "Webcam",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "left",
+                                    "font": {
+                                        "font_name": "Helvetica",
+                                        "font_size": 9.0,
+                                        "bold": false,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 3,
+                                    "column": 1,
+                                    "bbox": [
+                                        373.2,
+                                        245.4,
+                                        409.2,
+                                        261.4
+                                    ],
+                                    "original_text": "1",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "right",
+                                    "font": {
+                                        "font_name": "Helvetica",
+                                        "font_size": 9.0,
+                                        "bold": false,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 3,
+                                    "column": 2,
+                                    "bbox": [
+                                        409.2,
+                                        245.4,
+                                        466.8,
+                                        261.4
+                                    ],
+                                    "original_text": "$55.00",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "right",
+                                    "font": {
+                                        "font_name": "Helvetica",
+                                        "font_size": 9.0,
+                                        "bold": false,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 3,
+                                    "column": 3,
+                                    "bbox": [
+                                        466.8,
+                                        245.4,
+                                        518.4,
+                                        261.4
+                                    ],
+                                    "original_text": "$55.00",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "right",
+                                    "font": {
+                                        "font_name": "Helvetica",
+                                        "font_size": 9.0,
+                                        "bold": false,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 3,
+                                    "column": 4,
+                                    "bbox": [
+                                        518.4,
+                                        245.4,
+                                        524.4,
+                                        261.4
+                                    ],
+                                    "original_text": "",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "left"
+                                }
+                            ]
+                        }
+                    ]
                 },
                 {
-                    "text": "T",
-                    "style": {
-                        "font_name": null,
-                        "font_size": 20.0,
-                        "font_color": null,
-                        "bold": true,
-                        "italic": false,
-                        "underline": false,
-                        "highlight_color": null,
-                        "strike": null,
-                        "double_strike": null,
-                        "all_caps": null,
-                        "small_caps": null,
-                        "subscript": null,
-                        "superscript": null,
-                        "hidden": null,
-                        "outline": null,
-                        "shadow": null,
-                        "emboss": null,
-                        "imprint": null,
-                        "rtl": null,
-                        "complex_script": null,
-                        "cs_bold": true,
-                        "cs_italic": false
-                    }
+                    "id": 4,
+                    "type": "table",
+                    "bbox": [
+                        236.4,
+                        273.4,
+                        524.4,
+                        304.4
+                    ],
+                    "rows_count": 2,
+                    "columns_count": 5,
+                    "rows": [
+                        {
+                            "row_index": 0,
+                            "cells": [
+                                {
+                                    "row": 0,
+                                    "column": 0,
+                                    "bbox": [
+                                        236.4,
+                                        273.4,
+                                        373.2,
+                                        288.4
+                                    ],
+                                    "original_text": "Item",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "left",
+                                    "font": {
+                                        "font_name": "Helvetica-Bold",
+                                        "font_size": 9.0,
+                                        "bold": true,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 0,
+                                    "column": 1,
+                                    "bbox": [
+                                        373.2,
+                                        273.4,
+                                        409.2,
+                                        288.4
+                                    ],
+                                    "original_text": "Qty",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "left",
+                                    "font": {
+                                        "font_name": "Helvetica-Bold",
+                                        "font_size": 9.0,
+                                        "bold": true,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 0,
+                                    "column": 2,
+                                    "bbox": [
+                                        409.2,
+                                        273.4,
+                                        466.8,
+                                        288.4
+                                    ],
+                                    "original_text": "Unit Price",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "center",
+                                    "font": {
+                                        "font_name": "Helvetica-Bold",
+                                        "font_size": 9.0,
+                                        "bold": true,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 0,
+                                    "column": 3,
+                                    "bbox": [
+                                        466.8,
+                                        273.4,
+                                        518.4,
+                                        288.4
+                                    ],
+                                    "original_text": "Subtotal",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "center",
+                                    "font": {
+                                        "font_name": "Helvetica-Bold",
+                                        "font_size": 9.0,
+                                        "bold": true,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 0,
+                                    "column": 4,
+                                    "bbox": [
+                                        518.4,
+                                        273.4,
+                                        524.4,
+                                        288.4
+                                    ],
+                                    "original_text": "",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "left"
+                                }
+                            ]
+                        },
+                        {
+                            "row_index": 1,
+                            "cells": [
+                                {
+                                    "row": 1,
+                                    "column": 0,
+                                    "bbox": [
+                                        236.4,
+                                        288.4,
+                                        373.2,
+                                        304.4
+                                    ],
+                                    "original_text": "Monitor 24in",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "left",
+                                    "font": {
+                                        "font_name": "Helvetica",
+                                        "font_size": 9.0,
+                                        "bold": false,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 1,
+                                    "column": 1,
+                                    "bbox": [
+                                        373.2,
+                                        288.4,
+                                        409.2,
+                                        304.4
+                                    ],
+                                    "original_text": "2",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "right",
+                                    "font": {
+                                        "font_name": "Helvetica",
+                                        "font_size": 9.0,
+                                        "bold": false,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 1,
+                                    "column": 2,
+                                    "bbox": [
+                                        409.2,
+                                        288.4,
+                                        466.8,
+                                        304.4
+                                    ],
+                                    "original_text": "$140.00",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "right",
+                                    "font": {
+                                        "font_name": "Helvetica",
+                                        "font_size": 9.0,
+                                        "bold": false,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 1,
+                                    "column": 3,
+                                    "bbox": [
+                                        466.8,
+                                        288.4,
+                                        518.4,
+                                        304.4
+                                    ],
+                                    "original_text": "$280.00",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "right",
+                                    "font": {
+                                        "font_name": "Helvetica",
+                                        "font_size": 9.0,
+                                        "bold": false,
+                                        "italic": false,
+                                        "color": {
+                                            "r": 0,
+                                            "g": 0,
+                                            "b": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "row": 1,
+                                    "column": 4,
+                                    "bbox": [
+                                        518.4,
+                                        288.4,
+                                        524.4,
+                                        304.4
+                                    ],
+                                    "original_text": "",
+                                    "translated_text": "",
+                                    "rowspan": 1,
+                                    "colspan": 1,
+                                    "text_alignment": "left"
+                                }
+                            ]
+                        }
+                    ]
                 },
                 {
-                    "text": "able",
-                    "style": {
-                        "font_name": null,
-                        "font_size": 20.0,
-                        "font_color": null,
+                    "id": 5,
+                    "type": "text",
+                    "original_text": "Nested Table Example: Orders and Line Items",
+                    "translated_text": "",
+                    "bbox": [
+                        109.93,
+                        55.14,
+                        502.06,
+                        79.93
+                    ],
+                    "font": {
+                        "font_name": "Helvetica-Bold",
+                        "font_size": 18.0,
                         "bold": true,
                         "italic": false,
-                        "underline": false,
-                        "highlight_color": null,
-                        "strike": null,
-                        "double_strike": null,
-                        "all_caps": null,
-                        "small_caps": null,
-                        "subscript": null,
-                        "superscript": null,
-                        "hidden": null,
-                        "outline": null,
-                        "shadow": null,
-                        "emboss": null,
-                        "imprint": null,
-                        "rtl": null,
-                        "complex_script": null,
-                        "cs_bold": true,
-                        "cs_italic": false
-                    }
+                        "color": {
+                            "r": 0,
+                            "g": 0,
+                            "b": 0
+                        }
+                    },
+                    "block_number": 0
                 },
                 {
-                    "text": " S",
-                    "style": {
-                        "font_name": null,
-                        "font_size": 20.0,
-                        "font_color": null,
-                        "bold": true,
-                        "italic": false,
-                        "underline": false,
-                        "highlight_color": null,
-                        "strike": null,
-                        "double_strike": null,
-                        "all_caps": null,
-                        "small_caps": null,
-                        "subscript": null,
-                        "superscript": null,
-                        "hidden": null,
-                        "outline": null,
-                        "shadow": null,
-                        "emboss": null,
-                        "imprint": null,
-                        "rtl": null,
-                        "complex_script": null,
-                        "cs_bold": true,
-                        "cs_italic": false
-                    }
-                },
-                {
-                    "text": "ample",
-                    "style": {
-                        "font_name": null,
-                        "font_size": 20.0,
-                        "font_color": null,
-                        "bold": true,
-                        "italic": false,
-                        "underline": false,
-                        "highlight_color": null,
-                        "strike": null,
-                        "double_strike": null,
-                        "all_caps": null,
-                        "small_caps": null,
-                        "subscript": null,
-                        "superscript": null,
-                        "hidden": null,
-                        "outline": null,
-                        "shadow": null,
-                        "emboss": null,
-                        "imprint": null,
-                        "rtl": null,
-                        "complex_script": null,
-                        "cs_bold": true,
-                        "cs_italic": false
-                    }
-                },
-                {
-                    "text": " D",
-                    "style": {
-                        "font_name": null,
-                        "font_size": 20.0,
-                        "font_color": null,
-                        "bold": true,
-                        "italic": false,
-                        "underline": false,
-                        "highlight_color": null,
-                        "strike": null,
-                        "double_strike": null,
-                        "all_caps": null,
-                        "small_caps": null,
-                        "subscript": null,
-                        "superscript": null,
-                        "hidden": null,
-                        "outline": null,
-                        "shadow": null,
-                        "emboss": null,
-                        "imprint": null,
-                        "rtl": null,
-                        "complex_script": null,
-                        "cs_bold": true,
-                        "cs_italic": false
-                    }
-                },
-                {
-                    "text": "ocument",
-                    "style": {
-                        "font_name": null,
-                        "font_size": 20.0,
-                        "font_color": null,
-                        "bold": true,
-                        "italic": false,
-                        "underline": false,
-                        "highlight_color": null,
-                        "strike": null,
-                        "double_strike": null,
-                        "all_caps": null,
-                        "small_caps": null,
-                        "subscript": null,
-                        "superscript": null,
-                        "hidden": null,
-                        "outline": null,
-                        "shadow": null,
-                        "emboss": null,
-                        "imprint": null,
-                        "rtl": null,
-                        "complex_script": null,
-                        "cs_bold": true,
-                        "cs_italic": false
-                    }
-                }
-            ],
-            "paragraph_style": {
-                "style_name": "Normal",
-                "alignment": "left",
-                "left_indent": null,
-                "right_indent": null,
-                "first_line_indent": null,
-                "line_spacing": null,
-                "space_before": null,
-                "space_after": null,
-                "keep_together": null,
-                "keep_with_next": null,
-                "page_break_before": null,
-                "widow_control": null
-            }
-        },
-        {
-            "id": 2,
-            "type": "paragraph",
-            "list_type": null,
-            "level": null,
-            "order": 2,
-            "text": "This sample DOCX contains a nested table (a table inside a cell of another table) for extraction, translation, and reconstruction testing.",
-            "runs": [
-                {
-                    "text": "This sample DOCX contains a nested table (a table inside a cell of another table) for extraction, translation, and reconstruction testing",
-                    "style": {
-                        "font_name": null,
-                        "font_size": 14.0,
-                        "font_color": null,
+                    "id": 6,
+                    "type": "text",
+                    "original_text": "Each order row contains an inner table listing its line items.",
+                    "translated_text": "",
+                    "bbox": [
+                        56.4,
+                        83.65,
+                        316.5,
+                        97.39
+                    ],
+                    "font": {
+                        "font_name": "Helvetica",
+                        "font_size": 10.0,
                         "bold": false,
                         "italic": false,
-                        "underline": false,
-                        "highlight_color": null,
-                        "strike": null,
-                        "double_strike": null,
-                        "all_caps": null,
-                        "small_caps": null,
-                        "subscript": null,
-                        "superscript": null,
-                        "hidden": null,
-                        "outline": null,
-                        "shadow": null,
-                        "emboss": null,
-                        "imprint": null,
-                        "rtl": null,
-                        "complex_script": null,
-                        "cs_bold": false,
-                        "cs_italic": false
-                    }
-                },
-                {
-                    "text": ".",
-                    "style": {
-                        "font_name": null,
-                        "font_size": 14.0,
-                        "font_color": null,
-                        "bold": false,
-                        "italic": false,
-                        "underline": false,
-                        "highlight_color": null,
-                        "strike": null,
-                        "double_strike": null,
-                        "all_caps": null,
-                        "small_caps": null,
-                        "subscript": null,
-                        "superscript": null,
-                        "hidden": null,
-                        "outline": null,
-                        "shadow": null,
-                        "emboss": null,
-                        "imprint": null,
-                        "rtl": null,
-                        "complex_script": null,
-                        "cs_bold": false,
-                        "cs_italic": false
-                    }
+                        "color": {
+                            "r": 0,
+                            "g": 0,
+                            "b": 0
+                        }
+                    },
+                    "block_number": 1
                 }
-            ],
-            "paragraph_style": {
-                "style_name": "Normal",
-                "alignment": "left",
-                "left_indent": null,
-                "right_indent": null,
-                "first_line_indent": null,
-                "line_spacing": null,
-                "space_before": null,
-                "space_after": null,
-                "keep_together": null,
-                "keep_with_next": null,
-                "page_break_before": null,
-                "widow_control": null
-            }
-        },
-        {
-            "id": 3,
-            "type": "table",
-            "level": null,
-            "order": 3,
-            "rows_count": 3,
-            "columns_count": 3,
-            "rows": [
-                {
-                    "row_index": 0,
-                    "cells": [
-                        {
-                            "cell_index": 0,
-                            "row": 0,
-                            "column": 0,
-                            "text": "Product",
-                            "original_text": "Product",
-                            "paragraphs": [
-                                {
-                                    "paragraph_index": 0,
-                                    "text": "Product",
-                                    "runs": [
-                                        {
-                                            "run_index": 0,
-                                            "text": "Product",
-                                            "style": {
-                                                "font_name": null,
-                                                "font_size": 14.0,
-                                                "font_color": {
-                                                    "type": "rgb",
-                                                    "value": "EE0000"
-                                                },
-                                                "bold": false,
-                                                "italic": false,
-                                                "underline": false,
-                                                "highlight_color": null,
-                                                "strike": null,
-                                                "double_strike": null,
-                                                "all_caps": null,
-                                                "small_caps": null,
-                                                "subscript": null,
-                                                "superscript": null,
-                                                "hidden": null,
-                                                "outline": null,
-                                                "shadow": null,
-                                                "emboss": null,
-                                                "imprint": null,
-                                                "rtl": null,
-                                                "complex_script": null,
-                                                "cs_bold": false,
-                                                "cs_italic": false
-                                            }
-                                        }
-                                    ],
-                                    "paragraph_style": {
-                                        "style_name": "Normal",
-                                        "alignment": "left"
-                                    }
-                                }
-                            ]
-                        },
-                        {
-                            "cell_index": 1,
-                            "row": 0,
-                            "column": 1,
-                            "text": "Description",
-                            "original_text": "Description",
-                            "paragraphs": [
-                                {
-                                    "paragraph_index": 0,
-                                    "text": "Description",
-                                    "runs": [
-                                        {
-                                            "run_index": 0,
-                                            "text": "Description",
-                                            "style": {
-                                                "font_name": null,
-                                                "font_size": 14.0,
-                                                "font_color": {
-                                                    "type": "rgb",
-                                                    "value": "EE0000"
-                                                },
-                                                "bold": false,
-                                                "italic": false,
-                                                "underline": false,
-                                                "highlight_color": null,
-                                                "strike": null,
-                                                "double_strike": null,
-                                                "all_caps": null,
-                                                "small_caps": null,
-                                                "subscript": null,
-                                                "superscript": null,
-                                                "hidden": null,
-                                                "outline": null,
-                                                "shadow": null,
-                                                "emboss": null,
-                                                "imprint": null,
-                                                "rtl": null,
-                                                "complex_script": null,
-                                                "cs_bold": false,
-                                                "cs_italic": false
-                                            }
-                                        }
-                                    ],
-                                    "paragraph_style": {
-                                        "style_name": "Normal",
-                                        "alignment": "left"
-                                    }
-                                }
-                            ]
-                        },
-                        {
-                            "cell_index": 2,
-                            "row": 0,
-                            "column": 2,
-                            "text": "Specifications",
-                            "original_text": "Specifications",
-                            "paragraphs": [
-                                {
-                                    "paragraph_index": 0,
-                                    "text": "Specifications",
-                                    "runs": [
-                                        {
-                                            "run_index": 0,
-                                            "text": "Specifications",
-                                            "style": {
-                                                "font_name": null,
-                                                "font_size": 14.0,
-                                                "font_color": {
-                                                    "type": "rgb",
-                                                    "value": "EE0000"
-                                                },
-                                                "bold": false,
-                                                "italic": false,
-                                                "underline": false,
-                                                "highlight_color": null,
-                                                "strike": null,
-                                                "double_strike": null,
-                                                "all_caps": null,
-                                                "small_caps": null,
-                                                "subscript": null,
-                                                "superscript": null,
-                                                "hidden": null,
-                                                "outline": null,
-                                                "shadow": null,
-                                                "emboss": null,
-                                                "imprint": null,
-                                                "rtl": null,
-                                                "complex_script": null,
-                                                "cs_bold": false,
-                                                "cs_italic": false
-                                            }
-                                        }
-                                    ],
-                                    "paragraph_style": {
-                                        "style_name": "Normal",
-                                        "alignment": "left"
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "row_index": 1,
-                    "cells": [
-                        {
-                            "cell_index": 0,
-                            "row": 1,
-                            "column": 0,
-                            "text": "Laptop",
-                            "original_text": "Laptop",
-                            "paragraphs": [
-                                {
-                                    "paragraph_index": 0,
-                                    "text": "Laptop",
-                                    "runs": [
-                                        {
-                                            "run_index": 0,
-                                            "text": "Laptop",
-                                            "style": {
-                                                "font_name": null,
-                                                "font_size": 14.0,
-                                                "font_color": null,
-                                                "bold": false,
-                                                "italic": false,
-                                                "underline": false,
-                                                "highlight_color": null,
-                                                "strike": null,
-                                                "double_strike": null,
-                                                "all_caps": null,
-                                                "small_caps": null,
-                                                "subscript": null,
-                                                "superscript": null,
-                                                "hidden": null,
-                                                "outline": null,
-                                                "shadow": null,
-                                                "emboss": null,
-                                                "imprint": null,
-                                                "rtl": null,
-                                                "complex_script": null,
-                                                "cs_bold": false,
-                                                "cs_italic": false
-                                            }
-                                        }
-                                    ],
-                                    "paragraph_style": {
-                                        "style_name": "Normal",
-                                        "alignment": "left"
-                                    }
-                                }
-                            ]
-                        },
-                        {
-                            "cell_index": 1,
-                            "row": 1,
-                            "column": 1,
-                            "text": "Business laptop\n\n\n\n",
-                            "original_text": "Business laptop\n\n\n\n",
-                            "paragraphs": [
-                                {
-                                    "paragraph_index": 0,
-                                    "text": "Business laptop",
-                                    "runs": [
-                                        {
-                                            "run_index": 0,
-                                            "text": "Business laptop",
-                                            "style": {
-                                                "font_name": null,
-                                                "font_size": 14.0,
-                                                "font_color": null,
-                                                "bold": false,
-                                                "italic": false,
-                                                "underline": false,
-                                                "highlight_color": null,
-                                                "strike": null,
-                                                "double_strike": null,
-                                                "all_caps": null,
-                                                "small_caps": null,
-                                                "subscript": null,
-                                                "superscript": null,
-                                                "hidden": null,
-                                                "outline": null,
-                                                "shadow": null,
-                                                "emboss": null,
-                                                "imprint": null,
-                                                "rtl": null,
-                                                "complex_script": null,
-                                                "cs_bold": false,
-                                                "cs_italic": false
-                                            }
-                                        }
-                                    ],
-                                    "paragraph_style": {
-                                        "style_name": "Normal",
-                                        "alignment": "left"
-                                    }
-                                },
-                                {
-                                    "paragraph_index": 1,
-                                    "text": "",
-                                    "runs": [],
-                                    "paragraph_style": {
-                                        "style_name": "Normal",
-                                        "alignment": "left"
-                                    }
-                                },
-                                {
-                                    "paragraph_index": 2,
-                                    "text": "",
-                                    "runs": [],
-                                    "paragraph_style": {
-                                        "style_name": "Normal",
-                                        "alignment": "left"
-                                    }
-                                },
-                                {
-                                    "paragraph_index": 3,
-                                    "text": "",
-                                    "runs": [],
-                                    "paragraph_style": {
-                                        "style_name": "Normal",
-                                        "alignment": "left"
-                                    }
-                                },
-                                {
-                                    "paragraph_index": 4,
-                                    "text": "",
-                                    "runs": [],
-                                    "paragraph_style": {
-                                        "style_name": "Normal",
-                                        "alignment": "left"
-                                    }
-                                }
-                            ]
-                        },
-                        {
-                            "cell_index": 2,
-                            "row": 1,
-                            "column": 2,
-                            "text": "",
-                            "original_text": "",
-                            "paragraphs": [
-                                {
-                                    "paragraph_index": 0,
-                                    "text": "",
-                                    "runs": [],
-                                    "paragraph_style": {
-                                        "style_name": "Normal",
-                                        "alignment": "left"
-                                    }
-                                }
-                            ],
-                            "nested_tables": [
-                                {
-                                    "table_index": 0,
-                                    "rows_count": 4,
-                                    "columns_count": 2,
-                                    "rows": [
-                                        {
-                                            "row_index": 0,
-                                            "cells": [
-                                                {
-                                                    "cell_index": 0,
-                                                    "row": 0,
-                                                    "column": 0,
-                                                    "text": "Specification",
-                                                    "original_text": "Specification",
-                                                    "paragraphs": [
-                                                        {
-                                                            "paragraph_index": 0,
-                                                            "text": "Specification",
-                                                            "runs": [
-                                                                {
-                                                                    "run_index": 0,
-                                                                    "text": "Specification",
-                                                                    "style": {
-                                                                        "font_name": null,
-                                                                        "font_size": 14.0,
-                                                                        "font_color": null,
-                                                                        "bold": false,
-                                                                        "italic": false,
-                                                                        "underline": false,
-                                                                        "highlight_color": null,
-                                                                        "strike": null,
-                                                                        "double_strike": null,
-                                                                        "all_caps": null,
-                                                                        "small_caps": null,
-                                                                        "subscript": null,
-                                                                        "superscript": null,
-                                                                        "hidden": null,
-                                                                        "outline": null,
-                                                                        "shadow": null,
-                                                                        "emboss": null,
-                                                                        "imprint": null,
-                                                                        "rtl": null,
-                                                                        "complex_script": null,
-                                                                        "cs_bold": false,
-                                                                        "cs_italic": false
-                                                                    }
-                                                                }
-                                                            ],
-                                                            "paragraph_style": {
-                                                                "style_name": "Normal",
-                                                                "alignment": "left"
-                                                            }
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    "cell_index": 1,
-                                                    "row": 0,
-                                                    "column": 1,
-                                                    "text": "Value",
-                                                    "original_text": "Value",
-                                                    "paragraphs": [
-                                                        {
-                                                            "paragraph_index": 0,
-                                                            "text": "Value",
-                                                            "runs": [
-                                                                {
-                                                                    "run_index": 0,
-                                                                    "text": "Value",
-                                                                    "style": {
-                                                                        "font_name": null,
-                                                                        "font_size": 14.0,
-                                                                        "font_color": null,
-                                                                        "bold": false,
-                                                                        "italic": false,
-                                                                        "underline": false,
-                                                                        "highlight_color": null,
-                                                                        "strike": null,
-                                                                        "double_strike": null,
-                                                                        "all_caps": null,
-                                                                        "small_caps": null,
-                                                                        "subscript": null,
-                                                                        "superscript": null,
-                                                                        "hidden": null,
-                                                                        "outline": null,
-                                                                        "shadow": null,
-                                                                        "emboss": null,
-                                                                        "imprint": null,
-                                                                        "rtl": null,
-                                                                        "complex_script": null,
-                                                                        "cs_bold": false,
-                                                                        "cs_italic": false
-                                                                    }
-                                                                }
-                                                            ],
-                                                            "paragraph_style": {
-                                                                "style_name": "Normal",
-                                                                "alignment": "left"
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            ]
-                                        },
-                                        {
-                                            "row_index": 1,
-                                            "cells": [
-                                                {
-                                                    "cell_index": 0,
-                                                    "row": 1,
-                                                    "column": 0,
-                                                    "text": "Processor",
-                                                    "original_text": "Processor",
-                                                    "paragraphs": [
-                                                        {
-                                                            "paragraph_index": 0,
-                                                            "text": "Processor",
-                                                            "runs": [
-                                                                {
-                                                                    "run_index": 0,
-                                                                    "text": "Processor",
-                                                                    "style": {
-                                                                        "font_name": null,
-                                                                        "font_size": 14.0,
-                                                                        "font_color": null,
-                                                                        "bold": false,
-                                                                        "italic": false,
-                                                                        "underline": false,
-                                                                        "highlight_color": null,
-                                                                        "strike": null,
-                                                                        "double_strike": null,
-                                                                        "all_caps": null,
-                                                                        "small_caps": null,
-                                                                        "subscript": null,
-                                                                        "superscript": null,
-                                                                        "hidden": null,
-                                                                        "outline": null,
-                                                                        "shadow": null,
-                                                                        "emboss": null,
-                                                                        "imprint": null,
-                                                                        "rtl": null,
-                                                                        "complex_script": null,
-                                                                        "cs_bold": false,
-                                                                        "cs_italic": false
-                                                                    }
-                                                                }
-                                                            ],
-                                                            "paragraph_style": {
-                                                                "style_name": "Normal",
-                                                                "alignment": "left"
-                                                            }
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    "cell_index": 1,
-                                                    "row": 1,
-                                                    "column": 1,
-                                                    "text": "Intel Core i5",
-                                                    "original_text": "Intel Core i5",
-                                                    "paragraphs": [
-                                                        {
-                                                            "paragraph_index": 0,
-                                                            "text": "Intel Core i5",
-                                                            "runs": [
-                                                                {
-                                                                    "run_index": 0,
-                                                                    "text": "Intel Core i5",
-                                                                    "style": {
-                                                                        "font_name": null,
-                                                                        "font_size": 14.0,
-                                                                        "font_color": null,
-                                                                        "bold": false,
-                                                                        "italic": false,
-                                                                        "underline": false,
-                                                                        "highlight_color": null,
-                                                                        "strike": null,
-                                                                        "double_strike": null,
-                                                                        "all_caps": null,
-                                                                        "small_caps": null,
-                                                                        "subscript": null,
-                                                                        "superscript": null,
-                                                                        "hidden": null,
-                                                                        "outline": null,
-                                                                        "shadow": null,
-                                                                        "emboss": null,
-                                                                        "imprint": null,
-                                                                        "rtl": null,
-                                                                        "complex_script": null,
-                                                                        "cs_bold": false,
-                                                                        "cs_italic": false
-                                                                    }
-                                                                }
-                                                            ],
-                                                            "paragraph_style": {
-                                                                "style_name": "Normal",
-                                                                "alignment": "left"
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            ]
-                                        },
-                                        {
-                                            "row_index": 2,
-                                            "cells": [
-                                                {
-                                                    "cell_index": 0,
-                                                    "row": 2,
-                                                    "column": 0,
-                                                    "text": "RAM",
-                                                    "original_text": "RAM",
-                                                    "paragraphs": [
-                                                        {
-                                                            "paragraph_index": 0,
-                                                            "text": "RAM",
-                                                            "runs": [
-                                                                {
-                                                                    "run_index": 0,
-                                                                    "text": "RAM",
-                                                                    "style": {
-                                                                        "font_name": null,
-                                                                        "font_size": 14.0,
-                                                                        "font_color": null,
-                                                                        "bold": false,
-                                                                        "italic": false,
-                                                                        "underline": false,
-                                                                        "highlight_color": null,
-                                                                        "strike": null,
-                                                                        "double_strike": null,
-                                                                        "all_caps": null,
-                                                                        "small_caps": null,
-                                                                        "subscript": null,
-                                                                        "superscript": null,
-                                                                        "hidden": null,
-                                                                        "outline": null,
-                                                                        "shadow": null,
-                                                                        "emboss": null,
-                                                                        "imprint": null,
-                                                                        "rtl": null,
-                                                                        "complex_script": null,
-                                                                        "cs_bold": false,
-                                                                        "cs_italic": false
-                                                                    }
-                                                                }
-                                                            ],
-                                                            "paragraph_style": {
-                                                                "style_name": "Normal",
-                                                                "alignment": "left"
-                                                            }
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    "cell_index": 1,
-                                                    "row": 2,
-                                                    "column": 1,
-                                                    "text": "16 GB",
-                                                    "original_text": "16 GB",
-                                                    "paragraphs": [
-                                                        {
-                                                            "paragraph_index": 0,
-                                                            "text": "16 GB",
-                                                            "runs": [
-                                                                {
-                                                                    "run_index": 0,
-                                                                    "text": "16 GB",
-                                                                    "style": {
-                                                                        "font_name": null,
-                                                                        "font_size": 14.0,
-                                                                        "font_color": null,
-                                                                        "bold": false,
-                                                                        "italic": false,
-                                                                        "underline": false,
-                                                                        "highlight_color": null,
-                                                                        "strike": null,
-                                                                        "double_strike": null,
-                                                                        "all_caps": null,
-                                                                        "small_caps": null,
-                                                                        "subscript": null,
-                                                                        "superscript": null,
-                                                                        "hidden": null,
-                                                                        "outline": null,
-                                                                        "shadow": null,
-                                                                        "emboss": null,
-                                                                        "imprint": null,
-                                                                        "rtl": null,
-                                                                        "complex_script": null,
-                                                                        "cs_bold": false,
-                                                                        "cs_italic": false
-                                                                    }
-                                                                }
-                                                            ],
-                                                            "paragraph_style": {
-                                                                "style_name": "Normal",
-                                                                "alignment": "left"
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            ]
-                                        },
-                                        {
-                                            "row_index": 3,
-                                            "cells": [
-                                                {
-                                                    "cell_index": 0,
-                                                    "row": 3,
-                                                    "column": 0,
-                                                    "text": "Storage",
-                                                    "original_text": "Storage",
-                                                    "paragraphs": [
-                                                        {
-                                                            "paragraph_index": 0,
-                                                            "text": "Storage",
-                                                            "runs": [
-                                                                {
-                                                                    "run_index": 0,
-                                                                    "text": "Storage",
-                                                                    "style": {
-                                                                        "font_name": null,
-                                                                        "font_size": 14.0,
-                                                                        "font_color": null,
-                                                                        "bold": false,
-                                                                        "italic": false,
-                                                                        "underline": false,
-                                                                        "highlight_color": null,
-                                                                        "strike": null,
-                                                                        "double_strike": null,
-                                                                        "all_caps": null,
-                                                                        "small_caps": null,
-                                                                        "subscript": null,
-                                                                        "superscript": null,
-                                                                        "hidden": null,
-                                                                        "outline": null,
-                                                                        "shadow": null,
-                                                                        "emboss": null,
-                                                                        "imprint": null,
-                                                                        "rtl": null,
-                                                                        "complex_script": null,
-                                                                        "cs_bold": false,
-                                                                        "cs_italic": false
-                                                                    }
-                                                                }
-                                                            ],
-                                                            "paragraph_style": {
-                                                                "style_name": "Normal",
-                                                                "alignment": "left"
-                                                            }
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    "cell_index": 1,
-                                                    "row": 3,
-                                                    "column": 1,
-                                                    "text": "512 GB SSD",
-                                                    "original_text": "512 GB SSD",
-                                                    "paragraphs": [
-                                                        {
-                                                            "paragraph_index": 0,
-                                                            "text": "512 GB SSD",
-                                                            "runs": [
-                                                                {
-                                                                    "run_index": 0,
-                                                                    "text": "512 GB SSD",
-                                                                    "style": {
-                                                                        "font_name": null,
-                                                                        "font_size": 14.0,
-                                                                        "font_color": null,
-                                                                        "bold": false,
-                                                                        "italic": false,
-                                                                        "underline": false,
-                                                                        "highlight_color": null,
-                                                                        "strike": null,
-                                                                        "double_strike": null,
-                                                                        "all_caps": null,
-                                                                        "small_caps": null,
-                                                                        "subscript": null,
-                                                                        "superscript": null,
-                                                                        "hidden": null,
-                                                                        "outline": null,
-                                                                        "shadow": null,
-                                                                        "emboss": null,
-                                                                        "imprint": null,
-                                                                        "rtl": null,
-                                                                        "complex_script": null,
-                                                                        "cs_bold": false,
-                                                                        "cs_italic": false
-                                                                    }
-                                                                }
-                                                            ],
-                                                            "paragraph_style": {
-                                                                "style_name": "Normal",
-                                                                "alignment": "left"
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "row_index": 2,
-                    "cells": [
-                        {
-                            "cell_index": 0,
-                            "row": 2,
-                            "column": 0,
-                            "text": "Phone",
-                            "original_text": "Phone",
-                            "paragraphs": [
-                                {
-                                    "paragraph_index": 0,
-                                    "text": "Phone",
-                                    "runs": [
-                                        {
-                                            "run_index": 0,
-                                            "text": "Phone",
-                                            "style": {
-                                                "font_name": null,
-                                                "font_size": 14.0,
-                                                "font_color": null,
-                                                "bold": false,
-                                                "italic": false,
-                                                "underline": false,
-                                                "highlight_color": null,
-                                                "strike": null,
-                                                "double_strike": null,
-                                                "all_caps": null,
-                                                "small_caps": null,
-                                                "subscript": null,
-                                                "superscript": null,
-                                                "hidden": null,
-                                                "outline": null,
-                                                "shadow": null,
-                                                "emboss": null,
-                                                "imprint": null,
-                                                "rtl": null,
-                                                "complex_script": null,
-                                                "cs_bold": false,
-                                                "cs_italic": false
-                                            }
-                                        }
-                                    ],
-                                    "paragraph_style": {
-                                        "style_name": "Normal",
-                                        "alignment": "left"
-                                    }
-                                }
-                            ]
-                        },
-                        {
-                            "cell_index": 1,
-                            "row": 2,
-                            "column": 1,
-                            "text": "Smartphone",
-                            "original_text": "Smartphone",
-                            "paragraphs": [
-                                {
-                                    "paragraph_index": 0,
-                                    "text": "Smartphone",
-                                    "runs": [
-                                        {
-                                            "run_index": 0,
-                                            "text": "Smartphone",
-                                            "style": {
-                                                "font_name": null,
-                                                "font_size": 14.0,
-                                                "font_color": null,
-                                                "bold": false,
-                                                "italic": false,
-                                                "underline": false,
-                                                "highlight_color": null,
-                                                "strike": null,
-                                                "double_strike": null,
-                                                "all_caps": null,
-                                                "small_caps": null,
-                                                "subscript": null,
-                                                "superscript": null,
-                                                "hidden": null,
-                                                "outline": null,
-                                                "shadow": null,
-                                                "emboss": null,
-                                                "imprint": null,
-                                                "rtl": null,
-                                                "complex_script": null,
-                                                "cs_bold": false,
-                                                "cs_italic": false
-                                            }
-                                        }
-                                    ],
-                                    "paragraph_style": {
-                                        "style_name": "Normal",
-                                        "alignment": "left"
-                                    }
-                                }
-                            ]
-                        },
-                        {
-                            "cell_index": 2,
-                            "row": 2,
-                            "column": 2,
-                            "text": "",
-                            "original_text": "",
-                            "paragraphs": [
-                                {
-                                    "paragraph_index": 0,
-                                    "text": "",
-                                    "runs": [],
-                                    "paragraph_style": {
-                                        "style_name": "Normal",
-                                        "alignment": "left"
-                                    }
-                                }
-                            ],
-                            "nested_tables": [
-                                {
-                                    "table_index": 0,
-                                    "rows_count": 4,
-                                    "columns_count": 2,
-                                    "rows": [
-                                        {
-                                            "row_index": 0,
-                                            "cells": [
-                                                {
-                                                    "cell_index": 0,
-                                                    "row": 0,
-                                                    "column": 0,
-                                                    "text": "Specification",
-                                                    "original_text": "Specification",
-                                                    "paragraphs": [
-                                                        {
-                                                            "paragraph_index": 0,
-                                                            "text": "Specification",
-                                                            "runs": [
-                                                                {
-                                                                    "run_index": 0,
-                                                                    "text": "Specification",
-                                                                    "style": {
-                                                                        "font_name": null,
-                                                                        "font_size": 14.0,
-                                                                        "font_color": null,
-                                                                        "bold": false,
-                                                                        "italic": false,
-                                                                        "underline": false,
-                                                                        "highlight_color": null,
-                                                                        "strike": null,
-                                                                        "double_strike": null,
-                                                                        "all_caps": null,
-                                                                        "small_caps": null,
-                                                                        "subscript": null,
-                                                                        "superscript": null,
-                                                                        "hidden": null,
-                                                                        "outline": null,
-                                                                        "shadow": null,
-                                                                        "emboss": null,
-                                                                        "imprint": null,
-                                                                        "rtl": null,
-                                                                        "complex_script": null,
-                                                                        "cs_bold": false,
-                                                                        "cs_italic": false
-                                                                    }
-                                                                }
-                                                            ],
-                                                            "paragraph_style": {
-                                                                "style_name": "Normal",
-                                                                "alignment": "left"
-                                                            }
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    "cell_index": 1,
-                                                    "row": 0,
-                                                    "column": 1,
-                                                    "text": "Value",
-                                                    "original_text": "Value",
-                                                    "paragraphs": [
-                                                        {
-                                                            "paragraph_index": 0,
-                                                            "text": "Value",
-                                                            "runs": [
-                                                                {
-                                                                    "run_index": 0,
-                                                                    "text": "Value",
-                                                                    "style": {
-                                                                        "font_name": null,
-                                                                        "font_size": 14.0,
-                                                                        "font_color": null,
-                                                                        "bold": false,
-                                                                        "italic": false,
-                                                                        "underline": false,
-                                                                        "highlight_color": null,
-                                                                        "strike": null,
-                                                                        "double_strike": null,
-                                                                        "all_caps": null,
-                                                                        "small_caps": null,
-                                                                        "subscript": null,
-                                                                        "superscript": null,
-                                                                        "hidden": null,
-                                                                        "outline": null,
-                                                                        "shadow": null,
-                                                                        "emboss": null,
-                                                                        "imprint": null,
-                                                                        "rtl": null,
-                                                                        "complex_script": null,
-                                                                        "cs_bold": false,
-                                                                        "cs_italic": false
-                                                                    }
-                                                                }
-                                                            ],
-                                                            "paragraph_style": {
-                                                                "style_name": "Normal",
-                                                                "alignment": "left"
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            ]
-                                        },
-                                        {
-                                            "row_index": 1,
-                                            "cells": [
-                                                {
-                                                    "cell_index": 0,
-                                                    "row": 1,
-                                                    "column": 0,
-                                                    "text": "Display",
-                                                    "original_text": "Display",
-                                                    "paragraphs": [
-                                                        {
-                                                            "paragraph_index": 0,
-                                                            "text": "Display",
-                                                            "runs": [
-                                                                {
-                                                                    "run_index": 0,
-                                                                    "text": "Display",
-                                                                    "style": {
-                                                                        "font_name": null,
-                                                                        "font_size": 14.0,
-                                                                        "font_color": null,
-                                                                        "bold": false,
-                                                                        "italic": false,
-                                                                        "underline": false,
-                                                                        "highlight_color": null,
-                                                                        "strike": null,
-                                                                        "double_strike": null,
-                                                                        "all_caps": null,
-                                                                        "small_caps": null,
-                                                                        "subscript": null,
-                                                                        "superscript": null,
-                                                                        "hidden": null,
-                                                                        "outline": null,
-                                                                        "shadow": null,
-                                                                        "emboss": null,
-                                                                        "imprint": null,
-                                                                        "rtl": null,
-                                                                        "complex_script": null,
-                                                                        "cs_bold": false,
-                                                                        "cs_italic": false
-                                                                    }
-                                                                }
-                                                            ],
-                                                            "paragraph_style": {
-                                                                "style_name": "Normal",
-                                                                "alignment": "left"
-                                                            }
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    "cell_index": 1,
-                                                    "row": 1,
-                                                    "column": 1,
-                                                    "text": "6.5 inch",
-                                                    "original_text": "6.5 inch",
-                                                    "paragraphs": [
-                                                        {
-                                                            "paragraph_index": 0,
-                                                            "text": "6.5 inch",
-                                                            "runs": [
-                                                                {
-                                                                    "run_index": 0,
-                                                                    "text": "6.5 inch",
-                                                                    "style": {
-                                                                        "font_name": null,
-                                                                        "font_size": 14.0,
-                                                                        "font_color": null,
-                                                                        "bold": false,
-                                                                        "italic": false,
-                                                                        "underline": false,
-                                                                        "highlight_color": null,
-                                                                        "strike": null,
-                                                                        "double_strike": null,
-                                                                        "all_caps": null,
-                                                                        "small_caps": null,
-                                                                        "subscript": null,
-                                                                        "superscript": null,
-                                                                        "hidden": null,
-                                                                        "outline": null,
-                                                                        "shadow": null,
-                                                                        "emboss": null,
-                                                                        "imprint": null,
-                                                                        "rtl": null,
-                                                                        "complex_script": null,
-                                                                        "cs_bold": false,
-                                                                        "cs_italic": false
-                                                                    }
-                                                                }
-                                                            ],
-                                                            "paragraph_style": {
-                                                                "style_name": "Normal",
-                                                                "alignment": "left"
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            ]
-                                        },
-                                        {
-                                            "row_index": 2,
-                                            "cells": [
-                                                {
-                                                    "cell_index": 0,
-                                                    "row": 2,
-                                                    "column": 0,
-                                                    "text": "RAM",
-                                                    "original_text": "RAM",
-                                                    "paragraphs": [
-                                                        {
-                                                            "paragraph_index": 0,
-                                                            "text": "RAM",
-                                                            "runs": [
-                                                                {
-                                                                    "run_index": 0,
-                                                                    "text": "RAM",
-                                                                    "style": {
-                                                                        "font_name": null,
-                                                                        "font_size": 14.0,
-                                                                        "font_color": null,
-                                                                        "bold": false,
-                                                                        "italic": false,
-                                                                        "underline": false,
-                                                                        "highlight_color": null,
-                                                                        "strike": null,
-                                                                        "double_strike": null,
-                                                                        "all_caps": null,
-                                                                        "small_caps": null,
-                                                                        "subscript": null,
-                                                                        "superscript": null,
-                                                                        "hidden": null,
-                                                                        "outline": null,
-                                                                        "shadow": null,
-                                                                        "emboss": null,
-                                                                        "imprint": null,
-                                                                        "rtl": null,
-                                                                        "complex_script": null,
-                                                                        "cs_bold": false,
-                                                                        "cs_italic": false
-                                                                    }
-                                                                }
-                                                            ],
-                                                            "paragraph_style": {
-                                                                "style_name": "Normal",
-                                                                "alignment": "left"
-                                                            }
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    "cell_index": 1,
-                                                    "row": 2,
-                                                    "column": 1,
-                                                    "text": "8 GB",
-                                                    "original_text": "8 GB",
-                                                    "paragraphs": [
-                                                        {
-                                                            "paragraph_index": 0,
-                                                            "text": "8 GB",
-                                                            "runs": [
-                                                                {
-                                                                    "run_index": 0,
-                                                                    "text": "8 GB",
-                                                                    "style": {
-                                                                        "font_name": null,
-                                                                        "font_size": 14.0,
-                                                                        "font_color": null,
-                                                                        "bold": false,
-                                                                        "italic": false,
-                                                                        "underline": false,
-                                                                        "highlight_color": null,
-                                                                        "strike": null,
-                                                                        "double_strike": null,
-                                                                        "all_caps": null,
-                                                                        "small_caps": null,
-                                                                        "subscript": null,
-                                                                        "superscript": null,
-                                                                        "hidden": null,
-                                                                        "outline": null,
-                                                                        "shadow": null,
-                                                                        "emboss": null,
-                                                                        "imprint": null,
-                                                                        "rtl": null,
-                                                                        "complex_script": null,
-                                                                        "cs_bold": false,
-                                                                        "cs_italic": false
-                                                                    }
-                                                                }
-                                                            ],
-                                                            "paragraph_style": {
-                                                                "style_name": "Normal",
-                                                                "alignment": "left"
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            ]
-                                        },
-                                        {
-                                            "row_index": 3,
-                                            "cells": [
-                                                {
-                                                    "cell_index": 0,
-                                                    "row": 3,
-                                                    "column": 0,
-                                                    "text": "Storage",
-                                                    "original_text": "Storage",
-                                                    "paragraphs": [
-                                                        {
-                                                            "paragraph_index": 0,
-                                                            "text": "Storage",
-                                                            "runs": [
-                                                                {
-                                                                    "run_index": 0,
-                                                                    "text": "Storage",
-                                                                    "style": {
-                                                                        "font_name": null,
-                                                                        "font_size": 14.0,
-                                                                        "font_color": null,
-                                                                        "bold": false,
-                                                                        "italic": false,
-                                                                        "underline": false,
-                                                                        "highlight_color": null,
-                                                                        "strike": null,
-                                                                        "double_strike": null,
-                                                                        "all_caps": null,
-                                                                        "small_caps": null,
-                                                                        "subscript": null,
-                                                                        "superscript": null,
-                                                                        "hidden": null,
-                                                                        "outline": null,
-                                                                        "shadow": null,
-                                                                        "emboss": null,
-                                                                        "imprint": null,
-                                                                        "rtl": null,
-                                                                        "complex_script": null,
-                                                                        "cs_bold": false,
-                                                                        "cs_italic": false
-                                                                    }
-                                                                }
-                                                            ],
-                                                            "paragraph_style": {
-                                                                "style_name": "Normal",
-                                                                "alignment": "left"
-                                                            }
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    "cell_index": 1,
-                                                    "row": 3,
-                                                    "column": 1,
-                                                    "text": "256 GB",
-                                                    "original_text": "256 GB",
-                                                    "paragraphs": [
-                                                        {
-                                                            "paragraph_index": 0,
-                                                            "text": "256 GB",
-                                                            "runs": [
-                                                                {
-                                                                    "run_index": 0,
-                                                                    "text": "256 GB",
-                                                                    "style": {
-                                                                        "font_name": null,
-                                                                        "font_size": 14.0,
-                                                                        "font_color": null,
-                                                                        "bold": false,
-                                                                        "italic": false,
-                                                                        "underline": false,
-                                                                        "highlight_color": null,
-                                                                        "strike": null,
-                                                                        "double_strike": null,
-                                                                        "all_caps": null,
-                                                                        "small_caps": null,
-                                                                        "subscript": null,
-                                                                        "superscript": null,
-                                                                        "hidden": null,
-                                                                        "outline": null,
-                                                                        "shadow": null,
-                                                                        "emboss": null,
-                                                                        "imprint": null,
-                                                                        "rtl": null,
-                                                                        "complex_script": null,
-                                                                        "cs_bold": false,
-                                                                        "cs_italic": false
-                                                                    }
-                                                                }
-                                                            ],
-                                                            "paragraph_style": {
-                                                                "style_name": "Normal",
-                                                                "alignment": "left"
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ],
-            "table_index": 0
+            ]
         }
     ]
 }
