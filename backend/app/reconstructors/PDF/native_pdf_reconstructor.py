@@ -82,9 +82,23 @@ def reconstruct_native_pdf(
     if _valid(bold_path):
         font_metrics[bold] = fitz.Font(fontfile=bold_path)
 
-    css = "@font-face { font-family: %s; src: url(%s); font-weight: normal; }" % (family, regular)
+    css = (
+        "@font-face { font-family: %s; src: url(%s); "
+        "font-weight: normal; font-style: normal; }"
+    ) % (family, regular)
+    css += (
+        "@font-face { font-family: %s; src: url(%s); "
+        "font-weight: normal; font-style: italic; }"
+    ) % (family, regular)
     if _valid(bold_path):
-        css += "@font-face { font-family: %s; src: url(%s); font-weight: bold; }" % (family, bold)
+        css += (
+            "@font-face { font-family: %s; src: url(%s); "
+            "font-weight: bold; font-style: normal; }"
+        ) % (family, bold)
+        css += (
+            "@font-face { font-family: %s; src: url(%s); "
+            "font-weight: bold; font-style: italic; }"
+        ) % (family, bold)
     css += "* { font-family: %s; margin: 0; padding: 0; line-height: 1.4; }" % family
 
     out = fitz.open()
@@ -137,11 +151,13 @@ def reconstruct_native_pdf(
                     r, g, b = c.get("r", 0), c.get("g", 0), c.get("b", 0)
 
                 weight = "bold" if font.get("bold") else "normal"
+                font_style = "italic" if font.get("italic") else "normal"
                 align = "right" if rtl else "left"
 
                 body = (
                     f'<div dir="{direction}" style="font-size:{size}pt; '
                     f'color:rgb({r},{g},{b}); font-weight:{weight}; '
+                    f'font-style:{font_style}; '
                     f'text-align:{align}; width:100%; overflow-wrap:anywhere; '
                     f'word-break:break-word;">{html.escape(text)}</div>'
                 )
@@ -187,6 +203,7 @@ def reconstruct_native_pdf(
                         blue = color.get("b", 0)
                         use_bold = bool(cell_font.get("bold")) and _valid(bold_path)
                         weight = "bold" if use_bold else "normal"
+                        font_style = "italic" if cell_font.get("italic") else "normal"
                         align = cell.get("text_alignment") or (
                             "right" if rtl else "left"
                         )
@@ -212,6 +229,7 @@ def reconstruct_native_pdf(
                         body = (
                             f'<div dir="{direction}" style="font-size:{size}pt; '
                             f'color:rgb({red},{green},{blue}); font-weight:{weight}; '
+                            f'font-style:{font_style}; '
                             f'text-align:{align}; width:100%; overflow-wrap:anywhere; '
                             f'word-break:break-word;">'
                             f'{html.escape(text).replace(chr(10), "<br>")}</div>'

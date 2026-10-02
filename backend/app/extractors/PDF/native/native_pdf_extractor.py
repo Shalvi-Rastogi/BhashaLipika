@@ -107,14 +107,43 @@ def _text_from_spans(spans):
     return " ".join(" ".join(text_lines).split())
 
 
-def _extract_tables(page, page_dict, element_id):
-    try:
-        tables = page.find_tables().tables
-        if not tables:
-            tables = page.find_tables(strategy="text").tables
-    except Exception:
-        tables = []
+def _is_likely_borderless_table(table, spans):
+    table_rect = fitz.Rect(table.bbox)
+    cell_rects = [
+        fitz.Rect(cell_bbox)
+        for row in table.rows
+        for cell_bbox in row.cells
+        if cell_bbox
+    ]
+    table_spans = [
+        span
+        for span in spans
+        if table_rect.contains(
+            fitz.Point(
+                (span["bbox"][0] + span["bbox"][2]) / 2,
+                (span["bbox"][1] + span["bbox"][3]) / 2,
+            )
+        )
+    ]
+    if table.col_count < 2 or len(table_spans) < 4 or not cell_rects:
+        return False
 
+    contained = 0
+    for span in table_spans:
+        span_rect = fitz.Rect(span["bbox"])
+        tolerance = max(2.0, float(span.get("size") or 0) * 0.35)
+        if any(
+            (cell_rect + (-tolerance, -tolerance, tolerance, tolerance)).contains(
+                span_rect
+            )
+            for cell_rect in cell_rects
+        ):
+            contained += 1
+
+    return contained / len(table_spans) >= 0.8
+
+
+def _extract_tables(page, page_dict, element_id):
     spans = [
         span
         for block in page_dict.get("blocks", [])
@@ -123,6 +152,22 @@ def _extract_tables(page, page_dict, element_id):
         for span in line.get("spans", [])
         if span.get("text", "").strip()
     ]
+    used_text_strategy = False
+    try:
+        tables = page.find_tables().tables
+        if not tables:
+            tables = page.find_tables(strategy="text").tables
+            used_text_strategy = True
+    except Exception:
+        tables = []
+
+    if used_text_strategy:
+        tables = [
+            table
+            for table in tables
+            if _is_likely_borderless_table(table, spans)
+        ]
+
     elements = []
     table_bounds = []
 
