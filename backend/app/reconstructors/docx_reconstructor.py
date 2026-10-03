@@ -846,6 +846,11 @@ def reconstruct_paragraphs(
             "text",
             ""
         ).strip()
+        translated_paragraph_text = element.get(
+            "text",
+            ""
+        )
+        merged_next_paragraph = False
 
         # ----------------------------------------------------
         # Existing special Secretary-General handling
@@ -963,6 +968,7 @@ def reconstruct_paragraphs(
                     index + 1
                 ]
 
+                merged_next_paragraph = True
                 runs_data = (
                     runs_data
                     + [
@@ -1020,6 +1026,26 @@ def reconstruct_paragraphs(
                     next_paragraph.paragraph_format.left_indent = None
                     next_paragraph.paragraph_format.right_indent = None
                     next_paragraph.paragraph_format.first_line_indent = None
+
+        if translated_paragraph_text and runs_data:
+            if merged_next_paragraph:
+                translated_paragraph_text += (
+                    "\n"
+                    + next_element.get("text", "")
+                )
+
+            paragraph_style_for_text = next(
+                (
+                    run_data.get("style", {})
+                    for run_data in runs_data
+                    if run_data.get("text")
+                ),
+                {}
+            )
+            runs_data = [{
+                "text": translated_paragraph_text,
+                "style": paragraph_style_for_text
+            }]
 
         # ----------------------------------------------------
         # Add translated runs

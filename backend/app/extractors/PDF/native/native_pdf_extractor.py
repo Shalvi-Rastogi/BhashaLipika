@@ -266,21 +266,10 @@ def _extract_tables(page, page_dict, element_id):
         for span in line.get("spans", [])
         if span.get("text", "").strip()
     ]
-    used_text_strategy = False
     try:
         tables = page.find_tables().tables
-        if not tables:
-            tables = page.find_tables(strategy="text").tables
-            used_text_strategy = True
     except Exception:
         tables = []
-
-    if used_text_strategy:
-        tables = [
-            table
-            for table in tables
-            if _is_likely_borderless_table(table, spans)
-        ]
 
     elements = []
     table_bounds = []
@@ -415,7 +404,11 @@ def _extract_tables(page, page_dict, element_id):
 # MAIN EXTRACTOR
 # =========================================================
 
-def extract_native_pdf_to_json(file_path, json_path):
+def extract_native_pdf_to_json(
+    file_path,
+    json_path,
+    ocr_languages=None,
+):
     document = fitz.open(file_path)
 
     image_output_directory = os.path.join(
@@ -425,7 +418,8 @@ def extract_native_pdf_to_json(file_path, json_path):
 
     all_images = extract_native_pdf_images(
         document,
-        image_output_directory
+        image_output_directory,
+        ocr_languages=ocr_languages
     )
 
     document_data = {

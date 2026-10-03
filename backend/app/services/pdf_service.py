@@ -36,6 +36,13 @@ LANGUAGE_CODES = {
     "urdu": "urd-arab",
 }
 
+OCR_LANGUAGE_CODES = {
+    "eng-latn": "en",
+    "hin-deva": "hi",
+    "mar-deva": "mr",
+    "urd-arab": "ur",
+}
+
 
 # =========================================================
 # BASIC HELPERS
@@ -157,12 +164,10 @@ def _translate_text(
         if translated:
             return translated
 
-        print(
-            f"[PDF][WARNING] Empty translation returned for: "
-            f"{ascii(text[:80])}"
+        raise RuntimeError(
+            f"PDF translator returned an empty result for "
+            f"{ascii(text[:80])}."
         )
-
-        return text
 
     except Exception as error:
 
@@ -171,9 +176,9 @@ def _translate_text(
             f"{ascii(text[:80])}: {error}"
         )
 
-        # Failure par original text preserve karenge
-        # taaki JSON corrupt na ho.
-        return text
+        raise RuntimeError(
+            f"PDF translation failed for {ascii(text[:80])}."
+        ) from error
 
 
 # =========================================================
@@ -278,6 +283,8 @@ def _translate_unique_texts(
         f"[PDF] Total unique texts to translate: {len(texts)}"
     )
 
+    failures = []
+
     with ThreadPoolExecutor(max_workers=4) as executor:
 
         future_to_text = {
@@ -307,17 +314,32 @@ def _translate_unique_texts(
                     f"{original_text[:80]!r}: {error}"
                 )
 
-                translated_text = original_text
+                failures.append((original_text, error))
+                continue
 
-            translation_cache[original_text] = (
-                translated_text or original_text
-            )
+            if not translated_text:
+                failures.append(
+                    (
+                        original_text,
+                        RuntimeError("Translator returned an empty result.")
+                    )
+                )
+                continue
+
+            translation_cache[original_text] = translated_text
 
             print(
                 f"[PDF] TRANSLATED: "
                 f"{ascii(original_text[:50])} -> "
                 f"{ascii(translation_cache[original_text][:50])}"
             )
+
+    if failures:
+        failed_text, error = failures[0]
+        raise RuntimeError(
+            f"PDF translation failed for {len(failures)} text item(s); "
+            f"first failed item: {ascii(failed_text[:80])}."
+        ) from error
 
     return translation_cache
 
@@ -612,9 +634,15 @@ def process_pdf_pipeline(
 
     print("[PDF] Step 1: Extracting native PDF...")
 
+    ocr_language = OCR_LANGUAGE_CODES.get(source_language, "en")
+    ocr_languages = [ocr_language]
+    if ocr_language != "en":
+        ocr_languages.append("en")
+
     document_data = extract_native_pdf_to_json(
         file_path,
-        original_json_path
+        original_json_path,
+        ocr_languages=ocr_languages
     )
 
     print(

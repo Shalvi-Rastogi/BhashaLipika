@@ -237,6 +237,9 @@ def process_xlsx_pipeline(
                         .strip()
                     )
 
+            if not translated:
+                return clean_line
+
             return translated
 
         except Exception as e:
@@ -245,8 +248,6 @@ def process_xlsx_pipeline(
                 f"[XLSX TRANSLATION ERROR] "
                 f"{ascii(clean_line[:80])} -> {e}"
             )
-
-            # If translation fails, retain original.
             return clean_line
 
     if translation_texts:

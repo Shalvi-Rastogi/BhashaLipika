@@ -7,6 +7,7 @@ import time
 import re
 import hashlib
 import threading
+import unicodedata
 
 from sqlalchemy import text as sql_text
 
@@ -354,6 +355,107 @@ def save_translation(
 # TRANSLATE ONE TEXT
 # =========================================================
 
+def _is_usable_translation(
+    translated_text,
+):
+    if not isinstance(translated_text, str) or not translated_text.strip():
+        return False
+
+    normalized = " ".join(translated_text.split())
+
+    if "<unk>" in normalized.casefold():
+        return False
+    if "@" in normalized and re.search(r"@(?=\s|$|@)", normalized):
+        return False
+
+    return True
+
+
+def _translation_memory_source_key(source_language, use_english_pivot):
+    if use_english_pivot:
+        return f"{source_language}:via-eng"
+    return source_language
+
+
+def _translate_from_english_pivot(english_text, source_text, src_lang, tgt_lang):
+    translated_text = _request_translation(
+        english_text,
+        "eng-latn",
+        tgt_lang
+    )
+    if _is_usable_translation(translated_text):
+        return translated_text
+
+    clauses = re.split(r"(?<=[,;:.!?])\s+", english_text.strip())
+    if len(clauses) > 1:
+        translated_clauses = [
+            _request_translation(clause, "eng-latn", tgt_lang)
+            for clause in clauses
+            if clause.strip()
+        ]
+        if all(
+            _is_usable_translation(clause)
+            for clause in translated_clauses
+        ):
+            return " ".join(translated_clauses)
+
+    direct_translation = _request_translation(
+        source_text,
+        src_lang,
+        tgt_lang
+    )
+    if (
+        _is_usable_translation(direct_translation)
+        and " ".join(direct_translation.split()).casefold()
+        != " ".join(source_text.split()).casefold()
+    ):
+        return direct_translation
+
+    raise RuntimeError(
+        f"Translation API returned malformed output for "
+        f"{src_lang} to {tgt_lang}."
+    )
+
+
+def _request_translation(text, src_lang, tgt_lang):
+    payload = {
+        "ip_text": text,
+        "srcLang": src_lang,
+        "tgtLang": tgt_lang,
+        "delimiter": "",
+        "nSuggestions": "1"
+    }
+
+    for attempt in range(3):
+        try:
+            response = requests.post(
+                TRANSLATION_API_URL,
+                json=payload,
+                timeout=60,
+                verify=False
+            )
+            response.raise_for_status()
+            response_json = response.json()
+            print("[API RESPONSE]:", ascii(response_json))
+
+            output = response_json.get("Output")
+            if isinstance(output, str) and output.strip():
+                return output.strip()
+
+            print("API returned empty Output.")
+
+        except Exception as error:
+            print(f"Translation attempt {attempt + 1}/3 failed:")
+            print(str(error))
+
+            if attempt < 2:
+                time.sleep(2 ** attempt)
+
+    raise RuntimeError(
+        f"Translation API failed for {src_lang} to {tgt_lang}."
+    )
+
+
 def translate_text(
     text,
     src_lang="eng-latn",
@@ -404,25 +506,45 @@ def translate_text(
     ):
         return text
 
+    if src_lang == tgt_lang:
+        return text
+
+    use_english_pivot = (
+        src_lang != "eng-latn"
+        and tgt_lang != "eng-latn"
+    )
+    translation_memory_source = _translation_memory_source_key(
+        src_lang,
+        use_english_pivot
+    )
+
     # -----------------------------------------------------
     # PostgreSQL translation-memory lookup
     # -----------------------------------------------------
 
     cached_translation = get_cached_translation(
         text,
-        src_lang,
+        translation_memory_source,
         tgt_lang
     )
 
     if cached_translation is not None:
+        if (
+            not _is_usable_translation(
+                cached_translation,
+            )
+        ):
+            print(
+                "[DB HIT] Ignoring stale or malformed translation."
+            )
+        else:
+            print(
+                "[DB HIT] "
+                "Using cached translation; "
+                "API call skipped."
+            )
 
-        print(
-            "[DB HIT] "
-            "Using cached translation; "
-            "API call skipped."
-        )
-
-        return cached_translation
+            return cached_translation
 
     # -----------------------------------------------------
     # Handle newlines
@@ -458,21 +580,36 @@ def translate_text(
     # Smart punctuation separation
     # -----------------------------------------------------
 
-    match = re.match(
-        r'^([^\w]*)(.*?[\w])([^\w]*)$',
-        text,
-        flags=re.UNICODE
+    def is_word_character(character):
+        category = unicodedata.category(character)
+        return (
+            character == "_"
+            or character.isalnum()
+            or category.startswith("M")
+        )
+
+    first_word_character = next(
+        (
+            index
+            for index, character in enumerate(text)
+            if is_word_character(character)
+        ),
+        None
     )
 
-    if match:
-
-        leading_chars = match.group(1)
-        core_text = match.group(2)
-        trailing_chars = match.group(3)
-
-    else:
+    if first_word_character is None:
 
         return text
+
+    last_word_character = next(
+        index
+        for index in range(len(text) - 1, first_word_character - 1, -1)
+        if is_word_character(text[index])
+    )
+
+    leading_chars = text[:first_word_character]
+    core_text = text[first_word_character:last_word_character + 1]
+    trailing_chars = text[last_word_character + 1:]
 
     # -----------------------------------------------------
     # Debug log
@@ -498,77 +635,54 @@ def translate_text(
     )
 
     # -----------------------------------------------------
-    # API payload
+    # Translate through English because the direct Hindi-to-Marathi
+    # endpoint currently returns Hindi unchanged or malformed output.
     # -----------------------------------------------------
-
-    payload = {
-        "ip_text": core_text,
-        "srcLang": src_lang,
-        "tgtLang": tgt_lang,
-        "delimiter": "",
-        "nSuggestions": "1"
-    }
 
     translated_core = core_text
 
-    # -----------------------------------------------------
-    # API request with retry
-    # -----------------------------------------------------
-
-    for attempt in range(3):
-
-        try:
-
-            response = requests.post(
-                TRANSLATION_API_URL,
-                json=payload,
-                timeout=60,
-                verify=False
+    try:
+        if use_english_pivot:
+            english_text = _request_translation(
+                core_text,
+                src_lang,
+                "eng-latn"
             )
-
-            response.raise_for_status()
-
-            response_json = response.json()
-
-            print(
-                "[API RESPONSE]:",
-                ascii(response_json)
-            )
-
-            output = response_json.get(
-                "Output"
-            )
-
-            if output:
-
-                translated_core = (
-                    output.strip()
+            if not _is_usable_translation(
+                english_text,
+            ):
+                raise RuntimeError(
+                    f"Translation API returned an invalid English "
+                    f"pivot for {src_lang} to {tgt_lang}."
                 )
 
-                break
-
-            else:
-
-                print(
-                    "API returned empty Output."
-                )
-
-        except Exception as error:
-
-            print(
-                f"Translation attempt "
-                f"{attempt + 1}/3 failed:"
+            translated_core = _translate_from_english_pivot(
+                english_text,
+                core_text,
+                src_lang,
+                tgt_lang
             )
-
-            print(
-                str(error)
+        else:
+            translated_core = _request_translation(
+                core_text,
+                src_lang,
+                tgt_lang
             )
-
-            if attempt < 2:
-
-                time.sleep(
-                    2 ** attempt
+            if not _is_usable_translation(
+                translated_core,
+            ):
+                raise RuntimeError(
+                    f"Translation API returned an invalid result "
+                    f"for {src_lang} to {tgt_lang}."
                 )
+    except Exception as exc:
+        print(
+            "[TRANSLATION FALLBACK] "
+            f"{src_lang} -> {tgt_lang} failed for "
+            f"{ascii(core_text[:80])}; returning original text. "
+            f"Error: {exc}"
+        )
+        return text
 
     # -----------------------------------------------------
     # Remove unwanted Devanagari full stop
@@ -583,6 +697,36 @@ def translate_text(
             translated_core
             .rstrip("।")
             .strip()
+        )
+
+    terminal_punctuation = (".", "!", "?", "।", "۔", "؟")
+    translated_has_terminal_punctuation = translated_core.rstrip().endswith(
+        terminal_punctuation
+    )
+
+    punctuation_map = {
+        "eng-latn": {"।": ".", "۔": ".", "؟": "?"},
+        "hin-deva": {"۔": "।", "؟": "?"},
+        "mar-deva": {"۔": "।", "؟": "?"},
+        "urd-arab": {"।": "۔", "?": "؟"},
+    }
+    for source_mark, target_mark in punctuation_map.get(
+        tgt_lang,
+        {}
+    ).items():
+        trailing_chars = trailing_chars.replace(
+            source_mark,
+            target_mark
+        )
+
+    if (
+        translated_has_terminal_punctuation
+        and trailing_chars.rstrip().endswith(terminal_punctuation)
+    ):
+        trailing_chars = re.sub(
+            r"[.,!?।؟]+(?=\s*$)",
+            "",
+            trailing_chars
         )
 
     # -----------------------------------------------------
@@ -615,7 +759,7 @@ def translate_text(
 
     save_translation(
         text,
-        src_lang,
+        translation_memory_source,
         tgt_lang,
         final_text
     )
@@ -811,6 +955,11 @@ def translate_json(
                 data["runs"],
                 list
             )
+            and data.get("type") not in {
+                "paragraph",
+                "heading",
+                "list_item"
+            }
         ):
 
             for run in data["runs"]:

@@ -3,17 +3,31 @@ import json
 import os
 
 import pymupdf as fitz
-from PIL import Image, ImageDraw, ImageFont
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 FONT_DIR = os.path.join(BASE_DIR, "assets", "fonts")
 
 # lang -> (regular, bold, direction, css font-family)
 LANG_CONFIG = {
+    "en": ("NotoSansDevanagari-Regular.ttf", "NotoSansDevanagari-Bold.ttf", "ltr", "IndicFont"),
     "hi": ("NotoSansDevanagari-Regular.ttf", "NotoSansDevanagari-Bold.ttf", "ltr", "IndicFont"),
     "mr": ("NotoSansDevanagari-Regular.ttf", "NotoSansDevanagari-Bold.ttf", "ltr", "IndicFont"),
     "ur": ("NotoNaskhArabic-Regular.ttf", "NotoNaskhArabic-Bold.ttf", "rtl", "UrduFont"),
 }
+LANGUAGE_ALIASES = {
+    "english": "en",
+    "hindi": "hi",
+    "marathi": "mr",
+    "urdu": "ur",
+}
+
+
+def _normalise_language(language):
+    language = language.lower().strip().replace("_", "-").split("-", 1)[0]
+    language = LANGUAGE_ALIASES.get(language, language)
+    if language not in LANG_CONFIG:
+        raise ValueError(f"Unsupported PDF language: {language}")
+    return language
 
 
 def _valid(path):
@@ -58,130 +72,105 @@ def _overlaps_table(element, tables):
 
 def _reconstruct_translated_image(image_path, translated_texts, target_language):
     """
-    Replace OCR-detected text in an image with translated text.
+    Replace OCR text using the same script-aware fonts and shaping as PDF text.
     """
 
+    image_document = None
     try:
-        image = Image.open(image_path).convert("RGB")
-        draw = ImageDraw.Draw(image)
-
-        # Select font
-        if target_language in ("hi", "mr"):
-            font_path = os.path.join(
-                FONT_DIR,
-                "NotoSansDevanagari-Regular.ttf"
-            )
-        else:
-            font_path = os.path.join(
-                FONT_DIR,
-                "NotoSans-Regular.ttf"
-            )
-
-        if not os.path.exists(font_path):
+        lang = _normalise_language(target_language)
+        regular, bold, direction, family = LANG_CONFIG[lang]
+        regular_path = os.path.join(FONT_DIR, regular)
+        bold_path = os.path.join(FONT_DIR, bold)
+        if not _valid(regular_path):
             raise FileNotFoundError(
-                f"Font not found: {font_path}"
+                f"{regular} missing/invalid in assets/fonts"
             )
 
-        for item in translated_texts:
+        source_image = fitz.Pixmap(image_path)
+        if source_image.n not in (3, 4):
+            source_image = fitz.Pixmap(fitz.csRGB, source_image)
 
+        image_document = fitz.open()
+        page = image_document.new_page(
+            width=source_image.width,
+            height=source_image.height,
+        )
+        page.insert_image(page.rect, pixmap=source_image)
+        archive = fitz.Archive(FONT_DIR)
+        css = (
+            f"@font-face {{ font-family: {family}; src: url({regular}); "
+            "font-weight: normal; }"
+        )
+        if _valid(bold_path):
+            css += (
+                f"@font-face {{ font-family: {family}; src: url({bold}); "
+                "font-weight: bold; }"
+            )
+        css += f"* {{ font-family: {family}; margin: 0; padding: 0; line-height: 1.1; }}"
+
+        image_width, image_height = page.rect.width, page.rect.height
+        for item in translated_texts:
             translated = item.get("translated_text", "")
             bbox = item.get("bbox")
-
             if not translated or not bbox:
                 continue
 
-            # OCR bbox is:
-            # [[x0,y0], [x1,y0], [x1,y1], [x0,y1]]
+            x0 = max(0, min(float(point[0]) for point in bbox))
+            y0 = max(0, min(float(point[1]) for point in bbox))
+            x1 = min(image_width, max(float(point[0]) for point in bbox))
+            y1 = min(image_height, max(float(point[1]) for point in bbox))
+            rect = fitz.Rect(x0, y0, x1, y1)
+            if rect.is_empty:
+                continue
 
-            x0 = int(min(point[0] for point in bbox))
-            y0 = int(min(point[1] for point in bbox))
-            x1 = int(max(point[0] for point in bbox))
-            y1 = int(max(point[1] for point in bbox))
-
-            box_width = max(1, x1 - x0)
-            box_height = max(1, y1 - y0)
-
-            # Estimate font size from original OCR box
-            font_size = max(12, int(box_height * 0.65))
-
-            font = ImageFont.truetype(
-                font_path,
-                font_size
-            )
-
-            # Sample background around the OCR box.
             sample_points = [
-                (max(0, x0 - 5), max(0, y0 - 5)),
-                (min(image.width - 1, x1 + 5), max(0, y0 - 5)),
-                (max(0, x0 - 5), min(image.height - 1, y1 + 5)),
-                (min(image.width - 1, x1 + 5), min(image.height - 1, y1 + 5)),
+                (max(0, x0 - 2), max(0, y0 - 2)),
+                (min(image_width - 1, x1 + 2), max(0, y0 - 2)),
+                (max(0, x0 - 2), min(image_height - 1, y1 + 2)),
+                (min(image_width - 1, x1 + 2), min(image_height - 1, y1 + 2)),
             ]
-
-            background_colors = [
-                image.getpixel(point)
-                for point in sample_points
-            ]
-
-            background = tuple(
-                sum(color[channel] for color in background_colors)
-                // len(background_colors)
-                for channel in range(3)
+            background = page.get_pixmap(
+                clip=fitz.Rect(
+                    min(point[0] for point in sample_points),
+                    min(point[1] for point in sample_points),
+                    max(point[0] for point in sample_points) + 1,
+                    max(point[1] for point in sample_points) + 1,
+                ),
+                alpha=False,
             )
-
-            # Cover original text
-            draw.rectangle(
-                [x0, y0, x1, y1],
-                fill=background
+            background_color = tuple(
+                sum(background.samples[index::3])
+                / (255 * background.width * background.height)
+                for index in range(3)
             )
-
-            # Calculate translated text size
-            text_bbox = draw.textbbox(
-                (0, 0),
-                translated,
-                font=font
+            page.draw_rect(
+                rect,
+                color=background_color,
+                fill=background_color,
+                overlay=True,
             )
-
-            text_width = text_bbox[2] - text_bbox[0]
-            text_height = text_bbox[3] - text_bbox[1]
-
-            # Reduce font size if translation is wider
-            while text_width > box_width and font_size > 8:
-
-                font_size -= 1
-
-                font = ImageFont.truetype(
-                    font_path,
-                    font_size
-                )
-
-                text_bbox = draw.textbbox(
-                    (0, 0),
-                    translated,
-                    font=font
-                )
-
-                text_width = text_bbox[2] - text_bbox[0]
-                text_height = text_bbox[3] - text_bbox[1]
-
-            # Center translated text inside original OCR box
-            text_x = x0 + (box_width - text_width) / 2
-            text_y = y0 + (box_height - text_height) / 2
-
-            draw.text(
-                (text_x, text_y),
-                translated,
-                font=font,
-                fill=(0, 0, 0)
+            font_size = max(8, rect.height * 0.65)
+            body = (
+                f'<div dir="{direction}" style="font-size:{font_size}pt; '
+                f'text-align:center; width:100%; overflow-wrap:anywhere; '
+                f'word-break:break-word;">'
+                f'{html.escape(translated).replace(chr(10), "<br>")}</div>'
             )
+            spare, _ = page.insert_htmlbox(
+                rect,
+                body,
+                css=css,
+                archive=archive,
+                scale_low=0,
+            )
+            if spare < 0:
+                print(f"[PDF] Translated image text did not fit: {translated[:30]!r}")
 
-        # Save reconstructed image
         translated_image_path = os.path.splitext(
             image_path
         )[0] + "_translated.png"
 
-        image.save(
-            translated_image_path
-        )
+        page.get_pixmap(alpha=False).save(translated_image_path)
 
         print(
             f"[PDF] Translated image created: "
@@ -191,12 +180,13 @@ def _reconstruct_translated_image(image_path, translated_texts, target_language)
         return translated_image_path
 
     except Exception as e:
-
         print(
             f"[PDF] Failed to reconstruct translated image: {e}"
         )
-
-        return image_path
+        raise
+    finally:
+        if image_document is not None:
+            image_document.close()
 
 def _span_style(f):
     f = f or {}
@@ -219,9 +209,7 @@ def reconstruct_native_pdf(
     with open(translated_json_path, "r", encoding="utf-8") as f:
         data = json.load(f)
 
-    lang = target_language.lower().strip()
-    if lang not in LANG_CONFIG:
-        raise ValueError(f"Unsupported PDF language: {lang}")
+    lang = _normalise_language(target_language)
 
     regular, bold, direction, family = LANG_CONFIG[lang]
     rtl = direction == "rtl"
@@ -348,8 +336,7 @@ def reconstruct_native_pdf(
                 else:
                     x1 = min(max(x1, width - 72), width - 5)
 
-                # FIX 2: purana y1 limit hata kar, box ko poori height di taaki font chhota na ho
-                y1_box = height - 10 
+                y1_box = max(y1, bottom_limit(el))
 
                 align = "right" if rtl else "left"
                 segs = el.get("segments") or []
@@ -372,13 +359,12 @@ def reconstruct_native_pdf(
                     f'word-break:break-word;">{inner}</div>'
                 )
 
-                # FIX 3: y1_box aur scale_low=1.0 ka istemal
                 spare, _ = page.insert_htmlbox(
                     fitz.Rect(x0, y0, x1, y1_box),
                     body,
                     css=css,
                     archive=archive,
-                    scale_low=1.0, # Font ko chhota hone se rokega
+                    scale_low=0.7,
                 )
                 if spare < 0:
                     print(f"[PDF] fit nahi hua: {text[:30]!r}")
