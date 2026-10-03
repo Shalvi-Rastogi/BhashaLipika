@@ -156,6 +156,7 @@ function Home() {
     location.state?.sourceLanguage || "en"
   );
   const [resetKey, setResetKey] = useState(0);
+  const [inputType, setInputType] = useState("text");
 
   // Processed document
   //const [documentData, setDocumentData] = useState(null);
@@ -227,7 +228,7 @@ function Home() {
   // ------------------------------------------------
   const handleTranslate = async () => {
     if (!inputText.trim()) {
-      alert("Please enter some text to translate.");
+      alert("Please enter some content to translate.");
       return;
     }
 
@@ -237,25 +238,55 @@ function Home() {
     }
 
     try {
-      const response = await axios.post(
-        `${API_BASE_URL}/translate`,
-        {
-          text: inputText,
-          source_language: sourceLanguage,
-          target_language: targetLanguage,
-        }
-      );
+      let response;
 
-      console.log(
-        "Translation response:",
-        response.data
-      );
+      // ---------------------------------------------
+      // HTML TRANSLATION
+      // ---------------------------------------------
+      if (inputType === "html") {
+        response = await axios.post(
+          `${API_BASE_URL}/translate-html`,
+          {
+            html: inputText,
+            target_language: targetLanguage,
+          }
+        );
 
-      setTranslatedText(
-        response.data.translated_text
-      );
+        console.log(
+          "HTML Translation response:",
+          response.data
+        );
+
+        setTranslatedText(
+          response.data.translated_html
+        );
+
+      }
+
+      // ---------------------------------------------
+      // NORMAL TEXT TRANSLATION
+      // ---------------------------------------------
+      else {
+        response = await axios.post(
+          `${API_BASE_URL}/translate`,
+          {
+            text: inputText,
+            target_language: targetLanguage,
+          }
+        );
+
+        console.log(
+          "Translation response:",
+          response.data
+        );
+
+        setTranslatedText(
+          response.data.translated_text
+        );
+      }
 
     } catch (error) {
+
       console.error(
         "Translation failed:",
         error
@@ -263,7 +294,7 @@ function Home() {
 
       alert(
         error.response?.data?.detail ||
-          "Translation failed. Please try again."
+        "Translation failed. Please try again."
       );
     }
   };
@@ -320,6 +351,7 @@ function Home() {
     setDocumentData(null);
     setSourceLanguage("en");
     setTargetLanguage("");
+    setInputType("text");
 
     setResetKey((prev) => prev + 1);
 
@@ -354,6 +386,39 @@ function Home() {
           onSourceLanguageChange={setSourceLanguage}
           onTargetLanguageChange={setTargetLanguage}
         />
+
+        {/* INPUT TYPE */}
+        <div className="mt-6 flex items-center gap-6">
+
+          <span className="font-semibold text-gray-700">
+            Input Type:
+          </span>
+
+          <label className="flex items-center gap-2">
+            <input
+              type="radio"
+              name="inputType"
+              value="text"
+              checked={inputType === "text"}
+              onChange={() => setInputType("text")}
+            />
+
+            <span>Text</span>
+          </label>
+
+          <label className="flex items-center gap-2">
+            <input
+              type="radio"
+              name="inputType"
+              value="html"
+              checked={inputType === "html"}
+              onChange={() => setInputType("html")}
+            />
+
+            <span>HTML</span>
+          </label>
+
+        </div>
 
         {/* INPUT / OUTPUT */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
