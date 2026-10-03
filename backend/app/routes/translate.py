@@ -8,6 +8,7 @@ router = APIRouter()
 
 class TranslateRequest(BaseModel):
     text: str
+    source_language: str = "en"
     target_language: str
 
 
@@ -20,9 +21,17 @@ def translate_direct(request: TranslateRequest):
             detail="Please enter some text to translate."
         )
 
+    source_language = request.source_language.lower().strip()
     target_language = request.target_language.lower().strip()
 
+    src_lang = LANGUAGE_MAP.get(source_language)
     tgt_lang = LANGUAGE_MAP.get(target_language)
+
+    if not src_lang:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Unsupported source language: {source_language}"
+        )
 
     if not tgt_lang:
         raise HTTPException(
@@ -32,13 +41,14 @@ def translate_direct(request: TranslateRequest):
 
     translated_text = translate_text(
         request.text,
-        "eng-latn",
+        src_lang,
         tgt_lang
     )
 
     return {
         "translated_text": translated_text,
-        "source_language": "eng-latn",
+        "source_language": src_lang,
+        "source_language_code": src_lang,
         "target_language": target_language,
         "target_language_code": tgt_lang
     }

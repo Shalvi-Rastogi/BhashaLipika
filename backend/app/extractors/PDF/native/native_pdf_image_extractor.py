@@ -57,7 +57,7 @@ def extract_native_pdf_images(document, output_directory):
                 # Run OCR on the extracted image
                 ocr_data = extract_text_from_image(image_path)
 
-                print(f"[PDF] OCR RESULT: {ocr_data}")
+                print(f"[PDF] OCR RESULT: {ascii(ocr_data)}")
 
                 images_data.append({
                     "page_number": page_number,

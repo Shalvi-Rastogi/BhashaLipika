@@ -159,7 +159,7 @@ def _translate_text(
 
         print(
             f"[PDF][WARNING] Empty translation returned for: "
-            f"{text[:80]!r}"
+            f"{ascii(text[:80])}"
         )
 
         return text
@@ -168,7 +168,7 @@ def _translate_text(
 
         print(
             f"[PDF][ERROR] Translation failed for "
-            f"{text[:80]!r}: {error}"
+            f"{ascii(text[:80])}: {error}"
         )
 
         # Failure par original text preserve karenge
@@ -186,6 +186,7 @@ def _collect_translatable_texts(document_data):
       1. normal text elements
       2. segment text
       3. table cell text
+      4. image OCR text
 
     sab collect karta hai.
 
@@ -244,6 +245,12 @@ def _collect_translatable_texts(document_data):
 
                         if text:
                             texts.add(text)
+
+        for image in page.get("images", []):
+            for ocr_item in image.get("ocr_data", []):
+                text = _clean_text(ocr_item.get("text", ""))
+                if text:
+                    texts.add(text)
 
     return texts
 
@@ -308,8 +315,8 @@ def _translate_unique_texts(
 
             print(
                 f"[PDF] TRANSLATED: "
-                f"{original_text[:50]!r} -> "
-                f"{translation_cache[original_text][:50]!r}"
+                f"{ascii(original_text[:50])} -> "
+                f"{ascii(translation_cache[original_text][:50])}"
             )
 
     return translation_cache
@@ -328,7 +335,7 @@ def _apply_translations(
 
     Important:
     segments ke translated_text ko bhi yahin populate kiya jata hai.
-    Table cells ka translated_text bhi yahin populate hota hai.
+    Table cells aur image OCR ka translated_text bhi yahin populate hota hai.
     """
 
     for page in document_data.get("pages", []):
@@ -463,6 +470,32 @@ def _apply_translations(
                             translated_text
                         )
 
+        for image in page.get("images", []):
+            translated_texts = []
+
+            for ocr_item in image.get("ocr_data", []):
+                original_text = _clean_text(ocr_item.get("text", ""))
+
+                if not original_text:
+                    ocr_item["translated_text"] = ""
+                    continue
+
+                translated_text = translation_cache.get(
+                    original_text,
+                    original_text
+                )
+
+                if (
+                    ":" in original_text
+                    and "ः" in translated_text
+                ):
+                    translated_text = translated_text.replace("ः", ":")
+
+                ocr_item["translated_text"] = translated_text
+                translated_texts.append(ocr_item)
+
+            image["translated_text"] = translated_texts
+
     return document_data
 
 
@@ -477,6 +510,8 @@ def process_pdf_pipeline(
     tgt_lang_code=None,
     output_folder=None,
     translate_func=None,
+    source_language="eng-latn",
+    source_language_name=None,
 ):
     """
     Complete Native PDF pipeline:
@@ -537,6 +572,7 @@ def process_pdf_pipeline(
     print("=" * 70)
     print("[PDF] Starting PDF pipeline")
     print(f"[PDF] Input       : {file_path}")
+    print(f"[PDF] Source code : {source_language}")
     print(f"[PDF] Target      : {language_key}")
     print(f"[PDF] Target code : {tgt_lang_code}")
     print("=" * 70)
@@ -548,6 +584,10 @@ def process_pdf_pipeline(
     base_name = os.path.splitext(
         os.path.basename(filename)
     )[0]
+    source_language_key = (
+        source_language_name
+        or source_language.split("-")[0]
+    )
 
     original_json_path = os.path.join(
         output_folder,
@@ -556,12 +596,14 @@ def process_pdf_pipeline(
 
     translated_json_path = os.path.join(
         output_folder,
-        f"{base_name}_translated_{language_key}.json"
+        f"{base_name}_translated_"
+        f"{source_language_key}_to_{language_key}.json"
     )
 
     reconstructed_pdf_path = os.path.join(
         output_folder,
-        f"{base_name}_reconstructed_{language_key}.pdf"
+        f"{base_name}_reconstructed_"
+        f"{source_language_key}_to_{language_key}.pdf"
     )
 
     # =========================================================
@@ -603,7 +645,7 @@ def process_pdf_pipeline(
     translation_cache = _translate_unique_texts(
         texts=texts,
         translate_func=translate_func,
-        source_language="eng-latn",
+        source_language=source_language,
         target_language=tgt_lang_code,
     )
 

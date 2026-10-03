@@ -494,7 +494,7 @@ def translate_text(
 
     print(
         "Text:",
-        repr(core_text)
+        ascii(core_text)
     )
 
     # -----------------------------------------------------
@@ -532,7 +532,7 @@ def translate_text(
 
             print(
                 "[API RESPONSE]:",
-                response_json
+                ascii(response_json)
             )
 
             output = response_json.get(
@@ -604,9 +604,9 @@ def translate_text(
     )
 
     print(
-        repr(text),
+        ascii(text),
         "->",
-        repr(final_text)
+        ascii(final_text)
     )
 
     # -----------------------------------------------------
@@ -1189,6 +1189,7 @@ def update_document_status(
 @router.post("/upload")
 async def upload_document(
     file: UploadFile = File(...),
+    source_language: str = Form("en"),
     target_language: str = Form(...)
 ):
 
@@ -1241,16 +1242,31 @@ async def upload_document(
             await file.seek(0)
 
         # =================================================
-        # 3. CHECK TARGET LANGUAGE
+        # 3. CHECK SOURCE AND TARGET LANGUAGES
         # =================================================
 
+        source_language = (
+            source_language.lower().strip()
+        )
         target_language = (
             target_language.lower().strip()
         )
 
+        src_lang = LANGUAGE_MAP.get(
+            source_language
+        )
         tgt_lang = LANGUAGE_MAP.get(
             target_language
         )
+
+        if not src_lang:
+            raise HTTPException(
+                status_code=400,
+                detail=(
+                    f"Unsupported source language: "
+                    f"{source_language}"
+                )
+            )
 
         if not tgt_lang:
 
@@ -1261,6 +1277,16 @@ async def upload_document(
                     f"{target_language}"
                 )
             )
+
+        print(
+            f"Selected source language: "
+            f"{source_language}"
+        )
+
+        print(
+            f"C-DAC source language code: "
+            f"{src_lang}"
+        )
 
         print(
             f"Selected target language: "
@@ -1283,7 +1309,7 @@ async def upload_document(
             db_document = DocumentModel(
                 original_filename=file.filename,
                 file_type=file_type,
-                source_language="en",
+                source_language=source_language,
                 target_language=target_language,
                 status="uploaded"
             )
@@ -1536,7 +1562,7 @@ async def upload_document(
                         lambda text:
                             translate_text(
                                 text,
-                                "eng-latn",
+                                src_lang,
                                 tgt_lang
                             ),
                         translation_texts
@@ -1554,7 +1580,7 @@ async def upload_document(
 
                 cache_key = (
                     original,
-                    "eng-latn",
+                    src_lang,
                     tgt_lang
                 )
 
@@ -1568,7 +1594,7 @@ async def upload_document(
 
             translated_result = translate_json(
                 copy.deepcopy(result),
-                src_lang="eng-latn",
+                src_lang=src_lang,
                 tgt_lang=tgt_lang,
                 translation_cache=translation_cache
             )
@@ -1653,6 +1679,7 @@ async def upload_document(
             translated_json_filename = (
                 f"{base_name}"
                 f"_translated_"
+                f"{source_language}_to_"
                 f"{target_language}.json"
             )
 
@@ -1697,6 +1724,7 @@ async def upload_document(
             reconstructed_docx_filename = (
                 f"{base_name}"
                 f"_reconstructed_"
+                f"{source_language}_to_"
                 f"{target_language}.docx"
             )
 
@@ -1786,6 +1814,9 @@ async def upload_document(
                 "target_language":
                     target_language,
 
+                "source_language":
+                    source_language,
+
                 "target_language_code":
                     tgt_lang,
 
@@ -1824,7 +1855,9 @@ async def upload_document(
                 target_language=target_language,
                 tgt_lang_code=tgt_lang,
                 output_folder=OUTPUT_FOLDER,
-                translate_func=translate_text
+                translate_func=translate_text,
+                source_language=src_lang,
+                source_language_name=source_language
             )
 
             # ---------------------------------------------
@@ -1874,6 +1907,9 @@ async def upload_document(
 
                 "target_language":
                     target_language,
+
+                "source_language":
+                    source_language,
 
                 "target_language_code":
                     tgt_lang,
@@ -1939,7 +1975,9 @@ async def upload_document(
                 target_language=target_language,
                 tgt_lang_code=tgt_lang,
                 output_folder=OUTPUT_FOLDER,
-                translate_func=translate_text
+                translate_func=translate_text,
+                source_language=src_lang,
+                source_language_name=source_language
             )
 
             # ---------------------------------------------
@@ -2035,6 +2073,9 @@ async def upload_document(
                 "target_language":
                     target_language,
 
+                "source_language":
+                    source_language,
+
                 "target_language_code":
                     tgt_lang,
 
@@ -2088,7 +2129,9 @@ async def upload_document(
                 target_language=target_language,
                 tgt_lang_code=tgt_lang,
                 output_folder=OUTPUT_FOLDER,
-                translate_func=translate_text
+                translate_func=translate_text,
+                source_language=src_lang,
+                source_language_name=source_language
             )
 
             # ---------------------------------------------
@@ -2146,6 +2189,9 @@ async def upload_document(
 
                 "target_language":
                     target_language,
+
+                "source_language":
+                    source_language,
 
                 "target_language_code":
                     tgt_lang,

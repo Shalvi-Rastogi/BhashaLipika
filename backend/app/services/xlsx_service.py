@@ -21,7 +21,9 @@ def process_xlsx_pipeline(
     target_language,
     tgt_lang_code,
     output_folder,
-    translate_func
+    translate_func,
+    source_language="eng-latn",
+    source_language_name=None,
 ):
 
     print("\n========================================")
@@ -36,6 +38,10 @@ def process_xlsx_pipeline(
     base_name = os.path.splitext(
         filename
     )[0]
+    source_language_key = (
+        source_language_name
+        or source_language.split("-")[0]
+    )
 
     # ========================================================
     # FILE 1
@@ -157,12 +163,12 @@ def process_xlsx_pipeline(
 
             print(
                 f"[XLSX TRANSLATE] "
-                f"{clean_line[:100]}"
+                f"{ascii(clean_line[:100])}"
             )
 
             translated = translate_func(
                 clean_line,
-                "eng-latn",
+                source_language,
                 tgt_lang_code
             )
 
@@ -196,7 +202,7 @@ def process_xlsx_pipeline(
 
                 alt_trans = translate_func(
                     alt_line,
-                    "eng-latn",
+                    source_language,
                     tgt_lang_code
                 )
 
@@ -237,7 +243,7 @@ def process_xlsx_pipeline(
 
             print(
                 f"[XLSX TRANSLATION ERROR] "
-                f"{clean_line[:80]} -> {e}"
+                f"{ascii(clean_line[:80])} -> {e}"
             )
 
             # If translation fails, retain original.
@@ -357,7 +363,7 @@ def process_xlsx_pipeline(
 
     translated_json_filename = (
         f"{base_name}_translated_"
-        f"{target_language}.json"
+        f"{source_language_key}_to_{target_language}.json"
     )
 
     translated_json_path = os.path.join(
@@ -390,7 +396,7 @@ def process_xlsx_pipeline(
 
     reconstructed_filename = (
         f"{base_name}_reconstructed_"
-        f"{target_language}.xlsx"
+        f"{source_language_key}_to_{target_language}.xlsx"
     )
 
     reconstructed_path = os.path.join(

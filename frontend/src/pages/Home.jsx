@@ -150,7 +150,10 @@ function Home() {
   );
   const [translatedText, setTranslatedText] = useState("");
   const [targetLanguage, setTargetLanguage] = useState(
-  location.state?.targetLanguage || ""
+    location.state?.targetLanguage || ""
+  );
+  const [sourceLanguage, setSourceLanguage] = useState(
+    location.state?.sourceLanguage || "en"
   );
   const [resetKey, setResetKey] = useState(0);
 
@@ -165,6 +168,7 @@ function Home() {
     setInputText(location.state.inputText || "");
     setTranslatedText(location.state.translatedText || "");
     setTargetLanguage(location.state.targetLanguage || "");
+    setSourceLanguage(location.state.sourceLanguage || "en");
 
     if (location.state.documentData) {
       setDocumentData(location.state.documentData);
@@ -184,6 +188,7 @@ function Home() {
       setInputText(state.inputText || "");
       setTranslatedText(state.translatedText || "");
       setTargetLanguage(state.targetLanguage || "");
+      setSourceLanguage(state.sourceLanguage || "en");
       setDocumentData(state.documentData || null);
 
     } catch (error) {
@@ -204,6 +209,7 @@ function Home() {
       JSON.stringify({
         inputText,
         translatedText,
+        sourceLanguage,
         targetLanguage,
         documentData,
       })
@@ -211,6 +217,7 @@ function Home() {
   }, [
     inputText,
     translatedText,
+    sourceLanguage,
     targetLanguage,
     documentData,
   ]);
@@ -234,6 +241,7 @@ function Home() {
         `${API_BASE_URL}/translate`,
         {
           text: inputText,
+          source_language: sourceLanguage,
           target_language: targetLanguage,
         }
       );
@@ -284,6 +292,7 @@ function Home() {
       state: {
         documentData: documentData,
         targetLanguage: targetLanguage,
+        sourceLanguage: sourceLanguage,
         inputText: inputText,
         translatedText: translatedText,
       },
@@ -309,6 +318,7 @@ function Home() {
     setInputText("");
     setTranslatedText("");
     setDocumentData(null);
+    setSourceLanguage("en");
     setTargetLanguage("");
 
     setResetKey((prev) => prev + 1);
@@ -339,10 +349,10 @@ function Home() {
 
         {/* LANGUAGE */}
         <LanguageSelector
-          onLanguageChange={
-            setTargetLanguage
-          }
-          resetKey={resetKey}
+          sourceLanguage={sourceLanguage}
+          targetLanguage={targetLanguage}
+          onSourceLanguageChange={setSourceLanguage}
+          onTargetLanguageChange={setTargetLanguage}
         />
 
         {/* INPUT / OUTPUT */}
@@ -356,6 +366,7 @@ function Home() {
               targetLanguage={
                 targetLanguage
               }
+              sourceLanguage={sourceLanguage}
               text={inputText}
               setText={setInputText}
               onDocumentProcessed={
