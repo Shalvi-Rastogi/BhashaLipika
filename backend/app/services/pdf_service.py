@@ -7,6 +7,8 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 # PDF IMPORTS
 # =========================================================
 
+from app.extractors.PDF.pdf_detector import detect_pdf_type
+
 from app.extractors.PDF.native.native_pdf_extractor import (
     extract_native_pdf_to_json
 )
@@ -102,6 +104,21 @@ def _normalise_translation(result):
                     return value
 
     return ""
+
+
+def _fix_colon(original_text, translated_text, target_language=None):
+    """Fix colon rendering issues that appear after translation."""
+
+    if not isinstance(original_text, str):
+        return translated_text
+
+    if not isinstance(translated_text, str):
+        return translated_text
+
+    if ":" in original_text and "ः" in translated_text:
+        return translated_text.replace("ः", ":")
+
+    return translated_text
 
 
 # =========================================================
@@ -475,10 +492,15 @@ def process_pdf_pipeline(
     5. Reconstructed translated PDF
     """
 
-    if not os.path.isfile(file_path):
-        raise FileNotFoundError(
-            f"PDF file not found: {file_path}"
-        )
+    # 1. DETECT PDF TYPE
+    pdf_type = detect_pdf_type(file_path)
+    print(f"[PDF] Detected type: {pdf_type}")
+
+    if pdf_type != "native":
+        # raise ValueError(
+        #     "Scanned PDF detected. Scanned PDF pipeline is not implemented yet."
+        # )
+        print("[PDF] Continuing with image extraction test...")
 
     if translate_func is None:
         raise ValueError(
@@ -655,20 +677,31 @@ def process_pdf_pipeline(
                 for row in element.get("rows", []):
 
                     for cell in row.get("cells", []):
-
-                        if cell.get(
-                            "original_text",
-                            ""
-                        ).strip():
-
+                        text = cell.get("original_text", "")
+                        if isinstance(text, str) and text.strip():
                             total_count += 1
-
-                            if cell.get(
-                                "translated_text",
-                                ""
-                            ).strip():
-
+                            if cell.get("translated_text", "").strip():
                                 translated_count += 1
+
+        for image in page.get("images", []):
+
+            for ocr_item in image.get("ocr_data", []):
+
+                text = ocr_item.get("text", "")
+
+                if isinstance(text, str) and text.strip():
+                    total_count += 1
+
+                    translated_text = ocr_item.get(
+                        "translated_text",
+                        ""
+                    )
+
+                    if isinstance(
+                        translated_text,
+                        str
+                    ) and translated_text.strip():
+                        translated_count += 1
 
     print(
         f"[PDF] Translation coverage: "
@@ -696,11 +729,6 @@ def process_pdf_pipeline(
             ensure_ascii=False
         )
 
-    print(
-        f"[PDF] Translated JSON created: "
-        f"{translated_json_path}"
-    )
-
     # =========================================================
     # STEP 6: RECONSTRUCT PDF
     # =========================================================
@@ -723,6 +751,15 @@ def process_pdf_pipeline(
 
     print("=" * 70)
     print("[PDF] PIPELINE COMPLETED")
+
+    return {
+        "json_file": os.path.basename(original_json_path),
+        "translated_json_file": os.path.basename(translated_json_path),
+        "reconstructed_pdf_file": os.path.basename(reconstructed_pdf_path),
+        "reconstructed_file": os.path.basename(reconstructed_pdf_path),
+        "output_filename": os.path.basename(reconstructed_pdf_path),
+        "data": document_data,
+    }
     print("=" * 70)
 
     # =========================================================
