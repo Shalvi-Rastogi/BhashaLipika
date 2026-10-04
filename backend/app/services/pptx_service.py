@@ -1,12 +1,20 @@
 import os
 import json
-import re
 from concurrent.futures import ThreadPoolExecutor
 
 from app.extractors.PPTX.slide_iterator import extract_pptx_to_json
 from app.reconstructors.pptx_reconstructor import reconstruct_pptx
 
-def process_pptx_pipeline(file_path, filename, target_language, tgt_lang_code, output_folder, translate_func):
+def process_pptx_pipeline(
+    file_path,
+    filename,
+    target_language,
+    tgt_lang_code,
+    output_folder,
+    translate_func,
+    source_language="eng-latn",
+    source_language_name=None,
+):
     
     base_name = os.path.splitext(filename)[0]
     json_filename = f"{base_name}.json"
@@ -23,8 +31,6 @@ def process_pptx_pipeline(file_path, filename, target_language, tgt_lang_code, o
         if not isinstance(text, str):
             return text
         cleaned = text.replace('\x0b', '\n').replace('\xa0', ' ').replace('\r', '')
-        # Remove strict invisible unicode characters
-        cleaned = re.sub(r'[^\x00-\x7F\n]+', '', cleaned)
         return cleaned.strip()
 
     # 2. Collect Texts
@@ -62,11 +68,11 @@ def process_pptx_pipeline(file_path, filename, target_language, tgt_lang_code, o
                 continue
                 
             # Pehli koshish (Normal Translation)
-            trans = translate_func(clean_line, "eng-latn", tgt_lang_code)
+            trans = translate_func(clean_line, source_language, tgt_lang_code)
 
             if trans.strip().lower() == clean_line.lower():
                 alt_line = clean_line.replace("-", " ") + " ."
-                alt_trans = translate_func(alt_line, "eng-latn", tgt_lang_code)
+                alt_trans = translate_func(alt_line, source_language, tgt_lang_code)
             
                 if alt_trans.strip().lower() != alt_line.lower():
                     trans = alt_trans.replace(" .", "").replace(".", "").replace("।", "").strip()
@@ -104,13 +110,18 @@ def process_pptx_pipeline(file_path, filename, target_language, tgt_lang_code, o
                         if orig_ocr_text else ""
                     )
 
-    translated_json_filename = f"{base_name}_translated_{target_language}.json"
+    source_language_key = (
+        source_language_name
+        or source_language.split("-")[0]
+    )
+    language_pair = f"{source_language_key}_to_{target_language}"
+    translated_json_filename = f"{base_name}_translated_{language_pair}.json"
     translated_json_path = os.path.join(output_folder, translated_json_filename)
     with open(translated_json_path, "w", encoding="utf-8") as f:
         json.dump(pptx_data, f, indent=4, ensure_ascii=False)
 
     # 5. Reconstruct
-    reconstructed_filename = f"{base_name}_reconstructed_{target_language}.pptx"
+    reconstructed_filename = f"{base_name}_reconstructed_{language_pair}.pptx"
     reconstructed_path = os.path.join(output_folder, reconstructed_filename)
     reconstruct_pptx(file_path, translated_json_path, reconstructed_path)
 

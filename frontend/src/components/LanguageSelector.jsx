@@ -1,7 +1,11 @@
-import { useEffect, useState } from "react";
 import { ArrowRightLeft } from "lucide-react";
 
-function LanguageSelector({ onLanguageChange, resetKey }) {
+function LanguageSelector({
+  sourceLanguage,
+  targetLanguage,
+  onSourceLanguageChange,
+  onTargetLanguageChange,
+}) {
   const languages = [
     { code: "en", name: "English" },
     { code: "hi", name: "Hindi" },
@@ -9,41 +13,13 @@ function LanguageSelector({ onLanguageChange, resetKey }) {
     { code: "ur", name: "Urdu" },
   ];
 
-  // Source language is currently English
-  const [sourceLanguage, setSourceLanguage] = useState("en");
-
-  // No target language selected initially
-  const [targetLanguage, setTargetLanguage] = useState("");
-
-  useEffect(() => {
-    setTargetLanguage("");
-  }, [resetKey]);
-
-  const handleTargetChange = (e) => {
-    const value = e.target.value;
-
-    setTargetLanguage(value);
-
-    if (onLanguageChange) {
-      onLanguageChange(value);
-    }
-  };
-
   const handleSwap = () => {
-    const oldSource = sourceLanguage;
-    const oldTarget = targetLanguage;
-
-    // Don't swap if target language is not selected
-    if (!oldTarget) {
+    if (!targetLanguage) {
       return;
     }
 
-    setSourceLanguage(oldTarget);
-    setTargetLanguage(oldSource);
-
-    if (onLanguageChange) {
-      onLanguageChange(oldSource);
-    }
+    onSourceLanguageChange(targetLanguage);
+    onTargetLanguageChange(sourceLanguage);
   };
 
   return (
@@ -57,11 +33,15 @@ function LanguageSelector({ onLanguageChange, resetKey }) {
 
         <select
           value={sourceLanguage}
-          onChange={(e) => setSourceLanguage(e.target.value)}
+          onChange={(e) => onSourceLanguageChange(e.target.value)}
           className="w-full border border-gray-300 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-purple-500"
         >
           {languages.map((lang) => (
-            <option key={lang.code} value={lang.code}>
+            <option
+              key={lang.code}
+              value={lang.code}
+              disabled={lang.code === targetLanguage}
+            >
               {lang.name}
             </option>
           ))}
@@ -85,7 +65,7 @@ function LanguageSelector({ onLanguageChange, resetKey }) {
 
         <select
           value={targetLanguage}
-          onChange={handleTargetChange}
+          onChange={(e) => onTargetLanguageChange(e.target.value)}
           className="w-full border border-gray-300 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-purple-500"
         >
           <option value="" disabled>
@@ -93,7 +73,11 @@ function LanguageSelector({ onLanguageChange, resetKey }) {
           </option>
 
           {languages.map((lang) => (
-            <option key={lang.code} value={lang.code}>
+            <option
+              key={lang.code}
+              value={lang.code}
+              disabled={lang.code === sourceLanguage}
+            >
               {lang.name}
             </option>
           ))}

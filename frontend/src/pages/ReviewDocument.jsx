@@ -422,24 +422,12 @@ const collectDocxReviewEntries = (translatedData, originalData) => {
     if (!translated || typeof translated !== "object") return;
 
     if (["paragraph", "heading", "list_item"].includes(translated.type)) {
-      const runs = translated.runs || [];
-      if (runs.length) {
-        runs.forEach((run, runIndex) => {
-          addText(
-            [...path, "runs", runIndex, "text"],
-            run.text,
-            original?.runs?.[runIndex]?.text,
-            translated.type.replace("_", " ")
-          );
-        });
-      } else {
-        addText(
-          [...path, "text"],
-          translated.text,
-          original?.text,
-          translated.type.replace("_", " ")
-        );
-      }
+      addText(
+        [...path, "text"],
+        translated.text,
+        original?.text,
+        translated.type.replace("_", " ")
+      );
       return;
     }
 

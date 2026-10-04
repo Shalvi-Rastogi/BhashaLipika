@@ -1,11 +1,39 @@
+import threading
+
 import easyocr
 
 reader = easyocr.Reader(['en'], gpu=False)
+_reader_cache = {("en",): reader}
+_reader_lock = threading.Lock()
 
 
-def extract_text_from_image(image_path):
+def _get_reader(languages):
+    if languages is None:
+        languages = ("en",)
+    elif isinstance(languages, str):
+        languages = (languages,)
+    else:
+        languages = tuple(languages)
+
+    languages = tuple(dict.fromkeys(languages))
+    if not languages:
+        languages = ("en",)
+
+    with _reader_lock:
+        if languages not in _reader_cache:
+            _reader_cache[languages] = easyocr.Reader(
+                list(languages),
+                gpu=False,
+                verbose=False
+            )
+        return _reader_cache[languages]
+
+
+def extract_text_from_image(image_path, languages=None):
+    image_reader = _get_reader(languages)
+
     try:
-        results = reader.readtext(image_path)
+        results = image_reader.readtext(image_path)
 
         extracted = []
 

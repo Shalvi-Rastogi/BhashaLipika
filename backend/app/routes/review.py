@@ -108,18 +108,32 @@ def save_review(
             filename_stem = os.path.splitext(
                 os.path.basename(document.original_filename)
             )[0]
+            language_pair = (
+                f"{document.source_language}_to_"
+                f"{document.target_language}"
+            )
             translated_json_path = os.path.join(
                 "outputs",
-                f"{filename_stem}_translated_{document.target_language}.json",
+                f"{filename_stem}_translated_{language_pair}.json",
             )
+            if not os.path.exists(translated_json_path):
+                translated_json_path = os.path.join(
+                    "outputs",
+                    f"{filename_stem}_translated_{document.target_language}.json",
+                )
             original_docx_path = os.path.join(
                 "uploads",
                 f"{filename_stem}.docx",
             )
             reconstructed_docx_path = os.path.join(
                 "outputs",
-                f"{filename_stem}_reconstructed_{document.target_language}.docx",
+                f"{filename_stem}_reconstructed_{language_pair}.docx",
             )
+            if not os.path.exists(reconstructed_docx_path):
+                reconstructed_docx_path = os.path.join(
+                    "outputs",
+                    f"{filename_stem}_reconstructed_{document.target_language}.docx",
+                )
 
             if not os.path.exists(translated_json_path):
                 raise HTTPException(
@@ -208,10 +222,19 @@ def save_review(
             filename_stem = os.path.splitext(
                 os.path.basename(document.original_filename)
             )[0]
+            language_pair = (
+                f"{document.source_language}_to_"
+                f"{document.target_language}"
+            )
             translated_json_path = os.path.join(
                 "outputs",
-                f"{filename_stem}_translated_{document.target_language}.json",
+                f"{filename_stem}_translated_{language_pair}.json",
             )
+            if not os.path.exists(translated_json_path):
+                translated_json_path = os.path.join(
+                    "outputs",
+                    f"{filename_stem}_translated_{document.target_language}.json",
+                )
             if file_type == "xls":
                 original_path = os.path.join(
                     "uploads",
@@ -220,8 +243,13 @@ def save_review(
                 )
                 reconstruction_output_path = os.path.join(
                     "outputs",
-                    f"{filename_stem}_reconstructed_{document.target_language}.xlsx",
+                    f"{filename_stem}_reconstructed_{language_pair}.xlsx",
                 )
+                if not os.path.exists(reconstruction_output_path):
+                    reconstruction_output_path = os.path.join(
+                        "outputs",
+                        f"{filename_stem}_reconstructed_{document.target_language}.xlsx",
+                    )
             else:
                 original_path = os.path.join(
                     "uploads",

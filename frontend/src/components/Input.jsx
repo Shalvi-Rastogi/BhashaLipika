@@ -9,6 +9,7 @@ const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
 function InputPanel({
   resetKey,
+  sourceLanguage,
   targetLanguage,
   text,
   setText,
@@ -40,11 +41,11 @@ function InputPanel({
 
     if (!file) return;
 
-    if (!targetLanguage) {
+    if (!sourceLanguage || !targetLanguage) {
       setSelectedFile(null);
-      setUploadStatus("Select a target language first.");
+      setUploadStatus("Select source and target languages first.");
       e.target.value = "";
-      alert("Please select a target language before uploading a file.");
+      alert("Please select source and target languages before uploading a file.");
       return;
     }
 
@@ -62,6 +63,7 @@ function InputPanel({
 
     const formData = new FormData();
     formData.append("file", file);
+    formData.append("source_language", sourceLanguage);
     formData.append("target_language", targetLanguage);
 
     try {

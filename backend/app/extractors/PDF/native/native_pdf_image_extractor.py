@@ -3,7 +3,11 @@ import pymupdf as fitz
 
 from app.extractors.PPTX.image_extractor import extract_text_from_image
 
-def extract_native_pdf_images(document, output_directory):
+def extract_native_pdf_images(
+    document,
+    output_directory,
+    ocr_languages=None,
+):
     """
     Extract embedded images from a native PDF.
 
@@ -55,9 +59,12 @@ def extract_native_pdf_images(document, output_directory):
                 print(f"[PDF] Extracted image: page={page_number}, image={image_index}")
 
                 # Run OCR on the extracted image
-                ocr_data = extract_text_from_image(image_path)
+                ocr_data = extract_text_from_image(
+                    image_path,
+                    languages=ocr_languages
+                )
 
-                print(f"[PDF] OCR RESULT: {ocr_data}")
+                print(f"[PDF] OCR RESULT: {ascii(ocr_data)}")
 
                 images_data.append({
                     "page_number": page_number,
