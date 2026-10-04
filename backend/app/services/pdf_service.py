@@ -278,7 +278,7 @@ def _count_coverage(document_data):
 # NOTE: function ka naam aur parameters wahi rakho jo tumhare router/caller
 # use kar raha hai (git se check kar lena: git show HEAD:app/services/pdf_service.py)
 
-def process_pdf(
+def process_pdf_pipeline(
     file_path,
     filename,
     target_language="hi",
