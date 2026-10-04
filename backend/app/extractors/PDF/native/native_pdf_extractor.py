@@ -2,6 +2,9 @@ import json
 import os
 
 import pymupdf as fitz
+from app.extractors.PDF.native.native_pdf_image_extractor import (
+    extract_native_pdf_images
+)
 
 BULLETS = {"•", "▪", "◦", "●", "-", "–", "∙", "·", "○", "■"}
 
@@ -415,6 +418,16 @@ def _extract_tables(page, page_dict, element_id):
 def extract_native_pdf_to_json(file_path, json_path):
     document = fitz.open(file_path)
 
+    image_output_directory = os.path.join(
+        os.path.dirname(json_path),
+        f"{os.path.splitext(os.path.basename(json_path))[0]}_images"
+    )
+
+    all_images = extract_native_pdf_images(
+        document,
+        image_output_directory
+    )
+
     document_data = {
         "document_name": os.path.basename(file_path),
         "document_type": "pdf",
@@ -432,6 +445,7 @@ def extract_native_pdf_to_json(file_path, json_path):
                 "width": page.rect.width,
                 "height": page.rect.height,
                 "elements": [],
+                "images": [],
             }
 
             page_dict = page.get_text("dict")
@@ -523,6 +537,13 @@ def extract_native_pdf_to_json(file_path, json_path):
                         )
                     )
                     element_id += 1
+
+            # ---- IMAGES (Samia) ----
+            page_data["images"] = [
+                image
+                for image in all_images
+                if image["page_number"] == page_index + 1
+            ]
 
             document_data["pages"].append(page_data)
 
