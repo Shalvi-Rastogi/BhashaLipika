@@ -8,10 +8,14 @@ router = APIRouter()
 
 class HTMLTranslationRequest(BaseModel):
     html: str
+    source_language: str = "en"
     target_language: str
 
 
 @router.post("/translate-html")
+#def translate_html_content(request: HTMLTranslationRequest):
+#    @router.post("/translate-html")
+
 def translate_html_content(request: HTMLTranslationRequest):
 
     if not request.html.strip():
@@ -20,26 +24,70 @@ def translate_html_content(request: HTMLTranslationRequest):
             detail="HTML content cannot be empty."
         )
 
-    if request.target_language not in LANGUAGE_MAP:
+    source_language = request.source_language.lower().strip()
+    target_language = request.target_language.lower().strip()
+
+    src_lang = LANGUAGE_MAP.get(source_language)
+    tgt_lang = LANGUAGE_MAP.get(target_language)
+
+    if not src_lang:
         raise HTTPException(
             status_code=400,
-            detail="Unsupported target language."
+            detail=f"Unsupported source language: {source_language}"
         )
 
-    tgt_lang_code = LANGUAGE_MAP[
-        request.target_language
-    ]
+    if not tgt_lang:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Unsupported target language: {target_language}"
+        )
+
+    if source_language == target_language:
+        raise HTTPException(
+            status_code=400,
+            detail="Source and target languages must be different."
+        )
 
     translated_html = translate_html(
         request.html,
         translate_text,
-        "eng-latn",
-        tgt_lang_code
+        src_lang,
+        tgt_lang
     )
 
     return {
-        "translated_html": translated_html
+        "translated_html": translated_html,
+        "source_language": source_language,
+        "source_language_code": src_lang,
+        "target_language": target_language,
+        "target_language_code": tgt_lang
     }
+    # if not request.html.strip():
+    #     raise HTTPException(
+    #         status_code=400,
+    #         detail="HTML content cannot be empty."
+    #     )
+
+    # if request.target_language not in LANGUAGE_MAP:
+    #     raise HTTPException(
+    #         status_code=400,
+    #         detail="Unsupported target language."
+    #     )
+
+    # tgt_lang_code = LANGUAGE_MAP[
+    #     request.target_language
+    # ]
+
+    # translated_html = translate_html(
+    #     request.html,
+    #     translate_text,
+    #     "eng-latn",
+    #     tgt_lang_code
+    # )
+
+    # return {
+    #     "translated_html": translated_html
+    # }
 
 class TranslateRequest(BaseModel):
     text: str

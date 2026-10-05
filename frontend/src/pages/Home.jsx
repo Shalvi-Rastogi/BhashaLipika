@@ -80,9 +80,16 @@ function Home() {
       alert("Please enter some content to translate.");
       return;
     }
-
+    if (!sourceLanguage) {
+      alert("Please select a source language.");
+      return;
+    }
     if (!targetLanguage) {
       alert("Please select a target language.");
+      return;
+    }
+    if (sourceLanguage === targetLanguage) {
+      alert("Source and target languages must be different.");
       return;
     }
 
@@ -91,19 +98,30 @@ function Home() {
 
       // HTML TRANSLATION
       if (inputType === "html") {
-        response = await axios.post(`${API_BASE_URL}/translate-html`, {
-          html: inputText,
-          target_language: targetLanguage,
-        });
+        response = await axios.post(
+          `${API_BASE_URL}/translate-html`,
+          {
+            html: inputText,
+            source_language: sourceLanguage, // Samia's change
+            target_language: targetLanguage,
+          }
+        );
+
         console.log("HTML Translation response:", response.data);
         setTranslatedText(response.data.translated_html);
+
       }
       // NORMAL TEXT TRANSLATION
       else {
-        response = await axios.post(`${API_BASE_URL}/translate`, {
-          text: inputText,
-          target_language: targetLanguage,
-        });
+        response = await axios.post(
+          `${API_BASE_URL}/translate`,
+          {
+            text: inputText,
+            source_language: sourceLanguage, // Samia's change
+            target_language: targetLanguage,
+          }
+        );
+
         console.log("Translation response:", response.data);
         setTranslatedText(response.data.translated_text);
       }
