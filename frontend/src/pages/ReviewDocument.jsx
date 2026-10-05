@@ -1,371 +1,9 @@
-// import { useLocation, useNavigate } from "react-router-dom";
-// import { useState } from "react";
-// import axios from "axios";
-
-// const API_BASE_URL =
-//   import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
-
-// function ReviewDocument() {
-//   const location = useLocation();
-//   const navigate = useNavigate();
-
-//   const documentData = location.state?.documentData;
-
-//   // Backend response structure:
-//   // {
-//   //   document_id: 45,
-//   //   data: {
-//   //      filename: "...",
-//   //      sheets: [...]
-//   //   }
-//   // }
-
-//   const documentId = documentData?.document_id;
-//   const actualData = documentData?.data;
-
-//   const [editedData, setEditedData] = useState(
-//     actualData || null
-//   );
-//   const [isEditing, setIsEditing] = useState(false);
-//   const [isSaving, setIsSaving] = useState(false);
-//   const [isDownloading, setIsDownloading] = useState(false);
-
-//   if (!documentData || !actualData) {
-//     return (
-//       <div className="min-h-screen bg-gray-100 p-8">
-//         <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-md p-8">
-//           <h1 className="text-2xl font-bold mb-4">
-//             No Document Found
-//           </h1>
-
-//           <p className="text-gray-600 mb-6">
-//             Please upload and translate a document first.
-//           </p>
-
-//           <button
-//             type="button"
-//             onClick={() => navigate("/")}
-//             className="bg-violet-600 hover:bg-violet-700 text-white px-6 py-3 rounded-lg"
-//           >
-//             Go Back
-//           </button>
-//         </div>
-//       </div>
-//     );
-//   }
-
-//   const handleCellChange = (sheetIndex, cellIndex, value) => {
-//     setEditedData((previousData) => {
-//       const updatedData = {
-//         ...previousData,
-//         sheets: [...previousData.sheets],
-//       };
-
-//       updatedData.sheets[sheetIndex] = {
-//         ...updatedData.sheets[sheetIndex],
-//         cells: [...updatedData.sheets[sheetIndex].cells],
-//       };
-
-//       updatedData.sheets[sheetIndex].cells[cellIndex] = {
-//         ...updatedData.sheets[sheetIndex].cells[cellIndex],
-//         translated_text: value,
-//       };
-
-//       return updatedData;
-//     });
-//   };
-
-//   // ---------------------------------------
-//   // SAVE CHANGES
-//   // ---------------------------------------
-//  const handleSaveChanges = async () => {
-//   try {
-//     setIsSaving(true);
-
-//     // Convert editedData into the format expected by backend
-//     const edits = [];
-
-//     editedData?.sheets?.forEach((sheet) => {
-//       sheet.cells?.forEach((cell) => {
-//         edits.push({
-//           cell: cell.coordinate,
-//           translated_text: cell.translated_text || "",
-//         });
-//       });
-//     });
-
-//     const response = await axios.post(
-//       `${API_BASE_URL}/review/save`,
-//       {
-//         document_id: documentId,
-//         edits: edits,
-//       }
-//     );
-
-//     console.log("Save response:", response.data);
-
-//     alert("Changes saved successfully!");
-
-//   } catch (error) {
-//     console.error("Save failed:", error);
-
-//     alert(
-//       error.response?.data?.detail ||
-//       JSON.stringify(error.response?.data) ||
-//       "Failed to save changes."
-//     );
-//   } finally {
-//     setIsSaving(false);
-//   }
-// };
-//   // ---------------------------------------
-//   // DOWNLOAD FINAL DOCUMENT
-//   // ---------------------------------------
-//   const handleDownload = async () => {
-//   try {
-//     setIsDownloading(true);
-
-//     // Convert editedData into backend edit format
-//     const edits = [];
-
-//     editedData?.sheets?.forEach((sheet) => {
-//       sheet.cells?.forEach((cell) => {
-//         edits.push({
-//           cell: cell.coordinate,
-//           translated_text: cell.translated_text || "",
-//         });
-//       });
-//     });
-
-//     // Save latest edits first
-//     await axios.post(
-//       `${API_BASE_URL}/review/save`,
-//       {
-//         document_id: documentId,
-//         edits: edits,
-//       }
-//     );
-
-//     // Then download updated document
-//     const response = await axios.get(
-//       `${API_BASE_URL}/review/download/${documentId}`,
-//       {
-//         responseType: "blob",
-//       }
-//     );
-
-//     const blob = new Blob([response.data]);
-
-//     const url = window.URL.createObjectURL(blob);
-
-//     const link = document.createElement("a");
-//     link.href = url;
-
-//     link.download =
-//       actualData.filename ||
-//       documentData.filename ||
-//       "translated_document.xlsx";
-
-//     document.body.appendChild(link);
-//     link.click();
-
-//     link.remove();
-//     window.URL.revokeObjectURL(url);
-
-//   } catch (error) {
-//     console.error("Download failed:", error);
-
-//     alert(
-//       error.response?.data?.detail ||
-//       JSON.stringify(error.response?.data) ||
-//       "Failed to download the document."
-//     );
-//   } finally {
-//     setIsDownloading(false);
-//   }
-// };
-
-//   return (
-//     <div className="min-h-screen bg-gray-100 p-8">
-//       <div className="max-w-7xl mx-auto">
-
-//         {/* Header */}
-//         <div className="mb-6">
-//           <h1 className="text-3xl font-bold text-gray-800">
-//             Review Translated Document
-//           </h1>
-
-//           <p className="text-gray-500 mt-2">
-//             {actualData.filename}
-//           </p>
-//         </div>
-
-//         {/* Sheets */}
-//         {editedData?.sheets?.map((sheet, sheetIndex) => (
-//           <div
-//             key={sheetIndex}
-//             className="bg-white rounded-2xl shadow-md p-6 mb-6"
-//           >
-//             <h2 className="text-xl font-semibold mb-5">
-//               {sheet.sheet_name}
-//             </h2>
-
-//             <div className="overflow-x-auto">
-//               <table className="w-full border-collapse">
-
-//                 <thead>
-//                   <tr className="bg-gray-100">
-//                     <th className="border p-3 text-left">
-//                       Cell
-//                     </th>
-
-//                     <th className="border p-3 text-left">
-//                       Original Text
-//                     </th>
-
-//                     <th className="border p-3 text-left">
-//                       Translated Text
-//                     </th>
-//                   </tr>
-//                 </thead>
-
-//                 <tbody>
-//                   {sheet.cells?.map((cell, cellIndex) => (
-//                     <tr key={cellIndex}>
-
-//                       {/* Cell coordinate */}
-//                       <td className="border p-3 font-semibold text-gray-700">
-//                         {cell.coordinate}
-//                       </td>
-
-//                       {/* Original text */}
-//                       <td className="border p-3 text-gray-700">
-//                         {cell.original_text || ""}
-//                       </td>
-
-//                       {/* Editable translation */}
-//                       <td className="border p-3">
-//                         {isEditing ? (
-//                             <textarea
-//                             value={cell.translated_text || ""}
-//                             onChange={(e) =>
-//                                 handleCellChange(
-//                                 sheetIndex,
-//                                 cellIndex,
-//                                 e.target.value
-//                                 )
-//                             }
-//                             className="
-//                                 w-full
-//                                 min-h-[70px]
-//                                 border
-//                                 border-gray-300
-//                                 rounded-lg
-//                                 p-3
-//                                 resize-y
-//                                 focus:outline-none
-//                                 focus:ring-2
-//                                 focus:ring-violet-500
-//                             "
-//                             />
-//                         ) : (
-//                             <div className="min-h-[70px] p-3">
-//                             {cell.translated_text || ""}
-//                             </div>
-//                         )}
-//                         </td>
-
-//                     </tr>
-//                   ))}
-//                 </tbody>
-
-//               </table>
-//             </div>
-//           </div>
-//         ))}
-
-//         {/* Buttons */}
-//         <div className="flex gap-4 mb-8">
-//             {/* BACK TO HOME */}
-//             <button
-//                 type="button"
-//                 onClick={() => {
-//                     navigate("/", {
-//                     state: {
-//                         documentData: documentData,
-//                         targetLanguage: location.state?.targetLanguage || "",
-//                         inputText: location.state?.inputText || "",
-//                     },
-//                     });
-//                 }}
-//                 className="
-//                     bg-gray-600
-//                     hover:bg-gray-700
-//                     text-white
-//                     font-semibold
-//                     px-6
-//                     py-3
-//                     rounded-lg
-//                 "
-//                 >
-//                 Back
-//             </button>
-
-//           {/* SAVE */}
-//           <button
-//             type="button"
-//             onClick={handleSaveChanges}
-//             disabled={isSaving}
-//             className="
-//               bg-violet-600
-//               hover:bg-violet-700
-//               disabled:bg-gray-400
-//               text-white
-//               font-semibold
-//               px-6
-//               py-3
-//               rounded-lg
-//             "
-//           >
-//             {isSaving ? "Saving..." : "Save Changes"}
-//           </button>
-
-//           {/* DOWNLOAD */}
-//           <button
-//             type="button"
-//             onClick={handleDownload}
-//             disabled={isDownloading}
-//             className="
-//               bg-green-600
-//               hover:bg-green-700
-//               disabled:bg-gray-400
-//               text-white
-//               font-semibold
-//               px-6
-//               py-3
-//               rounded-lg
-//             "
-//           >
-//             {isDownloading
-//               ? "Preparing Download..."
-//               : "Download Final Document"}
-//           </button>
-
-//         </div>
-
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default ReviewDocument;
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import { ArrowLeft, Download, Pencil, Save } from "lucide-react";
 
-const API_BASE_URL =
-  import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
 const getCellPosition = (cell) => {
   const coordinate = String(cell.coordinate || "");
@@ -397,12 +35,11 @@ const getColumnLabel = (columnNumber) => {
   return label;
 };
 
-const collectDocxReviewEntries = (translatedData, originalData) => {
+const collectDocumentReviewEntries = (translatedData, originalData) => {
   const entries = [];
 
   const addText = (path, translatedText, originalText, label) => {
     if (typeof translatedText !== "string") return;
-
     entries.push({
       path,
       translatedText,
@@ -411,6 +48,52 @@ const collectDocxReviewEntries = (translatedData, originalData) => {
     });
   };
 
+  // 1. PDF FORMAT HANDLING
+  if (translatedData?.pages && Array.isArray(translatedData.pages)) {
+    translatedData.pages.forEach((page, pIdx) => {
+      const pageLabel = `Page ${page.page_number || pIdx + 1}`;
+      
+      // PDF Elements (Text Blocks & Tables)
+      (page.elements || []).forEach((el, elIdx) => {
+        if (el.type === "text") {
+          addText(
+            ["pages", pIdx, "elements", elIdx, "translated_text"],
+            el.translated_text,
+            el.original_text,
+            `${pageLabel} - Text Block`
+          );
+        } else if (el.type === "table") {
+          (el.rows || []).forEach((row, rIdx) => {
+            (row.cells || []).forEach((cell, cIdx) => {
+              const origCell = originalData?.pages?.[pIdx]?.elements?.[elIdx]?.rows?.[rIdx]?.cells?.[cIdx]?.original_text || cell.original_text || "";
+              addText(
+                ["pages", pIdx, "elements", elIdx, "rows", rIdx, "cells", cIdx, "translated_text"],
+                cell.translated_text,
+                origCell,
+                `${pageLabel} - Table (R${rIdx + 1}C${cIdx + 1})`
+              );
+            });
+          });
+        }
+      });
+
+      // PDF Images (OCR)
+      (page.images || []).forEach((img, imgIdx) => {
+        (img.ocr_data || []).forEach((ocrItem, ocrIdx) => {
+          const origOcrText = originalData?.pages?.[pIdx]?.images?.[imgIdx]?.ocr_data?.[ocrIdx]?.text || ocrItem.text || "";
+          addText(
+            ["pages", pIdx, "images", imgIdx, "ocr_data", ocrIdx, "translated_text"],
+            ocrItem.translated_text,
+            origOcrText,
+            `${pageLabel} - Image Text`
+          );
+        });
+      });
+    });
+    return entries;
+  }
+
+  // 2. DOCX & PPTX HANDLING
   const visit = (translated, original, path, label) => {
     if (Array.isArray(translated)) {
       translated.forEach((item, index) =>
@@ -421,36 +104,92 @@ const collectDocxReviewEntries = (translatedData, originalData) => {
 
     if (!translated || typeof translated !== "object") return;
 
-    if (["paragraph", "heading", "list_item"].includes(translated.type)) {
+    const typeStr = translated.type?.toLowerCase() || "";
+
+    // PPTX SPECIFIC TYPES
+    if (typeStr === "text_frame") {
+      const slideNum = translated.slide_number ? `Slide ${translated.slide_number}` : label;
       addText(
-        [...path, "text"],
-        translated.text,
-        original?.text,
-        translated.type.replace("_", " ")
+        [...path, "translated_text"], 
+        translated.translated_text, 
+        original?.text || original?.original_text, 
+        `${slideNum} - Text`
       );
       return;
     }
 
-    if (translated.type === "textbox") {
-      (translated.paragraphs || []).forEach((text, index) => {
-        addText(
-          [...path, "paragraphs", index],
-          text,
-          original?.paragraphs?.[index],
-          "Text box"
-        );
+    if (typeStr === "table" && Array.isArray(translated.translated_data)) {
+      const slideNum = translated.slide_number ? `Slide ${translated.slide_number}` : label;
+      translated.translated_data.forEach((row, rIdx) => {
+        if (Array.isArray(row)) {
+          row.forEach((cellText, cIdx) => {
+             const origCell = original?.translated_data?.[rIdx]?.[cIdx] || original?.data?.[rIdx]?.[cIdx] || "";
+             addText(
+               [...path, "translated_data", rIdx, cIdx],
+               cellText,
+               origCell,
+               `${slideNum} - Table (R${rIdx + 1}C${cIdx + 1})`
+             );
+          });
+        }
       });
       return;
     }
 
-    if (translated.type === "image_text") {
+    if (typeStr === "image" && Array.isArray(translated.ocr_data)) {
+      const slideNum = translated.slide_number ? `Slide ${translated.slide_number}` : label;
+      translated.ocr_data.forEach((item, ocrIdx) => {
+        addText(
+          [...path, "ocr_data", ocrIdx, "translated_text"],
+          item.translated_text || "",
+          original?.ocr_data?.[ocrIdx]?.text || "",
+          `${slideNum} - Image Text`
+        );
+      });
+      if (!translated.ocr_data.length && translated.translated_text) {
+        addText(
+          [...path, "translated_text"],
+          translated.translated_text,
+          original?.text || "",
+          `${slideNum} - Image Text`
+        );
+      }
+      return;
+    }
+
+    // DOCX SPECIFIC TYPES
+    if (["paragraph", "heading", "list_item", "slide_text", "table_cell"].includes(typeStr)) {
+      let displayLabel = translated.type.replace(/_/g, " ");
+      if (translated.slide_number) {
+        displayLabel = `Slide ${translated.slide_number} - ${displayLabel}`;
+      }
+      addText([...path, "text"], translated.text, original?.text, displayLabel);
+      return;
+    }
+
+    if (typeStr === "textbox") {
+      let displayLabel = "Text box";
+      if (translated.slide_number) {
+        displayLabel = `Slide ${translated.slide_number} - ${displayLabel}`;
+      }
+      (translated.paragraphs || []).forEach((text, index) => {
+        addText([...path, "paragraphs", index], text, original?.paragraphs?.[index], displayLabel);
+      });
+      return;
+    }
+
+    if (typeStr === "image_text") {
+      let displayLabel = "Image text";
+      if (translated.slide_number) {
+        displayLabel = `Slide ${translated.slide_number} - ${displayLabel}`;
+      }
       const ocrDetails = translated.ocr_details || [];
       ocrDetails.forEach((item, index) => {
         addText(
           [...path, "ocr_details", index, "translated_text"],
           item.translated_text || "",
           original?.ocr_details?.[index]?.text,
-          "Image text"
+          displayLabel
         );
       });
       if (!ocrDetails.length) {
@@ -458,7 +197,7 @@ const collectDocxReviewEntries = (translatedData, originalData) => {
           [...path, "translated_text"],
           translated.translated_text || "",
           original?.text,
-          "Image text"
+          displayLabel
         );
       }
       return;
@@ -466,20 +205,12 @@ const collectDocxReviewEntries = (translatedData, originalData) => {
 
     if (Array.isArray(translated.runs)) {
       translated.runs.forEach((run, runIndex) => {
-        addText(
-          [...path, "runs", runIndex, "text"],
-          run.text,
-          original?.runs?.[runIndex]?.text,
-          label
-        );
+        addText([...path, "runs", runIndex, "text"], run.text, original?.runs?.[runIndex]?.text, label);
       });
       return;
     }
 
-    if (
-      typeof translated.text === "string" &&
-      !translated.paragraphs
-    ) {
+    if (typeof translated.text === "string" && !translated.paragraphs) {
       addText([...path, "text"], translated.text, original?.text, label);
       return;
     }
@@ -494,24 +225,28 @@ const collectDocxReviewEntries = (translatedData, originalData) => {
       visit(translated.cells, original?.cells, [...path, "cells"], "Table content");
     }
     if (translated.nested_tables) {
-      visit(
-        translated.nested_tables,
-        original?.nested_tables,
-        [...path, "nested_tables"],
-        "Nested table"
-      );
+      visit(translated.nested_tables, original?.nested_tables, [...path, "nested_tables"], "Nested table");
     }
     if (translated.elements) {
       visit(translated.elements, original?.elements, [...path, "elements"], label);
     }
   };
 
-  visit(
-    translatedData?.elements || [],
-    originalData?.elements || [],
-    ["elements"],
-    "Document text"
-  );
+  if (translatedData?.elements) {
+    visit(translatedData.elements, originalData?.elements || [], ["elements"], "Document text");
+  } else {
+    Object.keys(translatedData || {}).forEach((key) => {
+      if (key.startsWith("slide_")) {
+        const slideNum = key.split('_')[1];
+        visit(
+          translatedData[key], 
+          originalData?.[key] || [], 
+          [key], 
+          `Slide ${slideNum}`
+        );
+      }
+    });
+  }
 
   return entries;
 };
@@ -533,9 +268,14 @@ function ReviewDocument() {
 
   const documentId = documentData?.document_id;
   const fileType = documentData?.file_type?.toLowerCase();
+  
   const isWordDocument = ["doc", "docx"].includes(fileType);
-  const actualData = isWordDocument
-    ? documentData?.translated_data
+  const isPowerPointDocument = ["ppt", "pptx"].includes(fileType);
+  const isPdfDocument = ["pdf"].includes(fileType); // NAYA: PDF check
+  const isDocumentView = isWordDocument || isPowerPointDocument || isPdfDocument; // NAYA: PDF added to document view
+
+  const actualData = isDocumentView
+    ? documentData?.translated_data || documentData?.data
     : documentData?.data;
 
   const [editedData, setEditedData] = useState(actualData || null);
@@ -552,14 +292,10 @@ function ReviewDocument() {
     return (
       <div className="min-h-screen bg-gray-100 p-8">
         <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-md p-8">
-          <h1 className="text-2xl font-bold mb-4">
-            No Document Found
-          </h1>
-
+          <h1 className="text-2xl font-bold mb-4">No Document Found</h1>
           <p className="text-gray-600 mb-6">
             Please upload and translate a document first.
           </p>
-
           <button
             type="button"
             onClick={() => navigate("/")}
@@ -573,7 +309,7 @@ function ReviewDocument() {
   }
 
   // ---------------------------------------
-  // HANDLE CELL EDIT
+  // HANDLE CELL EDIT (Excel)
   // ---------------------------------------
   const handleCellChange = (sheetIndex, cellIndex, value) => {
     setEditedData((previousData) => {
@@ -647,8 +383,8 @@ function ReviewDocument() {
       )
     );
 
-  const getDocxEdits = () =>
-    collectDocxReviewEntries(editedData, documentData?.data).map((entry) => ({
+  const getDocEdits = () =>
+    collectDocumentReviewEntries(editedData, documentData?.data).map((entry) => ({
       path: entry.path,
       translated_text: entry.translatedText,
     }));
@@ -660,30 +396,28 @@ function ReviewDocument() {
     try {
       setIsSaving(true);
 
-      const edits = getEdits();
-      const imageEdits = getImageEdits();
-      const docxEdits = getDocxEdits();
+      const editsPayload = { document_id: documentId };
+      
+      // Update logic to send edits to appropriate keys based on filetype
+      if (isDocumentView) {
+        editsPayload.docx_edits = getDocEdits(); 
+        editsPayload.pptx_edits = getDocEdits(); 
+        editsPayload.pdf_edits = getDocEdits(); // NAYA: PDF edits included
+      } else {
+        editsPayload.edits = getEdits();
+        editsPayload.image_edits = getImageEdits();
+      }
 
       const response = await axios.post(
         `${API_BASE_URL}/review/save`,
-        {
-          document_id: documentId,
-          edits: edits,
-          image_edits: imageEdits,
-          docx_edits: docxEdits,
-        }
+        editsPayload
       );
 
       console.log("Save response:", response.data);
-
       alert("Changes saved successfully!");
-
-      // Exit editing mode after successful save
       setIsEditing(false);
-
     } catch (error) {
       console.error("Save failed:", error);
-
       alert(
         error.response?.data?.detail ||
           JSON.stringify(error.response?.data) ||
@@ -701,22 +435,21 @@ function ReviewDocument() {
     try {
       setIsDownloading(true);
 
-      // Save latest edits first
-      const edits = getEdits();
-      const imageEdits = getImageEdits();
-      const docxEdits = getDocxEdits();
+      const editsPayload = { document_id: documentId };
+      if (isDocumentView) {
+        editsPayload.docx_edits = getDocEdits(); 
+        editsPayload.pptx_edits = getDocEdits(); 
+        editsPayload.pdf_edits = getDocEdits();
+      } else {
+        editsPayload.edits = getEdits();
+        editsPayload.image_edits = getImageEdits();
+      }
 
       await axios.post(
         `${API_BASE_URL}/review/save`,
-        {
-          document_id: documentId,
-          edits: edits,
-          image_edits: imageEdits,
-          docx_edits: docxEdits,
-        }
+        editsPayload
       );
 
-      // Download updated document
       const response = await axios.get(
         `${API_BASE_URL}/review/download/${documentId}`,
         {
@@ -725,26 +458,16 @@ function ReviewDocument() {
       );
 
       const blob = new Blob([response.data]);
-
       const url = window.URL.createObjectURL(blob);
-
       const link = document.createElement("a");
-
       link.href = url;
-
       link.download = finalFilename;
-
       document.body.appendChild(link);
-
       link.click();
-
       link.remove();
-
       window.URL.revokeObjectURL(url);
-
     } catch (error) {
       console.error("Download failed:", error);
-
       alert(
         error.response?.data?.detail ||
           JSON.stringify(error.response?.data) ||
@@ -788,25 +511,38 @@ function ReviewDocument() {
   const canEditActiveSheet = activeSheetIndex === 0;
   const canEditActiveContent =
     canEditActiveSheet || (activeSheet?.images || []).length > 0;
+  
   const isLegacyXls =
     documentData.file_type?.toLowerCase() === "xls" ||
     /\.xls$/i.test(documentData.filename || "");
+    
   const fileExtension = isWordDocument
+    ? fileType
+    : isPowerPointDocument
+    ? fileType
+    : isPdfDocument
     ? fileType
     : isLegacyXls
       ? "xls"
       : "xlsx";
+      
   const finalFilename =
+    documentData.reconstructed_pptx_file ||
     documentData.reconstructed_docx_file ||
+    documentData.reconstructed_pdf_file ||
     documentData.reconstructed_file ||
     actualData.filename ||
     documentData.filename ||
     `translated_document.${fileExtension}`;
-  const docxReviewEntries = isWordDocument
-    ? collectDocxReviewEntries(editedData, documentData?.data)
+    
+  const documentReviewEntries = isDocumentView
+    ? collectDocumentReviewEntries(editedData, documentData?.data)
     : [];
 
-  if (isWordDocument) {
+  // ==========================================================
+  // WORD, PPTX & PDF UI
+  // ==========================================================
+  if (isDocumentView) {
     return (
       <main className="min-h-screen bg-[#f4f6f5] px-4 py-6 text-[#202a27] sm:px-8">
         <div className="mx-auto max-w-5xl">
@@ -820,7 +556,7 @@ function ReviewDocument() {
                 <ArrowLeft size={16} aria-hidden="true" /> Back
               </button>
               <h1 className="text-2xl font-semibold text-[#202a27]">
-                Word document review
+                {isPowerPointDocument ? "Presentation review" : isPdfDocument ? "PDF Document review" : "Word document review"}
               </h1>
               <p className="mt-1 text-sm text-[#64716c]">
                 {documentData.filename}
@@ -831,7 +567,7 @@ function ReviewDocument() {
                 <button
                   type="button"
                   onClick={() => setIsEditing(true)}
-                  disabled={!docxReviewEntries.length}
+                  disabled={!documentReviewEntries.length}
                   className="inline-flex items-center gap-2 rounded border border-[#16734f] bg-[#16734f] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#105b3e] disabled:cursor-not-allowed disabled:border-gray-300 disabled:bg-gray-200 disabled:text-gray-500"
                 >
                   <Pencil size={16} aria-hidden="true" /> Edit document
@@ -870,12 +606,12 @@ function ReviewDocument() {
                 </span>
               </div>
               <span className="ml-3 shrink-0 text-xs text-[#78857f]">
-                {docxReviewEntries.length} text items
+                {documentReviewEntries.length} text items
               </span>
             </div>
 
             <div className="divide-y divide-[#e6ebe8]">
-              {docxReviewEntries.map((entry) => (
+              {documentReviewEntries.map((entry) => (
                 <article
                   key={entry.path.join(".")}
                   className="grid gap-3 px-4 py-4 sm:grid-cols-[130px_minmax(0,1fr)_minmax(0,1fr)] sm:px-6"
@@ -919,7 +655,7 @@ function ReviewDocument() {
                   </div>
                 </article>
               ))}
-              {!docxReviewEntries.length && (
+              {!documentReviewEntries.length && (
                 <p className="px-6 py-12 text-center text-sm text-[#78857f]">
                   No reviewable text was found in this document.
                 </p>
@@ -931,6 +667,9 @@ function ReviewDocument() {
     );
   }
 
+  // ==========================================================
+  // EXCEL UI
+  // ==========================================================
   return (
     <main className="min-h-screen bg-[#f4f6f5] px-4 py-6 text-[#202a27] sm:px-8">
       <div className="mx-auto max-w-[1440px]">
