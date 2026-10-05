@@ -31,11 +31,19 @@ def _extract_shape(shape, shape_path, slide_index, image_output_dir):
 
     if shape.has_table:
         table_data = extract_table_data(shape, shape_index)
-        return [table_data] if table_data else []
+        if table_data:
+            # NAYA: Frontend labels ke liye slide_number inject kar rahe hain
+            table_data["slide_number"] = slide_index
+            return [table_data]
+        return []
 
     if shape.has_text_frame:
         text_data = extract_text_from_shape(shape, shape_index)
-        return [text_data] if text_data else []
+        if text_data:
+            # NAYA: Frontend labels ke liye slide_number inject kar rahe hain
+            text_data["slide_number"] = slide_index
+            return [text_data]
+        return []
 
     if shape.shape_type == MSO_SHAPE_TYPE.PICTURE:
         print(f"[PPTX IMAGE DETECTED] slide={slide_index}, shape={shape_index}")
@@ -47,9 +55,12 @@ def _extract_shape(shape, shape_path, slide_index, image_output_dir):
             image_output_dir,
         )
 
-        print(f"[PPTX IMAGE RESULT] {image_data}")
-
-        return [image_data] if image_data else []
+        if image_data:
+            print(f"[PPTX IMAGE RESULT] {image_data}")
+            # NAYA: Frontend labels ke liye slide_number inject kar rahe hain
+            image_data["slide_number"] = slide_index
+            return [image_data]
+        return []
 
     return []
 

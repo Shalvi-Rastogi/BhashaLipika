@@ -299,6 +299,7 @@ def _translate_unique_texts(texts, translate_func, source_language, target_langu
 def _apply_translations(
     document_data,
     translation_cache,
+    target_language
 ):
     """
     Translation cache ko actual JSON structure me put karta hai.

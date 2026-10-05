@@ -26,7 +26,9 @@ def _normalise_language(language):
     language = language.lower().strip().replace("_", "-").split("-", 1)[0]
     language = LANGUAGE_ALIASES.get(language, language)
     if language not in LANG_CONFIG:
-        raise ValueError(f"Unsupported PDF language: {language}")
+        # NAYA: Crash hone ki jagah default language ("hi") use karega jisme sabse zyada fonts hain
+        print(f"Warning: Unsupported PDF language '{language}'. Falling back to default font config.")
+        return "hi"
     return language
 
 
@@ -199,12 +201,12 @@ def _span_style(f):
         f"color:rgb({c.get('r', 0)},{c.get('g', 0)},{c.get('b', 0)});"
     )
 
-
+# NAYA: target_language se ="hi" (default value) hata di gayi hai
 def reconstruct_native_pdf(
     original_pdf_path,
     translated_json_path,
     output_pdf_path,
-    target_language="hi",
+    target_language,
 ):
     with open(translated_json_path, "r", encoding="utf-8") as f:
         data = json.load(f)
