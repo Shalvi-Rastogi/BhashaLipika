@@ -434,6 +434,9 @@ def _request_translation(text, src_lang, tgt_lang):
                 timeout=60,
                 verify=False
             )
+            print("STATUS CODE:", response.status_code)
+            print("RAW RESPONSE:", response.text)
+
             response.raise_for_status()
             response_json = response.json()
             print("[API RESPONSE]:", ascii(response_json))
