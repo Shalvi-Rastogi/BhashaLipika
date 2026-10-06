@@ -13,6 +13,8 @@ from sqlalchemy import text as sql_text
 
 from concurrent.futures import ThreadPoolExecutor
 
+from app.utils.rtf_converter import convert_rtf_to_docx
+
 from fastapi import (
     APIRouter,
     UploadFile,
@@ -1376,7 +1378,8 @@ async def upload_document(
 
         if file_type in [
             "DOC",
-            "DOCX"
+            "DOCX",
+            "RTF"
         ]:
 
             file_content = await file.read()
@@ -1524,7 +1527,8 @@ async def upload_document(
 
         if file_type in [
             "DOC",
-            "DOCX"
+            "DOCX",
+            "RTF"
         ]:
 
             # ---------------------------------------------
@@ -1546,6 +1550,20 @@ async def upload_document(
                     f"DOC converted successfully: "
                     f"{file_path}"
                 )
+
+            elif file_type == "RTF":
+                print("\nConverting RTF to DOCX...")
+                file_path = convert_rtf_to_docx(
+                    file_path,
+                    UPLOAD_FOLDER
+                )
+                print(f"RTF converted successfully: {file_path}")
+
+            # ---------------------------------------------
+            # Open DOCX (Ye code tumhara as-is rahega)
+            # ---------------------------------------------
+            print("\nOpening DOCX document...")
+            document = Document(file_path)
 
             # ---------------------------------------------
             # Open DOCX
