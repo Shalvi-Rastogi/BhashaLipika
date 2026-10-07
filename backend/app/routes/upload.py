@@ -13,7 +13,7 @@ from sqlalchemy import text as sql_text
 
 from concurrent.futures import ThreadPoolExecutor
 
-from app.utils.rtf_converter import convert_rtf_to_docx
+from app.utils.rtf_converter import convert_rtf_to_docx, convert_docx_to_rtf
 
 from fastapi import (
     APIRouter,
@@ -1937,6 +1937,19 @@ async def upload_document(
                     OUTPUT_FOLDER
                 )
 
+                final_filename = os.path.basename(
+                    final_file_path
+                )
+
+            elif file_type == "RTF":
+                print(
+                    "\nConverting reconstructed DOCX "
+                    "back to RTF..."
+                )
+                final_file_path = convert_docx_to_rtf(
+                    reconstructed_docx_path,
+                    OUTPUT_FOLDER
+                )
                 final_filename = os.path.basename(
                     final_file_path
                 )

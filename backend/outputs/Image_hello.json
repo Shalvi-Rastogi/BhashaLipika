@@ -16,9 +16,9 @@
                         "font_name": null,
                         "font_size": null,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": null,
                         "strike": null,
                         "double_strike": null,
@@ -33,8 +33,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 },
                 {
@@ -43,9 +43,9 @@
                         "font_name": null,
                         "font_size": null,
                         "font_color": null,
-                        "bold": null,
-                        "italic": null,
-                        "underline": null,
+                        "bold": false,
+                        "italic": false,
+                        "underline": false,
                         "highlight_color": "YELLOW (7)",
                         "strike": null,
                         "double_strike": null,
@@ -60,8 +60,8 @@
                         "imprint": null,
                         "rtl": null,
                         "complex_script": null,
-                        "cs_bold": null,
-                        "cs_italic": null
+                        "cs_bold": false,
+                        "cs_italic": false
                     }
                 }
             ],
@@ -85,6 +85,8 @@
             "type": "image_text",
             "order": 2,
             "image_name": "image_1.png",
+            "original_media": "word/media/image1.png",
+            "image_path": "app/temp\\image_1.png",
             "text": "Hello world!",
             "ocr_details": [
                 {
