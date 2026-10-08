@@ -102,7 +102,7 @@ function Home() {
           `${API_BASE_URL}/translate-html`,
           {
             html: inputText,
-            source_language: sourceLanguage, // Samia's change
+            source_language: sourceLanguage, 
             target_language: targetLanguage,
           }
         );
