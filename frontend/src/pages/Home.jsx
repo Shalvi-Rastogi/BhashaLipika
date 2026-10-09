@@ -261,7 +261,10 @@ function Home() {
             {/* NORMAL TEXT TRANSLATION */}
             {(
               <>
-                <OutputPanel translatedText={translatedText} />
+                <OutputPanel 
+                translatedText={translatedText}
+                targetLanguage={targetLanguage}
+               />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">
                   <DownloadDocument />
                   <SaveToMemory />
