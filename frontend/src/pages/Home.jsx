@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import SaveToMemory from "../components/SaveToMemory";
 import LanguageSelector from "../components/LanguageSelector";
 import InputPanel from "../components/Input";
 import OutputPanel from "../components/Output";
 import TranslateButton from "../components/TranslateButton";
 import ResetButton from "../components/ResetButton";
-import SaveToMemory from "../components/SaveToMemory";
 import DownloadDocument from "../components/DownloadDocument";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
@@ -141,6 +140,16 @@ function Home() {
     setTranslatedText("");
   };
 
+  const reconstructedFilename =
+    documentData?.reconstructed_rtf_file ||
+    documentData?.reconstructed_docx_file ||
+    documentData?.reconstructed_xlsx_file ||
+    documentData?.reconstructed_pptx_file ||
+    documentData?.reconstructed_pdf_file ||
+    documentData?.reconstructed_file ||
+    documentData?.output_filename ||
+    "";
+
   // ------------------------------------------------
   // OPEN REVIEW PAGE
   // ------------------------------------------------
@@ -169,34 +178,6 @@ function Home() {
     setResetKey((prev) => prev + 1);
     sessionStorage.removeItem("translatorHomeState");
   };
-
-  const isExcelDocument = [
-    documentData?.file_type,
-    documentData?.data?.document_type,
-    documentData?.filename,
-    documentData?.data?.filename,
-  ].some((value) => /(?:xls[x]?|excel)/i.test(value || ""));
-
-  const isWordDocument = [
-    documentData?.file_type,
-    documentData?.data?.document_type,
-    documentData?.filename,
-    documentData?.data?.filename,
-  ].some((value) => /(?:docx?|word)/i.test(value || ""));
-
-  const isPowerPointDocument = [
-    documentData?.file_type,
-    documentData?.data?.document_type,
-    documentData?.filename,
-    documentData?.data?.filename,
-  ].some((value) => /(?:pptx?|powerpoint|presentation)/i.test(value || ""));
-
-  const isPdfDocument = [
-    documentData?.file_type,
-    documentData?.data?.document_type,
-    documentData?.filename,
-    documentData?.data?.filename,
-  ].some((value) => /(?:pdf)/i.test(value || ""));
 
   // ------------------------------------------------
   // RETURN
@@ -258,13 +239,20 @@ function Home() {
 
           {/* RIGHT */}
           <div>
-            {/* NORMAL TEXT TRANSLATION */}
-            {(
+            {documentData ? (
+              <OutputPanel
+                key={documentData.document_id || "document-output"}
+                documentFilename={reconstructedFilename}
+                documentId={documentData.document_id}
+                onReviewDocument={handleEditDocument}
+              />
+            ) : (
               <>
-                <OutputPanel 
-                translatedText={translatedText}
-                targetLanguage={targetLanguage}
-               />
+                <OutputPanel
+                  translatedText={translatedText}
+                  targetLanguage={targetLanguage}
+                />
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">
                   <DownloadDocument />
                   <SaveToMemory />
@@ -274,87 +262,6 @@ function Home() {
           </div>
         </div>
 
-        {/* ================================================= */}
-        {/* TRANSLATED DOCUMENT PREVIEW */}
-        {/* ================================================= */}
-
-        {documentData && (
-          <div className="mt-10">
-            <div className="bg-white rounded-2xl shadow-md p-6">
-              {/* HEADER */}
-              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-                <div>
-                  <h2 className="text-2xl font-bold text-gray-800">
-                    {isExcelDocument || isWordDocument || isPowerPointDocument || isPdfDocument
-                      ? "Review Reconstructed Document"
-                      : "Translated Document"}
-                  </h2>
-                  <p className="text-gray-500 mt-1">
-                    {documentData.data?.filename ||
-                      documentData.filename ||
-                      "Translated Document"}
-                  </p>
-                </div>
-
-                <div className="flex gap-3">
-                  {/* EDIT */}
-                  <button
-                    type="button"
-                    onClick={handleEditDocument}
-                    className="bg-violet-600 hover:bg-violet-700 text-white font-semibold px-5 py-3 rounded-lg transition"
-                  >
-                    {isExcelDocument
-                      ? "Review Excel Workbook"
-                      : isWordDocument
-                      ? "Review Word Document"
-                      : isPowerPointDocument
-                      ? "Review Presentation"
-                      : isPdfDocument
-                      ? "Review PDF Document"
-                      : "Edit Reconstructed Document"}
-                  </button>
-                </div>
-              </div>
-
-              {/* SHEETS */}
-              {!isExcelDocument && !isWordDocument && !isPowerPointDocument && !isPdfDocument && documentData.data?.sheets?.map(
-                (sheet, sheetIndex) => (
-                  <div key={sheetIndex} className="mb-8 last:mb-0">
-                    <h3 className="text-xl font-semibold mb-4">
-                      {sheet.sheet_name}
-                    </h3>
-                    <div className="overflow-x-auto border rounded-xl">
-                      <table className="w-full border-collapse">
-                        <thead>
-                          <tr className="bg-gray-100">
-                            <th className="border p-3 text-left">Cell</th>
-                            <th className="border p-3 text-left">Original Text</th>
-                            <th className="border p-3 text-left">Translated Text</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {sheet.cells?.map((cell, cellIndex) => (
-                            <tr key={cellIndex}>
-                              <td className="border p-3 font-semibold text-gray-700">
-                                {cell.coordinate}
-                              </td>
-                              <td className="border p-3 text-gray-700">
-                                {cell.original_text || ""}
-                              </td>
-                              <td className="border p-3 text-gray-800">
-                                {cell.translated_text || ""}
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                )
-              )}
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

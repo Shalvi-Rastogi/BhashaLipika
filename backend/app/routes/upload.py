@@ -2015,6 +2015,9 @@ async def upload_document(
                 "reconstructed_docx_file":
                     final_filename,
 
+                "reconstructed_rtf_file":
+                    final_filename if file_type == "RTF" else None,
+
                 "data":
                     result,
 

@@ -1,24 +1,248 @@
 import os
 import json
+import posixpath
 import shutil
+import subprocess
+import tempfile
+import zipfile
+from pathlib import Path
+import xml.etree.ElementTree as ET
 
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import FileResponse
+from starlette.background import BackgroundTask
 from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 from openpyxl import load_workbook
 
 from app.database.database import get_db
 from app.database.models import Document
-from app.reconstructors.xlsx_reconstructor import reconstruct_xlsx
+from app.reconstructors.xlsx_reconstructor import (
+    reconstruct_xlsx,
+    serialize_xml_preserving_namespaces,
+)
 from app.reconstructors.docx_reconstructor import reconstruct_docx
 from app.reconstructors.pptx_reconstructor import reconstruct_pptx
 from app.reconstructors.PDF.native_pdf_reconstructor import reconstruct_native_pdf
 from app.utils.xls_converter import convert_xlsx_to_xls
-from app.utils.doc_converter import convert_docx_to_doc
+from app.utils.doc_converter import convert_docx_to_doc, _get_soffice_path
+from app.utils.rtf_converter import convert_docx_to_rtf
 
 
 router = APIRouter()
+
+_SPREADSHEET_NS = {
+    "main": "http://schemas.openxmlformats.org/spreadsheetml/2006/main",
+    "r": "http://schemas.openxmlformats.org/officeDocument/2006/relationships",
+    "package_rel": "http://schemas.openxmlformats.org/package/2006/relationships",
+    "xdr": "http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing",
+}
+
+
+def _spreadsheet_qname(namespace, tag):
+    return f"{{{namespace}}}{tag}"
+
+
+def _package_relationship_target(source_file, target):
+    if target.startswith("/"):
+        return target.lstrip("/")
+    return posixpath.normpath(
+        posixpath.join(posixpath.dirname(source_file), target)
+    )
+
+
+def _prepare_spreadsheet_preview(source_path, preview_dir):
+    """Include non-cell drawings in the print area of a preview-only copy."""
+    import openpyxl
+    from openpyxl.utils import get_column_letter
+
+    workbook = openpyxl.load_workbook(source_path, data_only=False)
+    bounds_by_sheet = {}
+
+    for sheet in workbook.worksheets:
+        bounds = [None, None, None, None]
+
+        def include_range(min_row, min_column, max_row, max_column):
+            bounds[0] = min_row if bounds[0] is None else min(bounds[0], min_row)
+            bounds[1] = min_column if bounds[1] is None else min(bounds[1], min_column)
+            bounds[2] = max_row if bounds[2] is None else max(bounds[2], max_row)
+            bounds[3] = max_column if bounds[3] is None else max(bounds[3], max_column)
+
+        for cell in sheet._cells.values():
+            if cell.value is not None:
+                include_range(cell.row, cell.column, cell.row, cell.column)
+
+        for image in sheet._images:
+            anchor = image.anchor
+            start = getattr(anchor, "_from", None)
+            end = getattr(anchor, "to", None)
+            if start is None:
+                continue
+            min_row = start.row + 1
+            min_column = start.col + 1
+            max_row = max(
+                min_row,
+                end.row + 1 if end is not None else start.row + 1,
+            )
+            max_column = max(
+                min_column,
+                end.col + 1 if end is not None else start.col + 1,
+            )
+            include_range(min_row, min_column, max_row, max_column)
+
+        if bounds[0] is not None:
+            bounds_by_sheet[sheet.title] = (
+                f"${get_column_letter(bounds[1])}${bounds[0]}:"
+                f"${get_column_letter(bounds[3])}${bounds[2]}"
+            )
+
+    workbook.close()
+
+    if not bounds_by_sheet:
+        return source_path
+
+    main_ns = _SPREADSHEET_NS["main"]
+    rel_ns = _SPREADSHEET_NS["r"]
+    package_rel_ns = _SPREADSHEET_NS["package_rel"]
+    preview_path = os.path.join(
+        preview_dir,
+        f"{Path(source_path).stem}_preview.xlsx",
+    )
+
+    with zipfile.ZipFile(source_path, "r") as source_zip:
+        workbook_path = "xl/workbook.xml"
+        workbook_root = ET.fromstring(source_zip.read(workbook_path))
+        relationships_root = ET.fromstring(
+            source_zip.read("xl/_rels/workbook.xml.rels")
+        )
+        relationship_map = {
+            relationship.attrib["Id"]: relationship.attrib["Target"]
+            for relationship in relationships_root.findall(
+                _spreadsheet_qname(package_rel_ns, "Relationship")
+            )
+            if relationship.attrib.get("Id") and relationship.attrib.get("Target")
+        }
+
+        worksheet_paths = {}
+        sheets = workbook_root.find(_spreadsheet_qname(main_ns, "sheets"))
+        if sheets is not None:
+            for sheet_index, sheet in enumerate(
+                sheets.findall(_spreadsheet_qname(main_ns, "sheet"))
+            ):
+                relationship_id = sheet.attrib.get(
+                    _spreadsheet_qname(rel_ns, "id")
+                )
+                target = relationship_map.get(relationship_id)
+                if target:
+                    worksheet_paths[sheet.attrib["name"]] = (
+                        _package_relationship_target(workbook_path, target),
+                        sheet_index,
+                    )
+
+        modified_files = {}
+        defined_names = workbook_root.find(
+            _spreadsheet_qname(main_ns, "definedNames")
+        )
+        if defined_names is None:
+            defined_names = ET.Element(
+                _spreadsheet_qname(main_ns, "definedNames")
+            )
+            calc_properties = workbook_root.find(
+                _spreadsheet_qname(main_ns, "calcPr")
+            )
+            insert_at = (
+                list(workbook_root).index(calc_properties)
+                if calc_properties is not None
+                else len(workbook_root)
+            )
+            workbook_root.insert(insert_at, defined_names)
+
+        for sheet_name, cell_range in bounds_by_sheet.items():
+            worksheet_path, sheet_index = worksheet_paths[sheet_name]
+            worksheet_root = ET.fromstring(source_zip.read(worksheet_path))
+
+            sheet_properties = worksheet_root.find(
+                _spreadsheet_qname(main_ns, "sheetPr")
+            )
+            if sheet_properties is None:
+                sheet_properties = ET.Element(
+                    _spreadsheet_qname(main_ns, "sheetPr")
+                )
+                worksheet_root.insert(0, sheet_properties)
+
+            page_setup_properties = sheet_properties.find(
+                _spreadsheet_qname(main_ns, "pageSetUpPr")
+            )
+            if page_setup_properties is None:
+                page_setup_properties = ET.SubElement(
+                    sheet_properties,
+                    _spreadsheet_qname(main_ns, "pageSetUpPr"),
+                )
+            page_setup_properties.set("fitToPage", "1")
+
+            page_setup = worksheet_root.find(
+                _spreadsheet_qname(main_ns, "pageSetup")
+            )
+            if page_setup is None:
+                page_setup = ET.Element(
+                    _spreadsheet_qname(main_ns, "pageSetup")
+                )
+                page_margins = worksheet_root.find(
+                    _spreadsheet_qname(main_ns, "pageMargins")
+                )
+                insert_at = (
+                    list(worksheet_root).index(page_margins) + 1
+                    if page_margins is not None
+                    else len(worksheet_root)
+                )
+                worksheet_root.insert(insert_at, page_setup)
+            page_setup.set("fitToWidth", "1")
+            page_setup.set("fitToHeight", "0")
+            page_setup.attrib.pop("scale", None)
+
+            for existing_name in list(defined_names):
+                if (
+                    existing_name.attrib.get("name") == "_xlnm.Print_Area"
+                    and existing_name.attrib.get("localSheetId") == str(sheet_index)
+                ):
+                    defined_names.remove(existing_name)
+
+            print_area = ET.SubElement(
+                defined_names,
+                _spreadsheet_qname(main_ns, "definedName"),
+                {
+                    "name": "_xlnm.Print_Area",
+                    "localSheetId": str(sheet_index),
+                },
+            )
+            quoted_sheet_name = sheet_name.replace("'", "''")
+            print_area.text = f"'{quoted_sheet_name}'!{cell_range}"
+
+            modified_files[worksheet_path] = serialize_xml_preserving_namespaces(
+                worksheet_root,
+                source_zip.read(worksheet_path),
+            )
+
+        modified_files[workbook_path] = serialize_xml_preserving_namespaces(
+            workbook_root,
+            source_zip.read(workbook_path),
+        )
+
+        with zipfile.ZipFile(
+            preview_path,
+            "w",
+            compression=zipfile.ZIP_DEFLATED,
+        ) as preview_zip:
+            for package_item in source_zip.infolist():
+                preview_zip.writestr(
+                    package_item,
+                    modified_files.get(
+                        package_item.filename,
+                        source_zip.read(package_item.filename),
+                    ),
+                )
+
+    return preview_path
 
 
 # -----------------------------
@@ -84,10 +308,12 @@ def save_review(
 
     file_type = document.file_type.lower()
     
-    if file_type not in {"doc", "docx", "xls", "xlsx", "ppt", "pptx", "pdf"}:
+    if file_type not in {
+        "doc", "docx", "rtf", "xls", "xlsx", "ppt", "pptx", "pdf"
+    }:
         raise HTTPException(
             status_code=400,
-            detail="Review editing supports DOC, DOCX, XLS, XLSX, PPT, PPTX, and PDF files."
+            detail="Review editing supports DOC, DOCX, RTF, XLS, XLSX, PPT, PPTX, and PDF files."
         )
 
     if not document.output_filename:
@@ -114,7 +340,7 @@ def save_review(
         # ---------------------------------------------
         # <-- BLOCK FOR DOC / DOCX -->
         # ---------------------------------------------
-        if file_type in {"doc", "docx"}:
+        if file_type in {"doc", "docx", "rtf"}:
             filename_stem = os.path.splitext(
                 os.path.basename(document.original_filename)
             )[0]
@@ -177,12 +403,36 @@ def save_review(
             with open(translated_json_path, "w", encoding="utf-8") as data_file:
                 json.dump(translated_data, data_file, ensure_ascii=False, indent=4)
 
-            # Reconstruct into the new '_reviewed' file
-            reconstruct_docx(
-                original_docx_path,
-                translated_json_path,
-                reviewed_output_path,
-            )
+            if file_type == "rtf":
+                conversion_dir = os.path.join(
+                    "outputs",
+                    f".review_rtf_{document.id}",
+                )
+                shutil.rmtree(conversion_dir, ignore_errors=True)
+                os.makedirs(conversion_dir, exist_ok=True)
+                reviewed_docx_path = os.path.join(
+                    conversion_dir,
+                    f"{filename_stem}_reviewed.docx",
+                )
+                try:
+                    reconstruct_docx(
+                        original_docx_path,
+                        translated_json_path,
+                        reviewed_docx_path,
+                    )
+                    converted_path = convert_docx_to_rtf(
+                        reviewed_docx_path,
+                        conversion_dir,
+                    )
+                    os.replace(converted_path, reviewed_output_path)
+                finally:
+                    shutil.rmtree(conversion_dir, ignore_errors=True)
+            else:
+                reconstruct_docx(
+                    original_docx_path,
+                    translated_json_path,
+                    reviewed_output_path,
+                )
 
             if file_type == "doc":
                 conversion_dir = os.path.join("outputs", f".review_doc_{document.id}")
@@ -465,6 +715,7 @@ def download_final_document(
     extension_media_types = {
         ".doc": "application/msword",
         ".docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        ".rtf": "application/rtf",
         ".xls": "application/vnd.ms-excel",
         ".xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         ".ppt": "application/vnd.ms-powerpoint",
@@ -482,3 +733,135 @@ def download_final_document(
         filename=target_filename,
         media_type=media_type,
     )
+
+
+@router.get("/review/preview/{document_id}")
+def preview_reconstructed_document(
+    document_id: int,
+    db: Session = Depends(get_db)
+):
+    document = (
+        db.query(Document)
+        .filter(Document.id == document_id)
+        .first()
+    )
+
+    if not document:
+        raise HTTPException(
+            status_code=404,
+            detail="Document not found."
+        )
+
+    if not document.output_filename:
+        raise HTTPException(
+            status_code=404,
+            detail="Reconstructed document not found."
+        )
+
+    filename = os.path.basename(document.output_filename)
+    output_path = os.path.join("outputs", filename)
+
+    if not os.path.isfile(output_path):
+        raise HTTPException(
+            status_code=404,
+            detail="Reconstructed document does not exist."
+        )
+
+    extension = os.path.splitext(filename)[1].lower()
+
+    if extension == ".pdf":
+        return FileResponse(
+            path=output_path,
+            filename=filename,
+            media_type="application/pdf",
+            content_disposition_type="inline",
+        )
+
+    if extension not in {
+        ".doc", ".docx", ".rtf", ".xls", ".xlsx", ".ppt", ".pptx"
+    }:
+        raise HTTPException(
+            status_code=400,
+            detail="Preview is not supported for this document format."
+        )
+
+    preview_dir = tempfile.mkdtemp(prefix="document-preview-")
+    profile_dir = os.path.join(preview_dir, "lo-profile")
+    preview_source_path = output_path
+
+    try:
+        if extension == ".xls":
+            subprocess.run(
+                [
+                    _get_soffice_path(),
+                    f"-env:UserInstallation={Path(profile_dir).as_uri()}",
+                    "--headless",
+                    "--convert-to",
+                    "xlsx:Calc MS Excel 2007 XML",
+                    "--outdir",
+                    preview_dir,
+                    output_path,
+                ],
+                check=True,
+                capture_output=True,
+                text=True,
+                timeout=120,
+            )
+            preview_source_path = os.path.join(
+                preview_dir,
+                f"{Path(filename).stem}.xlsx",
+            )
+
+            if not os.path.isfile(preview_source_path):
+                raise RuntimeError("Could not prepare the spreadsheet for preview.")
+
+        if extension in {".xls", ".xlsx"}:
+            preview_source_path = _prepare_spreadsheet_preview(
+                preview_source_path,
+                preview_dir,
+            )
+
+        subprocess.run(
+            [
+                _get_soffice_path(),
+                f"-env:UserInstallation={Path(profile_dir).as_uri()}",
+                "--headless",
+                "--convert-to",
+                "pdf",
+                "--outdir",
+                preview_dir,
+                preview_source_path,
+            ],
+            check=True,
+            capture_output=True,
+            text=True,
+            timeout=120,
+        )
+
+        preview_path = os.path.join(
+            preview_dir,
+            f"{Path(preview_source_path).stem}.pdf"
+        )
+
+        if not os.path.isfile(preview_path):
+            raise RuntimeError("Office preview conversion produced no PDF.")
+
+        return FileResponse(
+            path=preview_path,
+            filename=f"{Path(filename).stem}.pdf",
+            media_type="application/pdf",
+            content_disposition_type="inline",
+            background=BackgroundTask(shutil.rmtree, preview_dir, ignore_errors=True),
+        )
+    except FileNotFoundError as error:
+        shutil.rmtree(preview_dir, ignore_errors=True)
+        raise HTTPException(
+            status_code=503,
+            detail=str(error)
+        ) from error
+    except (subprocess.CalledProcessError, subprocess.TimeoutExpired, RuntimeError) as error:
+        shutil.rmtree(preview_dir, ignore_errors=True)
+        raise HTTPException(
+            status_code=500,
+            detail=f"Could not prepare document preview: {error}"
+        ) from error

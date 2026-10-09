@@ -38,20 +38,35 @@ const getColumnLabel = (columnNumber) => {
 const collectDocumentReviewEntries = (translatedData, originalData) => {
   const entries = [];
 
-  const addText = (path, translatedText, originalText, label) => {
+  const addText = (path, translatedText, originalText, label, position) => {
     if (typeof translatedText !== "string") return;
     entries.push({
       path,
       translatedText,
       originalText: typeof originalText === "string" ? originalText : "",
       label,
+      _position: position,
     });
+  };
+
+  const addImageText = (path, translatedText, originalText, label, position) => {
+    const hasText = [translatedText, originalText].some(
+      (text) => typeof text === "string" && text.trim().length > 0
+    );
+    if (hasText) {
+      addText(path, translatedText, originalText, label, position);
+    }
   };
 
   // 1. PDF FORMAT HANDLING
   if (translatedData?.pages && Array.isArray(translatedData.pages)) {
     translatedData.pages.forEach((page, pIdx) => {
       const pageLabel = `Page ${page.page_number || pIdx + 1}`;
+      const pageEntriesStart = entries.length;
+      const getPosition = (bbox) =>
+        Array.isArray(bbox) && Number.isFinite(Number(bbox[1]))
+          ? Number(bbox[1])
+          : Number.MAX_SAFE_INTEGER;
       
       // PDF Elements (Text Blocks & Tables)
       (page.elements || []).forEach((el, elIdx) => {
@@ -60,7 +75,8 @@ const collectDocumentReviewEntries = (translatedData, originalData) => {
             ["pages", pIdx, "elements", elIdx, "translated_text"],
             el.translated_text,
             el.original_text,
-            `${pageLabel} - Text Block`
+            `${pageLabel} - Text Block`,
+            getPosition(el.bbox)
           );
         } else if (el.type === "table") {
           (el.rows || []).forEach((row, rIdx) => {
@@ -70,7 +86,8 @@ const collectDocumentReviewEntries = (translatedData, originalData) => {
                 ["pages", pIdx, "elements", elIdx, "rows", rIdx, "cells", cIdx, "translated_text"],
                 cell.translated_text,
                 origCell,
-                `${pageLabel} - Table (R${rIdx + 1}C${cIdx + 1})`
+                `${pageLabel} - Table (R${rIdx + 1}C${cIdx + 1})`,
+                getPosition(cell.bbox || el.bbox)
               );
             });
           });
@@ -81,23 +98,36 @@ const collectDocumentReviewEntries = (translatedData, originalData) => {
       (page.images || []).forEach((img, imgIdx) => {
         (img.ocr_data || []).forEach((ocrItem, ocrIdx) => {
           const origOcrText = originalData?.pages?.[pIdx]?.images?.[imgIdx]?.ocr_data?.[ocrIdx]?.text || ocrItem.text || "";
-          addText(
+          addImageText(
             ["pages", pIdx, "images", imgIdx, "ocr_data", ocrIdx, "translated_text"],
             ocrItem.translated_text,
             origOcrText,
-            `${pageLabel} - Image Text`
+            `${pageLabel} - Image Text`,
+            getPosition(img.bbox)
           );
         });
       });
+
+      const orderedPageEntries = entries
+        .slice(pageEntriesStart)
+        .sort((left, right) => left._position - right._position);
+      entries.splice(pageEntriesStart, orderedPageEntries.length, ...orderedPageEntries);
     });
+    entries.forEach((entry) => delete entry._position);
     return entries;
   }
 
   // 2. DOCX & PPTX HANDLING
-  const visit = (translated, original, path, label) => {
+  const visit = (
+    translated,
+    original,
+    path,
+    label,
+    inheritedPosition = Number.MAX_SAFE_INTEGER
+  ) => {
     if (Array.isArray(translated)) {
       translated.forEach((item, index) =>
-        visit(item, original?.[index], [...path, index], label)
+        visit(item, original?.[index], [...path, index], label, inheritedPosition)
       );
       return;
     }
@@ -105,6 +135,9 @@ const collectDocumentReviewEntries = (translatedData, originalData) => {
     if (!translated || typeof translated !== "object") return;
 
     const typeStr = translated.type?.toLowerCase() || "";
+    const reviewPosition = Number.isFinite(translated.review_order)
+      ? translated.review_order
+      : inheritedPosition;
 
     // PPTX SPECIFIC TYPES
     if (typeStr === "text_frame") {
@@ -139,7 +172,7 @@ const collectDocumentReviewEntries = (translatedData, originalData) => {
     if (typeStr === "image" && Array.isArray(translated.ocr_data)) {
       const slideNum = translated.slide_number ? `Slide ${translated.slide_number}` : label;
       translated.ocr_data.forEach((item, ocrIdx) => {
-        addText(
+        addImageText(
           [...path, "ocr_data", ocrIdx, "translated_text"],
           item.translated_text || "",
           original?.ocr_data?.[ocrIdx]?.text || "",
@@ -147,7 +180,7 @@ const collectDocumentReviewEntries = (translatedData, originalData) => {
         );
       });
       if (!translated.ocr_data.length && translated.translated_text) {
-        addText(
+        addImageText(
           [...path, "translated_text"],
           translated.translated_text,
           original?.text || "",
@@ -157,8 +190,37 @@ const collectDocumentReviewEntries = (translatedData, originalData) => {
       return;
     }
 
+    if (["paragraph", "heading", "list_item"].includes(typeStr)) {
+      const textPath = [...path, "text"];
+      const translatedText =
+        typeof translated.text === "string"
+          ? translated.text
+          : typeof translated.translated_text === "string"
+            ? translated.translated_text
+            : Array.isArray(translated.runs)
+              ? translated.runs.map((run) => run.text || "").join("")
+              : translated.original_text;
+      const originalText =
+        typeof original?.text === "string"
+          ? original.text
+          : typeof original?.original_text === "string"
+            ? original.original_text
+            : Array.isArray(original?.runs)
+              ? original.runs.map((run) => run.text || "").join("")
+              : "";
+
+      addText(
+        textPath,
+        translatedText,
+        originalText,
+        typeStr.replace(/_/g, " "),
+        reviewPosition
+      );
+      return;
+    }
+
     // DOCX SPECIFIC TYPES
-    if (["paragraph", "heading", "list_item", "slide_text", "table_cell"].includes(typeStr)) {
+    if (["slide_text", "table_cell"].includes(typeStr)) {
       let displayLabel = translated.type.replace(/_/g, " ");
       if (translated.slide_number) {
         displayLabel = `Slide ${translated.slide_number} - ${displayLabel}`;
@@ -173,7 +235,13 @@ const collectDocumentReviewEntries = (translatedData, originalData) => {
         displayLabel = `Slide ${translated.slide_number} - ${displayLabel}`;
       }
       (translated.paragraphs || []).forEach((text, index) => {
-        addText([...path, "paragraphs", index], text, original?.paragraphs?.[index], displayLabel);
+        addText(
+          [...path, "paragraphs", index],
+          text,
+          original?.paragraphs?.[index],
+          displayLabel,
+          reviewPosition
+        );
       });
       return;
     }
@@ -185,19 +253,21 @@ const collectDocumentReviewEntries = (translatedData, originalData) => {
       }
       const ocrDetails = translated.ocr_details || [];
       ocrDetails.forEach((item, index) => {
-        addText(
+        addImageText(
           [...path, "ocr_details", index, "translated_text"],
           item.translated_text || "",
           original?.ocr_details?.[index]?.text,
-          displayLabel
+          displayLabel,
+          reviewPosition
         );
       });
       if (!ocrDetails.length) {
-        addText(
+        addImageText(
           [...path, "translated_text"],
           translated.translated_text || "",
           original?.text,
-          displayLabel
+          displayLabel,
+          reviewPosition
         );
       }
       return;
@@ -205,35 +275,57 @@ const collectDocumentReviewEntries = (translatedData, originalData) => {
 
     if (Array.isArray(translated.runs)) {
       translated.runs.forEach((run, runIndex) => {
-        addText([...path, "runs", runIndex, "text"], run.text, original?.runs?.[runIndex]?.text, label);
+        addText(
+          [...path, "runs", runIndex, "text"],
+          run.text,
+          original?.runs?.[runIndex]?.text,
+          label,
+          reviewPosition
+        );
       });
       return;
     }
 
     if (typeof translated.text === "string" && !translated.paragraphs) {
-      addText([...path, "text"], translated.text, original?.text, label);
+      addText([...path, "text"], translated.text, original?.text, label, reviewPosition);
       return;
     }
 
     if (translated.paragraphs) {
-      visit(translated.paragraphs, original?.paragraphs, [...path, "paragraphs"], "Table paragraph");
+      visit(
+        translated.paragraphs,
+        original?.paragraphs,
+        [...path, "paragraphs"],
+        "Table paragraph",
+        reviewPosition
+      );
     }
     if (translated.rows) {
-      visit(translated.rows, original?.rows, [...path, "rows"], "Table content");
+      visit(translated.rows, original?.rows, [...path, "rows"], "Table content", reviewPosition);
     }
     if (translated.cells) {
-      visit(translated.cells, original?.cells, [...path, "cells"], "Table content");
+      visit(translated.cells, original?.cells, [...path, "cells"], "Table content", reviewPosition);
     }
     if (translated.nested_tables) {
-      visit(translated.nested_tables, original?.nested_tables, [...path, "nested_tables"], "Nested table");
+      visit(
+        translated.nested_tables,
+        original?.nested_tables,
+        [...path, "nested_tables"],
+        "Nested table",
+        reviewPosition
+      );
     }
     if (translated.elements) {
-      visit(translated.elements, original?.elements, [...path, "elements"], label);
+      visit(translated.elements, original?.elements, [...path, "elements"], label, reviewPosition);
     }
   };
 
   if (translatedData?.elements) {
     visit(translatedData.elements, originalData?.elements || [], ["elements"], "Document text");
+    if (translatedData.document_type === "docx") {
+      entries.sort((left, right) => left._position - right._position);
+      entries.forEach((entry) => delete entry._position);
+    }
   } else {
     Object.keys(translatedData || {}).forEach((key) => {
       if (key.startsWith("slide_")) {
@@ -269,7 +361,7 @@ function ReviewDocument() {
   const documentId = documentData?.document_id;
   const fileType = documentData?.file_type?.toLowerCase();
   
-  const isWordDocument = ["doc", "docx"].includes(fileType);
+  const isWordDocument = ["doc", "docx", "rtf"].includes(fileType);
   const isPowerPointDocument = ["ppt", "pptx"].includes(fileType);
   const isPdfDocument = ["pdf"].includes(fileType); // NAYA: PDF check
   const isDocumentView = isWordDocument || isPowerPointDocument || isPdfDocument; // NAYA: PDF added to document view
@@ -528,6 +620,7 @@ function ReviewDocument() {
       
   const finalFilename =
     documentData.reconstructed_pptx_file ||
+    documentData.reconstructed_rtf_file ||
     documentData.reconstructed_docx_file ||
     documentData.reconstructed_pdf_file ||
     documentData.reconstructed_file ||
@@ -556,7 +649,13 @@ function ReviewDocument() {
                 <ArrowLeft size={16} aria-hidden="true" /> Back
               </button>
               <h1 className="text-2xl font-semibold text-[#202a27]">
-                {isPowerPointDocument ? "Presentation review" : isPdfDocument ? "PDF Document review" : "Word document review"}
+                {isPowerPointDocument
+                  ? "Presentation review"
+                  : isPdfDocument
+                    ? "PDF Document review"
+                    : fileType === "rtf"
+                      ? "RTF document review"
+                      : "Word document review"}
               </h1>
               <p className="mt-1 text-sm text-[#64716c]">
                 {documentData.filename}
