@@ -1,22 +1,13 @@
 import subprocess
-import shutil
+import tempfile
+import zipfile
 from pathlib import Path
 
+from lxml import etree
 
-def _get_soffice_path():
-    candidates = [
-        shutil.which("soffice"),
-        "/Applications/LibreOffice.app/Contents/MacOS/soffice",
-    ]
+from app.utils.doc_converter import _get_soffice_path
 
-    for candidate in candidates:
-        if candidate and Path(candidate).is_file():
-            return candidate
-
-    raise FileNotFoundError(
-        "LibreOffice was not found. "
-        "Install LibreOffice or set the SOFFICE_PATH."
-    )
+W_NS = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
 
 
 def convert_rtf_to_docx(rtf_path, output_dir):
@@ -54,6 +45,57 @@ def convert_rtf_to_docx(rtf_path, output_dir):
     return str(converted_path)
 
 
+def _prepare_docx_for_rtf_export(docx_path, temporary_dir):
+    converted_input = Path(temporary_dir) / docx_path.name
+    value_attribute = f"{{{W_NS}}}val"
+    color_attribute = f"{{{W_NS}}}color"
+    fill_attribute = f"{{{W_NS}}}fill"
+
+    with zipfile.ZipFile(docx_path) as source, zipfile.ZipFile(
+        converted_input,
+        "w",
+        compression=zipfile.ZIP_DEFLATED,
+    ) as prepared:
+        for entry in source.infolist():
+            content = source.read(entry.filename)
+
+            if entry.filename.startswith("word/") and entry.filename.endswith(
+                ".xml"
+            ):
+                root = etree.fromstring(
+                    content,
+                    parser=etree.XMLParser(
+                        resolve_entities=False,
+                        no_network=True,
+                    ),
+                )
+                changed = False
+
+                for shading in root.iter(f"{{{W_NS}}}shd"):
+                    fill = shading.get(fill_attribute)
+                    if (
+                        shading.get(value_attribute) == "solid"
+                        and shading.get(color_attribute) == "auto"
+                        and fill
+                        and fill != "auto"
+                    ):
+                        shading.set(value_attribute, "clear")
+                        changed = True
+
+                if changed:
+                    tree = root.getroottree()
+                    content = etree.tostring(
+                        root,
+                        encoding="UTF-8",
+                        xml_declaration=True,
+                        standalone=tree.docinfo.standalone,
+                    )
+
+            prepared.writestr(entry, content)
+
+    return converted_input
+
+
 def convert_docx_to_rtf(docx_path, output_dir):
     docx_path = Path(docx_path)
     output_dir = Path(output_dir)
@@ -63,18 +105,27 @@ def convert_docx_to_rtf(docx_path, output_dir):
         exist_ok=True
     )
 
-    subprocess.run(
-        [
-            _get_soffice_path(),
-            "--headless",
-            "--convert-to",
-            "rtf",
-            "--outdir",
-            str(output_dir),
-            str(docx_path)
-        ],
-        check=True
-    )
+    with tempfile.TemporaryDirectory(
+        prefix="rtf_export_",
+        dir=output_dir,
+    ) as temporary_dir:
+        converted_input = _prepare_docx_for_rtf_export(
+            docx_path,
+            temporary_dir,
+        )
+
+        subprocess.run(
+            [
+                _get_soffice_path(),
+                "--headless",
+                "--convert-to",
+                "rtf",
+                "--outdir",
+                str(output_dir),
+                str(converted_input)
+            ],
+            check=True
+        )
 
     converted_path = (
         output_dir /
