@@ -865,3 +865,99 @@ def preview_reconstructed_document(
             status_code=500,
             detail=f"Could not prepare document preview: {error}"
         ) from error
+
+def _load_pdf_translated_data(document):
+    """Load the translated JSON of a PDF document (same lookup as review/save)."""
+    stem = os.path.splitext(os.path.basename(document.original_filename))[0]
+    pair = f"{document.source_language}_to_{document.target_language}"
+
+    path = os.path.join("outputs", f"{stem}_translated_{pair}.json")
+    if not os.path.exists(path):
+        path = os.path.join(
+            "outputs", f"{stem}_translated_{document.target_language}.json"
+        )
+    if not os.path.exists(path):
+        raise HTTPException(status_code=404, detail="Translated PDF data was not found.")
+
+    with open(path, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def _get_pdf_document(document_id, db):
+    document = db.query(Document).filter(Document.id == document_id).first()
+    if not document:
+        raise HTTPException(status_code=404, detail="Document not found.")
+    if document.file_type.lower() != "pdf":
+        raise HTTPException(status_code=400, detail="Not a PDF document.")
+    return document
+
+
+@router.get("/review/pdf-images/{document_id}")
+def list_pdf_images(document_id: int, db: Session = Depends(get_db)):
+    """List the images of a PDF with their OCR text and file URLs."""
+    document = _get_pdf_document(document_id, db)
+    data = _load_pdf_translated_data(document)
+
+    result = []
+    for page in data.get("pages", []):
+        for image in page.get("images", []):
+            image_path = image.get("image_path") or ""
+            translated_path = os.path.splitext(image_path)[0] + "_translated.png"
+
+            base = (
+                f"/review/pdf-image-file/{document_id}/"
+                f"{page.get('page_number')}/{image.get('image_index')}"
+            )
+
+            blocks = image.get("text_blocks") or []
+            result.append({
+                "page_number": page.get("page_number"),
+                "image_index": image.get("image_index"),
+                "original_url": f"{base}/original" if os.path.isfile(image_path) else None,
+                "translated_url": f"{base}/translated" if os.path.isfile(translated_path) else None,
+                "texts": [
+                    {
+                        "original": b.get("text", ""),
+                        "translated": b.get("translated_text", ""),
+                    }
+                    for b in blocks
+                ],
+            })
+
+    return {"images": result}
+
+
+@router.get("/review/pdf-image-file/{document_id}/{page_number}/{image_index}/{kind}")
+def get_pdf_image_file(
+    document_id: int,
+    page_number: int,
+    image_index: int,
+    kind: str,
+    db: Session = Depends(get_db),
+):
+    """Serve the original or translated image (looked up by index, not by path)."""
+    if kind not in {"original", "translated"}:
+        raise HTTPException(status_code=400, detail="kind must be original or translated.")
+
+    document = _get_pdf_document(document_id, db)
+    data = _load_pdf_translated_data(document)
+
+    for page in data.get("pages", []):
+        if page.get("page_number") != page_number:
+            continue
+        for image in page.get("images", []):
+            if image.get("image_index") != image_index:
+                continue
+
+            path = image.get("image_path") or ""
+            if kind == "translated":
+                path = os.path.splitext(path)[0] + "_translated.png"
+
+            # safety: only serve files inside the outputs folder
+            outputs_dir = os.path.abspath("outputs")
+            if not os.path.abspath(path).startswith(outputs_dir) or not os.path.isfile(path):
+                raise HTTPException(status_code=404, detail="Image file not found.")
+
+            return FileResponse(path)
+
+    raise HTTPException(status_code=404, detail="Image not found.")

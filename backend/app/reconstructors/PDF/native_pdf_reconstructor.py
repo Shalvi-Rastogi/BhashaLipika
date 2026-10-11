@@ -45,6 +45,111 @@ def _fit_font_size(text, font, size, available_width):
         return max(1.0, size * available_width / line_width * 0.96)
     return size
 
+def _item_rect(item, image_width, image_height):
+    """Rect (clipped to the image) covered by one translated text entry."""
+    bbox = item.get("bbox")
+    if not bbox:
+        return None
+    x0 = max(0, min(float(p[0]) for p in bbox))
+    y0 = max(0, min(float(p[1]) for p in bbox))
+    x1 = min(image_width, max(float(p[0]) for p in bbox))
+    y1 = min(image_height, max(float(p[1]) for p in bbox))
+    rect = fitz.Rect(x0, y0, x1, y1)
+    return None if rect.is_empty else rect
+
+
+def _inpaint_text_regions(pixmap, rects):
+    """
+    Remove the original text by inpainting, so gradient / blurred / photo
+    backgrounds stay smooth. Falls back to the original pixmap if OpenCV
+    is not available.
+    """
+    try:
+        import cv2
+        import numpy as np
+    except ImportError:
+        print("[PDF] opencv not installed, skipping inpainting")
+        return None
+
+    img = np.frombuffer(pixmap.samples, dtype=np.uint8).reshape(
+        pixmap.height, pixmap.width, pixmap.n
+    )[:, :, :3].copy()
+
+    mask = np.zeros(img.shape[:2], dtype=np.uint8)
+    for r in rects:
+        pad = 2
+        mask[
+            max(0, int(r.y0) - pad): min(img.shape[0], int(r.y1) + pad),
+            max(0, int(r.x0) - pad): min(img.shape[1], int(r.x1) + pad),
+        ] = 255
+
+    cleaned = cv2.inpaint(img, mask, 5, cv2.INPAINT_TELEA)
+    cleaned = np.ascontiguousarray(cleaned)
+
+    return fitz.Pixmap(
+        fitz.csRGB, pixmap.width, pixmap.height, cleaned.tobytes(), False
+    )
+
+def _estimate_background(pixmap, rect, margin=3):
+    """
+    Estimate the background colour from pixels just OUTSIDE the rect
+    (median per channel), so the text itself does not darken the colour.
+    """
+    width, height = pixmap.width, pixmap.height
+    step = max(1, int(max(rect.width, rect.height) / 20))
+    top, bottom = rect.y0 - margin, rect.y1 + margin
+    left, right = rect.x0 - margin, rect.x1 + margin
+
+    points = []
+    for x in range(int(rect.x0), int(rect.x1) + 1, step):
+        points.append((x, top))
+        points.append((x, bottom))
+    for y in range(int(rect.y0), int(rect.y1) + 1, step):
+        points.append((left, y))
+        points.append((right, y))
+
+    samples = []
+    for x, y in points:
+        x = int(min(max(x, 0), width - 1))
+        y = int(min(max(y, 0), height - 1))
+        samples.append(pixmap.pixel(x, y))
+
+    if not samples:
+        return (1, 1, 1)
+
+    color = []
+    for channel in range(3):
+        values = sorted(s[channel] for s in samples)
+        color.append(values[len(values) // 2] / 255)
+    return tuple(color)
+
+def _estimate_text_color(pixmap, rect, background, top_fraction=0.05):
+    """
+    Estimate the original text colour: inside the rect, take the pixels that
+    differ the most from the background and average them.
+    """
+    width, height = pixmap.width, pixmap.height
+    x0, y0 = max(0, int(rect.x0)), max(0, int(rect.y0))
+    x1, y1 = min(width, int(rect.x1)), min(height, int(rect.y1))
+    bg = [c * 255 for c in background]
+    step = max(1, int(rect.height / 30))
+
+    samples = []
+    for y in range(y0, y1, step):
+        for x in range(x0, x1, step):
+            p = pixmap.pixel(x, y)
+            dist = sum((p[i] - bg[i]) ** 2 for i in range(3))
+            samples.append((dist, p))
+
+    if not samples:
+        return (0, 0, 0)
+
+    samples.sort(key=lambda s: s[0], reverse=True)
+    count = max(1, int(len(samples) * top_fraction))
+    top = samples[:count]
+    return tuple(
+        int(sum(p[i] for _, p in top) / count) for i in range(3)
+    )
 
 def _overlaps_table(element, tables):
     bbox = element.get("bbox")
@@ -98,6 +203,20 @@ def _reconstruct_translated_image(image_path, translated_texts, target_language)
             height=source_image.height,
         )
         page.insert_image(page.rect, pixmap=source_image)
+        base_pixmap = page.get_pixmap(alpha=False)  # clean copy, used for sampling
+
+        image_width, image_height = page.rect.width, page.rect.height
+
+        # Paint a cleaned copy (original text removed) over the image
+        all_rects = [
+            r for r in (
+                _item_rect(i, image_width, image_height) for i in translated_texts
+            ) if r is not None
+        ]
+        cleaned_pixmap = _inpaint_text_regions(base_pixmap, all_rects)
+        if cleaned_pixmap is not None:
+            page.insert_image(page.rect, pixmap=cleaned_pixmap)
+
         archive = fitz.Archive(FONT_DIR)
         css = (
             f"@font-face {{ font-family: {family}; src: url({regular}); "
@@ -110,50 +229,33 @@ def _reconstruct_translated_image(image_path, translated_texts, target_language)
             )
         css += f"* {{ font-family: {family}; margin: 0; padding: 0; line-height: 1.1; }}"
 
-        image_width, image_height = page.rect.width, page.rect.height
         for item in translated_texts:
             translated = item.get("translated_text", "")
-            bbox = item.get("bbox")
-            if not translated or not bbox:
+            rect = _item_rect(item, image_width, image_height)
+            if not translated or rect is None:
                 continue
 
-            x0 = max(0, min(float(point[0]) for point in bbox))
-            y0 = max(0, min(float(point[1]) for point in bbox))
-            x1 = min(image_width, max(float(point[0]) for point in bbox))
-            y1 = min(image_height, max(float(point[1]) for point in bbox))
-            rect = fitz.Rect(x0, y0, x1, y1)
-            if rect.is_empty:
-                continue
+            background_color = _estimate_background(base_pixmap, rect)
 
-            sample_points = [
-                (max(0, x0 - 2), max(0, y0 - 2)),
-                (min(image_width - 1, x1 + 2), max(0, y0 - 2)),
-                (max(0, x0 - 2), min(image_height - 1, y1 + 2)),
-                (min(image_width - 1, x1 + 2), min(image_height - 1, y1 + 2)),
-            ]
-            background = page.get_pixmap(
-                clip=fitz.Rect(
-                    min(point[0] for point in sample_points),
-                    min(point[1] for point in sample_points),
-                    max(point[0] for point in sample_points) + 1,
-                    max(point[1] for point in sample_points) + 1,
-                ),
-                alpha=False,
+            # Text colour sampled from the ORIGINAL image
+            text_r, text_g, text_b = _estimate_text_color(
+                base_pixmap, rect, background_color
             )
-            background_color = tuple(
-                sum(background.samples[index::3])
-                / (255 * background.width * background.height)
-                for index in range(3)
+
+            # Only needed when inpainting was not possible
+            if cleaned_pixmap is None:
+                page.draw_rect(rect, color=None, fill=background_color, overlay=True)
+
+            line_height = item.get("line_height")
+            font_size = (
+                max(8, float(line_height) * 0.7)
+                if line_height
+                else max(8, rect.height * 0.65)
             )
-            page.draw_rect(
-                rect,
-                color=background_color,
-                fill=background_color,
-                overlay=True,
-            )
-            font_size = max(8, rect.height * 0.65)
+
             body = (
                 f'<div dir="{direction}" style="font-size:{font_size}pt; '
+                f'color:rgb({text_r},{text_g},{text_b}); '
                 f'text-align:center; width:100%; overflow-wrap:anywhere; '
                 f'word-break:break-word;">'
                 f'{html.escape(translated).replace(chr(10), "<br>")}</div>'

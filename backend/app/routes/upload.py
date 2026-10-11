@@ -78,7 +78,7 @@ router = APIRouter()
 UPLOAD_FOLDER = "uploads"
 OUTPUT_FOLDER = "outputs"
 
-MAX_DOCX_FILE_SIZE = 5 * 1024 * 1024
+MAX_FILE_SIZE = 50 * 1024 * 1024
 
 os.makedirs(
     UPLOAD_FOLDER,
@@ -1373,28 +1373,23 @@ async def upload_document(
         )
 
         # =================================================
-        # 2. DOCX FILE SIZE CHECK
+        # 2. FILE SIZE CHECK (all file types)
         # =================================================
 
-        if file_type in [
-            "DOC",
-            "DOCX",
-            "RTF"
-        ]:
+        file_content = await file.read()
 
-            file_content = await file.read()
+        if len(file_content) > MAX_FILE_SIZE:
 
-            if len(file_content) > MAX_DOCX_FILE_SIZE:
-
-                raise HTTPException(
-                    status_code=413,
-                    detail=(
-                        "Only files up to 5 MB "
-                        "can be handled."
-                    )
+            raise HTTPException(
+                status_code=413,
+                detail=(
+                    f"Only files up to "
+                    f"{MAX_FILE_SIZE // (1024 * 1024)} MB "
+                    "can be handled."
                 )
+            )
 
-            await file.seek(0)
+        await file.seek(0)
 
         # =================================================
         # 3. CHECK SOURCE AND TARGET LANGUAGES
@@ -1558,12 +1553,6 @@ async def upload_document(
                     UPLOAD_FOLDER
                 )
                 print(f"RTF converted successfully: {file_path}")
-
-            # ---------------------------------------------
-            # Open DOCX (Ye code tumhara as-is rahega)
-            # ---------------------------------------------
-            print("\nOpening DOCX document...")
-            document = Document(file_path)
 
             # ---------------------------------------------
             # Open DOCX

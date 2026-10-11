@@ -13,6 +13,15 @@ BULLETS = {"•", "▪", "◦", "●", "-", "–", "∙", "·", "○", "■"}
 # BASIC HELPERS
 # =========================================================
 
+def _json_default(value):
+    """Make numpy numbers (e.g. from OCR bboxes) JSON serialisable."""
+    if hasattr(value, "item"):
+        return value.item()
+    if hasattr(value, "tolist"):
+        return value.tolist()
+    return str(value)
+
+
 def _color_to_rgb(color):
     if color is None:
         return {"r": 0, "g": 0, "b": 0}
@@ -44,7 +53,7 @@ def _get_font_properties(span):
 # =========================================================
 
 def _underline_lines(page):
-    """Page par drawn patli horizontal lines/rects (underline candidates)."""
+    """Thin horizontal lines/rects drawn on the page (underline candidates)."""
     found = []
     try:
         drawings = page.get_drawings()
@@ -93,7 +102,7 @@ def _clean(text):
 
 
 def _build_segments(line_spans, underlines):
-    """Paragraph ko (label + baaki) style-segments me todta hai."""
+    """Split a paragraph into style segments (label + rest)."""
     runs = []
     for spans in line_spans:
         for i, s in enumerate(spans):
@@ -128,7 +137,7 @@ def _build_segments(line_spans, underlines):
 
 
 def _split_inline_bullet(span):
-    """'• text' wale span ko (bullet span, text span) me todo."""
+    """Split a '• text' span into (bullet span, text span)."""
     t = span["text"].lstrip()
     if len(t) > 1 and t[0] in BULLETS and t[1] == " ":
         x0, y0, x1, y1 = span["bbox"]
@@ -138,6 +147,17 @@ def _split_inline_bullet(span):
         return bullet, rest
     return None, span
 
+def _is_paragraph_gap(prev_line, line):
+    """True when the vertical gap between two lines is bigger than normal line spacing."""
+    prev_bbox = prev_line["bbox"]
+    bbox = line["bbox"]
+
+    prev_height = prev_bbox[3] - prev_bbox[1]
+    height = bbox[3] - bbox[1]
+    avg_height = (prev_height + height) / 2 or 10
+
+    gap = bbox[1] - prev_bbox[3]
+    return gap > avg_height * 0.6
 
 def _make_element(element_id, text, spans, block_number, font, segments=None):
     x0 = min(s["bbox"][0] for s in spans)
@@ -266,10 +286,23 @@ def _extract_tables(page, page_dict, element_id):
         for span in line.get("spans", [])
         if span.get("text", "").strip()
     ]
+
+    # RESTORED: fall back to text-based (borderless) table detection
+    used_text_strategy = False
     try:
         tables = page.find_tables().tables
+        if not tables:
+            tables = page.find_tables(strategy="text").tables
+            used_text_strategy = True
     except Exception:
         tables = []
+
+    if used_text_strategy:
+        tables = [
+            table
+            for table in tables
+            if _is_likely_borderless_table(table, spans)
+        ]
 
     elements = []
     table_bounds = []
@@ -416,6 +449,7 @@ def extract_native_pdf_to_json(
         f"{os.path.splitext(os.path.basename(json_path))[0]}_images"
     )
 
+    # Embedded images + OCR (Samia)
     all_images = extract_native_pdf_images(
         document,
         image_output_directory,
@@ -468,9 +502,10 @@ def extract_native_pdf_to_json(
 
                 block_number = block.get("number")
 
-                # har bullet-line se naya paragraph
+                # a bullet line OR a big vertical gap starts a new paragraph
                 paragraphs = []
                 current = None
+                previous_line = None
 
                 for line in block.get("lines", []):
                     spans = [
@@ -490,12 +525,23 @@ def extract_native_pdf_to_json(
                         if b is not None:
                             bullet, spans = b, [rest] + spans[1:]
 
-                    if bullet is not None or current is None:
+                    new_paragraph = (
+                        bullet is not None
+                        or current is None
+                        or (
+                            previous_line is not None
+                            and _is_paragraph_gap(previous_line, line)
+                        )
+                    )
+
+                    if new_paragraph:
                         current = {"bullet": bullet, "lines": []}
                         paragraphs.append(current)
 
                     if spans:
                         current["lines"].append(spans)
+
+                    previous_line = line
 
                 for para in paragraphs:
                     if para["bullet"] is not None:
@@ -510,6 +556,7 @@ def extract_native_pdf_to_json(
                             )
                         )
                         element_id += 1
+
                     if not para["lines"]:
                         continue
 
@@ -531,6 +578,7 @@ def extract_native_pdf_to_json(
                     )
                     element_id += 1
 
+            # ---- IMAGES (Samia) ----
             page_data["images"] = [
                 image
                 for image in all_images
@@ -547,7 +595,13 @@ def extract_native_pdf_to_json(
         os.makedirs(output_directory, exist_ok=True)
 
     with open(json_path, "w", encoding="utf-8") as json_file:
-        json.dump(document_data, json_file, indent=4, ensure_ascii=False)
+        json.dump(
+            document_data,
+            json_file,
+            indent=4,
+            ensure_ascii=False,
+            default=_json_default,
+        )
 
     print(f"[PDF] Original JSON created: {json_path}")
 

@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import { ArrowLeft, Download, Pencil, Save } from "lucide-react";
+import PdfImagesSection from "./PdfImagesSection";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
@@ -67,7 +68,7 @@ const collectDocumentReviewEntries = (translatedData, originalData) => {
         Array.isArray(bbox) && Number.isFinite(Number(bbox[1]))
           ? Number(bbox[1])
           : Number.MAX_SAFE_INTEGER;
-      
+
       // PDF Elements (Text Blocks & Tables)
       (page.elements || []).forEach((el, elIdx) => {
         if (el.type === "text") {
@@ -94,10 +95,29 @@ const collectDocumentReviewEntries = (translatedData, originalData) => {
         }
       });
 
-      // PDF Images (OCR)
+      // PDF Images (OCR) - grouped paragraph blocks
       (page.images || []).forEach((img, imgIdx) => {
+        const blocks = img.text_blocks || [];
+
+        if (blocks.length) {
+          blocks.forEach((block, blockIdx) => {
+            addImageText(
+              ["pages", pIdx, "images", imgIdx, "text_blocks", blockIdx, "translated_text"],
+              block.translated_text,
+              block.text,
+              `${pageLabel} - Image Text`,
+              getPosition(img.bbox)
+            );
+          });
+          return;
+        }
+
+        // Fallback: old format without grouped blocks
         (img.ocr_data || []).forEach((ocrItem, ocrIdx) => {
-          const origOcrText = originalData?.pages?.[pIdx]?.images?.[imgIdx]?.ocr_data?.[ocrIdx]?.text || ocrItem.text || "";
+          const origOcrText =
+            originalData?.pages?.[pIdx]?.images?.[imgIdx]?.ocr_data?.[ocrIdx]?.text ||
+            ocrItem.text ||
+            "";
           addImageText(
             ["pages", pIdx, "images", imgIdx, "ocr_data", ocrIdx, "translated_text"],
             ocrItem.translated_text,
@@ -143,9 +163,9 @@ const collectDocumentReviewEntries = (translatedData, originalData) => {
     if (typeStr === "text_frame") {
       const slideNum = translated.slide_number ? `Slide ${translated.slide_number}` : label;
       addText(
-        [...path, "translated_text"], 
-        translated.translated_text, 
-        original?.text || original?.original_text, 
+        [...path, "translated_text"],
+        translated.translated_text,
+        original?.text || original?.original_text,
         `${slideNum} - Text`
       );
       return;
@@ -156,13 +176,13 @@ const collectDocumentReviewEntries = (translatedData, originalData) => {
       translated.translated_data.forEach((row, rIdx) => {
         if (Array.isArray(row)) {
           row.forEach((cellText, cIdx) => {
-             const origCell = original?.translated_data?.[rIdx]?.[cIdx] || original?.data?.[rIdx]?.[cIdx] || "";
-             addText(
-               [...path, "translated_data", rIdx, cIdx],
-               cellText,
-               origCell,
-               `${slideNum} - Table (R${rIdx + 1}C${cIdx + 1})`
-             );
+            const origCell = original?.translated_data?.[rIdx]?.[cIdx] || original?.data?.[rIdx]?.[cIdx] || "";
+            addText(
+              [...path, "translated_data", rIdx, cIdx],
+              cellText,
+              origCell,
+              `${slideNum} - Table (R${rIdx + 1}C${cIdx + 1})`
+            );
           });
         }
       });
@@ -329,11 +349,11 @@ const collectDocumentReviewEntries = (translatedData, originalData) => {
   } else {
     Object.keys(translatedData || {}).forEach((key) => {
       if (key.startsWith("slide_")) {
-        const slideNum = key.split('_')[1];
+        const slideNum = key.split("_")[1];
         visit(
-          translatedData[key], 
-          originalData?.[key] || [], 
-          [key], 
+          translatedData[key],
+          originalData?.[key] || [],
+          [key],
           `Slide ${slideNum}`
         );
       }
@@ -360,11 +380,11 @@ function ReviewDocument() {
 
   const documentId = documentData?.document_id;
   const fileType = documentData?.file_type?.toLowerCase();
-  
+
   const isWordDocument = ["doc", "docx", "rtf"].includes(fileType);
   const isPowerPointDocument = ["ppt", "pptx"].includes(fileType);
-  const isPdfDocument = ["pdf"].includes(fileType); // NAYA: PDF check
-  const isDocumentView = isWordDocument || isPowerPointDocument || isPdfDocument; // NAYA: PDF added to document view
+  const isPdfDocument = ["pdf"].includes(fileType);
+  const isDocumentView = isWordDocument || isPowerPointDocument || isPdfDocument;
 
   const actualData = isDocumentView
     ? documentData?.translated_data || documentData?.data
@@ -489,12 +509,11 @@ function ReviewDocument() {
       setIsSaving(true);
 
       const editsPayload = { document_id: documentId };
-      
-      // Update logic to send edits to appropriate keys based on filetype
+
       if (isDocumentView) {
-        editsPayload.docx_edits = getDocEdits(); 
-        editsPayload.pptx_edits = getDocEdits(); 
-        editsPayload.pdf_edits = getDocEdits(); // NAYA: PDF edits included
+        editsPayload.docx_edits = getDocEdits();
+        editsPayload.pptx_edits = getDocEdits();
+        editsPayload.pdf_edits = getDocEdits();
       } else {
         editsPayload.edits = getEdits();
         editsPayload.image_edits = getImageEdits();
@@ -529,8 +548,8 @@ function ReviewDocument() {
 
       const editsPayload = { document_id: documentId };
       if (isDocumentView) {
-        editsPayload.docx_edits = getDocEdits(); 
-        editsPayload.pptx_edits = getDocEdits(); 
+        editsPayload.docx_edits = getDocEdits();
+        editsPayload.pptx_edits = getDocEdits();
         editsPayload.pdf_edits = getDocEdits();
       } else {
         editsPayload.edits = getEdits();
@@ -603,11 +622,11 @@ function ReviewDocument() {
   const canEditActiveSheet = activeSheetIndex === 0;
   const canEditActiveContent =
     canEditActiveSheet || (activeSheet?.images || []).length > 0;
-  
+
   const isLegacyXls =
     documentData.file_type?.toLowerCase() === "xls" ||
     /\.xls$/i.test(documentData.filename || "");
-    
+
   const fileExtension = isWordDocument
     ? fileType
     : isPowerPointDocument
@@ -617,7 +636,7 @@ function ReviewDocument() {
     : isLegacyXls
       ? "xls"
       : "xlsx";
-      
+
   const finalFilename =
     documentData.reconstructed_pptx_file ||
     documentData.reconstructed_rtf_file ||
@@ -627,7 +646,7 @@ function ReviewDocument() {
     actualData.filename ||
     documentData.filename ||
     `translated_document.${fileExtension}`;
-    
+
   const documentReviewEntries = isDocumentView
     ? collectDocumentReviewEntries(editedData, documentData?.data)
     : [];
@@ -760,6 +779,8 @@ function ReviewDocument() {
                 </p>
               )}
             </div>
+
+            {isPdfDocument && <PdfImagesSection documentId={documentId} />}
           </section>
         </div>
       </main>

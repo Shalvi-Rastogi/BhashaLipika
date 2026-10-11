@@ -5,7 +5,9 @@ import axios from "axios";
 const API_BASE_URL =
   import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
-const MAX_FILE_SIZE = 5 * 1024 * 1024;
+// Change the limit only here (keep it the same as MAX_FILE_SIZE in backend upload.py)
+const MAX_FILE_SIZE_MB = 50;
+const MAX_FILE_SIZE = MAX_FILE_SIZE_MB * 1024 * 1024;
 
 function InputPanel({
   resetKey,
@@ -51,9 +53,9 @@ function InputPanel({
 
     if (file.size >= MAX_FILE_SIZE) {
       setSelectedFile(null);
-      setUploadStatus("File must be smaller than 5 MB.");
+      setUploadStatus(`File must be smaller than ${MAX_FILE_SIZE_MB} MB.`);
       e.target.value = "";
-      alert("All files must be smaller than 5 MB.");
+      alert(`All files must be smaller than ${MAX_FILE_SIZE_MB} MB.`);
       return;
     }
 
@@ -108,6 +110,11 @@ function InputPanel({
       setIsUploading(false);
     }
   };
+
+  const isErrorStatus =
+    uploadStatus === "Upload failed." ||
+    uploadStatus.startsWith("File must be smaller than") ||
+    uploadStatus.startsWith("Select source and target");
 
   return (
     <div className="bg-white rounded-2xl shadow-md p-6 h-[500px] flex flex-col">
@@ -183,7 +190,7 @@ function InputPanel({
           <p className="text-gray-500 mt-2 mb-5">
             PDF, DOCX, PPTX, XLSX, RTF
             <br />
-            All files must be smaller than 5 MB
+            All files must be smaller than {MAX_FILE_SIZE_MB} MB
           </p>
 
           {/* Hidden File Input */}
@@ -221,8 +228,7 @@ function InputPanel({
           {uploadStatus && (
             <p
               className={`mt-3 text-sm font-medium ${
-                uploadStatus === "Upload failed."
-                  || uploadStatus === "File must be smaller than 5 MB."
+                isErrorStatus
                   ? "text-red-600"
                   : uploadStatus === "Completed successfully!"
                   ? "text-green-600"

@@ -16,9 +16,6 @@ from app.reconstructors.PDF.native_pdf_reconstructor import (
     reconstruct_native_pdf
 )
 
-# Agar tumhare paas detect_pdf_type hai to uska import yahan add karo, e.g.:
-# from app.extractors.PDF.pdf_type_detector import detect_pdf_type
-
 
 # =========================================================
 # LANGUAGE MAPPING
@@ -35,6 +32,7 @@ LANGUAGE_CODES = {
     "urdu": "urd-arab",
 }
 
+# Translation language code -> OCR (easyocr) language code
 OCR_LANGUAGE_CODES = {
     "eng-latn": "en",
     "hin-deva": "hi",
@@ -56,7 +54,7 @@ def _clean_text(value):
 
 
 def _normalise_translation(result):
-    """translate_func ka result (str/dict/list) -> final string."""
+    """Convert the translate_func result (str / dict / list) into a final string."""
 
     if result is None:
         return ""
@@ -87,7 +85,7 @@ def _normalise_translation(result):
 
 
 def _fix_colon(original_text, translated_text, target_language=None):
-    """Fix colon rendering issues that appear after translation."""
+    """Fix colon rendering issues (visarga replacing ':') after translation."""
 
     if not isinstance(original_text, str):
         return translated_text
@@ -102,57 +100,150 @@ def _fix_colon(original_text, translated_text, target_language=None):
 
 
 # =========================================================
-# TRANSLATION HELPER
+# IMAGE OCR HELPERS
 # =========================================================
 
-def _translate_text(
-    text,
-    translate_func,
-    source_language,
-    target_language,
-):
+def _get_image_items(image):
     """
-    Ek text ko translation API/function ke through translate karta hai.
+    Return the OCR items of an image that should be translated.
+
+    Preferred: grouped paragraph blocks ("text_blocks"), so a full sentence
+    is translated in one go instead of line by line.
+    Fallback: raw OCR items ("ocr_data") if grouping produced nothing.
     """
 
-    text = _clean_text(text)
+    blocks = image.get("text_blocks")
+    if isinstance(blocks, list) and blocks:
+        return blocks
 
-    if not text:
-        return ""
+    raw = image.get("ocr_data")
+    if isinstance(raw, list):
+        return [item for item in raw if isinstance(item, dict)]
 
-    # Same language
-    if source_language == target_language:
-        return text
+    return []
 
-    try:
 
-        result = translate_func(
-            text,
-            source_language,
-            target_language
-        )
+def _to_corner_points(bbox):
+    """
+    The image reconstructor expects 4 corner points [[x, y], ...].
+    Grouped blocks carry a flat [x0, y0, x1, y1] bbox, so convert it.
+    Already-point bboxes are returned unchanged.
+    """
 
-        translated = _normalise_translation(result)
+    if not bbox:
+        return None
 
-        if translated:
-            return translated
+    if isinstance(bbox[0], (int, float)):
+        x0, y0, x1, y1 = bbox[:4]
+        return [[x0, y0], [x1, y0], [x1, y1], [x0, y1]]
 
-        raise RuntimeError(
-            f"PDF translator returned an empty result for "
-            f"{ascii(text[:80])}."
-        )
+    return bbox
 
-    except Exception as error:
+_SENTENCE_END = ".।۔!?؟…"
 
-        print(
-            f"[PDF][ERROR] Translation failed for "
-            f"{ascii(text[:80])}: {error}"
-        )
 
-        raise RuntimeError(
-            f"PDF translation failed for {ascii(text[:80])}."
-        ) from error
+def _match_trailing_punct(original, translated):
+    """
+    Translators often add a final full stop. If the original text does not
+    end with sentence punctuation, strip it from the translation too.
+    """
 
+    original = (original or "").rstrip()
+    translated = (translated or "").rstrip()
+
+    if original and original[-1] not in _SENTENCE_END:
+        while translated and translated[-1] in ".।۔":
+            translated = translated[:-1].rstrip()
+
+    return translated
+
+def _split_into_lines(text, weights):
+    """
+    Split translated text into len(weights) lines. Each line gets a share of
+    the words proportional to the length of the matching original line.
+    """
+
+    words = text.split()
+    n = len(weights)
+
+    if n <= 1 or not words:
+        return [text]
+
+    total_weight = float(sum(weights)) or 1.0
+    total_chars = sum(len(w) + 1 for w in words)
+
+    lines = [[] for _ in range(n)]
+    idx = 0
+    cum = 0
+    target_end = weights[0] / total_weight * total_chars
+
+    for i, word in enumerate(words):
+        remaining_words = len(words) - i
+        lines_after = n - idx - 1
+
+        if idx < n - 1 and lines[idx]:
+            must_advance = remaining_words <= lines_after
+            want_advance = cum + len(word) / 2 > target_end
+            if must_advance or want_advance:
+                idx += 1
+                target_end += weights[idx] / total_weight * total_chars
+
+        lines[idx].append(word)
+        cum += len(word) + 1
+
+    # " " keeps an (empty) line truthy so the reconstructor still covers it
+    return [" ".join(parts) if parts else " " for parts in lines]
+
+
+def _build_image_entries(item, translated_text):
+    """
+    Build reconstructor entries for one OCR block: one entry per original
+    line, so the translated text keeps the original line layout.
+    All lines of a block share the same line height, so the font size
+    stays uniform.
+    """
+
+    lines = item.get("lines") or []
+    block_bbox = item.get("bbox")
+
+    # Fallback: no line info -> one entry for the whole block
+    if not lines or not block_bbox or not isinstance(block_bbox[0], (int, float)):
+        bbox = _to_corner_points(block_bbox)
+        if not bbox:
+            return []
+        entry = {"bbox": bbox, "translated_text": translated_text}
+        if item.get("line_height"):
+            entry["line_height"] = item["line_height"]
+        return [entry]
+
+    bx0, _, bx1, _ = block_bbox[:4]
+
+    # One common line height for the whole block (average of its lines)
+    heights = [l["bbox"][3] - l["bbox"][1] for l in lines]
+    avg_h = sum(heights) / len(heights)
+
+    weights = [max(1, len(l.get("text", ""))) for l in lines]
+    parts = _split_into_lines(translated_text, weights)
+
+    entries = []
+    for line, part, h in zip(lines, parts, heights):
+        x0, y0, x1, y1 = line["bbox"]
+        cy = (y0 + y1) / 2
+
+        # Rect is at least avg_h tall (so the text is never squeezed) and
+        # still covers the full original line (descenders included)
+        half = max(h, avg_h) / 2 + avg_h * 0.15
+
+        entries.append({
+            "bbox": [
+                [bx0 - avg_h * 0.3, cy - half], [bx1 + avg_h * 0.3, cy - half],
+                [bx1 + avg_h * 0.3, cy + half], [bx0 - avg_h * 0.3, cy + half],
+            ],
+            "translated_text": part,
+            "line_height": avg_h,
+        })
+
+    return entries
 
 # =========================================================
 # COLLECT TEXT
@@ -160,15 +251,13 @@ def _translate_text(
 
 def _collect_translatable_texts(document_data):
     """
-    PDF JSON se:
+    Collect every text that needs translation from the PDF JSON:
       1. normal text elements
-      2. segment text
+      2. text segments
       3. table cell text
-      4. image OCR text
+      4. image OCR text (grouped blocks)
 
-    sab collect karta hai.
-
-    Duplicate text ko sirf ek baar translate kiya jayega.
+    A set is used so duplicate texts are translated only once.
     """
 
     texts = set()
@@ -197,9 +286,10 @@ def _collect_translatable_texts(document_data):
                         if text:
                             texts.add(text)
 
+        # Image OCR text
         for image in page.get("images", []):
-            for ocr_item in image.get("ocr_data", []):
-                text = _clean_text(ocr_item.get("text", ""))
+            for item in _get_image_items(image):
+                text = _clean_text(item.get("text", ""))
                 if text:
                     texts.add(text)
 
@@ -210,31 +300,60 @@ def _collect_translatable_texts(document_data):
 # TRANSLATION
 # =========================================================
 
-def _translate_text(text, translate_func, source_language, target_language):
+def _translate_text(
+    text,
+    translate_func,
+    source_language,
+    target_language,
+):
+    """Translate one text through translate_func. Raises on failure."""
+
+    text = _clean_text(text)
+
+    if not text:
+        return ""
+
+    # Nothing to do when source and target are the same
+    if source_language == target_language:
+        return text
+
     try:
-        result = translate_func(text, source_language, target_language)
+        result = translate_func(
+            text,
+            source_language,
+            target_language
+        )
+
         translated = _normalise_translation(result)
 
-        if not translated:
-            print(f"[PDF] Empty translation for: {text!r}")
-            return text
+        if translated:
+            return translated
 
-        return translated
+        raise RuntimeError(
+            f"PDF translator returned an empty result for "
+            f"{ascii(text[:80])}."
+        )
 
-    except Exception as e:
-        print(f"[PDF] Translation failed for '{text[:40]}': {e}")
-        return text
+    except Exception as error:
+        print(
+            f"[PDF][ERROR] Translation failed for "
+            f"{ascii(text[:80])}: {error}"
+        )
+
+        raise RuntimeError(
+            f"PDF translation failed for {ascii(text[:80])}."
+        ) from error
 
 
 def _translate_unique_texts(texts, translate_func, source_language, target_language):
+    """Translate all unique texts in parallel and return {original: translated}."""
+
     translation_cache = {}
 
     if not texts:
         return translation_cache
 
-    print(
-        f"[PDF] Total unique texts to translate: {len(texts)}"
-    )
+    print(f"[PDF] Total unique texts to translate: {len(texts)}")
 
     failures = []
 
@@ -256,12 +375,10 @@ def _translate_unique_texts(texts, translate_func, source_language, target_langu
             try:
                 translated_text = future.result()
             except Exception as error:
-
                 print(
                     f"[PDF][ERROR] Future failed for "
                     f"{original_text[:80]!r}: {error}"
                 )
-
                 failures.append((original_text, error))
                 continue
 
@@ -302,11 +419,12 @@ def _apply_translations(
     target_language
 ):
     """
-    Translation cache ko actual JSON structure me put karta hai.
+    Write the translations from the cache back into the JSON structure.
 
-    Important:
-    segments ke translated_text ko bhi yahin populate kiya jata hai.
-    Table cells aur image OCR ka translated_text bhi yahin populate hota hai.
+    - text elements and their segments
+    - table cells
+    - image OCR blocks (image["translated_text"] is the list the
+      reconstructor reads: [{"bbox": 4 corner points, "translated_text": ...}])
     """
 
     for page in document_data.get("pages", []):
@@ -367,31 +485,35 @@ def _apply_translations(
                             original_text, translated, target_language
                         )
 
+        # ---------------- IMAGES ----------------
+                
         for image in page.get("images", []):
-            translated_texts = []
+            translated_items = []
 
-            for ocr_item in image.get("ocr_data", []):
-                original_text = _clean_text(ocr_item.get("text", ""))
+            for item in _get_image_items(image):
+                original_text = _clean_text(item.get("text", ""))
 
                 if not original_text:
-                    ocr_item["translated_text"] = ""
+                    item["translated_text"] = ""
                     continue
 
                 translated_text = translation_cache.get(
-                    original_text,
-                    original_text
+                    original_text, original_text
+                )
+                translated_text = _fix_colon(
+                    original_text, translated_text, target_language
                 )
 
-                if (
-                    ":" in original_text
-                    and "ः" in translated_text
-                ):
-                    translated_text = translated_text.replace("ः", ":")
+                translated_text = _match_trailing_punct(
+                    original_text, translated_text
+                )
 
-                ocr_item["translated_text"] = translated_text
-                translated_texts.append(ocr_item)
+                item["translated_text"] = translated_text
+                translated_items.extend(
+                    _build_image_entries(item, translated_text)
+                )
 
-            image["translated_text"] = translated_texts
+            image["translated_text"] = translated_items
 
     return document_data
 
@@ -401,6 +523,8 @@ def _apply_translations(
 # =========================================================
 
 def _count_coverage(document_data):
+    """Count how many translatable items got a non-empty translation."""
+
     translated_count = 0
     total_count = 0
 
@@ -431,14 +555,22 @@ def _count_coverage(document_data):
                             if cell.get("translated_text", "").strip():
                                 translated_count += 1
 
+        for image in page.get("images", []):
+            for item in _get_image_items(image):
+                text = item.get("text", "")
+                if isinstance(text, str) and text.strip():
+                    total_count += 1
+
+                    translated = item.get("translated_text", "")
+                    if isinstance(translated, str) and translated.strip():
+                        translated_count += 1
+
     return translated_count, total_count
 
 
 # =========================================================
 # MAIN PIPELINE
 # =========================================================
-# NOTE: function ka naam aur parameters wahi rakho jo tumhare router/caller
-# use kar raha hai (git se check kar lena: git show HEAD:app/services/pdf_service.py)
 
 def process_pdf_pipeline(
     file_path,
@@ -451,38 +583,27 @@ def process_pdf_pipeline(
     source_language_name=None,
 ):
     """
-    Complete Native PDF pipeline:
+    Complete native PDF pipeline:
 
     1. Original PDF
-          ↓
-    2. Original extracted JSON
-          ↓
-    3. Translation
-          ↓
-    4. Translated JSON
-          ↓
-    5. Reconstructed translated PDF
+    2. Extract original JSON (text, tables, images + OCR)
+    3. Translate
+    4. Save translated JSON
+    5. Reconstruct translated PDF
     """
 
-    # 1. DETECT PDF TYPE
+    # ---------- PDF type check ----------
     pdf_type = detect_pdf_type(file_path)
     print(f"[PDF] Detected type: {pdf_type}")
 
     if pdf_type != "native":
-        # raise ValueError(
-        #     "Scanned PDF detected. Scanned PDF pipeline is not implemented yet."
-        # )
+        # Scanned PDF pipeline is not implemented yet, continue anyway
         print("[PDF] Continuing with image extraction test...")
 
     if translate_func is None:
-        raise ValueError(
-            "translate_func is required for PDF translation."
-        )
+        raise ValueError("translate_func is required for PDF translation.")
 
-    # =========================================================
-    # OUTPUT DIRECTORY
-    # =========================================================
-
+    # ---------- Output directory ----------
     if output_folder is None:
         output_folder = os.path.dirname(file_path)
     os.makedirs(output_folder, exist_ok=True)
@@ -504,62 +625,42 @@ def process_pdf_pipeline(
     print(f"[PDF] Target code : {tgt_lang_code}")
     print("=" * 70)
 
-    # ---------- PDF type check (optional) ----------
-    # pdf_type = detect_pdf_type(file_path)
-    # print(f"[PDF] Detected type: {pdf_type}")
-    # if pdf_type != "native":
-    #     raise ValueError("Scanned PDF pipeline is not implemented yet.")
+    # ---------- File names ----------
+    base_name = os.path.splitext(os.path.basename(filename))[0]
 
-    base_name = os.path.splitext(
-        os.path.basename(filename)
-    )[0]
     source_language_key = (
         source_language_name
         or source_language.split("-")[0]
     )
 
     original_json_path = os.path.join(
-        output_folder,
-        f"{base_name}_original.json"
+        output_folder, f"{base_name}_original.json"
     )
-
-    original_json_path = os.path.join(output_folder, f"{base_name}_original.json")
     translated_json_path = os.path.join(
         output_folder,
-        f"{base_name}_translated_"
-        f"{source_language_key}_to_{language_key}.json"
+        f"{base_name}_translated_{source_language_key}_to_{language_key}.json"
     )
     reconstructed_pdf_path = os.path.join(
         output_folder,
-        f"{base_name}_reconstructed_"
-        f"{source_language_key}_to_{language_key}.pdf"
+        f"{base_name}_reconstructed_{source_language_key}_to_{language_key}.pdf"
     )
 
-    # ---------- Step 1: Extract ----------
-    print("[PDF] Step 1: Extracting native PDF...")
-    document_data = extract_native_pdf_to_json(file_path, original_json_path)
-    print(f"[PDF] Original JSON created: {original_json_path}")
-
+    # ---------- OCR languages (based on SOURCE language) ----------
     ocr_language = OCR_LANGUAGE_CODES.get(source_language, "en")
     ocr_languages = [ocr_language]
     if ocr_language != "en":
         ocr_languages.append("en")
 
+    # ---------- Step 1: Extract ----------
+    print("[PDF] Step 1: Extracting native PDF...")
     document_data = extract_native_pdf_to_json(
         file_path,
         original_json_path,
-        ocr_languages=ocr_languages
+        ocr_languages=ocr_languages,
     )
+    print(f"[PDF] Original JSON created: {original_json_path}")
 
-    print(
-        f"[PDF] Original JSON created: "
-        f"{original_json_path}"
-    )
-
-    # =========================================================
-    # STEP 2: COLLECT TEXT
-    # =========================================================
-
+    # ---------- Step 2: Collect ----------
     print("[PDF] Step 2: Collecting text...")
     texts = _collect_translatable_texts(document_data)
     print(f"[PDF] Text items found: {len(texts)}")
@@ -587,110 +688,11 @@ def process_pdf_pipeline(
     translated_count, total_count = _count_coverage(document_data)
     print(f"[PDF] Translation coverage: {translated_count}/{total_count}")
 
-    translated_count = 0
-    total_count = 0
-
-    for page in document_data.get("pages", []):
-
-        for element in page.get("elements", []):
-
-            if element.get("type") == "text":
-
-                segments = element.get("segments") or []
-
-                if segments:
-
-                    for segment in segments:
-
-                        if segment.get("text", "").strip():
-
-                            total_count += 1
-
-                            if segment.get(
-                                "translated_text",
-                                ""
-                            ).strip():
-
-                                translated_count += 1
-
-                elif element.get(
-                    "original_text",
-                    ""
-                ).strip():
-
-                    total_count += 1
-
-                    if element.get(
-                        "translated_text",
-                        ""
-                    ).strip():
-
-                        translated_count += 1
-
-            elif element.get("type") == "table":
-
-                for row in element.get("rows", []):
-
-                    for cell in row.get("cells", []):
-                        text = cell.get("original_text", "")
-                        if isinstance(text, str) and text.strip():
-                            total_count += 1
-                            if cell.get("translated_text", "").strip():
-                                translated_count += 1
-
-        for image in page.get("images", []):
-
-            for ocr_item in image.get("ocr_data", []):
-
-                text = ocr_item.get("text", "")
-
-                if isinstance(text, str) and text.strip():
-                    total_count += 1
-
-                    translated_text = ocr_item.get(
-                        "translated_text",
-                        ""
-                    )
-
-                    if isinstance(
-                        translated_text,
-                        str
-                    ) and translated_text.strip():
-                        translated_count += 1
-
-    print(
-        f"[PDF] Translation coverage: "
-        f"{translated_count}/{total_count}"
-    )
-
-    # =========================================================
-    # STEP 5: SAVE TRANSLATED JSON
-    # =========================================================
-
-    print(
-        "[PDF] Step 5: Saving translated JSON..."
-    )
-
-    with open(
-        translated_json_path,
-        "w",
-        encoding="utf-8"
-    ) as json_file:
-
-        json.dump(
-            document_data,
-            json_file,
-            indent=4,
-            ensure_ascii=False
-        )
-
-    # =========================================================
-    # STEP 6: RECONSTRUCT PDF
-    # =========================================================
-
-    print(
-        "[PDF] Step 6: Reconstructing translated PDF..."
-    )
+    # ---------- Step 5: Save translated JSON ----------
+    print("[PDF] Step 5: Saving translated JSON...")
+    with open(translated_json_path, "w", encoding="utf-8") as json_file:
+        json.dump(document_data, json_file, indent=4, ensure_ascii=False)
+    print(f"[PDF] Translated JSON created: {translated_json_path}")
 
     # ---------- Step 6: Reconstruct ----------
     print("[PDF] Step 6: Reconstructing translated PDF...")
@@ -704,21 +706,20 @@ def process_pdf_pipeline(
 
     print("=" * 70)
     print("[PDF] PIPELINE COMPLETED")
+    print("=" * 70)
 
     return {
+        # Keys used by the router / frontend
         "json_file": os.path.basename(original_json_path),
         "translated_json_file": os.path.basename(translated_json_path),
         "reconstructed_pdf_file": os.path.basename(reconstructed_pdf_path),
         "reconstructed_file": os.path.basename(reconstructed_pdf_path),
         "output_filename": os.path.basename(reconstructed_pdf_path),
-        "data": document_data,
-    }
-    print("=" * 70)
 
-    return {
+        # Extra info
         "status": "success",
         "document_name": filename,
-        "pdf_type": "native",
+        "pdf_type": pdf_type,
         "target_language": language_key,
         "original_json": original_json_path,
         "translated_json": translated_json_path,
