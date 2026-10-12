@@ -8,6 +8,7 @@ import re
 import hashlib
 import threading
 import unicodedata
+import subprocess
 
 from sqlalchemy import text as sql_text
 
@@ -1313,6 +1314,7 @@ def update_document_status(
     """
 
     db = SessionLocal()
+    warm_preview = False
 
     try:
 
@@ -1340,6 +1342,10 @@ def update_document_status(
             )
 
         db.commit()
+        warm_preview = (
+            status == "completed"
+            and output_filename is not None
+        )
 
         print(
             f"PostgreSQL updated: "
@@ -1356,6 +1362,26 @@ def update_document_status(
     finally:
 
         db.close()
+
+    if warm_preview:
+        output_path = os.path.join(OUTPUT_FOLDER, output_filename)
+        if os.path.isfile(output_path):
+            try:
+                from app.routes.review import warm_document_preview
+
+                warm_document_preview(output_path, output_filename)
+            except (
+                FileNotFoundError,
+                OSError,
+                subprocess.CalledProcessError,
+                subprocess.TimeoutExpired,
+                RuntimeError,
+                ValueError,
+            ) as error:
+                print(
+                    f"WARNING: Preview preparation failed for "
+                    f"document {document_id}: {error}"
+                )
 
 
 # =========================================================

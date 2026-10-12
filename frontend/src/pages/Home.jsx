@@ -7,7 +7,6 @@ import InputPanel from "../components/Input";
 import OutputPanel from "../components/Output";
 import TranslateButton from "../components/TranslateButton";
 import ResetButton from "../components/ResetButton";
-import DownloadDocument from "../components/DownloadDocument";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 

@@ -1,5 +1,6 @@
 import os
 import json
+import hashlib
 import posixpath
 import shutil
 import subprocess
@@ -7,8 +8,9 @@ import tempfile
 import zipfile
 from pathlib import Path
 import xml.etree.ElementTree as ET
+from typing import Optional
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi.responses import FileResponse
 from starlette.background import BackgroundTask
 from pydantic import BaseModel, Field
@@ -30,6 +32,42 @@ from app.utils.rtf_converter import convert_docx_to_rtf
 
 
 router = APIRouter()
+
+_DOWNLOAD_FORMATS = {
+    ".doc": {
+        "pdf": ("PDF (.pdf)", "pdf:writer_pdf_Export"),
+    },
+    ".docx": {
+        "doc": ("Legacy Word (.doc)", "doc:MS Word 97"),
+        "pdf": ("PDF (.pdf)", "pdf:writer_pdf_Export"),
+        "rtf": ("Rich Text (.rtf)", "rtf"),
+        "txt": ("Plain Text (.txt)", "txt:Text"),
+    },
+    ".rtf": {
+        "doc": ("Legacy Word (.doc)", "doc:MS Word 97"),
+        "docx": ("Word (.docx)", "docx:Office Open XML Text"),
+        "pdf": ("PDF (.pdf)", "pdf:writer_pdf_Export"),
+        "rtf": ("Rich Text (.rtf)", "rtf"),
+        "txt": ("Plain Text (.txt)", "txt:Text"),
+    },
+    ".ppt": {
+        "pdf": ("PDF (.pdf)", "pdf:impress_pdf_Export"),
+    },
+    ".pptx": {
+        "pdf": ("PDF (.pdf)", "pdf:impress_pdf_Export"),
+    },
+    ".xls": {
+        "pdf": ("PDF (.pdf)", "pdf:calc_pdf_Export"),
+        "xlsx": ("Excel (.xlsx)", "xlsx:Calc MS Excel 2007 XML"),
+    },
+    ".xlsx": {
+        "pdf": ("PDF (.pdf)", "pdf:calc_pdf_Export"),
+        "xls": ("Legacy Excel (.xls)", "xls:MS Excel 97"),
+    },
+    ".pdf": {
+        "pdf": ("PDF (.pdf)", "pdf"),
+    },
+}
 
 _SPREADSHEET_NS = {
     "main": "http://schemas.openxmlformats.org/spreadsheetml/2006/main",
@@ -198,6 +236,7 @@ def _prepare_spreadsheet_preview(source_path, preview_dir):
                 worksheet_root.insert(insert_at, page_setup)
             page_setup.set("fitToWidth", "1")
             page_setup.set("fitToHeight", "0")
+            page_setup.set("orientation", "landscape")
             page_setup.attrib.pop("scale", None)
 
             for existing_name in list(defined_names):
@@ -243,6 +282,95 @@ def _prepare_spreadsheet_preview(source_path, preview_dir):
                 )
 
     return preview_path
+
+
+def _get_cached_document_preview(output_path, filename):
+    source_stat = os.stat(output_path)
+    source_path = str(Path(output_path).resolve())
+    cache_key = hashlib.sha256(
+        f"{source_path}:{source_stat.st_mtime_ns}:{source_stat.st_size}:layout-v2".encode()
+    ).hexdigest()
+    cache_dir = os.path.join("outputs", ".preview_cache")
+    os.makedirs(cache_dir, exist_ok=True)
+    cached_path = os.path.join(cache_dir, f"{cache_key}.pdf")
+
+    if os.path.isfile(cached_path):
+        return cached_path
+
+    preview_dir = tempfile.mkdtemp(prefix="document-preview-", dir=cache_dir)
+    profile_dir = os.path.join(preview_dir, "lo-profile")
+    preview_source_path = output_path
+    extension = os.path.splitext(filename)[1].lower()
+
+    try:
+        if extension == ".xls":
+            subprocess.run(
+                [
+                    _get_soffice_path(),
+                    f"-env:UserInstallation={Path(profile_dir).as_uri()}",
+                    "--headless",
+                    "--convert-to",
+                    "xlsx:Calc MS Excel 2007 XML",
+                    "--outdir",
+                    preview_dir,
+                    output_path,
+                ],
+                check=True,
+                capture_output=True,
+                text=True,
+                timeout=120,
+            )
+            preview_source_path = os.path.join(
+                preview_dir,
+                f"{Path(filename).stem}.xlsx",
+            )
+
+            if not os.path.isfile(preview_source_path):
+                raise RuntimeError("Could not prepare the spreadsheet for preview.")
+
+        if extension in {".xls", ".xlsx"}:
+            preview_source_path = _prepare_spreadsheet_preview(
+                preview_source_path,
+                preview_dir,
+            )
+
+        subprocess.run(
+            [
+                _get_soffice_path(),
+                f"-env:UserInstallation={Path(profile_dir).as_uri()}",
+                "--headless",
+                "--convert-to",
+                "pdf",
+                "--outdir",
+                preview_dir,
+                preview_source_path,
+            ],
+            check=True,
+            capture_output=True,
+            text=True,
+            timeout=120,
+        )
+
+        generated_path = os.path.join(
+            preview_dir,
+            f"{Path(preview_source_path).stem}.pdf",
+        )
+        if not os.path.isfile(generated_path):
+            raise RuntimeError("Office preview conversion produced no PDF.")
+
+        os.replace(generated_path, cached_path)
+        return cached_path
+    finally:
+        shutil.rmtree(preview_dir, ignore_errors=True)
+
+
+def warm_document_preview(output_path, filename):
+    extension = os.path.splitext(filename)[1].lower()
+    if extension == ".pdf":
+        return output_path
+    if extension not in {".doc", ".docx", ".rtf", ".xls", ".xlsx", ".ppt", ".pptx"}:
+        raise ValueError(f"Preview is not supported for {extension or 'this file type'}.")
+    return _get_cached_document_preview(output_path, filename)
 
 
 # -----------------------------
@@ -668,9 +796,75 @@ def save_review(
 # Download Final Document
 # -----------------------------
 
+def _get_final_document_file(document):
+    if not document.output_filename:
+        raise HTTPException(
+            status_code=404,
+            detail="Final document not found."
+        )
+
+    name, ext = os.path.splitext(document.output_filename)
+    reviewed_filename = f"{name}_reviewed{ext}"
+    original_output_path = os.path.join("outputs", document.output_filename)
+    reviewed_output_path = os.path.join("outputs", reviewed_filename)
+
+    if os.path.exists(reviewed_output_path):
+        return reviewed_output_path, reviewed_filename
+    if os.path.exists(original_output_path):
+        return original_output_path, document.output_filename
+
+    raise HTTPException(
+        status_code=404,
+        detail="Final document does not exist."
+    )
+
+
+def _download_format_options(filename):
+    extension = os.path.splitext(filename)[1].lower()
+    formats = _DOWNLOAD_FORMATS.get(extension)
+    if formats is None:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Downloads are not supported for {extension or 'this file type'}."
+        )
+
+    return [
+        {"extension": file_extension, "label": label}
+        for file_extension, (label, _) in formats.items()
+    ]
+
+
+@router.get("/review/download-formats/{document_id}")
+def get_download_formats(
+    document_id: int,
+    db: Session = Depends(get_db),
+):
+    document = db.query(Document).filter(Document.id == document_id).first()
+    if not document:
+        raise HTTPException(status_code=404, detail="Document not found.")
+
+    _, filename = _get_final_document_file(document)
+    formats = _download_format_options(filename)
+    current_format = os.path.splitext(filename)[1][1:].lower()
+    default_format = next(
+        (
+            option["extension"]
+            for option in formats
+            if option["extension"] == current_format
+        ),
+        formats[0]["extension"],
+    )
+    return {
+        "formats": formats,
+        "current_format": current_format,
+        "default_format": default_format,
+    }
+
+
 @router.get("/review/download/{document_id}")
 def download_final_document(
     document_id: int,
+    target_format: Optional[str] = Query(default=None, alias="format"),
     db: Session = Depends(get_db)
 ):
 
@@ -686,41 +880,91 @@ def download_final_document(
             detail="Document not found."
         )
 
-    if not document.output_filename:
-        raise HTTPException(
-            status_code=404,
-            detail="Final document not found."
-        )
+    source_path, source_filename = _get_final_document_file(document)
+    target_path = source_path
+    target_filename = source_filename
+    cleanup_dir = None
 
-    # Check if the user has created an edited "_reviewed" file
-    name, ext = os.path.splitext(document.output_filename)
-    reviewed_filename = f"{name}_reviewed{ext}"
-    
-    original_output_path = os.path.join("outputs", document.output_filename)
-    reviewed_output_path = os.path.join("outputs", reviewed_filename)
+    if target_format:
+        target_format = target_format.lower().lstrip(".")
+        source_extension = os.path.splitext(source_filename)[1].lower()
+        formats = _DOWNLOAD_FORMATS.get(source_extension)
+        if formats is None or target_format not in formats:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Unsupported download format: .{target_format}"
+            )
 
-    # Serve the reviewed file if it exists; otherwise serve the original AI output
-    if os.path.exists(reviewed_output_path):
-        target_path = reviewed_output_path
-        target_filename = reviewed_filename
-    elif os.path.exists(original_output_path):
-        target_path = original_output_path
-        target_filename = document.output_filename
-    else:
-        raise HTTPException(
-            status_code=404,
-            detail="Final document does not exist."
-        )
+        if target_format != source_extension[1:]:
+            target_filename = (
+                f"{os.path.splitext(source_filename)[0]}.{target_format}"
+            )
+            if target_format == "pdf" and source_extension in {".xls", ".xlsx"}:
+                target_path = _get_cached_document_preview(
+                    source_path,
+                    source_filename,
+                )
+            else:
+                _, convert_filter = formats[target_format]
+                cleanup_dir = tempfile.mkdtemp(prefix="translated-export-")
+                try:
+                    subprocess.run(
+                        [
+                            _get_soffice_path(),
+                            "--headless",
+                            "--convert-to",
+                            convert_filter,
+                            "--outdir",
+                            cleanup_dir,
+                            source_path,
+                        ],
+                        check=True,
+                        capture_output=True,
+                        text=True,
+                        timeout=120,
+                    )
+                except FileNotFoundError as error:
+                    shutil.rmtree(cleanup_dir, ignore_errors=True)
+                    raise HTTPException(
+                        status_code=503,
+                        detail=str(error),
+                    ) from error
+                except subprocess.TimeoutExpired as error:
+                    shutil.rmtree(cleanup_dir, ignore_errors=True)
+                    raise HTTPException(
+                        status_code=504,
+                        detail="The document conversion timed out.",
+                    ) from error
+                except subprocess.CalledProcessError as error:
+                    shutil.rmtree(cleanup_dir, ignore_errors=True)
+                    detail = (error.stderr or "").strip()
+                    raise HTTPException(
+                        status_code=500,
+                        detail=detail or f"Conversion to .{target_format} failed.",
+                    ) from error
+
+                target_path = os.path.join(cleanup_dir, target_filename)
+                if not os.path.isfile(target_path):
+                    shutil.rmtree(cleanup_dir, ignore_errors=True)
+                    raise HTTPException(
+                        status_code=500,
+                        detail=f"Conversion to .{target_format} did not produce a file.",
+                    )
 
     extension_media_types = {
         ".doc": "application/msword",
         ".docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        ".odt": "application/vnd.oasis.opendocument.text",
         ".rtf": "application/rtf",
         ".xls": "application/vnd.ms-excel",
         ".xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        ".ods": "application/vnd.oasis.opendocument.spreadsheet",
+        ".csv": "text/csv",
         ".ppt": "application/vnd.ms-powerpoint",
         ".pptx": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+        ".odp": "application/vnd.oasis.opendocument.presentation",
         ".pdf": "application/pdf",
+        ".txt": "text/plain",
     }
     extension = os.path.splitext(target_filename)[1].lower()
     media_type = extension_media_types.get(
@@ -732,6 +976,11 @@ def download_final_document(
         path=target_path,
         filename=target_filename,
         media_type=media_type,
+        background=(
+            BackgroundTask(shutil.rmtree, cleanup_dir, ignore_errors=True)
+            if cleanup_dir
+            else None
+        ),
     )
 
 
@@ -758,14 +1007,7 @@ def preview_reconstructed_document(
             detail="Reconstructed document not found."
         )
 
-    filename = os.path.basename(document.output_filename)
-    output_path = os.path.join("outputs", filename)
-
-    if not os.path.isfile(output_path):
-        raise HTTPException(
-            status_code=404,
-            detail="Reconstructed document does not exist."
-        )
+    output_path, filename = _get_final_document_file(document)
 
     extension = os.path.splitext(filename)[1].lower()
 
@@ -785,82 +1027,21 @@ def preview_reconstructed_document(
             detail="Preview is not supported for this document format."
         )
 
-    preview_dir = tempfile.mkdtemp(prefix="document-preview-")
-    profile_dir = os.path.join(preview_dir, "lo-profile")
-    preview_source_path = output_path
-
     try:
-        if extension == ".xls":
-            subprocess.run(
-                [
-                    _get_soffice_path(),
-                    f"-env:UserInstallation={Path(profile_dir).as_uri()}",
-                    "--headless",
-                    "--convert-to",
-                    "xlsx:Calc MS Excel 2007 XML",
-                    "--outdir",
-                    preview_dir,
-                    output_path,
-                ],
-                check=True,
-                capture_output=True,
-                text=True,
-                timeout=120,
-            )
-            preview_source_path = os.path.join(
-                preview_dir,
-                f"{Path(filename).stem}.xlsx",
-            )
-
-            if not os.path.isfile(preview_source_path):
-                raise RuntimeError("Could not prepare the spreadsheet for preview.")
-
-        if extension in {".xls", ".xlsx"}:
-            preview_source_path = _prepare_spreadsheet_preview(
-                preview_source_path,
-                preview_dir,
-            )
-
-        subprocess.run(
-            [
-                _get_soffice_path(),
-                f"-env:UserInstallation={Path(profile_dir).as_uri()}",
-                "--headless",
-                "--convert-to",
-                "pdf",
-                "--outdir",
-                preview_dir,
-                preview_source_path,
-            ],
-            check=True,
-            capture_output=True,
-            text=True,
-            timeout=120,
-        )
-
-        preview_path = os.path.join(
-            preview_dir,
-            f"{Path(preview_source_path).stem}.pdf"
-        )
-
-        if not os.path.isfile(preview_path):
-            raise RuntimeError("Office preview conversion produced no PDF.")
+        preview_path = _get_cached_document_preview(output_path, filename)
 
         return FileResponse(
             path=preview_path,
             filename=f"{Path(filename).stem}.pdf",
             media_type="application/pdf",
             content_disposition_type="inline",
-            background=BackgroundTask(shutil.rmtree, preview_dir, ignore_errors=True),
         )
     except FileNotFoundError as error:
-        shutil.rmtree(preview_dir, ignore_errors=True)
         raise HTTPException(
             status_code=503,
             detail=str(error)
         ) from error
     except (subprocess.CalledProcessError, subprocess.TimeoutExpired, RuntimeError) as error:
-        shutil.rmtree(preview_dir, ignore_errors=True)
         raise HTTPException(
             status_code=500,
             detail=f"Could not prepare document preview: {error}"

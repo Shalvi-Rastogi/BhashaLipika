@@ -276,6 +276,7 @@ import {
   Pencil,
   X,
 } from "lucide-react";
+import DownloadDocument from "./DownloadDocument";
 
 const API_BASE_URL =
   import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
@@ -290,11 +291,6 @@ function OutputPanel({
   const [copied, setCopied] = useState(false);
   const [speaking, setSpeaking] = useState(false);
   const [isPreviewing, setIsPreviewing] = useState(false);
-
-  const fileExtension = documentFilename
-    ?.split(".")
-    .pop()
-    ?.toUpperCase();
 
   useEffect(() => {
     return () => {
@@ -423,42 +419,49 @@ function OutputPanel({
         </div>
 
         {documentFilename ? (
-          <div className="h-[340px] border rounded-xl bg-gray-50 p-4
-                          flex flex-col items-center justify-center text-center">
-            <FileText size={48} className="text-violet-600 mb-4" />
-
-            <p className="text-sm text-gray-500 mb-3">
-              Your reconstructed translation is ready.
+          <div className="flex h-[340px] flex-col items-center justify-center
+                          rounded-xl border border-gray-200 bg-gray-50 px-5 py-6
+                          text-center">
+            <div className="mb-3 flex size-12 items-center justify-center rounded-full bg-violet-100 text-violet-700">
+              <FileText size={25} aria-hidden="true" />
+            </div>
+            <p className="mb-4 text-sm text-gray-600">
+              Your reconstructed translation is ready
             </p>
-
             <button
               type="button"
               onClick={() => setIsPreviewing(true)}
               disabled={!documentId}
-              className="max-w-full inline-flex items-center gap-2 rounded-lg
-                         bg-violet-600 px-4 py-3 font-semibold text-white
-                         hover:bg-violet-700 disabled:bg-gray-400"
+              className="inline-flex max-w-full items-center justify-center gap-2
+                         rounded-lg bg-violet-600 px-4 py-3 font-semibold text-white
+                         shadow-sm transition hover:bg-violet-700
+                         focus:outline-none focus:ring-2 focus:ring-violet-300
+                         focus:ring-offset-2 disabled:bg-gray-400 sm:min-w-0"
               title={`Preview ${documentFilename}`}
             >
               <span className="min-w-0 truncate">{documentFilename}</span>
-              <Eye size={18} className="shrink-0" />
+              <Eye size={18} className="shrink-0" aria-hidden="true" />
             </button>
-
             <button
               type="button"
               onClick={onReviewDocument}
               disabled={!documentId || !onReviewDocument}
-              className="mt-4 inline-flex items-center gap-2 rounded-lg
-                         border border-violet-600 px-4 py-2 font-semibold
-                         text-violet-700 hover:bg-violet-50
+              className="mt-3 inline-flex items-center justify-center gap-2
+                         rounded-lg border border-violet-200 bg-white px-4 py-2.5
+                         font-semibold text-violet-700 transition hover:bg-violet-50
+                         focus:outline-none focus:ring-2 focus:ring-violet-300
                          disabled:border-gray-300 disabled:text-gray-400"
             >
-              <Pencil size={16} />
-              Review &amp; Edit (HITL)
+              <Pencil size={16} aria-hidden="true" />
+              Review &amp; Edit
             </button>
 
-            <p className="text-xs text-gray-500 mt-3">
-              Preview the reconstructed file or open it for review and editing.
+            <DownloadDocument
+              documentId={documentId}
+              documentFilename={documentFilename}
+            />
+            <p className="mt-3 text-xs text-gray-500">
+              Preview, edit, or download in another format.
             </p>
           </div>
         ) : (
@@ -500,13 +503,16 @@ function OutputPanel({
               <div className="flex shrink-0 items-center gap-2">
                 <a
                   href={`${API_BASE_URL}/review/download/${documentId}`}
-                  className="inline-flex items-center gap-2 rounded-lg
-                             bg-violet-600 px-3 py-2 text-sm font-medium
-                             text-white hover:bg-violet-700"
-                  title={`Download reconstructed ${fileExtension} file`}
+                  className="inline-flex items-center gap-2 rounded-lg bg-violet-600
+                             px-3 py-2 text-sm font-semibold text-white shadow-sm
+                             transition hover:bg-violet-700 focus:outline-none
+                             focus:ring-2 focus:ring-violet-300 focus:ring-offset-2"
+                  title={`Download reconstructed ${documentFilename.split(".").pop()} file`}
                 >
-                  <Download size={18} />
-                  <span>Download {fileExtension}</span>
+                  <Download size={18} aria-hidden="true" />
+                  <span>
+                    Download {documentFilename.split(".").pop()?.toUpperCase()}
+                  </span>
                 </a>
 
                 <button

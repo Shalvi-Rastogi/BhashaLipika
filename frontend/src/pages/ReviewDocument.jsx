@@ -1,8 +1,9 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
-import { ArrowLeft, Download, Pencil, Save } from "lucide-react";
+import { ArrowLeft, Pencil, Save } from "lucide-react";
 import PdfImagesSection from "./PdfImagesSection";
+import DownloadDocument from "../components/DownloadDocument";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
@@ -542,7 +543,7 @@ function ReviewDocument() {
   // ---------------------------------------
   // DOWNLOAD FINAL DOCUMENT
   // ---------------------------------------
-  const handleDownload = async () => {
+  const handleDownload = async (targetFormat) => {
     try {
       setIsDownloading(true);
 
@@ -564,6 +565,7 @@ function ReviewDocument() {
       const response = await axios.get(
         `${API_BASE_URL}/review/download/${documentId}`,
         {
+          params: { format: targetFormat },
           responseType: "blob",
         }
       );
@@ -572,7 +574,7 @@ function ReviewDocument() {
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-      link.download = finalFilename;
+      link.download = `${finalFilename.replace(/\.[^.]+$/, "")}.${targetFormat}`;
       document.body.appendChild(link);
       link.click();
       link.remove();
@@ -701,15 +703,13 @@ function ReviewDocument() {
                   {isSaving ? "Saving..." : "Save changes"}
                 </button>
               )}
-              <button
-                type="button"
-                onClick={handleDownload}
-                disabled={isDownloading}
-                className="inline-flex items-center gap-2 rounded border border-[#bbc8c2] bg-white px-4 py-2.5 text-sm font-semibold text-[#26362f] hover:bg-[#edf2ef] disabled:cursor-wait disabled:text-gray-400"
-              >
-                <Download size={16} aria-hidden="true" />
-                {isDownloading ? "Preparing file..." : `Download .${fileExtension}`}
-              </button>
+              <DownloadDocument
+                documentId={documentId}
+                documentFilename={finalFilename}
+                onDownload={handleDownload}
+                isDownloading={isDownloading}
+                compact
+              />
             </div>
           </header>
 
@@ -831,17 +831,13 @@ function ReviewDocument() {
                 {isSaving ? "Saving..." : "Save changes"}
               </button>
             )}
-            <button
-              type="button"
-              onClick={handleDownload}
-              disabled={isDownloading}
-              className="inline-flex items-center gap-2 rounded border border-[#bbc8c2] bg-white px-4 py-2.5 text-sm font-semibold text-[#26362f] hover:bg-[#edf2ef] disabled:cursor-wait disabled:text-gray-400"
-            >
-              <Download size={16} aria-hidden="true" />
-              {isDownloading
-                ? `Preparing .${fileExtension}...`
-                : `Download .${fileExtension}`}
-            </button>
+            <DownloadDocument
+              documentId={documentId}
+              documentFilename={finalFilename}
+              onDownload={handleDownload}
+              isDownloading={isDownloading}
+              compact
+            />
           </div>
         </header>
 
