@@ -8,6 +8,8 @@ import zipfile
 import tempfile
 import shutil
 import subprocess
+import re
+
 
 from docx.oxml.shared import OxmlElement
 from docx.oxml.ns import qn
@@ -769,6 +771,63 @@ def reconstruct_textboxes(
                 node.text = ""
 
 
+def _build_translated_runs(runs_data, translated_text):
+    """
+    Build runs for translated text without applying the first run's
+    style (e.g. bold label) to the whole paragraph.
+
+    Pattern "bold label: normal body" -> split the translation at the
+    first ':' (or Devanagari visarga) into a bold label run + normal body run.
+    Otherwise use the style of the longest original run.
+    """
+
+    text_runs = [r for r in runs_data if r.get("text")]
+    if not text_runs:
+        return runs_data
+
+    def is_bold(run):
+        return bool((run.get("style") or {}).get("bold"))
+
+    # Leading bold runs (whitespace-only runs are neutral)
+    lead = []
+    for run in text_runs:
+        if is_bold(run) or not run["text"].strip():
+            lead.append(run)
+        else:
+            break
+
+    rest = text_runs[len(lead):]
+    lead_text = "".join(r["text"] for r in lead).strip()
+
+    has_bold_label = any(is_bold(r) and r["text"].strip() for r in lead)
+
+    if has_bold_label and rest and lead_text.endswith(":"):
+        match = re.search(r"[:ः]", translated_text)
+
+        if match and 0 < match.start() < len(translated_text) - 1:
+            split_at = match.start() + 1
+            label = translated_text[:split_at].replace("ः", ":")
+            body = translated_text[split_at:]
+
+            if body.strip():
+                if not body.startswith(" "):
+                    body = " " + body
+
+                lead_style = next(
+                    (r.get("style", {}) for r in lead if is_bold(r) and r["text"].strip()),
+                    {},
+                )
+                body_style = max(rest, key=lambda r: len(r["text"])).get("style", {})
+
+                return [
+                    {"text": label, "style": lead_style},
+                    {"text": body, "style": body_style},
+                ]
+
+    # Fallback: style of the longest run (not the first one)
+    dominant = max(text_runs, key=lambda r: len(r["text"]))
+    return [{"text": translated_text, "style": dominant.get("style", {})}]
+
 # ============================================================
 # RECONSTRUCT PARAGRAPHS
 # ============================================================
@@ -1034,19 +1093,24 @@ def reconstruct_paragraphs(
                     + next_element.get("text", "")
                 )
 
-            paragraph_style_for_text = next(
-                (
-                    run_data.get("style", {})
-                    for run_data in runs_data
-                    if run_data.get("text")
-                ),
-                {}
-            )
-            runs_data = [{
-                "text": translated_paragraph_text,
-                "style": paragraph_style_for_text
-            }]
-
+                # Special merged paragraph: keep the old behaviour
+                paragraph_style_for_text = next(
+                    (
+                        run_data.get("style", {})
+                        for run_data in runs_data
+                        if run_data.get("text")
+                    ),
+                    {}
+                )
+                runs_data = [{
+                    "text": translated_paragraph_text,
+                    "style": paragraph_style_for_text
+                }]
+            else:
+                runs_data = _build_translated_runs(
+                    runs_data,
+                    translated_paragraph_text
+                )
         # ----------------------------------------------------
         # Add translated runs
         # ----------------------------------------------------
@@ -1722,10 +1786,84 @@ def get_background_color(
 
 
 # ============================================================
-# IMAGE RECONSTRUCTION
+# IMAGE RECONSTRUCTION (NEW: same pipeline as PDF)
 # ============================================================
 
 def reconstruct_image(
+    original_image_path,
+    image_element,
+    output_image_path,
+    target_language="hi"
+):
+    """
+    Rebuild an image with translated text using the same pipeline as PDF
+    (inpainting, original colour, uniform font, original line layout).
+    Falls back to the legacy per-line method if no text blocks exist
+    or if the new method fails.
+    """
+
+    try:
+        from app.services.pdf_service import (
+            _build_image_entries,
+            _match_trailing_punct,
+        )
+        from app.reconstructors.PDF.native_pdf_reconstructor import (
+            _reconstruct_translated_image,
+        )
+
+        entries = []
+
+        for block in image_element.get("text_blocks") or []:
+
+            translated = block.get("translated_text") or ""
+
+            if not translated.strip():
+                continue
+
+            translated = _match_trailing_punct(
+                block.get("text", ""),
+                translated
+            )
+
+            entries.extend(_build_image_entries(block, translated))
+
+        if not entries:
+            return reconstruct_image_legacy(
+                original_image_path,
+                image_element,
+                output_image_path
+            )
+
+        translated_png = _reconstruct_translated_image(
+            original_image_path,
+            entries,
+            target_language
+        )
+
+        # Save in the same format as the original media file
+        Image.open(translated_png).convert("RGB").save(output_image_path)
+
+        return True
+
+    except Exception as e:
+
+        print(
+            f"New image reconstruction failed ({e}); "
+            f"falling back to legacy method."
+        )
+
+        return reconstruct_image_legacy(
+            original_image_path,
+            image_element,
+            output_image_path
+        )
+
+
+# ============================================================
+# IMAGE RECONSTRUCTION (LEGACY: per-line, used as fallback)
+# ============================================================
+
+def reconstruct_image_legacy(
     original_image_path,
     image_element,
     output_image_path
@@ -2148,7 +2286,8 @@ def replace_images_in_docx(
 def reconstruct_images_pipeline(
     original_docx_path,
     elements,
-    temp_folder
+    temp_folder,
+    target_language="hi"
 ):
 
     print(
@@ -2310,7 +2449,8 @@ def reconstruct_images_pipeline(
         success = reconstruct_image(
             original_image_path,
             image_element,
-            reconstructed_image_path
+            reconstructed_image_path,
+            target_language
         )
 
         if success:
@@ -2477,6 +2617,12 @@ def reconstruct_docx(
         []
     )
 
+    # Target language is stored in the translated JSON by upload.py
+    target_language = translated_data.get(
+        "target_language",
+        "hi"
+    )
+
     print(
         "Total JSON elements:",
         len(elements)
@@ -2541,7 +2687,8 @@ def reconstruct_docx(
         reconstruct_images_pipeline(
             original_docx_path,
             elements,
-            temp_folder
+            temp_folder,
+            target_language
         )
     )
 

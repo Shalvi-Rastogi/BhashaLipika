@@ -890,6 +890,26 @@ def translate_json(
                             cache_key
                         ]
                     )
+            for block in data.get("text_blocks", []) or []:
+
+                if not isinstance(block, dict):
+                    continue
+
+                block_text = block.get("text", "")
+
+                if not isinstance(block_text, str) or not block_text.strip():
+                    continue
+
+                cache_key = (block_text, src_lang, tgt_lang)
+
+                if cache_key not in translation_cache:
+                    translation_cache[cache_key] = translate_text(
+                        block_text,
+                        src_lang,
+                        tgt_lang
+                    )
+
+                block["translated_text"] = translation_cache[cache_key]
 
             # Avoid translating image OCR
             # fields twice.
@@ -900,6 +920,7 @@ def translate_json(
                     "text",
                     "translated_text",
                     "ocr_details"
+                    "text_blocks"
                 ]:
                     continue
 
@@ -1195,6 +1216,7 @@ def collect_translation_texts(
                 "runs",
                 "original_text",
                 "paragraphs"
+                "lines"
             ]:
                 continue
 
@@ -1834,7 +1856,7 @@ async def upload_document(
             # ---------------------------------------------
             # SAVE TRANSLATED JSON
             # ---------------------------------------------
-
+            translated_result["target_language"] = target_language
             translated_json_filename = (
                 f"{base_name}"
                 f"_translated_"

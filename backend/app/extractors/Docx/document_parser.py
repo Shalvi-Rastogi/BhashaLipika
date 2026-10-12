@@ -8,6 +8,7 @@ from .paragraph_extractor import process_paragraph
 from .table_extractor import process_table
 from .image_extractor import extract_images_from_docx
 from .textbox_extractor import extract_textboxes_from_docx
+from app.extractors.PDF.native.ocr_grouping import group_ocr_results
 
 VML_IMAGEDATA_TAG = "{urn:schemas-microsoft-com:vml}imagedata"
 
@@ -120,6 +121,14 @@ def parse_document(docx_path, document):
 
         # Combine OCR results into one string
         ocr_text = " ".join(item["text"] for item in image["ocr"])
+        raw_ocr = [
+            (item["bbox"], item["text"], item.get("confidence", 1.0))
+            for item in image["ocr"]
+        ]
+        text_blocks = group_ocr_results(raw_ocr)
+        for block_index, block in enumerate(text_blocks, start=1):
+            block["id"] = f"{image['image_name']}_b{block_index}"
+            block["translated_text"] = ""
 
         result["elements"].append({
             "id": element_id,
@@ -130,6 +139,7 @@ def parse_document(docx_path, document):
             "image_path": image["image_path"],
             "text": ocr_text,
             "ocr_details": image["ocr"],
+            "text_blocks": text_blocks,
             "review_order": image_positions.get(
                 image["original_media"],
                 document_position + element_id,
