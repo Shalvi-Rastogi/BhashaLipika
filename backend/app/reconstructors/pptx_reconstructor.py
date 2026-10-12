@@ -4,7 +4,7 @@ from PIL import Image, ImageDraw, ImageFont
 from pptx import Presentation
 from pptx.opc.constants import RELATIONSHIP_TYPE as RT
 from pptx.oxml.ns import qn
-from pptx.enum.text import MSO_AUTO_SIZE, MSO_ANCHOR
+from pptx.enum.text import MSO_AUTO_SIZE
 from pptx.util import Pt
 
 def _shape_at_path(shapes, shape_path):
@@ -98,6 +98,8 @@ def _set_cell_text(cell, text):
                 orig_font_bold = run.font.bold
 
     text_frame.text = str(text)
+    text_frame.word_wrap = True
+    text_frame.auto_size = MSO_AUTO_SIZE.TEXT_TO_FIT_SHAPE
 
     # Font size wapas apply kar rahe hain
     for paragraph in text_frame.paragraphs:
@@ -316,6 +318,7 @@ def reconstruct_pptx(original_pptx_path, translated_json_path, output_pptx_path)
                     # Using the new format preserver
                     _replace_text_preserve_format(shape.text_frame, translated_text)
                     shape.text_frame.word_wrap = True
+                    shape.text_frame.auto_size = MSO_AUTO_SIZE.TEXT_TO_FIT_SHAPE
 
             # --- Replace Table Content ---
             elif item['type'] == 'table' and shape.has_table:

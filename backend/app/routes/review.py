@@ -75,6 +75,7 @@ _SPREADSHEET_NS = {
     "package_rel": "http://schemas.openxmlformats.org/package/2006/relationships",
     "xdr": "http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing",
 }
+_DRAWING_NS = "http://schemas.openxmlformats.org/drawingml/2006/main"
 
 
 def _spreadsheet_qname(namespace, tag):
@@ -284,11 +285,97 @@ def _prepare_spreadsheet_preview(source_path, preview_dir):
     return preview_path
 
 
+def _prepare_presentation_preview(source_path, preview_dir):
+    preview_path = os.path.join(
+        preview_dir,
+        f"{Path(source_path).stem}_preview.pptx",
+    )
+    property_tags = {
+        f"{{{_DRAWING_NS}}}rPr",
+        f"{{{_DRAWING_NS}}}defRPr",
+        f"{{{_DRAWING_NS}}}endParaRPr",
+    }
+    complex_font_tag = f"{{{_DRAWING_NS}}}cs"
+    text_tag = f"{{{_DRAWING_NS}}}t"
+    paragraph_tag = f"{{{_DRAWING_NS}}}p"
+    run_tag = f"{{{_DRAWING_NS}}}r"
+    run_properties_tag = f"{{{_DRAWING_NS}}}rPr"
+
+    with zipfile.ZipFile(source_path, "r") as source_zip:
+        with zipfile.ZipFile(
+            preview_path,
+            "w",
+            compression=zipfile.ZIP_DEFLATED,
+        ) as preview_zip:
+            for package_item in source_zip.infolist():
+                content = source_zip.read(package_item.filename)
+                if (
+                    package_item.filename.startswith("ppt/slides/slide")
+                    and package_item.filename.endswith(".xml")
+                ):
+                    slide_root = ET.fromstring(content)
+                    changed = False
+                    for paragraph in slide_root.iter(paragraph_tag):
+                        for properties in paragraph.iter():
+                            if properties.tag not in property_tags:
+                                continue
+                            text = "".join(
+                                node.text or ""
+                                for node in properties.iter(text_tag)
+                            )
+                            if not any(
+                                "\u0900" <= character <= "\u097f"
+                                for character in text
+                            ):
+                                continue
+                            complex_font = properties.find(complex_font_tag)
+                            if complex_font is None:
+                                complex_font = ET.SubElement(
+                                    properties,
+                                    complex_font_tag,
+                                )
+                            complex_font.set("typeface", "Nirmala UI")
+                            changed = True
+
+                        for run in paragraph.iter(run_tag):
+                            text = "".join(
+                                node.text or "" for node in run.iter(text_tag)
+                            )
+                            if not any(
+                                "\u0900" <= character <= "\u097f"
+                                for character in text
+                            ):
+                                continue
+
+                            run_properties = run.find(run_properties_tag)
+                            if run_properties is None:
+                                run_properties = ET.Element(run_properties_tag)
+                                run.insert(0, run_properties)
+                            complex_font = run_properties.find(complex_font_tag)
+                            if complex_font is None:
+                                complex_font = ET.SubElement(
+                                    run_properties,
+                                    complex_font_tag,
+                                )
+                            complex_font.set("typeface", "Nirmala UI")
+                            changed = True
+
+                    if changed:
+                        content = serialize_xml_preserving_namespaces(
+                            slide_root,
+                            content,
+                        )
+
+                preview_zip.writestr(package_item, content)
+
+    return preview_path
+
+
 def _get_cached_document_preview(output_path, filename):
     source_stat = os.stat(output_path)
     source_path = str(Path(output_path).resolve())
     cache_key = hashlib.sha256(
-        f"{source_path}:{source_stat.st_mtime_ns}:{source_stat.st_size}:layout-v2".encode()
+        f"{source_path}:{source_stat.st_mtime_ns}:{source_stat.st_size}:preview-render-v4".encode()
     ).hexdigest()
     cache_dir = os.path.join("outputs", ".preview_cache")
     os.makedirs(cache_dir, exist_ok=True)
@@ -330,6 +417,11 @@ def _get_cached_document_preview(output_path, filename):
 
         if extension in {".xls", ".xlsx"}:
             preview_source_path = _prepare_spreadsheet_preview(
+                preview_source_path,
+                preview_dir,
+            )
+        elif extension == ".pptx":
+            preview_source_path = _prepare_presentation_preview(
                 preview_source_path,
                 preview_dir,
             )
