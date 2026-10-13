@@ -117,7 +117,7 @@ function InputPanel({
     uploadStatus.startsWith("Select source and target");
 
   return (
-    <div className="bg-white rounded-2xl shadow-md p-6 h-[500px] flex flex-col">
+    <div className="bg-white rounded-2xl shadow-md p-5 h-[350px] flex flex-col">
 
       {/* Header */}
       <div className="flex justify-between items-center mb-4">

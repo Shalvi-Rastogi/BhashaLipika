@@ -366,7 +366,7 @@ function OutputPanel({
 
   return (
     <>
-      <div className="bg-white rounded-2xl shadow-md p-6 h-[450px]">
+      <div className="bg-white rounded-2xl shadow-md p-5 h-[350px] flex flex-col">
         <div className="flex items-center justify-between mb-4 gap-2">
           <h2 className="text-xl font-semibold">
             {documentFilename ? "Translated Document" : "Translated Text"}

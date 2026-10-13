@@ -7,6 +7,7 @@ import InputPanel from "../components/Input";
 import OutputPanel from "../components/Output";
 import TranslateButton from "../components/TranslateButton";
 import ResetButton from "../components/ResetButton";
+import cdacLogo from "../assets/cdac-logo.png";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
@@ -182,18 +183,28 @@ function Home() {
   // RETURN
   // ------------------------------------------------
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
+    <div className="h-screen bg-gray-100 px-8 py-1">
       <div className="max-w-6xl mx-auto">
-        {/* LANGUAGE */}
-        <LanguageSelector
-          sourceLanguage={sourceLanguage}
-          targetLanguage={targetLanguage}
-          onSourceLanguageChange={setSourceLanguage}
-          onTargetLanguageChange={setTargetLanguage}
-        />
+        {/* CDAC Logo */}
+        <div className="flex items-center gap-4 mb-3">
+          <img
+            src={cdacLogo}
+            alt="C-DAC Logo"
+            className="w-20 h-auto shrink-0 object-contain"
+          />
+
+          <div className="flex-1 min-w-0">
+            <LanguageSelector
+              sourceLanguage={sourceLanguage}
+              targetLanguage={targetLanguage}
+              onSourceLanguageChange={setSourceLanguage}
+              onTargetLanguageChange={setTargetLanguage}
+            />
+          </div>
+        </div>
 
         {/* INPUT TYPE */}
-        <div className="mt-6 flex items-center gap-6">
+        <div className="mt-3 flex items-center gap-6">
           <span className="font-semibold text-gray-700">Input Type:</span>
           <label className="flex items-center gap-2">
             <input
@@ -218,7 +229,7 @@ function Home() {
         </div>
 
         {/* INPUT / OUTPUT */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-3">
           {/* LEFT */}
           <div>
             <InputPanel
