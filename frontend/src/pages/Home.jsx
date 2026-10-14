@@ -183,7 +183,7 @@ function Home() {
   // RETURN
   // ------------------------------------------------
   return (
-    <div className="h-screen bg-gray-100 px-8 py-1">
+    <div className="h-screen bg-gray-100 px-4 sm:px-6 lg:px-8 py-1">
       <div className="max-w-6xl mx-auto">
         {/* CDAC Logo */}
         <div className="flex items-center gap-4 mb-3">
