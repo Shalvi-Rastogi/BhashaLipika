@@ -366,7 +366,7 @@ function OutputPanel({
 
   return (
     <>
-      <div className="bg-white rounded-2xl shadow-md p-5 h-[350px] flex flex-col">
+      <div className="bg-white rounded-2xl shadow-md p-5 h-full min-h-[350px] flex flex-col">
         <div className="flex items-center justify-between mb-4 gap-2">
           <h2 className="text-xl font-semibold">
             {documentFilename ? "Translated Document" : "Translated Text"}
@@ -419,7 +419,7 @@ function OutputPanel({
         </div>
 
         {documentFilename ? (
-          <div className="flex h-[340px] flex-col items-center justify-center
+          <div className="flex min-h-0 flex-1 flex-col items-center justify-center
                           rounded-xl border border-gray-200 bg-gray-50 px-5 py-6
                           text-center">
             <div className="mb-3 flex size-12 items-center justify-center rounded-full bg-violet-100 text-violet-700">
@@ -469,7 +469,7 @@ function OutputPanel({
             value={translatedText}
             readOnly
             placeholder="Translation will appear here..."
-            className="w-full h-[340px] border rounded-xl p-4 resize-none
+            className="w-full min-h-0 flex-1 border rounded-xl p-4 resize-none
                        bg-gray-50"
           />
         )}

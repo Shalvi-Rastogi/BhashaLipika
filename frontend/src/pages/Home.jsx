@@ -183,8 +183,8 @@ function Home() {
   // RETURN
   // ------------------------------------------------
   return (
-    <div className="h-screen bg-gray-100 px-4 sm:px-6 lg:px-8 py-1">
-      <div className="max-w-6xl mx-auto">
+    <div className="min-h-dvh bg-gray-100 flex flex-col">
+      <div className="w-full max-w-none mx-auto flex flex-1 flex-col px-4 sm:px-6 lg:px-8 py-3">
         {/* CDAC Logo */}
         <div className="flex items-center gap-4 mb-3">
           <img
@@ -204,7 +204,7 @@ function Home() {
         </div>
 
         {/* INPUT TYPE */}
-        <div className="mt-1 ml-[80px] flex items-center gap-4">
+        <div className="mt-1 flex items-center gap-4 md:ml-24">
           <span className="font-semibold text-gray-700">Input Type:</span>
           <label className="flex items-center gap-2">
             <input
@@ -229,9 +229,9 @@ function Home() {
         </div>
 
         {/* INPUT / OUTPUT */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2 ml-[76px] w-[calc(100%-76px)]">
-          {/* LEFT */}
-          <div>
+        <div className="grid grid-cols-1 gap-6 mt-2 flex-1 md:ml-24 md:w-[calc(100%-6rem)] md:min-h-[450px] md:grid-cols-2 md:grid-rows-[minmax(350px,1fr)_auto]">
+          {/* INPUT */}
+          <div className="order-1 flex min-h-0 flex-col md:order-none md:col-start-1 md:row-start-1">
             <InputPanel
               resetKey={resetKey}
               targetLanguage={targetLanguage}
@@ -240,15 +240,10 @@ function Home() {
               setText={setInputText}
               onDocumentProcessed={handleDocumentProcessed}
             />
-            {/* TEXT BUTTONS */}
-            <div className="mt-5 flex gap-4">
-              <TranslateButton onTranslate={handleTranslate} />
-              <ResetButton onReset={handleReset} />
-            </div>
           </div>
 
-          {/* RIGHT */}
-          <div>
+          {/* OUTPUT */}
+          <div className="order-3 min-h-0 md:order-none md:col-start-2 md:row-start-1">
             {documentData ? (
               <OutputPanel
                 key={documentData.document_id || "document-output"}
@@ -264,6 +259,12 @@ function Home() {
                 />
               </>
             )}
+          </div>
+
+          {/* TEXT BUTTONS */}
+          <div className="order-2 mt-1 flex gap-4 md:order-none md:col-start-1 md:row-start-2 md:mt-0">
+            <TranslateButton onTranslate={handleTranslate} />
+            <ResetButton onReset={handleReset} />
           </div>
         </div>
 
