@@ -204,7 +204,7 @@ function Home() {
         </div>
 
         {/* INPUT TYPE */}
-        <div className="mt-3 flex items-center gap-6">
+        <div className="mt-1 ml-[80px] flex items-center gap-4">
           <span className="font-semibold text-gray-700">Input Type:</span>
           <label className="flex items-center gap-2">
             <input
@@ -229,7 +229,7 @@ function Home() {
         </div>
 
         {/* INPUT / OUTPUT */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2 ml-[76px] w-[calc(100%-76px)]">
           {/* LEFT */}
           <div>
             <InputPanel
