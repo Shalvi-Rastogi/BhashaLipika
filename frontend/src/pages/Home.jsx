@@ -7,6 +7,7 @@ import InputPanel from "../components/Input";
 import OutputPanel from "../components/Output";
 import TranslateButton from "../components/TranslateButton";
 import ResetButton from "../components/ResetButton";
+import bhashalipikaMark from "../assets/bhashalipika-mark.svg";
 import cdacLogo from "../assets/cdac-logo.png";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
@@ -183,28 +184,44 @@ function Home() {
   // RETURN
   // ------------------------------------------------
   return (
-    <div className="min-h-dvh bg-gray-100 flex flex-col">
-      <div className="w-full max-w-none mx-auto flex flex-1 flex-col px-4 sm:px-6 lg:px-8 py-3">
-        {/* CDAC Logo */}
-        <div className="flex items-center gap-4 mb-3">
+    <div className="flex min-h-dvh flex-col bg-gray-100 md:h-dvh md:min-h-[620px]">
+      <div className="mx-auto flex w-full max-w-none min-h-0 flex-1 flex-col px-4 py-2 sm:px-6 lg:px-8">
+        <div className="mb-2 flex items-center justify-between gap-4 px-4 py-2 sm:px-6">
+          <div className="flex min-w-0 items-center gap-3 sm:gap-4">
+            <img
+              src={bhashalipikaMark}
+              alt=""
+              aria-hidden="true"
+              className="size-12 shrink-0 object-contain sm:size-14"
+            />
+            <div className="min-w-0">
+              <h1 className="whitespace-nowrap text-2xl font-semibold leading-tight tracking-tight text-[#193d66] sm:text-3xl">
+                Bhasha<span className="text-[#2864e8]">Lipika</span>
+              </h1>
+              <p className="mt-1 text-sm tracking-[0.2em] text-teal-700 sm:text-base">
+                भाषा लिपिका
+              </p>
+              <span className="mt-1 block h-1 w-10 rounded-full bg-amber-500" />
+            </div>
+          </div>
           <img
             src={cdacLogo}
             alt="C-DAC Logo"
-            className="w-20 h-auto shrink-0 object-contain"
+            className="w-16 shrink-0 object-contain sm:w-20"
           />
+        </div>
 
-          <div className="flex-1 min-w-0">
-            <LanguageSelector
-              sourceLanguage={sourceLanguage}
-              targetLanguage={targetLanguage}
-              onSourceLanguageChange={setSourceLanguage}
-              onTargetLanguageChange={setTargetLanguage}
-            />
-          </div>
+        <div className="mb-2">
+          <LanguageSelector
+            sourceLanguage={sourceLanguage}
+            targetLanguage={targetLanguage}
+            onSourceLanguageChange={setSourceLanguage}
+            onTargetLanguageChange={setTargetLanguage}
+          />
         </div>
 
         {/* INPUT TYPE */}
-        <div className="mt-1 flex items-center gap-4 md:ml-24">
+        <div className="mt-0 flex items-center gap-4">
           <span className="font-semibold text-gray-700">Input Type:</span>
           <label className="flex items-center gap-2">
             <input
@@ -229,7 +246,7 @@ function Home() {
         </div>
 
         {/* INPUT / OUTPUT */}
-        <div className="grid grid-cols-1 gap-6 mt-2 flex-1 md:ml-24 md:w-[calc(100%-6rem)] md:min-h-[450px] md:grid-cols-2 md:grid-rows-[minmax(350px,1fr)_auto]">
+        <div className="mt-1 grid min-h-0 flex-1 grid-cols-1 gap-4 md:grid-cols-2 md:grid-rows-[minmax(350px,1fr)_auto]">
           {/* INPUT */}
           <div className="order-1 flex min-h-0 flex-col md:order-none md:col-start-1 md:row-start-1">
             <InputPanel

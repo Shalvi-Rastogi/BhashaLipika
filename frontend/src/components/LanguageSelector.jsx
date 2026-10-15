@@ -23,7 +23,7 @@ function LanguageSelector({
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-md p-6 flex flex-col md:flex-row items-center justify-between gap-4">
+    <div className="bg-white rounded-2xl shadow-md p-4 flex flex-col md:flex-row items-center justify-between gap-4">
 
       {/* Source Language */}
       <div className="w-full">
@@ -34,7 +34,7 @@ function LanguageSelector({
         <select
           value={sourceLanguage}
           onChange={(e) => onSourceLanguageChange(e.target.value)}
-          className="w-full border border-gray-300 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-purple-500"
+          className="w-full border border-gray-300 rounded-xl px-4 py-2.5 outline-none focus:ring-2 focus:ring-purple-500"
         >
           {languages.map((lang) => (
             <option
@@ -52,7 +52,7 @@ function LanguageSelector({
       <button
         type="button"
         onClick={handleSwap}
-        className="bg-purple-600 hover:bg-purple-700 text-white p-3 rounded-full transition duration-300 mt-6 md:mt-0"
+        className="bg-purple-600 hover:bg-purple-700 text-white p-2.5 rounded-full transition duration-300 mt-6 md:mt-0"
       >
         <ArrowRightLeft size={20} />
       </button>
@@ -66,7 +66,7 @@ function LanguageSelector({
         <select
           value={targetLanguage}
           onChange={(e) => onTargetLanguageChange(e.target.value)}
-          className="w-full border border-gray-300 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-purple-500"
+          className="w-full border border-gray-300 rounded-xl px-4 py-2.5 outline-none focus:ring-2 focus:ring-purple-500"
         >
           <option value="" disabled>
             Select Target Language
