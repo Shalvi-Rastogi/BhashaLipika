@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" fill="none">
+  <path d="M32 8h31l21 21v52a7 7 0 0 1-7 7H32a7 7 0 0 1-7-7V15a7 7 0 0 1 7-7Z" fill="#2864E8"/>
+  <path d="M63 8v17a4 4 0 0 0 4 4h17L63 8Z" fill="#9EB8F4"/>
+  <path d="M48 42h24M48 53h24M48 64h18" stroke="#fff" stroke-linecap="round" stroke-width="4"/>
+  <path d="M9 39a17 17 0 0 1 17-17h27a17 17 0 0 1 17 17v17a17 17 0 0 1-17 17H31L12 84l5-15A17 17 0 0 1 9 56V39Z" fill="#193D66" stroke="#fff" stroke-width="3"/>
+  <text x="39.5" y="59" fill="#fff" font-family="Noto Sans Devanagari, Mangal, sans-serif" font-size="31" font-weight="700" text-anchor="middle">भ</text>
+</svg>
