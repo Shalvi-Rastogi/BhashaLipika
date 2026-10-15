@@ -1,5 +1,8 @@
 import json
 import os
+import copy  
+import cv2  # NEW: For image inpainting (background cleaning)
+import numpy as np  # NEW: For image array manipulation
 from PIL import Image, ImageDraw, ImageFont
 from pptx import Presentation
 from pptx.opc.constants import RELATIONSHIP_TYPE as RT
@@ -8,7 +11,6 @@ from pptx.enum.text import MSO_AUTO_SIZE
 from pptx.util import Pt
 
 def _shape_at_path(shapes, shape_path):
-    """Resolve a top-level or grouped shape path from extracted JSON."""
     current_shapes = shapes
     shape = None
     try:
@@ -26,7 +28,6 @@ def _shape_path(shape_index):
     return tuple(str(part) for part in str(shape_index).split("."))
 
 def _replace_text_preserve_format(target, translated_text):
-    # Safely determine if 'target' is a Shape or already a TextFrame
     if hasattr(target, 'paragraphs'):
         text_frame = target
     elif hasattr(target, 'has_text_frame') and target.has_text_frame:
@@ -36,78 +37,82 @@ def _replace_text_preserve_format(target, translated_text):
         
     translated_lines = str(translated_text).split('\n')
     original_paragraphs = text_frame.paragraphs
-    
-    # Fallback ke liye pehle paragraph ka font save kar rahe hain
-    fallback_font_name, fallback_font_size, fallback_font_bold = None, None, None
-    if original_paragraphs and original_paragraphs[0].runs:
-        fallback_font_name = original_paragraphs[0].runs[0].font.name
-        fallback_font_size = original_paragraphs[0].runs[0].font.size
-        fallback_font_bold = original_paragraphs[0].runs[0].font.bold
 
-    # 1. Line-by-line (Paragraph-by-paragraph) update karenge taaki bullet state preserve rahe
+    # 1. Line-by-line update while keeping original runs intact
     for i, para in enumerate(original_paragraphs):
+        orig_alignment = para.alignment
+
+        # FIX: Asli (non-empty) text run ka BOLD state capture karo
+        is_bold = None
+        for run in para.runs:
+            if run.text.strip():  # Jo run khali nahi hai, uska style pakdo
+                if run.font.bold is not None:
+                    is_bold = run.font.bold
+                break
+
         if i < len(translated_lines):
-            # Original font capture karo THIS paragraph ke liye
-            orig_font_name, orig_font_size, orig_font_bold = fallback_font_name, fallback_font_size, fallback_font_bold
-            for run in para.runs:
-                if run.text.strip():
-                    if run.font.size: orig_font_size = run.font.size
-                    if run.font.name: orig_font_name = run.font.name
-                    if run.font.bold is not None: orig_font_bold = run.font.bold
-                    break
-
-            # Text update karo (Bullet properties waise hi rahengi jaisi original mein thi)
-            para.text = translated_lines[i]
-
-            # Font wapas lagao
-            for run in para.runs:
-                if orig_font_size: run.font.size = orig_font_size
-                if orig_font_name: run.font.name = orig_font_name
-                if orig_font_bold is not None: run.font.bold = orig_font_bold
+            new_text = translated_lines[i]
         else:
-            # Agar text chhota hai aur original me zyada paragraphs the, unhe clear karo
-            para.text = ""
+            new_text = ""
+
+        if para.runs:
+            para.runs[0].text = new_text
             
-    # 2. Agar API ne zyada lines di hain, toh unhe 'Soft Return' (\x0b) ke sath jodenge 
-    # Taaki un par naya bullet na ban jaye
+            # FIX: Bold state force apply karo (agar original me bold tha)
+            if is_bold is not None:
+                para.runs[0].font.bold = is_bold
+                
+            for run in para.runs[1:]:
+                run.text = ""
+        else:
+            para.text = new_text
+
+        # Restore the original alignment
+        para.alignment = orig_alignment
+
+    # 2. Add extra lines with Soft Returns (\x0b) so bullets don't duplicate
     if len(translated_lines) > len(original_paragraphs) and original_paragraphs:
         extra_lines = translated_lines[len(original_paragraphs):]
         last_para = original_paragraphs[-1]
         
-        # \x0b (Shift+Enter) use karne se bina naye bullet ke line change hoti hai
-        last_para.text = last_para.text + '\x0b' + '\x0b'.join(extra_lines)
-        
-        # Font fix for the new extra text
-        for run in last_para.runs:
-            if fallback_font_size: run.font.size = fallback_font_size
-            if fallback_font_name: run.font.name = fallback_font_name
-            if fallback_font_bold is not None: run.font.bold = fallback_font_bold
+        if last_para.runs:
+            last_para.runs[0].text += '\x0b' + '\x0b'.join(extra_lines)
+        else:
+            last_para.text += '\x0b' + '\x0b'.join(extra_lines)
 
+            
 def _set_cell_text(cell, text):
     text_frame = cell.text_frame
-    
-    # Font size wapas capture kar rahe hain
-    orig_font_size, orig_font_name, orig_font_bold = None, None, None
-    for paragraph in text_frame.paragraphs:
-        for run in paragraph.runs:
-            if run.font.size is not None and orig_font_size is None:
-                orig_font_size = run.font.size
-            if run.font.name is not None and orig_font_name is None:
-                orig_font_name = run.font.name
-            if run.font.bold is not None and orig_font_bold is None:
-                orig_font_bold = run.font.bold
+    orig_alignment = text_frame.paragraphs[0].alignment if text_frame.paragraphs else None
+    lines = str(text).split("\n")
 
-    text_frame.text = str(text)
+    if text_frame.paragraphs and text_frame.paragraphs[0].runs:
+        first_para = text_frame.paragraphs[0]
+        first_run = first_para.runs[0]
+        first_run.text = lines[0]
+        for run in first_para.runs[1:]:
+            run.text = ""
+        for p in text_frame.paragraphs[1:]:
+            p.text = ""
+
+        # Baaki lines ko proper <a:br/> + run me daalo, formatting copy karke
+        rpr = first_run._r.find(qn("a:rPr"))
+        for line in lines[1:]:
+            first_para.add_line_break()
+            br = first_para._p.findall(qn("a:br"))[-1]
+            new_run = first_para.add_run()
+            new_run.text = line
+            if rpr is not None:
+                br.insert(0, copy.deepcopy(rpr))
+                new_run._r.insert(0, copy.deepcopy(rpr))
+    else:
+        text_frame.text = str(text)
+
+    if orig_alignment:
+        text_frame.paragraphs[0].alignment = orig_alignment
+
     text_frame.word_wrap = True
     text_frame.auto_size = MSO_AUTO_SIZE.TEXT_TO_FIT_SHAPE
-
-    # Font size wapas apply kar rahe hain
-    for paragraph in text_frame.paragraphs:
-        for run in paragraph.runs:
-            if orig_font_size: run.font.size = orig_font_size
-            if orig_font_name: run.font.name = orig_font_name
-            if orig_font_bold is not None: run.font.bold = orig_font_bold
-
 
 def _get_image_font(font_size):
     font_paths = (
@@ -139,8 +144,46 @@ def _fit_image_text(draw, text, box, max_font_size):
 def reconstruct_image(image_path, ocr_data, translated_text, output_path):
     try:
         image = Image.open(image_path).convert("RGB")
-        draw = ImageDraw.Draw(image)
         translated_lines = [line.strip() for line in translated_text.splitlines()]
+
+        # Purana text hatane ke liye: har box ke aas-paas ke background ka median color se fill
+        image_cv = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
+        inpainted_cv = image_cv.copy()
+        img_h, img_w = image_cv.shape[:2]
+        PAD = 4    # text ke aas-paas kitna erase karna hai
+        RING = 8   # background sample karne ke liye bahar ki ring
+
+        for item in ocr_data:
+            bbox = item.get("bbox", [])
+            if not bbox:
+                continue
+            xs = [p[0] for p in bbox]
+            ys = [p[1] for p in bbox]
+
+            x1 = int(max(0, min(xs) - PAD))
+            y1 = int(max(0, min(ys) - PAD))
+            x2 = int(min(img_w, max(xs) + PAD))
+            y2 = int(min(img_h, max(ys) + PAD))
+            if x2 <= x1 or y2 <= y1:
+                continue
+
+            ex1 = max(0, x1 - RING)
+            ey1 = max(0, y1 - RING)
+            ex2 = min(img_w, x2 + RING)
+            ey2 = min(img_h, y2 + RING)
+
+            region = image_cv[ey1:ey2, ex1:ex2]
+            ring_mask = np.ones(region.shape[:2], dtype=bool)
+            ring_mask[y1 - ey1:y2 - ey1, x1 - ex1:x2 - ex1] = False
+            ring_pixels = region[ring_mask]
+            if ring_pixels.size == 0:
+                continue
+
+            bg_color = np.median(ring_pixels, axis=0)
+            inpainted_cv[y1:y2, x1:x2] = bg_color.astype(np.uint8)
+
+        image = Image.fromarray(cv2.cvtColor(inpainted_cv, cv2.COLOR_BGR2RGB))
+        draw = ImageDraw.Draw(image)
 
         for index, item in enumerate(ocr_data):
             text = item.get("text", "")
@@ -151,39 +194,22 @@ def reconstruct_image(image_path, ocr_data, translated_text, output_path):
             xs = [point[0] for point in bbox]
             ys = [point[1] for point in bbox]
             x1, y1, x2, y2 = min(xs), min(ys), max(xs), max(ys)
-            
             box = (x1, y1, x2, y2)
-
-            # Estimate the local background color around the OCR region
-            padding = 3
-
-            sample_points = [
-                (max(0, x1 - padding), max(0, y1 - padding)),
-                (min(image.width - 1, x2 + padding), max(0, y1 - padding)),
-                (max(0, x1 - padding), min(image.height - 1, y2 + padding)),
-                (min(image.width - 1, x2 + padding), min(image.height - 1, y2 + padding))
-            ]
-
-            colors = [
-                image.getpixel(point)
-                for point in sample_points
-            ]
-
-            background_color = tuple(
-                sum(color[channel] for color in colors) // len(colors)
-                for channel in range(3)
-            )
-
-            draw.rectangle(
-                box,
-                fill=background_color
-            )
 
             new_text = item.get("translated_text", "").strip()
             if not new_text:
                 new_text = translated_lines[index] if index < len(translated_lines) else ""
             if not new_text.strip():
                 continue
+
+            # Background ke hisaab se text color (light bg -> black, dark bg -> white)
+            bg_crop = inpainted_cv[int(y1):int(y2), int(x1):int(x2)]
+            if bg_crop.size > 0:
+                mean_color = cv2.mean(bg_crop)[:3]
+                luminance = 0.299 * mean_color[2] + 0.587 * mean_color[1] + 0.114 * mean_color[0]
+                text_color = "black" if luminance > 128 else "white"
+            else:
+                text_color = "black"
 
             box_height = max(10, y2 - y1)
             font = _fit_image_text(draw, new_text, box, max(10, int(box_height * 0.8)))
@@ -193,17 +219,15 @@ def reconstruct_image(image_path, ocr_data, translated_text, output_path):
             text_x = x1 + max(0, (x2 - x1 - text_width) // 2)
             text_y = y1 + max(0, (y2 - y1 - text_height) // 2) - text_bbox[1]
 
-            draw.text((text_x, text_y), new_text, fill="black", font=font)
+            draw.text((text_x, text_y), new_text, fill=text_color, font=font)
 
         image.save(output_path)
         return output_path
     except Exception as e:
         print(f"Error reconstructing image: {e}")
         return image_path
-
+    
 def _replace_picture_image(shape, image_path):
-    """Replace the picture image while preserving the original shape position and size."""
-
     image_part, _ = shape.part.get_or_add_image_part(image_path)
     relationship_id = shape.part.relate_to(image_part, RT.IMAGE)
 
@@ -315,7 +339,6 @@ def reconstruct_pptx(original_pptx_path, translated_json_path, output_pptx_path)
             if item['type'] == 'text_frame' and shape.has_text_frame:
                 translated_text = item.get('translated_text', '')
                 if translated_text:
-                    # Using the new format preserver
                     _replace_text_preserve_format(shape.text_frame, translated_text)
                     shape.text_frame.word_wrap = True
                     shape.text_frame.auto_size = MSO_AUTO_SIZE.TEXT_TO_FIT_SHAPE

@@ -284,6 +284,49 @@ def _prepare_spreadsheet_preview(source_path, preview_dir):
 
     return preview_path
 
+_CXN_LINK_TAGS = {
+    f"{{{_DRAWING_NS}}}stCxn",
+    f"{{{_DRAWING_NS}}}endCxn",
+}
+
+
+def _strip_connector_links(root):
+    """LibreOffice connector ko re-route karta hai; links hata do taaki saved xfrm use ho."""
+    changed = False
+    for parent in root.iter():
+        for child in list(parent):
+            if child.tag in _CXN_LINK_TAGS:
+                parent.remove(child)
+                changed = True
+    return changed
+
+_SPCPCT_TAG = f"{{{_DRAWING_NS}}}spcPct"
+_LNSPC_TAG = f"{{{_DRAWING_NS}}}lnSpc"
+_PPR_TAG = f"{{{_DRAWING_NS}}}pPr"
+
+
+def _tighten_devanagari_spacing(root, percent=90000):
+    changed = False
+    for paragraph in root.iter(paragraph_tag := f"{{{_DRAWING_NS}}}p"):
+        text = "".join(
+            n.text or "" for n in paragraph.iter(f"{{{_DRAWING_NS}}}t")
+        )
+        if not any("\u0900" <= c <= "\u097f" for c in text):
+            continue
+
+        ppr = paragraph.find(_PPR_TAG)
+        if ppr is None:
+            ppr = ET.Element(_PPR_TAG)
+            paragraph.insert(0, ppr)
+
+        ln_spc = ppr.find(_LNSPC_TAG)
+        if ln_spc is not None:
+            ppr.remove(ln_spc)
+        ln_spc = ET.Element(_LNSPC_TAG)
+        ET.SubElement(ln_spc, _SPCPCT_TAG, {"val": str(percent)})
+        ppr.insert(0, ln_spc)
+        changed = True
+    return changed
 
 def _prepare_presentation_preview(source_path, preview_dir):
     preview_path = os.path.join(
@@ -309,6 +352,18 @@ def _prepare_presentation_preview(source_path, preview_dir):
         ) as preview_zip:
             for package_item in source_zip.infolist():
                 content = source_zip.read(package_item.filename)
+                name = package_item.filename
+                if name.endswith(".xml") and name.startswith((
+                    "ppt/slides/slide",
+                    "ppt/slideLayouts/slideLayout",
+                    "ppt/slideMasters/slideMaster",
+                )):
+                    link_root = ET.fromstring(content)
+                    if _strip_connector_links(link_root):
+                        content = serialize_xml_preserving_namespaces(
+                            link_root,
+                            content,
+                        )
                 if (
                     package_item.filename.startswith("ppt/slides/slide")
                     and package_item.filename.endswith(".xml")
@@ -375,7 +430,7 @@ def _get_cached_document_preview(output_path, filename):
     source_stat = os.stat(output_path)
     source_path = str(Path(output_path).resolve())
     cache_key = hashlib.sha256(
-        f"{source_path}:{source_stat.st_mtime_ns}:{source_stat.st_size}:preview-render-v4".encode()
+        f"{source_path}:{source_stat.st_mtime_ns}:{source_stat.st_size}:preview-render-v7".encode()
     ).hexdigest()
     cache_dir = os.path.join("outputs", ".preview_cache")
     os.makedirs(cache_dir, exist_ok=True)
