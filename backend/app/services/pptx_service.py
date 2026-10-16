@@ -4,6 +4,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 from app.extractors.PPTX.slide_iterator import extract_pptx_to_json
 from app.reconstructors.pptx_reconstructor import reconstruct_pptx
+from app.services.image_translation import get_image_translation_override
 
 def process_pptx_pipeline(
     file_path,
@@ -66,11 +67,22 @@ def process_pptx_pipeline(
             if not clean_line:
                 translated_lines.append("")
                 continue
-                
-            # Pehli koshish (Normal Translation)
-            trans = translate_func(clean_line, source_language, tgt_lang_code)
 
-            if trans.strip().lower() == clean_line.lower():
+            image_override = get_image_translation_override(
+                clean_line,
+                source_language,
+                tgt_lang_code,
+            )
+            if image_override is not None:
+                trans = image_override
+            else:
+                trans = translate_func(
+                    clean_line,
+                    source_language,
+                    tgt_lang_code,
+                )
+
+            if image_override is None and trans.strip().lower() == clean_line.lower():
                 alt_line = clean_line.replace("-", " ") + " ."
                 alt_trans = translate_func(alt_line, source_language, tgt_lang_code)
             

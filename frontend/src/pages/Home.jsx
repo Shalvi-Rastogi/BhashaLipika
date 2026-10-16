@@ -7,7 +7,6 @@ import InputPanel from "../components/Input";
 import OutputPanel from "../components/Output";
 import TranslateButton from "../components/TranslateButton";
 import ResetButton from "../components/ResetButton";
-import bhashalipikaMark from "../assets/bhashalipika-mark.svg";
 import cdacLogo from "../assets/cdac-logo.png";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
@@ -187,22 +186,14 @@ function Home() {
     <div className="flex min-h-dvh flex-col bg-gray-100 md:h-dvh md:min-h-[620px]">
       <div className="mx-auto flex w-full max-w-none min-h-0 flex-1 flex-col px-4 py-2 sm:px-6 lg:px-8">
         <div className="mb-2 flex items-center justify-between gap-4 px-4 py-2 sm:px-6">
-          <div className="flex min-w-0 items-center gap-3 sm:gap-4">
-            <img
-              src={bhashalipikaMark}
-              alt=""
-              aria-hidden="true"
-              className="size-12 shrink-0 object-contain sm:size-14"
-            />
-            <div className="min-w-0">
-              <h1 className="whitespace-nowrap text-2xl font-semibold leading-tight tracking-tight text-[#193d66] sm:text-3xl">
-                Bhasha<span className="text-[#2864e8]">Lipika</span>
-              </h1>
-              <p className="mt-1 text-sm tracking-[0.2em] text-teal-700 sm:text-base">
-                भाषा लिपिका
-              </p>
-              <span className="mt-1 block h-1 w-10 rounded-full bg-amber-500" />
-            </div>
+          <div className="min-w-0">
+            <h1 className="whitespace-nowrap text-2xl font-semibold leading-tight tracking-tight text-[#193d66] sm:text-3xl">
+              Bhasha<span className="text-[#2864e8]">Lipika</span>
+            </h1>
+            <p className="mt-1 text-sm tracking-[0.2em] text-teal-700 sm:text-base">
+              भाषा लिपिका
+            </p>
+            <span className="mt-1 block h-1 w-10 rounded-full bg-amber-500" />
           </div>
           <img
             src={cdacLogo}
