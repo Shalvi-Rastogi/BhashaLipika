@@ -1,7 +1,19 @@
+
+import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
+from urllib.parse import quote_plus
 
-DATABASE_URL = "postgresql://postgres:shalvi@localhost:5432/translator_db"
+DB_USER = os.getenv("DB_USER", "postgres")
+DB_PASSWORD = quote_plus(os.getenv("DB_PASSWORD", ""))
+DB_HOST = os.getenv("DB_HOST", "localhost")
+DB_PORT = os.getenv("DB_PORT", "5432")
+DB_NAME = os.getenv("DB_NAME", "translator_db")
+
+DATABASE_URL = (
+    f"postgresql://{DB_USER}:{DB_PASSWORD}"
+    f"@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+)
 
 engine = create_engine(DATABASE_URL)
 
@@ -20,4 +32,3 @@ def get_db():
         yield db
     finally:
         db.close()
-        

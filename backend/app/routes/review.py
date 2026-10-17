@@ -484,7 +484,7 @@ def _get_cached_document_preview(output_path, filename):
         subprocess.run(
             [
                 _get_soffice_path(),
-                f"-env:UserInstallation={Path(profile_dir).as_uri()}",
+                f"-env:UserInstallation={Path(profile_dir).resolve().as_uri()}",
                 "--headless",
                 "--convert-to",
                 "pdf",

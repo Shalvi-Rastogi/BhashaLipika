@@ -31,3 +31,11 @@ __pycache__/
 backend/outputs/
 backend/uploads/
 backend/app/temp/
+
+# Environment files - keep secrets private
+.env
+**/.env
+
+# Allow example environment files
+!.env.example
+!**/.env.example
